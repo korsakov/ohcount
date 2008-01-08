@@ -1,0 +1,6 @@
+<script language="JavaScript1.2">
+var submenu=new Array()
+submenu[0]='<some_html arg="awesome_arg">foo foo</some_html>'
+var delay_hide=500
+b=0
+</script>

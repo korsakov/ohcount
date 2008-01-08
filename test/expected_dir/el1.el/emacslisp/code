@@ -1,0 +1,10 @@
+(if (string-equal "21" (substring (emacs-version) 10 12))
+(progn
+(blink-cursor-mode 0)
+(setq next-line-add-newlines t)
+(auto-image-file-mode t)
+(menu-bar-mode 1)
+(tool-bar-mode nil)
+(tooltip-mode nil)
+(setq tooltip-delay 0.1)  ; default is one second
+))

@@ -1,0 +1,15 @@
+# -*- coding: utf-8 -*-
+# Python
+# Suppose you want to spam your friend, and you have lots of
+# friends. The solution is to write a program to do it. After a gander
+# at python docs, one easily found the module for the job.
+# see http://python.org/doc/2.3.4/lib/SMTP-example.html
+# the code is a bit long with the command line, but the key lies at
+# the bottom four lines. The gist is this:
+####### test: strings - nonsense code follows
+####### test done
+# save this file as x.py and run it.
+# it should send out the mail.
+# the set_debuglevel() is nice because you see all the interactions
+# with the smtp server. Useful when you want to see what's going on
+# with a smtp server.

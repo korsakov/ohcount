@@ -1,0 +1,12 @@
+; int gcdAsm(int a, int b)
+;
+; computes gcd(a,b) according to:
+; 1. a even, b   even: gcd(a,b) = 2 * gcd(a/2,b/2), 
+;    and remember how often this happened
+; 2. a even, b uneven: gcd(a,b) = gcd(a/2,b)
+; 3. a uneven, b   even: gcd(a,b) = gcd(a,b/2)
+; 4. a uneven, b uneven: a>b ? a -= b : b -= a, 
+;    i.e. gcd(a,b) = gcd(min(a,b),max(a,b) - min(a,b))
+; do 1., repeat 2. - 4. until a = 0 or b = 0
+; return (a + b) corrected by the remembered value from 1.
+; by definition: gcd(a,0) = a, gcd(0,b) = b, gcd(0,0) = 1 !

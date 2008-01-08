@@ -1,0 +1,30 @@
+//
+/*      Declare local variables                       */
+/*                                                    */
+/* Number of selectors  */
+/* Number of int attrs  */
+/* Length of char attribute buffer  */
+/* Character attribute buffer       */
+/* attribute selectors  */
+/* integer attributes   */
+/*                                                    */
+/*     Open the queue.  If successful, do the inquire */
+/*     call.                                          */
+/*                                                    */
+/*                                                 */
+/*   Initialize the variables for the inquire      */
+/*   call:                                         */
+/*    - Set SelectorsTable to the attributes whose */
+/*      status is                                  */
+/*       required                                  */
+/*    - All other variables are already set        */
+/*                                                 */
+/*                                                 */
+/*   Issue the inquire call                        */
+/*     Test the output of the inquire call. If the */
+/*     call failed, display an error message       */
+/*     showing the completion code and reason code,*/
+/*     otherwise display the status of the         */
+/*     INHIBIT-GET and INHIBIT-PUT attributes      */
+/*                                                 */
+/* Process the changes */

@@ -1,0 +1,202 @@
+#!/usr/bin/env ruby
+begin
+	# First assume we are installed as a gem
+	require 'rubygems'
+	require 'ohcount'
+rescue LoadError
+	# Failing that, try to load our files from the source tree
+	$: << "#{File.dirname(__FILE__)}/../lib"
+	require 'ohcount'
+end
+
+class OhcountCommandLine
+	attr_accessor :paths
+
+	def initialize(args=[])
+		args = args.clone # Because shift is destructive
+		set_option(args.shift) while args.first =~ /^-/
+		self.paths = args
+	end
+
+	def paths
+		@paths || []
+	end
+
+	def paths=(p)
+		@paths=p
+		@files = nil # If we change the search paths, clear the cache filenames
+	end
+
+	def files
+		return @files if @files
+
+		@files = `find #{(self.paths.any? ? self.paths : ['.']).join(' ')} \! -path "*/.*" -type f -print`.split
+		exit 1 unless @files.any?
+		@files
+	end
+
+	def annotate
+		files.each do |file|
+			sfc = Ohcount::SimpleFileContext.new(file, files)
+			polyglot = Ohcount::Detector.detect(sfc)
+			if polyglot
+				Ohcount::parse(sfc.contents, polyglot) do |language, semantic, line|
+					puts "#{language}\t#{semantic}\t#{line}"
+				end
+			end
+		end
+	end
+
+	# Find all source code files
+	def detect
+		files.each do |file|
+			sfc = Ohcount::SimpleFileContext.new(file, files)
+			polyglot = Ohcount::Detector.detect(sfc)
+			puts "#{polyglot}\t#{file}" if polyglot
+		end
+	end
+
+	def help
+		puts <<HELP
+Usage: ohcount [option] [paths...]
+
+Ohloh source code line counter command line tool.
+   http://www.ohloh.net/
+
+[option] can be one of the following:
+   -a, --annotate
+   -d, --detect
+   -h, --help
+   -s, --summary
+
+-a, --annotate                  Show annotated source code
+
+   The contents of all source code files found within the given
+   paths will be emitted to stdout. Each line will be prefixed with
+   a tab-delimited language name and semantic categorization (code,
+   comment, or blank).
+
+-d, --detect                    Find source code files
+
+   Recursively find all source code files within the given paths.
+   For each source code file found, the file name will be emitted to
+   stdout prefixed with a tab-delimited language name.
+
+-h, --help                      Display this message
+
+-s, --summary                   Count lines of code (default)
+
+   Count lines in all source code files within the given paths, and
+   emit a report of the total number of lines of code, comments,
+   and blanks in each language. This is the default action.
+
+[paths] can refer to any number of individual files or directories.
+   Directories will be probed recursively. If no path is given,
+   the current directory will be used.
+
+HELP
+	end
+
+	def summary
+		STDOUT.write "Examining #{files.size} file(s)"
+
+		counts = {}
+		any_language_file_count = 0
+		progress = 0
+
+		files.each do |file|
+			languages_found = []
+			sfc = Ohcount::SimpleFileContext.new(file, files)
+			polyglot = Ohcount::Detector.detect(sfc)
+			if polyglot
+				Ohcount::parse(sfc.contents, polyglot) do |language_name, semantic, line|
+					counts[language_name] ||= {:code => 0, :comment => 0, :blank => 0}
+					counts[language_name][semantic] += 1
+					languages_found << language_name unless languages_found.include?(language_name)
+				end
+			end
+
+			# Keep a running total of the number of files that include a specific language
+			languages_found.each { |l| counts[l][:files] = (counts[l][:files] || 0) + 1 }
+
+			# Keep a running total of the number of files that include any language
+			any_language_file_count += 1 if languages_found.any?
+
+			progress += 1
+			if (progress % 100 == 0)
+				STDOUT.write('.')
+				STDOUT.flush
+			end
+		end
+
+		puts
+		puts "Ohloh Line Count Summary".center(76)
+		puts
+
+		puts "Language        Files       Code    Comment  Comment %      Blank      Total"
+		puts "--------------  -----  ---------  ---------  ---------  ---------  ---------"
+
+		counts.keys.sort{ |a,b| counts[b][:code] <=> counts[a][:code] }.each do |key|
+			write_summary_row(key, counts[key][:files], counts[key][:code], counts[key][:comment], counts[key][:blank])
+		end
+
+		puts "--------------  -----  ---------  ---------  ---------  ---------  ---------"
+		write_summary_row('Total', any_language_file_count,
+											counts.values.inject(0) { |sum, v| sum + v[:code] },
+											counts.values.inject(0) { |sum, v| sum + v[:comment] },
+											counts.values.inject(0) { |sum, v| sum + v[:blank] })
+	end
+
+	def write_summary_row(name, file_count, code, comment, blank)
+		printf("%-14s", name)
+		printf(" %6d", file_count)
+		printf(" %10d", code)
+		printf(" %10d", comment)
+		if comment+code > 0
+			printf(" %9.1f%%", comment.to_f / (comment+code).to_f * 100.0)
+		end
+		printf(" %10d", blank)
+		printf(" %10d\n", code+comment+blank)
+	end
+
+	def subcommand=(s)
+		if @subcommand
+			STDERR.puts "Error: Multiple commands specified."
+			exit 1
+		else
+			@subcommand=s
+		end
+	end
+
+	def subcommand
+		@subcommand
+	end
+
+	def set_option(option)
+		case option
+		when '-s', '--summary'
+			self.subcommand = :summary
+		when '-d', '--detect'
+			self.subcommand = :detect
+		when '-a', '--annotate'
+			self.subcommand = :annotate
+		when '-?', '-h', '--help'
+			self.subcommand = :help
+		else
+			STDERR.puts "Type 'ohcount -?' for usage."
+			exit 1
+		end
+	end
+
+	def run!
+		self.subcommand ||= :summary
+		if self.respond_to?(self.subcommand)
+			self.send(self.subcommand)
+		else
+			STDERR.puts "Type 'ohcount -?' for usage."
+			exit 1
+		end
+	end
+end
+
+OhcountCommandLine.new(ARGV).run!

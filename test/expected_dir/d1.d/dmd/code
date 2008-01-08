@@ -1,0 +1,9 @@
+int main(char[][] args)
+{
+int w_total; // a comment and code on the same line
+this_line_is_code();
+this_line_is_also_code();
+x = `when inside a backtick string, /+ does not begin a nested comment`;
+y = `when inside a backtick string, /* does not begin a nested comment`;
+z = `when inside a backtick string, // does not begin a nested comment`;
+}

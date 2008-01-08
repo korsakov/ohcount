@@ -1,0 +1,8 @@
+// The Delegate declaration which defines the signature of methods which can be invoked
+// Class which makes the event
+// Note the use of the event keyword
+// Score Property
+// Class which handles the event
+// Monitor when a score changes in the game
+// Notice how this method signature matches the ScoreChangeEventHandler's signature
+// Class to test it all

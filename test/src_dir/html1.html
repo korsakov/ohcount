@@ -1,0 +1,38 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<title>foo</title>
+	<script type="text/javascript" >
+<![CDATA[
+// javascript comment
+function matchwo(a,b)
+{
+	if (a < b && a < 0) then
+	{
+		return 1
+	}
+	else
+	{
+		return 0
+	}
+}
+]]>
+	</script>
+	<style type="text/css">
+p {
+	color: #444
+}
+	</style>
+	</head>
+	<body>
+		<p>
+		<b class='<!--'>
+			not in comment
+		</b>
+		<![CDATA[<i>italic?</i>]]>
+		</p>
+		<!--
+			in comment
+			-->
+	</body>
+</html>

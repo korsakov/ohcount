@@ -1,0 +1,203 @@
+'---------------------------------------------------------------------------
+'
+' Licensed Materials - Property of IBM
+' Governed under the terms of the IBM Public License
+'
+' (C) COPYRIGHT International Business Machines Corp. 2002
+' All Rights Reserved.
+'
+' US Government Users Restricted Rights - Use, duplication or
+' disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+'---------------------------------------------------------------------------
+'
+' SOURCE FILE NAME: Demo.frm
+'
+' SAMPLE: Visual Basic Demo with user interface for the sample modules
+'
+' MODULES USED:
+'         cli_Info.bas
+'         cliExeSQL.bas
+'         dbCommit.bas
+'         dbConn.bas
+'         dbInfo.bas
+'         dtHier.bas
+'         dtLob.bas
+'         spCall.bas
+'         udfUse.bas
+'         Util.bas
+'
+' For more information about samples, refer to the README file.
+'
+' For more information on the SQL language, refer to the SQL Reference.
+'
+' For the latest information on programming, compiling, and running DB2
+' applications, refer to the DB2 application development website at
+'     http://www.software.ibm.com/data/db2/udb/ad
+'---------------------------------------------------------------------------
+'This procedure calls ConnectOLEDB() in the module dbConn to get
+'a connection object.
+'define the error handler
+'  On Error GoTo cmdConnectOLEDB_Error
+'connect to database
+'generate a message of success
+'config status of the buttons
+'show instructions
+'generate an error message
+'show instructions
+'This procedure calls ConnectODBC() in the module dbConn to get
+'a connection object.
+'define the error handler
+'connect to database
+'generate a message of success
+'config status of the buttons
+'show instructions
+'generate an error message
+'show instructions
+'This procedure calls ConnectDataShape() in the module dbConn to
+'get a connection object.
+'define the error handler
+'connect to database
+'generate a message of success
+'config status of the buttons
+'show instructions
+'generate an error message
+'show instructions
+'This procedure enables buttons after a connection is created.
+'This procedure shows the instruction message after creating a connection.
+'This procedure calls Disconnect() in the module dbConn to close
+'a connection object.
+'define the error handler
+'clear displays and release data sources
+'disconnect from database
+'configure status of the buttons
+'show instructions
+'generate an error message
+'show instructions
+'This procedure calls ConnectInfo in dbInfo to obtain information
+'and displays the connection information on a message box.
+'This procedure calls VersionInfo in apInfo to obtain information
+'and displays the version information on a message box.
+'This procedure close the main screen and quit the program.
+'check if it is necessary to commit any changes
+'release all the memory allocated
+'exit
+'This procedure calls CreateSample in Util to re-create the
+'sample database.
+'define the error handler
+'create the sample database
+'show instructions
+'generate an error message
+'show instructions
+'This procedure calls ExecuteSQLConnect in apExeSQL to execute a
+'SQL statement.
+'define the error handler
+'display results and/or message
+'generate an error message and exit
+'This procedure calls ExecuteSQLCommand in apExeSQL to execute a
+'SQL statement.
+'define the error handler
+'display results and/or message
+'generate an error message and exit
+'This procedure calls ExecuteSQLRecordset in apExeSQL to execute a
+'SQL statement.
+'define the error handler
+'display results and/or message
+'generate an error message and exit
+'This procedure displays instructions for exiting recursive errors while
+'editing on the DataGird
+'This procedure generates a sample SQL statement
+'This procedure clears the results when choosing a predefined SQL
+'statement sample
+'This procedure toggles the autocommit mode on/off by calling
+'procedures in the module dbCommit.
+'define the error handler
+'turn the autocommit mode OFF
+'ask if the user wants to commit all the previous changes
+'before turning the autocommit mode ON
+'generate an error message and exit
+'This procedure commits any previous changes by calling
+'procedures in the module dbCommit.
+'define the error handler
+'commit the changes and start a new transaction
+'generate an error message and exit
+'This procedure rollbacks any previous changes by calling
+'procedures in the module dbCommit.
+'define the error handler
+'rollback the changes and start a new transaction
+'generate an error message and exit
+'This is a helper procedure which refreshes the data displayed
+'on the DataGridSQL.
+'This procedure calls ExecuteHSQL() in the module dtHier to
+'obtain a hierarchical recordset object.
+'display in Grids
+'display text information message
+'This procedure calls GetLOB in dtLob to get an ADO Control for LOBs.
+'define the error handler
+'get an ADO Control for the LOBs
+'set display objects
+'enable buttons
+'generate an error message and exit
+'This procedure enables the display of employee pictures.
+'This procedure enables the display of employee resumes.
+'This is a helper procedure for Adodc caption display.
+'This procedure checks and enables buttons for available stored
+'procedures
+'get information for all available procedures
+'reset all selections
+'enable buttons for available stored procedures
+'enable Call button if any stored procedure available
+'release objects
+'This procedure clears the screen in switching the stored procedures
+'This procedure calls various subroutines and subroutines in the
+'module spCall to execute corresponding stored procedures and
+'displays the results onto the screen.
+'define the error handler
+'check for the selected stored procedure by iteration
+'clear the screen for result display
+'call the corresponding selected stored procedure
+'generate a message of success
+'generate an error message and exit
+'This procedure shows the second result set returned by calling
+'the stored procedurd TWO_RESULT_SETS
+'show next recordset
+'This procedure calls CallSP_IN_PARAMS in the module spCall and
+'compares information obtained from the same table before and
+'after calling the stored procedure
+'initialize variables
+'get information before calling the stored procedure
+'call the stored procedure
+'get information after calling the stored procedure
+'This procedure calls CallSP_INOUT_PARAM in the module spCall by
+'using a parameter got form calling CallSP_OUT_PARAM and outputs
+'a result message
+'define variable
+'get a parameter from OUT_PARAM
+'call the stored procedure with the parameter
+'This procedure calls CallSP_ALL_DATA_TYPES in the module spCall
+'and displays the results
+'initialize object and settings
+'call the stored procedure
+'output the results
+'reset and release the object
+'This procedure calls CallSP_DBINFO_EXAMPLE in the module spCall
+'with a JOB as an IN parameter and displays the results obtained
+'from the stored procedure containing information of the table and
+'the database.
+'define objects and variables
+'call the stored procedure
+'display the results
+'This procedure calls various subroutines in the module udUse to
+'execute corresponding user defined functions and displays the
+'results onto the screen.
+'define the error handler
+'clear the screen for result display
+'call the specific UDF procedure
+'generate a message of success
+'generate an error message and exit
+'This procedure defines initial parameters.
+'ask the user for displaying the instructions or not
+'This procedure shows instructions at the begining of the program.
+'This procedure maintains screen integrity for the Main Tabs.
+'clear the the Tab screen before switching
+'This procedure shows instructions for the Main Tabs.
+'show instructions

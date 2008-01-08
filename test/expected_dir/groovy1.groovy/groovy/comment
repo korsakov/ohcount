@@ -1,0 +1,5 @@
+//hello.groovy
+// this is a comment
+/* a block comment, commenting out an alternative to above:
+this.args.each{ arg -> println "hello, ${arg}"}
+*/

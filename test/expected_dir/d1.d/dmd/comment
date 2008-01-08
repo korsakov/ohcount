@@ -1,0 +1,12 @@
+/* comment block */
+// single-line comment
+/+ begin a nestable comment block
+/* this comment is nested within another */
+this_code_is_commented_out();
++/
+/* when inside a c-style block comment, /+ does not start a nested comment */
+// when inside a line comment, /+ does not start a nested comment
+/+ when inside a nestable comment, /+ does begin a nested comment
+now we close the inner comment +/
+This line is still part of the outer comment
+now we close the outer comment +/

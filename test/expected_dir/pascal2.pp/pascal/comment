@@ -1,0 +1,13 @@
+{***************************************************************
+*
+* Unit Name: pndefs
+* Purpose  : Various Definitions and functions...
+* Author   : Simon Steele
+* Copyright: This Source Code is Copyright © 1998-2000 Echo
+*            Software and Simon Steele. Please read the license 
+*			  agreement at www.pnotepad.org/press/psidx.html.
+**************************************************************}
+{$I-}
+{$I+}
+// This assumes that it is being passed one of the old style type definition
+// files. We'll set the status on the main form to indicate this as well...

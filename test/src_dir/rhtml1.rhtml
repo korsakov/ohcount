@@ -1,0 +1,25 @@
+<html>
+	<head>
+		<title>Ajax table manipulation attempt</title>
+		<%= stylesheet_link_tag "style" %>
+		<%= javascript_include_tag :defaults %>
+	</head>
+	<body>
+
+		<div id="content">
+		<%= @content_for_layout %>
+		</div>
+
+			<%= ruby code %> <br/>
+			<!-- html comment 
+			inline comment
+			<% tricky code %>
+			-->
+			<%- multi
+			lines of code
+			# even inline comments!
+			"damn" # that's sweet
+			%>
+			<div> <%= ruby_code %> </div>
+	</body>
+</html>

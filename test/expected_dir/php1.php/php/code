@@ -1,0 +1,20 @@
+<?
+mysql_connect("localhost", "db user", "db pass")
+or die("DB CONNECT ERROR: " . mysql_error());
+mysql_select_db("db name")
+or die("DB SELECT ERROR: " . mysql_error());
+$query = "SELECT fname, lname, email FROM table ORDER BY lname";
+$result = mysql_query($query)
+or die("DB SELECT ERROR: " . mysql_error());
+while($row = mysql_fetch_array($result))
+{
+$lname = $row['lname'];
+$fname = $row['fname'];
+$email = $row['email'];
+?>
+<td><?=$fname?></td>
+<td><?=$lname?></td>
+<td><?=$email?><td>
+<?
+} // end while
+?>

@@ -1,0 +1,96 @@
+require 'rake'
+require 'rake/clean'
+require 'rake/gempackagetask'
+require 'rake/rdoctask'
+require 'rake/testtask'
+require 'rbconfig'
+include Config
+
+NAME = 'ohcount'
+VERS = '1.0.0'
+
+EXT_DIR  = "ext/ohcount_native"
+EXT_DL   = "#{EXT_DIR}/ohcount_native.#{CONFIG['DLEXT']}"
+ARCH_DIR = "lib/#{::Config::CONFIG['arch']}"
+ARCH_DL  = "#{ARCH_DIR}/ohcount_native.#{CONFIG['DLEXT']}"
+
+CLEAN.include FileList["#{EXT_DIR}/*.{so,bundle,#{CONFIG['DLEXT']}}"],
+						  FileList["#{EXT_DIR}/*.o"],
+						  FileList["#{EXT_DIR}/Makefile"]
+
+RDOC_OPTS = ['--quiet', '--title', 'Ohcount Reference', '--main', 'README', '--inline-source']
+
+PKG_FILES = %w(README Rakefile lib/ohcount.rb) +
+	Dir.glob("ext/ohcount_native/*.{h,c,rb}") +
+	Dir.glob("ext/ohcount_native/glots/*.rb") +
+	Dir.glob("lib/ohcount/*.rb") +
+	Dir.glob("bin/*")
+
+SPEC =
+	Gem::Specification.new do |s|
+		s.name = NAME
+		s.version = VERS
+		s.platform = Gem::Platform::RUBY
+		s.has_rdoc = true
+		s.rdoc_options += RDOC_OPTS
+		s.summary = "The Ohloh source code line counter"
+		s.description = s.summary
+		s.author = "Ohloh Corporation"
+		s.email = "info@ohloh.net"
+		s.homepage = "http://www.ohloh.net"
+		s.files = PKG_FILES
+		s.require_paths = ["lib", ARCH_DIR]
+		s.extensions << 'ext/ohcount_native/extconf.rb'
+		s.bindir = 'bin'
+		s.executables = ['ohcount']
+	end
+
+Rake::GemPackageTask.new(SPEC) do |p|
+	p.need_tar = true
+	p.gem_spec = SPEC
+end
+
+task :install => :package do
+	`sudo gem install pkg/#{NAME}-#{VERS}`
+end
+
+file ARCH_DL => EXT_DL do
+	mkdir_p ARCH_DIR
+	cp EXT_DL, ARCH_DIR
+end
+
+file EXT_DL => FileList["#{EXT_DIR}/Makefile", "#{EXT_DIR}/*.{c,h,rb}"] do
+	cd EXT_DIR do
+		sh 'make'
+	end
+end
+
+file "#{EXT_DIR}/Makefile" => "#{EXT_DIR}/extconf.rb" do
+	cd EXT_DIR do
+		if ENV['DEBUG']
+			ruby 'extconf.rb', 'debug'
+		else
+			ruby 'extconf.rb'
+		end
+	end
+end
+
+file "#{EXT_DIR}/polyglots.c" => FileList["#{EXT_DIR}/*.rb", "#{EXT_DIR}/glots/*.rb"] do
+	cd EXT_DIR do
+		ruby 'generator.rb'
+	end
+end
+
+Rake::RDocTask.new do |rdoc|
+	rdoc.rdoc_dir = 'doc'
+	rdoc.options += RDOC_OPTS
+	rdoc.rdoc_files.add ['README' ,'COPYING', 'lib/**/*.rb', 'ext/**/*.rb']
+end
+
+Rake::TestTask.new :ohcount_unit_tests => ARCH_DL do |t|
+	puts File.dirname(__FILE__) + '/test/unit/*_test.rb'
+	t.test_files = FileList[File.dirname(__FILE__) + '/test/unit/*_test.rb']
+	t.verbose = true
+end
+
+task :default => :ohcount_unit_tests

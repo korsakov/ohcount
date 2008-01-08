@@ -1,0 +1,4 @@
+select level, min('col_name') from my_table
+where level = '&n'
+connect by prior ('col_name') < 'col_name')
+group by level;

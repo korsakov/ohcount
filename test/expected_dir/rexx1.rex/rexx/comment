@@ -1,0 +1,41 @@
+/* REXX    FLTTBL     Cloned from DUMPTBL 960619 to produce a flat
+version (up to 32K characters wide) of any ISPF
+table.
+Written by Frank Clarke, Oldsmar, FL
+Impact Analysis
+.    SYSPROC   LA
+.    SYSPROC   TRAPOUT
+Modification History
+19960918 fxc added some error-checking
+19970115 fxc upgrade REXXSKEL from v.960606 to v.970113; add
+RESTARTability;
+19991231 fxc upgrade REXXSKEL from v.970113 to v.19991109;
+RXSKLY2K; DECOMM; LRECL reduced from 32K to "min
+needed";
+/*
+.  ----------------------------------------------------------------- */
+/*
+.  ----------------------------------------------------------------- */
+/*
+<tblds> was not specified.  Locate the table in ISPTLIB.
+.  ----------------------------------------------------------------- */
+/*
+.  ----------------------------------------------------------------- */
+/*
+.  ----------------------------------------------------------------- */
+/*
+.  Given: <namelist> contains all the defined names for this table.
+The table has been TOPped.
+.  ----------------------------------------------------------------- */
+/* add blocks of "var .. varvalue .."     */
+/* add a block of "XVARS .. xvarlist .."  */
+/* add blocks of "xvar .. xvarvalue .."   */
+/*
+.  ----------------------------------------------------------------- */
+/*
+.  ----------------------------------------------------------------- */
+/*
+.  ----------------------------------------------------------------- */
+/*
+.  ----------------------------------------------------------------- */
+/*   REXXSKEL back-end removed for space   */

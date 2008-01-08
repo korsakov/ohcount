@@ -1,0 +1,9 @@
+-- random code from http://lua-users.org/wiki/TextJustification
+-- easy queue implementation ------------------------------------------
+-- line creation routines ------------------------------------------
+-- justifies one line to fit into MAX columns 
+-- join all words with one space between them
+-- main program -----------------------------------------------------
+-- tries to get MAX from command-line
+-- collects all text from stdin
+-- justify paragraphs

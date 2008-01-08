@@ -1,0 +1,11 @@
+;; Insert newline when you press `C-n' (next-line)
+;; at the end of the buffer
+;; Turn on image viewing
+;; Turn on menu bar (this bar has text)
+;; (Use numeric argument to turn on)
+;; Turn off tool bar (this bar has icons)
+;; (Use numeric argument to turn on)
+;; Turn off tooltip mode for tool bar
+;; (This mode causes icon explanations to pop up)
+;; (Use numeric argument to turn on)
+;; If tooltips turned on, make tips appear promptly

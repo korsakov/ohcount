@@ -1,0 +1,1729 @@
+VERSION 5.00
+Object = "{67397AA1-7FB1-11D0-B148-00A0C922E820}#6.0#0"; "MSADODC.OCX"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
+Object = "{CDE57A40-8B86-11D0-B3C6-00A0C90AEA82}#1.0#0"; "MSDATGRD.OCX"
+Object = "{0ECD9B60-23AA-11D0-B351-00A0C9055D8E}#6.0#0"; "MSHFLXGD.OCX"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
+Begin VB.Form frmMain
+BorderStyle     =   1  'Fixed Single
+Caption         =   "DB2 Visual Basic Samples"
+ClientHeight    =   6555
+ClientLeft      =   150
+ClientTop       =   435
+ClientWidth     =   10620
+LinkTopic       =   "Form1"
+MaxButton       =   0   'False
+MinButton       =   0   'False
+ScaleHeight     =   6555
+ScaleWidth      =   10620
+StartUpPosition =   3  'Windows Default
+Begin VB.CommandButton cmdSample
+Caption         =   "Create Sample DB"
+Height          =   495
+Left            =   8760
+TabIndex        =   21
+TabStop         =   0   'False
+Top             =   240
+Width           =   1695
+End
+Begin TabDlg.SSTab tabMain
+Height          =   6015
+Left            =   0
+TabIndex        =   6
+Top             =   120
+Width           =   8565
+_ExtentX        =   15108
+_ExtentY        =   10610
+_Version        =   393216
+Tabs            =   5
+TabsPerRow      =   5
+TabHeight       =   520
+TabCaption(0)   =   "Execute SQL"
+TabPicture(0)   =   "Demo.frx":0000
+Tab(0).ControlEnabled=   -1  'True
+Tab(0).Control(0)=   "flxRecords"
+Tab(0).Control(0).Enabled=   0   'False
+Tab(0).Control(1)=   "txtSQL"
+Tab(0).Control(1).Enabled=   0   'False
+Tab(0).Control(2)=   "frmAutoCommit"
+Tab(0).Control(2).Enabled=   0   'False
+Tab(0).Control(3)=   "cmdCommit"
+Tab(0).Control(3).Enabled=   0   'False
+Tab(0).Control(4)=   "cmdRollback"
+Tab(0).Control(4).Enabled=   0   'False
+Tab(0).Control(5)=   "chkAutoCommit"
+Tab(0).Control(5).Enabled=   0   'False
+Tab(0).Control(6)=   "DataGridSQL"
+Tab(0).Control(6).Enabled=   0   'False
+Tab(0).Control(7)=   "frmSamples"
+Tab(0).Control(7).Enabled=   0   'False
+Tab(0).Control(8)=   "frmExecuteSQL"
+Tab(0).Control(8).Enabled=   0   'False
+Tab(0).Control(9)=   "cmdSQLConnection"
+Tab(0).Control(9).Enabled=   0   'False
+Tab(0).Control(10)=   "cmdSQLRecordset"
+Tab(0).Control(10).Enabled=   0   'False
+Tab(0).Control(11)=   "cmdSQLCommand"
+Tab(0).Control(11).Enabled=   0   'False
+Tab(0).Control(12)=   "cmdSQLSamples(0)"
+Tab(0).Control(12).Enabled=   0   'False
+Tab(0).Control(13)=   "cmdSQLSamples(1)"
+Tab(0).Control(13).Enabled=   0   'False
+Tab(0).Control(14)=   "cmdSQLSamples(2)"
+Tab(0).Control(14).Enabled=   0   'False
+Tab(0).Control(15)=   "cmdSQLSamples(3)"
+Tab(0).Control(15).Enabled=   0   'False
+Tab(0).ControlCount=   16
+TabCaption(1)   =   "Hierarchical Data"
+TabPicture(1)   =   "Demo.frx":001C
+Tab(1).ControlEnabled=   0   'False
+Tab(1).Control(0)=   "cmdHierarchy"
+Tab(1).Control(1)=   "hflxRecords"
+Tab(1).Control(2)=   "lblHierScript"
+Tab(1).ControlCount=   3
+TabCaption(2)   =   "LOBs"
+TabPicture(2)   =   "Demo.frx":0038
+Tab(2).ControlEnabled=   0   'False
+Tab(2).Control(0)=   "lblEmpno"
+Tab(2).Control(1)=   "lblLastname"
+Tab(2).Control(2)=   "lblFirstname"
+Tab(2).Control(3)=   "AdodcLob"
+Tab(2).Control(4)=   "cmdCLOB"
+Tab(2).Control(5)=   "cmdBLOB"
+Tab(2).Control(6)=   "cmdRefresh"
+Tab(2).Control(7)=   "txtEmpno"
+Tab(2).Control(7).Enabled=   0   'False
+Tab(2).Control(8)=   "txtLastname"
+Tab(2).Control(8).Enabled=   0   'False
+Tab(2).Control(9)=   "txtFirstname"
+Tab(2).Control(9).Enabled=   0   'False
+Tab(2).Control(10)=   "txtClob"
+Tab(2).Control(10).Enabled=   0   'False
+Tab(2).Control(11)=   "picBlob"
+Tab(2).ControlCount=   12
+TabCaption(3)   =   "Store Procedures"
+TabPicture(3)   =   "Demo.frx":0054
+Tab(3).ControlEnabled=   0   'False
+Tab(3).Control(0)=   "optStoredProcedures(11)"
+Tab(3).Control(1)=   "cmdShowSecondRS"
+Tab(3).Control(2)=   "DataGridSP"
+Tab(3).Control(3)=   "txtSPResult"
+Tab(3).Control(4)=   "cmdSPCall"
+Tab(3).Control(5)=   "optStoredProcedures(10)"
+Tab(3).Control(6)=   "optStoredProcedures(9)"
+Tab(3).Control(7)=   "optStoredProcedures(8)"
+Tab(3).Control(8)=   "optStoredProcedures(7)"
+Tab(3).Control(9)=   "optStoredProcedures(6)"
+Tab(3).Control(10)=   "optStoredProcedures(5)"
+Tab(3).Control(11)=   "optStoredProcedures(4)"
+Tab(3).Control(12)=   "optStoredProcedures(3)"
+Tab(3).Control(13)=   "optStoredProcedures(2)"
+Tab(3).Control(14)=   "optStoredProcedures(1)"
+Tab(3).Control(15)=   "optStoredProcedures(0)"
+Tab(3).Control(16)=   "frmStoredProcedures"
+Tab(3).ControlCount=   17
+TabCaption(4)   =   "UDFs"
+TabPicture(4)   =   "Demo.frx":0070
+Tab(4).ControlEnabled=   0   'False
+Tab(4).Control(0)=   "cmdUDFs(5)"
+Tab(4).Control(1)=   "cmdUDFs(4)"
+Tab(4).Control(2)=   "cmdUDFs(3)"
+Tab(4).Control(3)=   "cmdUDFs(2)"
+Tab(4).Control(4)=   "cmdUDFs(1)"
+Tab(4).Control(5)=   "cmdUDFs(0)"
+Tab(4).Control(6)=   "hflxGridUDF"
+Tab(4).Control(7)=   "txtUDF"
+Tab(4).Control(7).Enabled=   0   'False
+Tab(4).Control(8)=   "Frame1"
+Tab(4).ControlCount=   9
+Begin VB.CommandButton cmdSQLSamples
+Caption         =   "Sample 4"
+Enabled         =   0   'False
+Height          =   375
+Index           =   3
+Left            =   7440
+TabIndex        =   67
+Top             =   2880
+Width           =   855
+End
+Begin VB.CommandButton cmdSQLSamples
+Caption         =   "Sample 3"
+Enabled         =   0   'False
+Height          =   375
+Index           =   2
+Left            =   6600
+TabIndex        =   66
+Top             =   2880
+Width           =   855
+End
+Begin VB.CommandButton cmdSQLSamples
+Caption         =   "Sample 2"
+Enabled         =   0   'False
+Height          =   375
+Index           =   1
+Left            =   7440
+TabIndex        =   65
+Top             =   2520
+Width           =   855
+End
+Begin VB.CommandButton cmdSQLSamples
+Caption         =   "Sample 1"
+Enabled         =   0   'False
+Height          =   375
+Index           =   0
+Left            =   6600
+TabIndex        =   64
+Top             =   2520
+Width           =   855
+End
+Begin VB.CommandButton cmdUDFs
+Caption         =   "TableUDF"
+Enabled         =   0   'False
+Height          =   495
+Index           =   5
+Left            =   -68400
+TabIndex        =   63
+Top             =   3600
+Width           =   1695
+End
+Begin VB.CommandButton cmdUDFs
+Caption         =   "SourcedColumnUDF"
+Enabled         =   0   'False
+Height          =   495
+Index           =   4
+Left            =   -68400
+TabIndex        =   62
+Top             =   3000
+Width           =   1695
+End
+Begin VB.CommandButton cmdUDFs
+Caption         =   "ScUDFReturningErr"
+Enabled         =   0   'False
+Height          =   495
+Index           =   3
+Left            =   -68400
+TabIndex        =   61
+Top             =   2400
+Width           =   1695
+End
+Begin VB.CommandButton cmdUDFs
+Caption         =   "ScratchpadScUDF"
+Enabled         =   0   'False
+Height          =   495
+Index           =   2
+Left            =   -68400
+TabIndex        =   60
+Top             =   1800
+Width           =   1695
+End
+Begin VB.CommandButton cmdUDFs
+Caption         =   "ClobScalarUDF"
+Enabled         =   0   'False
+Height          =   495
+Index           =   1
+Left            =   -68400
+TabIndex        =   59
+Top             =   1200
+Width           =   1695
+End
+Begin VB.CommandButton cmdUDFs
+Caption         =   "ScalarUDF"
+Enabled         =   0   'False
+Height          =   495
+Index           =   0
+Left            =   -68400
+TabIndex        =   58
+Top             =   600
+Width           =   1695
+End
+Begin MSHierarchicalFlexGridLib.MSHFlexGrid hflxGridUDF
+Height          =   1575
+Left            =   -74880
+TabIndex        =   57
+TabStop         =   0   'False
+Top             =   4320
+Width           =   6255
+_ExtentX        =   11033
+_ExtentY        =   2778
+_Version        =   393216
+FixedCols       =   0
+WordWrap        =   -1  'True
+AllowUserResizing=   1
+_NumberOfBands  =   1
+_Band(0).Cols   =   2
+End
+Begin VB.TextBox txtUDF
+BeginProperty Font
+Name            =   "Courier New"
+Size            =   9
+Charset         =   0
+Weight          =   400
+Underline       =   0   'False
+Italic          =   0   'False
+Strikethrough   =   0   'False
+EndProperty
+Height          =   3735
+Left            =   -74880
+Locked          =   -1  'True
+MultiLine       =   -1  'True
+ScrollBars      =   2  'Vertical
+TabIndex        =   56
+TabStop         =   0   'False
+Top             =   480
+Width           =   6255
+End
+Begin VB.Frame Frame1
+Caption         =   "Work with UDF:"
+Height          =   5535
+Left            =   -68520
+TabIndex        =   55
+Top             =   360
+Width           =   1935
+End
+Begin VB.OptionButton optStoredProcedures
+Caption         =   "MAIN_EXAMPLE"
+Enabled         =   0   'False
+Height          =   495
+Index           =   11
+Left            =   -69000
+TabIndex        =   54
+Top             =   1320
+Width           =   1935
+End
+Begin VB.CommandButton cmdShowSecondRS
+Caption         =   "Show Next RS"
+Height          =   495
+Left            =   -68280
+TabIndex        =   53
+Top             =   2640
+Visible         =   0   'False
+Width           =   1695
+End
+Begin MSDataGridLib.DataGrid DataGridSP
+Height          =   3788
+Left            =   -74850
+TabIndex        =   37
+Top             =   2070
+Visible         =   0   'False
+Width           =   6428
+_ExtentX        =   11351
+_ExtentY        =   6694
+_Version        =   393216
+BorderStyle     =   0
+Enabled         =   -1  'True
+HeadLines       =   1
+RowHeight       =   15
+RowDividerStyle =   1
+AllowAddNew     =   -1  'True
+AllowDelete     =   -1  'True
+BeginProperty HeadFont {0BE35203-8F91-11CE-9DE3-00AA004BB851}
+Name            =   "MS Sans Serif"
+Size            =   8.25
+Charset         =   0
+Weight          =   400
+Underline       =   0   'False
+Italic          =   0   'False
+Strikethrough   =   0   'False
+EndProperty
+BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851}
+Name            =   "MS Sans Serif"
+Size            =   8.25
+Charset         =   0
+Weight          =   400
+Underline       =   0   'False
+Italic          =   0   'False
+Strikethrough   =   0   'False
+EndProperty
+ColumnCount     =   2
+BeginProperty Column00
+DataField       =   ""
+Caption         =   ""
+BeginProperty DataFormat {6D835690-900B-11D0-9484-00A0C91110ED}
+Type            =   0
+Format          =   ""
+HaveTrueFalseNull=   0
+FirstDayOfWeek  =   0
+FirstWeekOfYear =   0
+LCID            =   1033
+SubFormatType   =   0
+EndProperty
+EndProperty
+BeginProperty Column01
+DataField       =   ""
+Caption         =   ""
+BeginProperty DataFormat {6D835690-900B-11D0-9484-00A0C91110ED}
+Type            =   0
+Format          =   ""
+HaveTrueFalseNull=   0
+FirstDayOfWeek  =   0
+FirstWeekOfYear =   0
+LCID            =   1033
+SubFormatType   =   0
+EndProperty
+EndProperty
+SplitCount      =   1
+BeginProperty Split0
+BeginProperty Column00
+EndProperty
+BeginProperty Column01
+EndProperty
+EndProperty
+End
+Begin VB.TextBox txtSPResult
+BeginProperty Font
+Name            =   "Courier New"
+Size            =   9
+Charset         =   0
+Weight          =   400
+Underline       =   0   'False
+Italic          =   0   'False
+Strikethrough   =   0   'False
+EndProperty
+Height          =   3855
+Left            =   -74880
+MultiLine       =   -1  'True
+TabIndex        =   52
+Top             =   2040
+Width           =   6495
+End
+Begin VB.CommandButton cmdSPCall
+Caption         =   "Call"
+Enabled         =   0   'False
+Height          =   495
+Left            =   -68280
+TabIndex        =   51
+Top             =   2040
+Width           =   1695
+End
+Begin VB.OptionButton optStoredProcedures
+Caption         =   "DBINFO_EXAMPLE"
+Enabled         =   0   'False
+Height          =   495
+Index           =   10
+Left            =   -70920
+TabIndex        =   50
+Top             =   1320
+Width           =   1935
+End
+Begin VB.OptionButton optStoredProcedures
+Caption         =   "DB2SQL_EXAMPLE"
+Enabled         =   0   'False
+Height          =   495
+Index           =   9
+Left            =   -72840
+TabIndex        =   49
+Top             =   1320
+Width           =   1935
+End
+Begin VB.OptionButton optStoredProcedures
+Caption         =   "CLOB_EXTRACT"
+Enabled         =   0   'False
+Height          =   495
+Index           =   8
+Left            =   -74760
+TabIndex        =   48
+Top             =   1320
+Width           =   1935
+End
+Begin VB.OptionButton optStoredProcedures
+Caption         =   "TWO_RESULT_SETS"
+Enabled         =   0   'False
+Height          =   495
+Index           =   7
+Left            =   -69000
+TabIndex        =   47
+Top             =   960
+Width           =   1935
+End
+Begin VB.OptionButton optStoredProcedures
+Caption         =   "ONE_RESULT_SET"
+Enabled         =   0   'False
+Height          =   495
+Index           =   6
+Left            =   -70920
+TabIndex        =   46
+Top             =   960
+Width           =   1935
+End
+Begin VB.OptionButton optStoredProcedures
+Caption         =   "DECIMAL_TYPE"
+Enabled         =   0   'False
+Height          =   495
+Index           =   5
+Left            =   -72840
+TabIndex        =   45
+Top             =   960
+Width           =   1935
+End
+Begin VB.OptionButton optStoredProcedures
+Caption         =   "ALL_DATA_TYPES"
+Enabled         =   0   'False
+Height          =   495
+Index           =   4
+Left            =   -74760
+TabIndex        =   44
+Top             =   960
+Width           =   1935
+End
+Begin VB.OptionButton optStoredProcedures
+Caption         =   "INOUT_PARAM"
+Enabled         =   0   'False
+Height          =   495
+Index           =   3
+Left            =   -69000
+TabIndex        =   43
+Top             =   600
+Width           =   1935
+End
+Begin VB.OptionButton optStoredProcedures
+Caption         =   "OUT_PARAM"
+Enabled         =   0   'False
+Height          =   495
+Index           =   2
+Left            =   -70920
+TabIndex        =   42
+Top             =   600
+Width           =   1935
+End
+Begin VB.OptionButton optStoredProcedures
+Caption         =   "IN_PARAMS"
+Enabled         =   0   'False
+Height          =   495
+Index           =   1
+Left            =   -72840
+TabIndex        =   41
+Top             =   600
+Width           =   1935
+End
+Begin VB.OptionButton optStoredProcedures
+Caption         =   "OUT_LANGUAGE"
+Enabled         =   0   'False
+Height          =   495
+Index           =   0
+Left            =   -74760
+TabIndex        =   40
+Top             =   600
+Width           =   1935
+End
+Begin VB.Frame frmStoredProcedures
+Caption         =   "Stored Procedure:"
+Height          =   1575
+Left            =   -74880
+TabIndex        =   39
+Top             =   360
+Width           =   8295
+End
+Begin VB.CommandButton cmdSQLCommand
+Caption         =   "on Command"
+Enabled         =   0   'False
+Height          =   495
+Left            =   6600
+TabIndex        =   35
+Top             =   1200
+Width           =   1695
+End
+Begin VB.CommandButton cmdSQLRecordset
+Caption         =   "on Recordset"
+Enabled         =   0   'False
+Height          =   495
+Left            =   6600
+TabIndex        =   34
+Top             =   1800
+Width           =   1695
+End
+Begin VB.CommandButton cmdSQLConnection
+Caption         =   "on Connection"
+Enabled         =   0   'False
+Height          =   495
+Left            =   6600
+TabIndex        =   8
+Top             =   600
+Width           =   1695
+End
+Begin VB.Frame frmExecuteSQL
+Caption         =   "Execute SQL"
+Height          =   2055
+Left            =   6480
+TabIndex        =   32
+Top             =   360
+Width           =   1935
+End
+Begin VB.Frame frmSamples
+Height          =   1095
+Left            =   6480
+TabIndex        =   38
+Top             =   2280
+Width           =   1935
+End
+Begin MSDataGridLib.DataGrid DataGridSQL
+Height          =   3690
+Left            =   150
+TabIndex        =   36
+Top             =   2190
+Width           =   6200
+_ExtentX        =   10927
+_ExtentY        =   6509
+_Version        =   393216
+BorderStyle     =   0
+HeadLines       =   1
+RowHeight       =   15
+RowDividerStyle =   1
+AllowAddNew     =   -1  'True
+AllowDelete     =   -1  'True
+BeginProperty HeadFont {0BE35203-8F91-11CE-9DE3-00AA004BB851}
+Name            =   "MS Sans Serif"
+Size            =   8.25
+Charset         =   0
+Weight          =   400
+Underline       =   0   'False
+Italic          =   0   'False
+Strikethrough   =   0   'False
+EndProperty
+BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851}
+Name            =   "MS Sans Serif"
+Size            =   8.25
+Charset         =   0
+Weight          =   400
+Underline       =   0   'False
+Italic          =   0   'False
+Strikethrough   =   0   'False
+EndProperty
+ColumnCount     =   2
+BeginProperty Column00
+DataField       =   ""
+Caption         =   ""
+BeginProperty DataFormat {6D835690-900B-11D0-9484-00A0C91110ED}
+Type            =   0
+Format          =   ""
+HaveTrueFalseNull=   0
+FirstDayOfWeek  =   0
+FirstWeekOfYear =   0
+LCID            =   1033
+SubFormatType   =   0
+EndProperty
+EndProperty
+BeginProperty Column01
+DataField       =   ""
+Caption         =   ""
+BeginProperty DataFormat {6D835690-900B-11D0-9484-00A0C91110ED}
+Type            =   0
+Format          =   ""
+HaveTrueFalseNull=   0
+FirstDayOfWeek  =   0
+FirstWeekOfYear =   0
+LCID            =   1033
+SubFormatType   =   0
+EndProperty
+EndProperty
+SplitCount      =   1
+BeginProperty Split0
+BeginProperty Column00
+EndProperty
+BeginProperty Column01
+EndProperty
+EndProperty
+End
+Begin VB.CheckBox chkAutoCommit
+Caption         =   " AutoCommit"
+Enabled         =   0   'False
+Height          =   255
+Left            =   6840
+TabIndex        =   31
+Top             =   4320
+Value           =   1  'Checked
+Width           =   1215
+End
+Begin VB.CommandButton cmdRollback
+Caption         =   "Rollback"
+Enabled         =   0   'False
+Height          =   495
+Left            =   6600
+TabIndex        =   10
+Top             =   5280
+Width           =   1695
+End
+Begin VB.CommandButton cmdCommit
+Caption         =   "Commit"
+Enabled         =   0   'False
+Height          =   495
+Left            =   6600
+TabIndex        =   9
+Top             =   4680
+Width           =   1695
+End
+Begin VB.Frame frmAutoCommit
+Height          =   1575
+Left            =   6480
+TabIndex        =   33
+Top             =   4320
+Width           =   1935
+End
+Begin VB.PictureBox picBlob
+BackColor       =   &H80000005&
+Height          =   5405
+Left            =   -74870
+ScaleHeight     =   5340
+ScaleWidth      =   6420
+TabIndex        =   30
+Top             =   490
+Visible         =   0   'False
+Width           =   6480
+End
+Begin VB.TextBox txtClob
+BeginProperty Font
+Name            =   "Courier New"
+Size            =   8.25
+Charset         =   0
+Weight          =   400
+Underline       =   0   'False
+Italic          =   0   'False
+Strikethrough   =   0   'False
+EndProperty
+Height          =   5415
+Left            =   -74880
+Locked          =   -1  'True
+MultiLine       =   -1  'True
+ScrollBars      =   3  'Both
+TabIndex        =   23
+TabStop         =   0   'False
+Top             =   480
+Width           =   6495
+End
+Begin VB.TextBox txtFirstname
+Appearance      =   0  'Flat
+BackColor       =   &H80000013&
+Enabled         =   0   'False
+Height          =   285
+Left            =   -68280
+Locked          =   -1  'True
+TabIndex        =   26
+TabStop         =   0   'False
+Top             =   5040
+Width           =   1695
+End
+Begin VB.TextBox txtLastname
+Appearance      =   0  'Flat
+BackColor       =   &H80000013&
+Enabled         =   0   'False
+Height          =   285
+Left            =   -68280
+Locked          =   -1  'True
+TabIndex        =   25
+TabStop         =   0   'False
+Top             =   4440
+Width           =   1695
+End
+Begin VB.TextBox txtEmpno
+Appearance      =   0  'Flat
+BackColor       =   &H80000013&
+Enabled         =   0   'False
+Height          =   285
+Left            =   -68280
+Locked          =   -1  'True
+TabIndex        =   24
+TabStop         =   0   'False
+Top             =   3840
+Width           =   1695
+End
+Begin VB.CommandButton cmdRefresh
+Caption         =   "Refresh Data"
+Enabled         =   0   'False
+Height          =   495
+Left            =   -68280
+TabIndex        =   12
+Top             =   480
+Width           =   1695
+End
+Begin VB.CommandButton cmdBLOB
+Caption         =   "Show Picture"
+Enabled         =   0   'False
+Height          =   495
+Left            =   -68280
+TabIndex        =   14
+Top             =   1680
+Width           =   1695
+End
+Begin VB.CommandButton cmdCLOB
+Caption         =   "Show Resume"
+Enabled         =   0   'False
+Height          =   495
+Left            =   -68280
+TabIndex        =   13
+Top             =   1080
+Width           =   1695
+End
+Begin VB.CommandButton cmdHierarchy
+Caption         =   "Display"
+Enabled         =   0   'False
+Height          =   495
+Left            =   -68280
+TabIndex        =   11
+Top             =   480
+Width           =   1695
+End
+Begin VB.TextBox txtSQL
+BeginProperty Font
+Name            =   "Courier New"
+Size            =   9
+Charset         =   0
+Weight          =   400
+Underline       =   0   'False
+Italic          =   0   'False
+Strikethrough   =   0   'False
+EndProperty
+Height          =   1575
+Left            =   120
+MultiLine       =   -1  'True
+ScrollBars      =   2  'Vertical
+TabIndex        =   7
+Top             =   480
+Width           =   6255
+End
+Begin MSHierarchicalFlexGridLib.MSHFlexGrid hflxRecords
+Height          =   4815
+Left            =   -74880
+TabIndex        =   17
+TabStop         =   0   'False
+Top             =   1080
+Width           =   8295
+_ExtentX        =   14631
+_ExtentY        =   8493
+_Version        =   393216
+FixedCols       =   0
+WordWrap        =   -1  'True
+AllowUserResizing=   1
+_NumberOfBands  =   1
+_Band(0).Cols   =   2
+End
+Begin MSHierarchicalFlexGridLib.MSHFlexGrid flxRecords
+Height          =   3735
+Left            =   120
+TabIndex        =   16
+TabStop         =   0   'False
+Top             =   2160
+Width           =   6255
+_ExtentX        =   11033
+_ExtentY        =   6588
+_Version        =   393216
+FixedCols       =   0
+WordWrap        =   -1  'True
+AllowUserResizing=   1
+_NumberOfBands  =   1
+_Band(0).Cols   =   2
+End
+Begin MSAdodcLib.Adodc AdodcLob
+Height          =   330
+Left            =   -68280
+Top             =   5520
+Width           =   1695
+_ExtentX        =   2990
+_ExtentY        =   582
+ConnectMode     =   1
+CursorLocation  =   3
+IsolationLevel  =   -1
+ConnectionTimeout=   15
+CommandTimeout  =   30
+CursorType      =   3
+LockType        =   3
+CommandType     =   8
+CursorOptions   =   0
+CacheSize       =   50
+MaxRecords      =   0
+BOFAction       =   0
+EOFAction       =   0
+ConnectStringType=   1
+Appearance      =   1
+BackColor       =   -2147483643
+ForeColor       =   -2147483640
+Orientation     =   0
+Enabled         =   0
+Connect         =   ""
+OLEDBString     =   ""
+OLEDBFile       =   ""
+DataSourceName  =   ""
+OtherAttributes =   ""
+UserName        =   ""
+Password        =   ""
+RecordSource    =   ""
+Caption         =   ""
+BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851}
+Name            =   "MS Sans Serif"
+Size            =   8.25
+Charset         =   0
+Weight          =   400
+Underline       =   0   'False
+Italic          =   0   'False
+Strikethrough   =   0   'False
+EndProperty
+_Version        =   393216
+End
+Begin VB.Label lblHierScript
+Caption         =   $"Demo.frx":008C
+ForeColor       =   &H80000011&
+Height          =   495
+Left            =   -74760
+TabIndex        =   68
+Top             =   540
+Width           =   6135
+End
+Begin VB.Label lblFirstname
+Caption         =   "First Name:"
+Height          =   255
+Left            =   -68280
+TabIndex        =   29
+Top             =   4800
+Width           =   1695
+End
+Begin VB.Label lblLastname
+Caption         =   "Last Name:"
+Height          =   255
+Left            =   -68280
+TabIndex        =   28
+Top             =   4200
+Width           =   1695
+End
+Begin VB.Label lblEmpno
+Caption         =   "Employee No.:"
+Height          =   255
+Left            =   -68280
+TabIndex        =   27
+Top             =   3600
+Width           =   1695
+End
+End
+Begin VB.CommandButton cmdVersionInfo
+Caption         =   "Get Environment Info"
+Enabled         =   0   'False
+Height          =   495
+Left            =   8760
+TabIndex        =   3
+Top             =   840
+Width           =   1695
+End
+Begin VB.CommandButton cmdConnectInfo
+Caption         =   "Get Connection Info"
+Enabled         =   0   'False
+Height          =   495
+Left            =   8760
+TabIndex        =   4
+Top             =   4200
+Width           =   1695
+End
+Begin VB.CommandButton cmdConnectDataShape
+Caption         =   "Connect DataShape"
+Height          =   495
+Left            =   8760
+TabIndex        =   2
+Top             =   3600
+Width           =   1695
+End
+Begin VB.CommandButton cmdConnectODBC
+Caption         =   "Connect ODBC"
+Height          =   495
+Left            =   8760
+TabIndex        =   1
+Top             =   3000
+Width           =   1695
+End
+Begin VB.CommandButton cmdDisconnect
+Caption         =   "Disconnect"
+Enabled         =   0   'False
+Height          =   495
+Left            =   8760
+TabIndex        =   5
+Top             =   4800
+Width           =   1695
+End
+Begin VB.CommandButton cmdConnectOLEDB
+Caption         =   "Connect OLE DB"
+Height          =   495
+Left            =   8760
+TabIndex        =   0
+Top             =   2400
+Width           =   1695
+End
+Begin VB.Frame frmConnection
+Caption         =   "Connection:"
+Height          =   3255
+Left            =   8640
+TabIndex        =   18
+Top             =   2160
+Width           =   1935
+End
+Begin VB.CommandButton cmdExit
+Caption         =   "Exit"
+Height          =   495
+Left            =   8760
+TabIndex        =   15
+Top             =   5520
+Width           =   1695
+End
+Begin VB.Frame fmExit
+Height          =   855
+Left            =   8640
+TabIndex        =   19
+Top             =   5280
+Width           =   1935
+End
+Begin MSComctlLib.StatusBar sbrStatus
+Align           =   2  'Align Bottom
+Height          =   375
+Left            =   0
+TabIndex        =   20
+Top             =   6180
+Width           =   10620
+_ExtentX        =   18733
+_ExtentY        =   661
+_Version        =   393216
+BeginProperty Panels {8E3867A5-8586-11D1-B16A-00C0F0283628}
+NumPanels       =   1
+BeginProperty Panel1 {8E3867AB-8586-11D1-B16A-00C0F0283628}
+AutoSize        =   1
+Object.Width           =   18680
+EndProperty
+EndProperty
+BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851}
+Name            =   "MS Sans Serif"
+Size            =   9.75
+Charset         =   0
+Weight          =   400
+Underline       =   0   'False
+Italic          =   0   'False
+Strikethrough   =   0   'False
+EndProperty
+End
+Begin VB.Frame frmEnvironment
+Caption         =   "Environment:"
+Height          =   1455
+Left            =   8640
+TabIndex        =   22
+Top             =   0
+Width           =   1935
+End
+End
+Attribute VB_Name = "frmMain"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = False
+Attribute VB_PredeclaredId = True
+Attribute VB_Exposed = False
+Option Explicit
+Private con As ADODB.Connection
+Private rst As ADODB.Recordset
+Private strMsgText As String
+Private wShowInstructions As Integer
+Private Sub cmdConnectOLEDB_Click()
+Set con = ConnectOLEDB()
+sbrStatus.Panels(1).Text = "Connect to sample database succeeded!"
+EnableButtons
+If wShowInstructions = vbYes Then
+ShowConnectionInstruction
+End If
+cmdConnectOLEDB_Exit:
+Exit Sub
+cmdConnectOLEDB_Error:
+sbrStatus.Panels(1).Text = "ERROR: " & Err.Description
+If wShowInstructions = vbYes Then
+MsgBox "Connect to sample database failed!" & vbCr & _
+Err.Description & vbCr & _
+"Please correct the problem and try again.", _
+vbOKOnly + vbCritical, "Instruction"
+End If
+Resume cmdConnectOLEDB_Exit
+End Sub
+Private Sub cmdConnectODBC_Click()
+On Error GoTo cmdConnectODBC_Error
+Set con = ConnectODBC()
+sbrStatus.Panels(1).Text = "Connect to sample database succeeded!"
+EnableButtons
+If wShowInstructions = vbYes Then
+ShowConnectionInstruction
+End If
+cmdConnectODBC_Exit:
+Exit Sub
+cmdConnectODBC_Error:
+sbrStatus.Panels(1).Text = "ERROR: " & Err.Description
+If wShowInstructions = vbYes Then
+MsgBox "Connect to sample database failed!" & vbCr & _
+Err.Description & vbCr & _
+"Please correct the problem and try again.", _
+vbOKOnly + vbCritical, "Instruction"
+End If
+Resume cmdConnectODBC_Exit
+End Sub
+Private Sub cmdConnectDataShape_Click()
+On Error GoTo cmdConnectDataShape_Error
+Set con = ConnectDataShape()
+con.Attributes = adXactCommitRetaining + adXactAbortRetaining
+sbrStatus.Panels(1).Text = "Connect to sample database succeeded!"
+EnableButtons
+cmdHierarchy.Enabled = True
+lblHierScript.ForeColor = vbButtonText
+If wShowInstructions = vbYes Then
+ShowConnectionInstruction
+End If
+cmdConnectDataShape_Exit:
+Exit Sub
+cmdConnectDataShape_Error:
+sbrStatus.Panels(1).Text = "ERROR: " & Err.Description
+If wShowInstructions = vbYes Then
+MsgBox "Connect to sample database failed!" & vbCr & _
+Err.Description & vbCr & _
+"Please correct the problem and try again.", _
+vbOKOnly + vbCritical, "Instruction"
+End If
+Resume cmdConnectDataShape_Exit
+End Sub
+Private Sub EnableButtons()
+Dim tmpButton As CommandButton
+cmdConnectOLEDB.Enabled = False
+cmdConnectODBC.Enabled = False
+cmdConnectDataShape.Enabled = False
+cmdHierarchy.Enabled = False
+lblHierScript.ForeColor = vbGrayText
+cmdSample.Enabled = False
+cmdConnectInfo.Enabled = True
+cmdVersionInfo.Enabled = True
+cmdDisconnect.Enabled = True
+cmdRefresh.Enabled = True
+cmdSQLConnection.Enabled = True
+cmdSQLRecordset.Enabled = True
+cmdSQLCommand.Enabled = True
+For Each tmpButton In cmdSQLSamples
+tmpButton.Enabled = True
+Next
+cmdCommit.Enabled = False
+cmdRollback.Enabled = False
+chkAutoCommit.Enabled = True
+CheckAvailableStoredProcedures
+For Each tmpButton In cmdUDFs
+tmpButton.Enabled = True
+Next
+End Sub
+Private Sub ShowConnectionInstruction()
+MsgBox "Connect to sample database succeeded!" & vbCr & _
+"You may choose a Tab for specific functional demonstration," & vbCr & _
+"or press one of the info buttons for more information.", _
+vbOKOnly, "Instruction"
+End Sub
+Private Sub cmdDisconnect_Click()
+On Error GoTo cmdDisconnect_Error
+Set rst = Nothing
+Set DataGridSQL.DataSource = Nothing
+Set hflxRecords.DataSource = Nothing
+DataGridSQL.ClearFields
+hflxRecords.Clear
+picBlob.Visible = False
+txtClob.Text = ""
+txtEmpno.Text = ""
+txtLastname.Text = ""
+txtFirstname.Text = ""
+AdodcLob.Caption = ""
+chkAutoCommit.Value = 1
+DataGridSP.Visible = False
+txtSPResult.Text = ""
+txtUDF.Text = ""
+hflxGridUDF.Clear
+sbrStatus.Panels(1).Text = Disconnect(con)
+Dim tmpButton As CommandButton
+cmdConnectOLEDB.Enabled = True
+cmdConnectODBC.Enabled = True
+cmdConnectDataShape.Enabled = True
+cmdSample.Enabled = True
+cmdDisconnect.Enabled = False
+cmdHierarchy.Enabled = False
+lblHierScript.ForeColor = vbGrayText
+cmdConnectInfo.Enabled = False
+cmdVersionInfo.Enabled = False
+cmdSQLConnection.Enabled = False
+cmdSQLRecordset.Enabled = False
+cmdSQLCommand.Enabled = False
+For Each tmpButton In cmdSQLSamples
+tmpButton.Enabled = False
+Next
+cmdCommit.Enabled = False
+cmdRollback.Enabled = False
+chkAutoCommit.Enabled = False
+cmdRefresh.Enabled = False
+cmdBLOB.Enabled = False
+cmdCLOB.Enabled = False
+AdodcLob.Enabled = False
+cmdSPCall.Enabled = False
+CheckAvailableStoredProcedures
+For Each tmpButton In cmdUDFs
+tmpButton.Enabled = False
+Next
+If wShowInstructions = vbYes Then
+MsgBox "Sample Database is disconnected!" & vbCr & _
+"You may now choose one of the connections again.", _
+vbOKOnly, "Instruction"
+End If
+cmdDisconnect_Exit:
+Set rst = Nothing
+Set con = Nothing
+Exit Sub
+cmdDisconnect_Error:
+sbrStatus.Panels(1).Text = "ERROR: " & Err.Description
+If wShowInstructions = vbYes Then
+MsgBox "Disconnect from sample database failed!" & vbCr & _
+Err.Description & vbCr & _
+"Please correct the problem and try again.", _
+vbOKOnly + vbCritical, "Instruction"
+End If
+Resume cmdDisconnect_Exit
+End Sub
+Private Sub cmdConnectInfo_Click()
+sbrStatus.Panels(1).Text = ""
+MsgBox ConnectInfo(con), vbOKOnly, "Connection Information"
+End Sub
+Private Sub cmdVersionInfo_Click()
+sbrStatus.Panels(1).Text = ""
+MsgBox VersionInfo(con), vbOKOnly, "Versions Information"
+End Sub
+Private Sub cmdExit_Click()
+chkAutoCommit.Value = 1
+Set hflxRecords.DataSource = Nothing
+Set DataGridSQL.DataSource = Nothing
+Set rst = Nothing
+Set con = Nothing
+Unload Me
+End Sub
+Private Sub cmdSample_Click()
+On Error GoTo cmdSample_Error
+sbrStatus.Panels(1).Text = "Creating the sample database, please wait..."
+CreateSample
+sbrStatus.Panels(1).Text = "Create the sample database is done."
+If wShowInstructions = vbYes Then
+MsgBox "The sample database has been created!" & vbCr & _
+"You may now choose one of the connections.", _
+vbOKOnly, "Instruction"
+End If
+cmdSample_Exit:
+Exit Sub
+cmdSample_Error:
+sbrStatus.Panels(1).Text = "ERROR: " & Err.Description
+If wShowInstructions = vbYes Then
+MsgBox "Create sample database failed!" & vbCr & _
+Err.Description & vbCr & _
+"Please correct the problem and try again.", _
+vbOKOnly + vbCritical, "Instruction"
+End If
+Resume cmdSample_Exit
+End Sub
+Private Sub cmdSQLConnection_Click()
+On Error GoTo cmdSQLConnection_Error
+DataGridSQL.ClearFields
+Set rst = ExecuteSQLConnect(txtSQL, strMsgText, con)
+Set DataGridSQL.DataSource = rst
+sbrStatus.Panels(1).Text = strMsgText
+cmdSQLConnection_Exit:
+Exit Sub
+cmdSQLConnection_Error:
+sbrStatus.Panels(1).Text = "ERROR: " & Err.Description
+Resume cmdSQLConnection_Exit
+End Sub
+Private Sub cmdSQLCommand_Click()
+On Error GoTo cmdSQLCommand_Error
+DataGridSQL.ClearFields
+Set rst = ExecuteSQLCommand(txtSQL, strMsgText, con)
+Set DataGridSQL.DataSource = rst
+sbrStatus.Panels(1).Text = strMsgText
+cmdSQLCommand_Exit:
+Exit Sub
+cmdSQLCommand_Error:
+sbrStatus.Panels(1).Text = "ERROR: " & Err.Description
+Resume cmdSQLCommand_Exit
+End Sub
+Private Sub cmdSQLRecordset_Click()
+On Error GoTo cmdSQLRecordset_Error
+DataGridSQL.ClearFields
+Set rst = ExecuteSQLRecordset(txtSQL, strMsgText, con)
+Set DataGridSQL.DataSource = rst
+DataGridSQL.SetFocus
+sbrStatus.Panels(1).Text = strMsgText
+cmdSQLRecordset_Exit:
+Exit Sub
+cmdSQLRecordset_Error:
+sbrStatus.Panels(1).Text = "ERROR: " & Err.Description
+Resume cmdSQLRecordset_Exit
+End Sub
+Private Sub DataGridSQL_Error(ByVal DataError As Integer, Response As Integer)
+If wShowInstructions = vbYes Then
+MsgBox _
+"If errors keep happening," & vbCr & _
+"You may press [Disconnect] to clear errors.", _
+vbOKOnly, "Instruction"
+End If
+sbrStatus.Panels(1).Text = "Press [Disconnect] to clear continuous errors."
+End Sub
+Private Sub cmdSQLSamples_Click(Index As Integer)
+Select Case Index
+Case 0
+txtSQL.Text = "SELECT * FROM employee"
+Case 1
+txtSQL.Text = "SELECT firstnme, job, hiredate" & vbCrLf & _
+"FROM employee" & vbCrLf & _
+"WHERE workdept = 'D11'" & vbCrLf & _
+"ORDER BY hiredate"
+Case 2
+txtSQL.Text = "SELECT firstnme, job, salary + comm AS pay" & vbCrLf & _
+"FROM employee" & vbCrLf & _
+"WHERE (salary + comm) < 25000" & vbCrLf & _
+"ORDER BY pay DESC"
+Case 3
+txtSQL.Text = "SELECT workdept," & vbCrLf & _
+"       MAX(salary) AS maximum," & vbCrLf & _
+"       MIN(salary) As minimum" & vbCrLf & _
+"FROM employee GROUP BY workdept ORDER BY workdept"
+Case Else
+End Select
+End Sub
+Private Sub cmdSQLSamples_GotFocus(Index As Integer)
+Set DataGridSQL.DataSource = Nothing
+sbrStatus.Panels(1).Text = ""
+End Sub
+Private Sub chkAutoCommit_Click()
+On Error GoTo chkAutoCommit_Error
+If chkAutoCommit.Value = 0 Then
+AutoCommitOff con
+cmdCommit.Enabled = True
+cmdRollback.Enabled = True
+sbrStatus.Panels(1).Text = "AutoCommit mode is OFF."
+Else
+strMsgText = "Commit all previous changes (if any)?"
+If MsgBox(strMsgText, vbYesNo, "Turn Autocommit ON") = vbYes Then
+Commit con
+Else
+Rollback con
+End If
+cmdCommit.Enabled = False
+cmdRollback.Enabled = False
+sbrStatus.Panels(1).Text = "AutoCommit mode is ON."
+End If
+chkAutoCommit_Exit:
+RefreshDataGridSQL
+Exit Sub
+chkAutoCommit_Error:
+sbrStatus.Panels(1).Text = "ERROR: " & Err.Description
+Resume chkAutoCommit_Exit
+End Sub
+Private Sub cmdCommit_Click()
+On Error GoTo cmdCommit_Error
+If chkAutoCommit.Value = 0 Then
+Commit con
+AutoCommitOff con
+End If
+sbrStatus.Panels(1).Text = "Commit transactions succeeded."
+cmdCommit_Exit:
+RefreshDataGridSQL
+Exit Sub
+cmdCommit_Error:
+sbrStatus.Panels(1).Text = "ERROR: " & Err.Description
+Resume cmdCommit_Exit
+End Sub
+Private Sub cmdRollback_Click()
+On Error GoTo cmdRollback_Error
+If chkAutoCommit.Value = 0 Then
+Rollback con
+AutoCommitOff con
+End If
+sbrStatus.Panels(1).Text = "Rollback transactions succeeded."
+cmdRollback_Exit:
+RefreshDataGridSQL
+Exit Sub
+cmdRollback_Error:
+sbrStatus.Panels(1).Text = "ERROR: " & Err.Description
+Resume cmdRollback_Exit
+End Sub
+Private Sub RefreshDataGridSQL()
+If Not DataGridSQL.DataSource Is Nothing Then
+Set DataGridSQL.DataSource = Nothing
+rst.Requery
+Set DataGridSQL.DataSource = rst
+End If
+End Sub
+Private Sub cmdHierarchy_Click()
+hflxRecords.Clear
+Set hflxRecords.DataSource = ExecuteHSQL(strMsgText, con)
+sbrStatus.Panels(1).Text = strMsgText
+End Sub
+Private Sub cmdRefresh_Click()
+On Error GoTo cmdRefresh_Error
+GetLOB con, AdodcLob
+AdodcLob.Refresh
+txtClob.DataField = "RESUME"
+Set txtClob.DataSource = AdodcLob
+picBlob.DataField = "PICTURE"
+Set picBlob.DataSource = AdodcLob
+txtEmpno.DataField = "EMPNO"
+Set txtEmpno.DataSource = AdodcLob
+txtLastname.DataField = "LASTNAME"
+Set txtLastname.DataSource = AdodcLob
+txtFirstname.DataField = "FIRSTNME"
+Set txtFirstname.DataSource = AdodcLob
+cmdBLOB.Enabled = True
+cmdCLOB.Enabled = True
+AdodcLob.Enabled = True
+cmdRefresh_Exit:
+Exit Sub
+cmdRefresh_Error:
+sbrStatus.Panels(1).Text = "ERROR: " & Err.Description
+AdodcLob.Enabled = False
+cmdBLOB.Enabled = False
+cmdCLOB.Enabled = False
+Resume cmdRefresh_Exit
+End Sub
+Private Sub cmdBLOB_Click()
+picBlob.Visible = True
+End Sub
+Private Sub cmdCLOB_Click()
+picBlob.Visible = False
+End Sub
+Private Sub AdodcLob_MoveComplete(ByVal adReason As ADODB.EventReasonEnum, ByVal pError As ADODB.Error, adStatus As ADODB.EventStatusEnum, ByVal pRecordset As ADODB.Recordset)
+AdodcLob.Caption = AdodcLob.Recordset.AbsolutePosition
+End Sub
+Private Sub CheckAvailableStoredProcedures()
+Dim optStoredProcedure As Variant
+Dim proToken As ADOX.Procedure
+Dim pros As ADOX.Procedures
+Set pros = GetProcedures(con)
+For Each optStoredProcedure In optStoredProcedures
+optStoredProcedure.Enabled = False
+optStoredProcedure.Value = False
+cmdShowSecondRS.Visible = False
+cmdSPCall.Enabled = False
+Next
+For Each proToken In pros
+Select Case proToken.Name
+Case "OUT_LANGUAGE"
+optStoredProcedures(0).Enabled = True
+Case "IN_PARAMS"
+optStoredProcedures(1).Enabled = True
+Case "OUT_PARAM"
+optStoredProcedures(2).Enabled = True
+Case "INOUT_PARAM"
+optStoredProcedures(3).Enabled = True
+Case "ALL_DATA_TYPES"
+optStoredProcedures(4).Enabled = True
+Case "DECIMAL_TYPE"
+optStoredProcedures(5).Enabled = True
+Case "ONE_RESULT_SET"
+optStoredProcedures(6).Enabled = True
+Case "TWO_RESULT_SETS"
+optStoredProcedures(7).Enabled = True
+Case "CLOB_EXTRACT"
+optStoredProcedures(8).Enabled = True
+Case "DB2SQL_EXAMPLE"
+optStoredProcedures(9).Enabled = True
+Case "DBINFO_EXAMPLE"
+optStoredProcedures(10).Enabled = True
+Case "MAIN_EXAMPLE"
+optStoredProcedures(11).Enabled = True
+Case Else
+End Select
+Next proToken
+For Each optStoredProcedure In optStoredProcedures
+If optStoredProcedure.Enabled Then
+cmdSPCall.Enabled = True
+Exit For
+End If
+Next
+Set pros = Nothing
+Set proToken = Nothing
+End Sub
+Private Sub optStoredProcedures_Click(Index As Integer)
+sbrStatus.Panels(1).Text = ""
+txtSPResult.Text = ""
+If DataGridSP.Visible Then
+DataGridSP.Visible = False
+Set DataGridSP.DataSource = Nothing
+DataGridSP.ClearFields
+cmdShowSecondRS.Visible = False
+End If
+cmdSPCall.SetFocus
+End Sub
+Private Sub cmdSPCall_Click()
+Dim optStoredProcedure As Variant
+Dim strParam As String
+On Error GoTo cmdSPCall_Error
+For Each optStoredProcedure In optStoredProcedures
+If optStoredProcedure.Value = True Then
+Exit For
+End If
+Next
+If IsObject(optStoredProcedure) Then
+sbrStatus.Panels(1).Text = ""
+txtSPResult.Text = ""
+DataGridSP.Visible = False
+Else
+sbrStatus.Panels(1).Text = "ERROR: No stored procedure selected."
+Exit Sub
+End If
+Select Case optStoredProcedure.Caption
+Case "OUT_LANGUAGE"
+txtSPResult.Text = _
+"Stored procedures are implemented in LANGUAGE " & _
+CallSP_OUT_LANGUAGE(con)
+Case "IN_PARAMS"
+con.BeginTrans
+CallInParameters
+con.RollbackTrans
+Case "OUT_PARAM"
+txtSPResult.Text = _
+"Stored Procedure OUT_PARAM calculated median was " & _
+CallSP_OUT_PARAM(con)
+Case "INOUT_PARAM"
+CallInOutParameter
+Case "ALL_DATA_TYPES"
+CallAllDataTypes
+Case "DECIMAL_TYPE"
+txtSPResult.Text = _
+"Stored Procedure DECIMAL_TYPE returned value was " & _
+CallSP_DECIMAL_TYPE(con)
+Case "CLOB_EXTRACT"
+txtSPResult.Text = _
+"Resume section returned from calling CLOB_EXTRACT:" & _
+vbCrLf & vbCrLf & CallSP_CLOB_EXTRACT(con)
+Case "ONE_RESULT_SET"
+Set DataGridSP.DataSource = CallSP_ONE_RESULT_SET(con)
+DataGridSP.Visible = True
+Case "TWO_RESULT_SETS"
+Set rst = CallSP_TWO_RESULT_SETS(con)
+Set DataGridSP.DataSource = rst
+DataGridSP.Visible = True
+cmdShowSecondRS.Visible = True
+cmdShowSecondRS.Enabled = True
+cmdShowSecondRS.SetFocus
+Case "DB2SQL_EXAMPLE"
+strParam = "CLERK"
+txtSPResult.Text = _
+"Stored Procedure DB2SQL_EXAMPLE returned value was " & _
+CallSP_DB2SQL_EXAMPLE(con, strParam) & _
+vbCrLf & "for the job of " & strParam & "."
+Case "DBINFO_EXAMPLE"
+CallDbInfo
+Case "MAIN_EXAMPLE"
+strParam = "DESIGNER"
+txtSPResult.Text = _
+"Stored Procedure MAIN_EXAMPLE returned value was " & _
+CallSP_DB2SQL_EXAMPLE(con, strParam) & _
+vbCrLf & "for the job of " & strParam & "."
+End Select
+sbrStatus.Panels(1).Text = _
+"Stored Procedure " & optStoredProcedure.Caption & _
+" was called successfully."
+cmdSPCall_Exit:
+Exit Sub
+cmdSPCall_Error:
+sbrStatus.Panels(1).Text = "ERROR: " & Err.Description
+Resume cmdSPCall_Exit
+End Sub
+Private Sub cmdShowSecondRS_Click()
+Set DataGridSP.DataSource = rst.NextRecordset
+cmdShowSecondRS.Enabled = False
+cmdSPCall.SetFocus
+End Sub
+Private Sub CallInParameters()
+Dim strSQL As String
+strSQL = "SELECT SUM(salary) FROM employee WHERE workdept = 'E11'"
+Set rst = ExecuteSQLCommand(strSQL, strMsgText, con)
+txtSPResult.Text = "Before calling IN_PARAMS, " & vbCrLf & _
+"Sum of salaries for dept. E11 = " & _
+rst.Fields(0).Value & vbCrLf & vbCrLf
+CallSP_IN_PARAMS con
+txtSPResult.Text = txtSPResult.Text & _
+"SAMPLE Stored Procedure IN_PARAMS was called." & vbCrLf & vbCrLf
+Set rst = ExecuteSQLCommand(strSQL, strMsgText, con)
+txtSPResult.Text = txtSPResult.Text & _
+"After calling IN_PARAMS, " & vbCrLf & _
+"Sum of salaries for dept. E11 = " & _
+rst.Fields(0).Value & vbCrLf
+Set rst = Nothing
+strMsgText = ""
+End Sub
+Private Sub CallInOutParameter()
+Dim dblMedian As Double
+txtSPResult.Text = "Call OUT_PARAM to get the median."
+dblMedian = CallSP_OUT_PARAM(con)
+txtSPResult.Text = txtSPResult.Text & vbCrLf & _
+"Stored procedure returned successfully." & vbCrLf
+txtSPResult.Text = txtSPResult.Text & vbCrLf & _
+"Call INOUT_PARAM with the result just got."
+txtSPResult.Text = txtSPResult.Text & vbCrLf & _
+"New median returned from INOUT_PARAM = " & _
+CallSP_INOUT_PARAM(con, dblMedian)
+End Sub
+Private Sub CallAllDataTypes()
+Dim pms As ADODB.Parameters
+With txtSPResult
+.Text = "Call ALL_DATA_TYPES to get all types of data."
+Set pms = CallSP_ALL_DATA_TYPES(con)
+.Text = .Text & vbCrLf & "Stored procedure returned successfully."
+.Text = .Text & vbCrLf & _
+vbCrLf & "Value of SMALLINT = " & pms("SMALL").Value & _
+vbCrLf & "Value of INTEGER = " & pms("INTIN").Value & _
+vbCrLf & "Value of BIGINT = " & pms("BIGIN").Value & _
+vbCrLf & "Value of REAL = " & pms("REALIN").Value & _
+vbCrLf & "Value of DOUBLE = " & pms("DOUBLEIN").Value & _
+vbCrLf & "Value of CHAR(1) = " & pms("CHAROUT").Value & _
+vbCrLf & "Value of CHAR(15) = " & pms("CHARSOUT").Value & _
+vbCrLf & "Value of VARCHAR(12) = " & pms("VARCHAROUT").Value & _
+vbCrLf & "Value of DATE = " & pms("DATEOUT").Value & _
+vbCrLf & "Value of TIME = " & TimeValue(pms("TIMEOUT").Value)
+End With
+Set pms = Nothing
+End Sub
+Private Sub CallDbInfo()
+Dim pms As ADODB.Parameters
+Dim strJob As String
+txtSPResult.Text = "CALL stored procedure named DBINFO_EXAMPLE."
+strJob = "MANAGER"
+Set pms = CallSP_DBINFO_EXAMPLE(con, strJob)
+txtSPResult.Text = txtSPResult.Text & vbCrLf & _
+"Stored procedure returned successfully with SQLCODE = " & _
+pms("ERRORCODE").Value
+txtSPResult.Text = txtSPResult.Text & vbCrLf & _
+"Average salary for job " & strJob & " = " & pms("SALARY").Value
+txtSPResult.Text = txtSPResult.Text & vbCrLf & _
+"Database name from OUT parameter = " & Trim$(pms("DBNAME").Value)
+txtSPResult.Text = txtSPResult.Text & vbCrLf & _
+"Database version from OUT parameter = " & pms("DBVERSION").Value
+Set pms = Nothing
+End Sub
+Private Sub cmdUDFs_Click(Index As Integer)
+On Error GoTo cmdUDFs_Error
+sbrStatus.Panels(1).Text = ""
+txtUDF.Text = ""
+hflxGridUDF.ClearStructure
+Select Case cmdUDFs(Index).Caption
+Case "ScalarUDF"
+hflxGridUDF.ColWidth(3) = 2000
+Set hflxGridUDF.DataSource = CallUDFScalarUDF(strMsgText, con)
+Case "ClobScalarUDF"
+Set hflxGridUDF.DataSource = CallUDFClobScalarUDF(strMsgText, con)
+Case "ScratchpadScUDF"
+Set hflxGridUDF.DataSource = CallUDFScratchpadScUDF(strMsgText, con)
+Case "ScUDFReturningErr"
+Set hflxGridUDF.DataSource = CallUDFScUDFReturningErr(strMsgText, con)
+txtUDF.Text = strMsgText
+Err.Raise vbObjectError, , "See display area for detail."
+Case "SourcedColumnUDF"
+Set hflxGridUDF.DataSource = CallUDFSourcedColUDF(strMsgText, con)
+Case "TableUDF"
+Set hflxGridUDF.DataSource = CallUDFTableUDF(strMsgText, con)
+Case Else
+End Select
+txtUDF.Text = strMsgText
+sbrStatus.Panels(1).Text = _
+"Calling UDF " & cmdUDFs(Index).Caption & " was done."
+cmdUDFs_Exit:
+Exit Sub
+cmdUDFs_Error:
+sbrStatus.Panels(1).Text = "ERROR: " & Err.Description
+Resume cmdUDFs_Exit
+End Sub
+Private Sub Form_Load()
+tabMain.Tab = 0
+wShowInstructions = vbYes
+wShowInstructions = MsgBox("Would you like to have instructions?", _
+vbYesNo, "Welcome to the DB2 Visual Basic samples")
+End Sub
+Private Sub Form_Activate()
+If wShowInstructions = vbYes Then
+MsgBox _
+"Thank you for using instructions in this demonstration program!" & vbCr & vbCr & _
+"- Status messages are shown at the bottom of the working window;" & vbCr & _
+"- Buttons unavailable are being grayed out;" & vbCr & _
+"- SAMPLE database must be created if it doesn't exist;" & vbCr & _
+"- [Exit] button can be pressed at anytime to quit the program." & vbCr & vbCr & _
+"You may now choose one of the connections to begin the demonstraton.", _
+vbOKOnly, "Instruction"
+End If
+End Sub
+Private Sub tabMain_Click(intPreviousTab As Integer)
+Select Case tabMain.TabCaption(intPreviousTab)
+Case "Execute SQL"
+chkAutoCommit.Value = 1
+Set rst = Nothing
+Set DataGridSQL.DataSource = Nothing
+DataGridSQL.ClearFields
+Case "Hierarchical Data"
+Set hflxRecords.DataSource = Nothing
+hflxRecords.Clear
+Case "LOBs"
+txtClob.Text = ""
+txtEmpno.Text = ""
+txtLastname.Text = ""
+txtFirstname.Text = ""
+AdodcLob.Caption = ""
+AdodcLob.Enabled = False
+cmdBLOB.Enabled = False
+cmdCLOB.Enabled = False
+picBlob.Visible = False
+Case "Store Procedures"
+Set rst = Nothing
+Set DataGridSP.DataSource = Nothing
+DataGridSP.Visible = False
+DataGridSP.ClearFields
+cmdShowSecondRS.Visible = False
+txtSPResult.Text = ""
+Case "UDFs"
+txtUDF.Text = ""
+hflxGridUDF.Clear
+Case Else
+End Select
+sbrStatus.Panels(1).Text = ""
+End Sub
+Private Sub tabMain_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
+If wShowInstructions = vbYes Then
+If con Is Nothing Then  'no connection established
+MsgBox _
+"All funcitonal features require a valid connection.", _
+vbOKOnly + vbExclamation, "Instruction"
+Else
+Select Case tabMain.Caption
+Case "Execute SQL"
+MsgBox _
+"Please type a SQL statement into the text box, or," & vbCr & _
+"choose a preset one from the small Sample buttons, then," & vbCr & _
+"press one of the [Execute SQL] buttons to get the results." & vbCr & _
+"AutoCommit checkbox can be used to change the autocommit mode." & vbCr & vbCr & _
+"For more about the connection, command, and recordset objects," & vbCr & _
+"see the source code in the apExeSQL.bas module." & vbCr & vbCr & _
+"Note:" & vbCr & _
+"- The sample SQL statements can be edited." & vbCr & _
+"- Recordset results may be editable depending on the SQL statement issued.", _
+vbOKOnly, "Instruction"
+Case "Hierarchical Data"
+If InStr(con.Provider, "MSDataShape") Then
+MsgBox _
+"Please press the [Display] button to display hierarchical result.", _
+vbOKOnly, "Instruction"
+Else
+MsgBox _
+"Hierarchical Data is only available for a" & vbCr & _
+"valid connection with DataShape.", _
+vbOKOnly + vbExclamation, "Instruction"
+End If
+Case "LOBs"
+MsgBox _
+"After pressing the [Refresh Data] button;" & vbCr & _
+"Use arrow keys to manipulate results;" & vbCr & _
+"Press [Show Resume] button to display CLOBs;" & vbCr & _
+"Press [Show Picture] button to display BLOBs.", _
+vbOKOnly, "Instruction"
+Case "Store Procedures"
+MsgBox _
+"Choose an available stored procedure, then," & vbCr & _
+"press the [Call] button to get the results." & vbCr & vbCr & _
+"Note: To make them available, you first have to create and catalog" & vbCr & _
+"the stored procedures in the spserver stored procedure library.", _
+vbOKOnly, "Instruction"
+Case "UDFs"
+MsgBox _
+"Please choose one of the UDF buttons to show the usage.", _
+vbOKOnly, "Instruction"
+Case Else
+End Select
+End If
+End If                                                                                                          
+End Sub

@@ -1,0 +1,21 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<script type="text/javascript">
+</script>
+<style type="text/css">
+</style>
+</head>
+<body>
+<table cellSpacing=1 cellPadding=2 bgColor=black border=0>
+<tr bgColor=white>
+<td>First</td>
+<td>Last</td>
+<td>Email<td>
+</tr>
+</table>
+<tr bgColor=white>
+</tr>
+</table>
+</body>

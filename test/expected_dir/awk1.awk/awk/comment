@@ -1,0 +1,3 @@
+# prchecks - print formatted checks
+#   input:  number \t amount \t payee
+#   output: eight lines of text for preprinted check forms
