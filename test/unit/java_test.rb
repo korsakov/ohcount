@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class JavaTest < LingoTest
+class Ohcount::JavaTest < Ohcount::Test
 	def test_comments
 		lb = [Ohcount::LanguageBreakdown.new("java", "", "//comment", 0)]
 		assert_equal lb, Ohcount::parse(" //comment", "java")

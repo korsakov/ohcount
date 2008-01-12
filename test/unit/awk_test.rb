@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class AwkTest < LingoTest
+class Ohcount::AwkTest < Ohcount::Test
 	def test_comment
 		lb = [Ohcount::LanguageBreakdown.new("awk", "", "#comment", 0)]
 		assert_equal lb, Ohcount::parse(" #comment", "awk")

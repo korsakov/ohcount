@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class ErlangTest < LingoTest
+class Ohcount::ErlangTest < Ohcount::Test
 
 	def test_comment
 		lb = [Ohcount::LanguageBreakdown.new("erlang", "", "%%comment", 0)]

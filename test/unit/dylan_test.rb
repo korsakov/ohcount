@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class DylanTest < LingoTest
+class Ohcount::DylanTest < Ohcount::Test
 
 	def test_comment
 		lb = [Ohcount::LanguageBreakdown.new("dylan", "", "//comment", 0)]

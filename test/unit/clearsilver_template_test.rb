@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class ClearsilverTemplateTest < LingoTest
+class Ohcount::ClearsilverTemplateTest < Ohcount::Test
 
 	def test_comment
 		html_lb = Ohcount::LanguageBreakdown.new("html", "<?cs\n?>", "", 0)

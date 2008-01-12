@@ -12,8 +12,11 @@ module Ohcount
 	class Generator
 		include EscapeHelper
 
-		# The code generator that produces the 'polyglots.c' source file, which contains
-		# definitions for all the language states and transitions.
+		# This script loads all of the Monoglot and Polyglot files found in
+		# <tt>ext/ohcount_native/glots</tt>.
+		#
+		# These glots are used to generate the C file polyglots.c, which will define
+		# all of the languages parsers used by ohcount. Do not edit polyglots.c directly.
 		def generate
 
 			# Defines all of the monoglots and polyglots known to the parser.

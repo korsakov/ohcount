@@ -5,10 +5,11 @@ module Ohcount
 	# It generates C code which defines the states and transitions
 	# required for a complex parser which can span multiple languages.
 	#
-	# For instance, an HTML parser might understand Javascript, CSS, and
-	# basic HTML. All of these languages would be defined in Monoglots,
-	# then the overall HTML parser would be defined as a Polyglot
-	# spanning several Monoglots.
+	# For instance, an HTML file supports not just simple HTML, but also
+	# allows embedded spans of Javascript and CSS. HTML files are
+	# parsed by Ohcount::HtmlPolyglot, which handles transitions between
+	# individual Monoglots for HTML, Javascript, and CSS.
+	#
 	class Polyglot < Monoglot
 		# Transitions above and beyond those defined in the child Monoglots.
 		# These are transitions which move us from a state in one Monoglot to

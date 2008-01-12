@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class TclTest < LingoTest
+class Ohcount::TclTest < Ohcount::Test
 	def test_comment
 		lb = [Ohcount::LanguageBreakdown.new("tcl", "", "#comment", 0)]
 		assert_equal lb, Ohcount::parse(" #comment", "tcl")

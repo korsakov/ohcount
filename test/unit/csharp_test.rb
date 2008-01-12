@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class CSharpTest < LingoTest
+class Ohcount::CSharpTest < Ohcount::Test
 
 	def test_comment
 		lb = [Ohcount::LanguageBreakdown.new("csharp", "", "//comment", 0)]

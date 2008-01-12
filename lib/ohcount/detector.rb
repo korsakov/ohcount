@@ -1,4 +1,22 @@
-# Determines the language family (Monoglot or Polyglot) used by a source file.
+# The Detector determines which Monoglot or Polyglot should be
+# used to parse a source file.
+#
+# The Detector primarily uses filename extensions to identify languages.
+#
+# The hash EXTENSION_MAP maps a filename extension to the name of a parser.
+#
+# If a filename extension is not enough to determine the correct parser (for
+# instance, the *.m extension can indicate either a Matlab or Objective-C file),
+# then the EXTENSION_MAP hash will contain a symbol identifying a Ruby method
+# which will be invoked. This Ruby method can examine the file
+# contents and return the name of the correct parser.
+#
+# Many source files do not have an extension. The method +disambiguate_nil+
+# is called in these cases. The +file+ command line tool is used to determine
+# the type of file and select a parser.
+#
+# The Detector is covered by DetectorTest.
+#
 class Ohcount::Detector
 
 	module ContainsM
@@ -14,6 +32,16 @@ class Ohcount::Detector
 	#
 	# Returns nil if the language is not recognized or if the file does not
 	# contain any code.
+	#
+	# Example:
+	#
+	#   # List all C/C++ files in the 'src' directory
+	#   Dir.entries("src").each do |file|
+	#     context = Ohcount::SimpleFileContext.new(file)
+	#     polyglot = Ohcount::Detector.detect(context)
+	#     puts "#{file}" if polyglot == 'cncpp'
+	#   end
+	#
 	def self.detect(file_context)
 		# start with extension
 		polyglot = EXTENSION_MAP[File.extname(file_context.filename).downcase]
@@ -63,6 +91,9 @@ class Ohcount::Detector
 		ignore.include?(File.extname(filename))
 	end
 
+	# If an extension maps to a string, that string must be the name of a glot.
+	# If an extension maps to a Ruby symbol, that symbol must be the name of a
+	# Ruby method which will return the name of a glot.
 	EXTENSION_MAP = {
 		'.ada'  => "ada",
 		'.adb'  => "ada",

@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class VisualBasicTest < LingoTest
+class Ohcount::VisualBasicTest < Ohcount::Test
 	def test_comments
 		lb = [Ohcount::LanguageBreakdown.new("visualbasic", "", "'comment", 0)]
 		assert_equal lb, Ohcount::parse(" 'comment", "visualbasic")

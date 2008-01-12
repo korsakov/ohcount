@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class EmacsLispTest < LingoTest
+class Ohcount::EmacsLispTest < Ohcount::Test
 
 	def test_comment
 		lb = [Ohcount::LanguageBreakdown.new("emacslisp", "", ";;comment", 0)]

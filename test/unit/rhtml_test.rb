@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class RhtmlTest < LingoTest
+class Ohcount::RhtmlTest < Ohcount::Test
 
 	def test_comment
 		html_lb = Ohcount::LanguageBreakdown.new("html", "<%\n%>", "", 0)

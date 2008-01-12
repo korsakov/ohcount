@@ -87,9 +87,39 @@ static VALUE _language_breakdown_blanks(VALUE self) {
 }
 
 
-/*****************************************************************************
-                                Ohcount (Module)
-*****************************************************************************/
+/*
+ * Ohcount::parse is the main entry point to Ohcount.
+ *
+ * It takes two parameters: a string buffer, and a string Monoglot or Polyglot name.
+ * The buffer will be parsed using the specified glot.
+ *
+ * The method returns an array of LanguageBreakdown objects. One
+ * LanguageBreakdown will be returned for each language found in the buffer.
+ *
+ * You may optionally pass a block of Ruby code. As each line in the buffer
+ * is parsed, it will be yielded to the block, along with the language name
+ * and code semantic determined for that line.
+ *
+ * Ruby example:
+ *
+ *   # Print each line to the console, labeled as code or comments
+ *   buffer = File.read("helloworld.c")
+ *   results = Ohcount::parse(buffer, 'cncpp') do |language, semantic, line|
+ *     puts "#{semantic.to_s} #{line}"
+ *   end
+ *
+ * Another example:
+ *
+ *   # Print total lines of code
+ *   buffer = File.read("helloworld.c")
+ *   results = Ohcount::parse(buffer, 'cncpp')
+ *   results.each do |result|
+ *     puts "Lines of #{result.name} code: #{ result.code.split("\n").size }"
+ *   end
+ *
+ * You must pass the name of a glot appropriate to the buffer you want to parse.
+ * If you are not sure which glot is correct, use the Detector to pick a glot.
+ */
 static VALUE _ohcount_parse(VALUE self, VALUE buffer, VALUE polyglot_name_value) {
 
 	// find the polyglot to parse with
@@ -147,9 +177,6 @@ static VALUE _ohcount_polyglots(VALUE self) {
 }
 
 
-/*****************************************************************************
-                                Initialize Ruby
-*****************************************************************************/
 void Init_ohcount_native () {
 	rb_module_ohcount = rb_define_module("Ohcount");
 	rb_define_module_function(rb_module_ohcount, "parse", _ohcount_parse, 2);

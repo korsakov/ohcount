@@ -1,9 +1,24 @@
 require File.dirname(__FILE__) + '/../test_helper'
 include Ohcount
 
-
-class DetectorTest < LingoTest
-
+# DetectorTest covers all Detector scenarios.
+#
+# The directory <tt>test/detect_files</tt> contains test files for the detector.
+# These files are not used in parser testing; they are strictly for detection.
+#
+# ==== Manual Testing
+#
+# To manually test an addition to the detector, rebuild ohcount and run it against
+# your test file:
+#
+#   rake
+#   bin/ohcount --detect test/detect_files/my_file.ext
+#
+# If the detector is working, you should see the name of your expected language:
+#
+#   my_language  test/detect_files/my_file.ext
+#
+class Ohcount::DetectorTest < Ohcount::Test
 
 	def do_detect(filename, filenames = [])
     file_location = File.dirname(__FILE__) + "/../detect_files/" + filename
@@ -36,8 +51,8 @@ class DetectorTest < LingoTest
     assert_equal "python", do_detect("py_script", [])
     assert_equal "ruby", do_detect("ruby_script", [])
     assert_equal "shell", do_detect("bourne_again_script", [])
-    assert_equal "shell", do_detect("findup", [])
-    assert_equal "perl", do_detect("renrot", [])
+    assert_equal "shell", do_detect("bash_script", [])
+    assert_equal "perl", do_detect("perl_w", [])
     assert_equal "dmd", do_detect("d_script", [])
   end
 

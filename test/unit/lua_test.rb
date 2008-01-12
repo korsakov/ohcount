@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class LuaTest < LingoTest
+class Ohcount::LuaTest < Ohcount::Test
 
 	def test_comment
 		lb = [Ohcount::LanguageBreakdown.new("lua", "", "-- comment", 0)]

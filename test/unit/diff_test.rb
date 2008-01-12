@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class DiffTest < LingoTest
+class Ohcount::DiffTest < Ohcount::Test
 
 	def test_one
 		src_dir    = File.dirname(__FILE__) + '/../src_dir/'

@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class CssTest < LingoTest
+class Ohcount::CssTest < Ohcount::Test
 	def test_comment
 		lb = [Ohcount::LanguageBreakdown.new("css", "", "/*comment*/", 0)]
 		assert_equal lb, Ohcount::parse(" /*comment*/", "css")

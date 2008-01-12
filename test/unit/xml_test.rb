@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class XmlTest < LingoTest
+class Ohcount::XmlTest < Ohcount::Test
 	def test_comment
 		lb = [Ohcount::LanguageBreakdown.new("xml", "", "<!--comment-->", 0)]
 		assert_equal lb, Ohcount::parse(" <!--comment-->", "xml")

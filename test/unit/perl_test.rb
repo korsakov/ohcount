@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class PerlTest < LingoTest
+class Ohcount::PerlTest < Ohcount::Test
 	def test_comments
 		lb = [Ohcount::LanguageBreakdown.new("perl", "", "#comment", 0)]
 		assert_equal lb, Ohcount::parse(" #comment", "perl")

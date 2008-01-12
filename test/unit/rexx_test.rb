@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class RexxTest < LingoTest
+class Ohcount::RexxTest < Ohcount::Test
 
 	def test_comment
 		lb = [Ohcount::LanguageBreakdown.new("rexx", "", "/*comment*/", 0)]

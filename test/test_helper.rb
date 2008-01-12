@@ -5,7 +5,20 @@ require 'find'
 TEST_DIR = File.dirname(__FILE__)
 require TEST_DIR + '/../lib/ohcount'
 
-class LingoTest < Test::Unit::TestCase
+# Ohcount::Test is a base class which includes several helper methods for parser testing.
+# All unit tests in Ohcount should derive from this class.
+#
+# ==== Manual Testing
+#
+# To manually test a parser, rebuild ohcount and run it against your test file:
+# 
+#   rake
+#   bin/ohcount --annotate test/src_dir/my_file.ext
+# 
+# The +annotate+ option will emit your test file to the console, and each line will be
+# labeled as code, comment, or blank.
+#
+class Ohcount::Test < Test::Unit::TestCase
 
 	# For reasons unknown, the base class defines a default_test method to throw a failure.
 	# We override it with a no-op to prevent this 'helpful' feature.
@@ -24,6 +37,32 @@ class LingoTest < Test::Unit::TestCase
 		TEST_DIR + "/expected_dir"
 	end
 
+	# verify_parse runs a full test against a specified file. Detector is used to determine
+	# the correct parser, then the file is parsed and compared against expected results.
+	#
+	# The file to be parsed must be in directory <tt>test/src_dir</tt>.
+	#
+	# The expected results must be stored on disk in directory <tt>test/expected_dir</tt>. The format
+	# of the expected results on disk is a bit cumbersome. To create new test case, you must:
+	# 
+	# 1. Create a new source code file in <tt>test/src_dir</tt>.
+	#    For example, <tt>test/src_dir/my_file.ext</tt>
+	#
+	# 2. Next, create a new directory in <tt>test/expected_dir</tt> with
+	#    the same name as your test source code file. For example,
+	#    <tt>test/expected_dir/my_file.ext/</tt>
+	# 
+	# 3. Within this directory, create directories for each language used in the test source code
+	#    file. For example, <tt>test/expected_dir/my_file.ext/my_language/</tt>
+	# 
+	# 4. In this language subdirectory, create three files called +code+, +comment+, and +blanks+.
+	#    The +code+ file should contain all of the lines from <tt>my_file.ext</tt> which are code lines.
+	#    The +comment+ file should contain all comment lines.
+	#    The +blanks+ file is a bit different: it should contain a single line with an integer
+	#    which is the count of blank lines in the original file.
+	# 
+	# There are numerous examples in the test directories to help you out.
+	#
 	def verify_parse(src_filename, filenames = [])
 		# re-make the output directory
 		Dir.mkdir scratch_dir unless File.exists? scratch_dir

@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class AdaTest < LingoTest
+class Ohcount::AdaTest < Ohcount::Test
 	def test_comment
 		lb = [Ohcount::LanguageBreakdown.new("ada", "", "--comment", 0)]
 		assert_equal lb, Ohcount::parse(" --comment", "ada")

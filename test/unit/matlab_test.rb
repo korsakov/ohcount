@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class MatlabTest < LingoTest
+class Ohcount::MatlabTest < Ohcount::Test
 
 	def test_line_comment_1
 		lb = [Ohcount::LanguageBreakdown.new("matlab", "", "%comment", 0)]

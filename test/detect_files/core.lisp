@@ -1,2 +1,2 @@
-;;  This file is part of stumpwm.
-(in-package :stumpwm)
+;;  This file is part of testlib.
+(in-package :testlib)

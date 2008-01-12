@@ -84,7 +84,7 @@ end
 Rake::RDocTask.new do |rdoc|
 	rdoc.rdoc_dir = 'doc'
 	rdoc.options += RDOC_OPTS
-	rdoc.rdoc_files.add ['README' ,'COPYING', 'lib/**/*.rb', 'ext/**/*.rb']
+	rdoc.rdoc_files.add ['README' ,'COPYING', 'lib/**/*.rb', 'ext/**/*.rb', 'ext/**/*.c', 'test/test_helper.rb', 'test/unit/detector_test.rb']
 end
 
 Rake::TestTask.new :ohcount_unit_tests => ARCH_DL do |t|

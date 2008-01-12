@@ -20,6 +20,8 @@ module Ohcount
 		langs
 	end
 
+	protected
+
 	def self.blank_diffs(new_file, old_file)
 		# blanks are stored as a simple string
 		old_blanks = new_blanks = 0
