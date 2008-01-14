@@ -30,7 +30,7 @@ class OhcountCommandLine
 	def files
 		return @files if @files
 
-		@files = `find #{(self.paths.any? ? self.paths : ['.']).join(' ')} \! -path "*/.*" -type f -print`.split
+		@files = `find #{(self.paths.any? ? self.paths : ['.']).collect{ |s| "'#{s}'" }.join(' ')} \! -path "*/.*" -type f -print`.split("\n")
 		exit 1 unless @files.any?
 		@files
 	end
