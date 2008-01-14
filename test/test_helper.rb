@@ -44,23 +44,23 @@ class Ohcount::Test < Test::Unit::TestCase
 	#
 	# The expected results must be stored on disk in directory <tt>test/expected_dir</tt>. The format
 	# of the expected results on disk is a bit cumbersome. To create new test case, you must:
-	# 
+	#
 	# 1. Create a new source code file in <tt>test/src_dir</tt>.
 	#    For example, <tt>test/src_dir/my_file.ext</tt>
 	#
 	# 2. Next, create a new directory in <tt>test/expected_dir</tt> with
 	#    the same name as your test source code file. For example,
 	#    <tt>test/expected_dir/my_file.ext/</tt>
-	# 
+	#
 	# 3. Within this directory, create directories for each language used in the test source code
 	#    file. For example, <tt>test/expected_dir/my_file.ext/my_language/</tt>
-	# 
+	#
 	# 4. In this language subdirectory, create three files called +code+, +comment+, and +blanks+.
 	#    The +code+ file should contain all of the lines from <tt>my_file.ext</tt> which are code lines.
 	#    The +comment+ file should contain all comment lines.
 	#    The +blanks+ file is a bit different: it should contain a single line with an integer
 	#    which is the count of blank lines in the original file.
-	# 
+	#
 	# There are numerous examples in the test directories to help you out.
 	#
 	def verify_parse(src_filename, filenames = [])
