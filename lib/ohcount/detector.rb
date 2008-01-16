@@ -154,6 +154,7 @@ class Ohcount::Detector
 		'.sql'  => "sql",
 		'.tcl'  => "tcl",
 		'.tpl'  => "html",
+		'.vala' => "vala",
 		'.vb'   => "visualbasic",
 		'.vba'  => "visualbasic",
 		'.vbs'  => "visualbasic",

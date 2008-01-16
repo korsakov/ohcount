@@ -64,6 +64,7 @@ class Ohcount::SlocInfo
 			'shell'         => {:nice_name => 'shell script'     , :category => 0},
 			'sql'           => {:nice_name => 'SQL'              , :category => 0},
 			'tcl'           => {:nice_name => 'Tcl'              , :category => 0},
+			'vala'          => {:nice_name => 'Vala'             , :category => 0},
 			'visualbasic'   => {:nice_name => 'Visual Basic'     , :category => 0},
 			'xml'           => {:nice_name => 'XML'              , :category => 1},
 			'dmd'           => {:nice_name => 'D'                , :category => 0}

@@ -778,6 +778,33 @@ Polyglot TCL_POLYGLOT = {
 };
 
 /*****************************************************************************
+                                      vala
+*****************************************************************************/
+/* States */
+State VALA_CODE = { "VALA_CODE", "vala", semantic_code };
+State VALA_DQUOTE_STRING = { "VALA_DQUOTE_STRING", "vala", semantic_code };
+State VALA_SQUOTE_STRING = { "VALA_SQUOTE_STRING", "vala", semantic_code };
+State VALA_LINE_COMMENT = { "VALA_LINE_COMMENT", "vala", semantic_comment };
+State VALA_BLOCK_COMMENT = { "VALA_BLOCK_COMMENT", "vala", semantic_comment };
+State *VALA_STATES[] = { &VALA_CODE, &VALA_DQUOTE_STRING, &VALA_SQUOTE_STRING, &VALA_LINE_COMMENT, &VALA_BLOCK_COMMENT, NULL };
+/* Transitions */
+Transition VALA_CODE__LINE_COMMENT_0 = { "//", &VALA_CODE, &VALA_LINE_COMMENT, ToEatsToken, false };
+Transition VALA_LINE_COMMENT__RETURN = { "\n", &VALA_LINE_COMMENT, RETURN, FromEatsToken, false };
+Transition VALA_CODE__BLOCK_COMMENT_0 = { "/\\*", &VALA_CODE, &VALA_BLOCK_COMMENT, ToEatsToken, false };
+Transition VALA_BLOCK_COMMENT__RETURN_0 = { "\\*/", &VALA_BLOCK_COMMENT, RETURN, FromEatsToken, false };
+Transition VALA_CODE__DQUOTE_STRING = { "\"", &VALA_CODE, &VALA_DQUOTE_STRING, ToEatsToken, false };
+Transition VALA_DQUOTE_STRING__DQUOTE_STRING_ESC_SLASH = { "\\\\\\\\", &VALA_DQUOTE_STRING, &VALA_DQUOTE_STRING, ToEatsToken, true };
+Transition VALA_DQUOTE_STRING__DQUOTE_STRING_ESC = { "\\\\\"", &VALA_DQUOTE_STRING, &VALA_DQUOTE_STRING, ToEatsToken, true };
+Transition VALA_DQUOTE_STRING__RETURN = { "\"", &VALA_DQUOTE_STRING, RETURN, FromEatsToken, false };
+Transition *VALA_TRANSITIONS[] = { &VALA_CODE__LINE_COMMENT_0, &VALA_LINE_COMMENT__RETURN, &VALA_CODE__BLOCK_COMMENT_0, &VALA_BLOCK_COMMENT__RETURN_0, &VALA_CODE__DQUOTE_STRING, &VALA_DQUOTE_STRING__DQUOTE_STRING_ESC_SLASH, &VALA_DQUOTE_STRING__DQUOTE_STRING_ESC, &VALA_DQUOTE_STRING__RETURN, NULL};
+Polyglot VALA_POLYGLOT = {
+	"vala",
+			VALA_STATES,
+			VALA_TRANSITIONS,
+	NULL
+};
+
+/*****************************************************************************
                                   visualbasic
 *****************************************************************************/
 /* States */
@@ -1011,6 +1038,7 @@ Polyglot *POLYGLOTS[] = {
 	&SHELL_POLYGLOT,
 	&SQL_POLYGLOT,
 	&TCL_POLYGLOT,
+	&VALA_POLYGLOT,
 	&VISUALBASIC_POLYGLOT,
 	&XML_POLYGLOT,
 	&DMD_POLYGLOT,

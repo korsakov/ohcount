@@ -48,6 +48,7 @@ module Ohcount
 			shell = CMonoglot.new("shell",             '#',              nil,                false, false)
 			sql = CMonoglot.new("sql",                 ['--','//'],      [['{','}'], [e('/*'), e('*/')]], true, true)
 			tcl = CMonoglot.new("tcl",                 '#',              nil,                true,  false)
+			vala = CMonoglot.new("vala",               '//',             [e('/*'), e('*/')], true,  false)
 			visualbasic = CMonoglot.new("visualbasic", '\'',             nil,                true,  false)
 			xml = XmlMonoglot.new("xml")
 			html = HtmlPolyglot.new("html", javascript, css)
@@ -88,6 +89,7 @@ module Ohcount
 				shell ,
 				sql ,
 				tcl ,
+				vala ,
 				visualbasic ,
 				xml ,
 				dmd ,

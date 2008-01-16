@@ -1,0 +1,7 @@
+// Class which makes the event
+// Note the use of the signal keyword
+// Score Property
+// Class which handles the event
+// Monitor when a score changes in the game
+// Notice how this method signature matches the score_change signal's signature
+// Class to test it all
