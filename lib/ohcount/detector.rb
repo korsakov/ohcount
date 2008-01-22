@@ -118,6 +118,8 @@ class Ohcount::Detector
 		'.groovy'=> "groovy",
 		'.h'    => :disambiguate_h_header,
 		'.hpp'  => "cncpp",
+		'.h++'  => "cncpp",
+		'.hxx'  => "cncpp",
 		'.hh'   => "cncpp",
 		'.hrl'  => "erlang",
 		'.htm'  => "html",
