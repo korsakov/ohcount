@@ -97,6 +97,7 @@ class Ohcount::Detector
 	EXTENSION_MAP = {
 		'.ada'  => "ada",
 		'.adb'  => "ada",
+		'.ads'  => "ada",
 		'.asm'  => "assembler",
 		'.awk'  => "awk",
 		'.bas'  => "visualbasic",
