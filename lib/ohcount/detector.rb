@@ -120,6 +120,7 @@ class Ohcount::Detector
 		'.h'    => :disambiguate_h_header,
 		'.hpp'  => "cncpp",
 		'.h++'  => "cncpp",
+		'.hs'   => "haskell",
 		'.hxx'  => "cncpp",
 		'.hh'   => "cncpp",
 		'.hrl'  => "erlang",

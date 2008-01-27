@@ -34,6 +34,7 @@ module Ohcount
 			java = CMonoglot.new("java",               '//',             [e('/*'), e('*/')], true,  false)
 			javascript = CMonoglot.new("javascript",   '//',             [e('/*'), e('*/')], true,  true)
 			emacslisp = LineCommentMonoglot.new("emacslisp", ";")
+			haskell = CMonoglot.new("haskell",         '--',             [e('{-'), e('-}')], true, false)
 			lisp = LineCommentMonoglot.new("lisp", ";")
 			lua = CMonoglot.new("lua",                 '--',             nil,                true,  true)
 			matlab = CMonoglot.new("matlab",           '#|%',            ['{%', '%}'], false,true)
@@ -75,6 +76,7 @@ module Ohcount
 				java ,
 				javascript ,
 				emacslisp ,
+				haskell,
 				lisp ,
 				lua ,
 				matlab,
