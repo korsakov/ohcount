@@ -399,6 +399,33 @@ Polyglot EMACSLISP_POLYGLOT = {
 };
 
 /*****************************************************************************
+                                    haskell
+*****************************************************************************/
+/* States */
+State HASKELL_CODE = { "HASKELL_CODE", "haskell", semantic_code };
+State HASKELL_DQUOTE_STRING = { "HASKELL_DQUOTE_STRING", "haskell", semantic_code };
+State HASKELL_SQUOTE_STRING = { "HASKELL_SQUOTE_STRING", "haskell", semantic_code };
+State HASKELL_LINE_COMMENT = { "HASKELL_LINE_COMMENT", "haskell", semantic_comment };
+State HASKELL_BLOCK_COMMENT = { "HASKELL_BLOCK_COMMENT", "haskell", semantic_comment };
+State *HASKELL_STATES[] = { &HASKELL_CODE, &HASKELL_DQUOTE_STRING, &HASKELL_SQUOTE_STRING, &HASKELL_LINE_COMMENT, &HASKELL_BLOCK_COMMENT, NULL };
+/* Transitions */
+Transition HASKELL_CODE__LINE_COMMENT_0 = { "--", &HASKELL_CODE, &HASKELL_LINE_COMMENT, ToEatsToken, false };
+Transition HASKELL_LINE_COMMENT__RETURN = { "\n", &HASKELL_LINE_COMMENT, RETURN, FromEatsToken, false };
+Transition HASKELL_CODE__BLOCK_COMMENT_0 = { "{\\-", &HASKELL_CODE, &HASKELL_BLOCK_COMMENT, ToEatsToken, false };
+Transition HASKELL_BLOCK_COMMENT__RETURN_0 = { "\\-}", &HASKELL_BLOCK_COMMENT, RETURN, FromEatsToken, false };
+Transition HASKELL_CODE__DQUOTE_STRING = { "\"", &HASKELL_CODE, &HASKELL_DQUOTE_STRING, ToEatsToken, false };
+Transition HASKELL_DQUOTE_STRING__DQUOTE_STRING_ESC_SLASH = { "\\\\\\\\", &HASKELL_DQUOTE_STRING, &HASKELL_DQUOTE_STRING, ToEatsToken, true };
+Transition HASKELL_DQUOTE_STRING__DQUOTE_STRING_ESC = { "\\\\\"", &HASKELL_DQUOTE_STRING, &HASKELL_DQUOTE_STRING, ToEatsToken, true };
+Transition HASKELL_DQUOTE_STRING__RETURN = { "\"", &HASKELL_DQUOTE_STRING, RETURN, FromEatsToken, false };
+Transition *HASKELL_TRANSITIONS[] = { &HASKELL_CODE__LINE_COMMENT_0, &HASKELL_LINE_COMMENT__RETURN, &HASKELL_CODE__BLOCK_COMMENT_0, &HASKELL_BLOCK_COMMENT__RETURN_0, &HASKELL_CODE__DQUOTE_STRING, &HASKELL_DQUOTE_STRING__DQUOTE_STRING_ESC_SLASH, &HASKELL_DQUOTE_STRING__DQUOTE_STRING_ESC, &HASKELL_DQUOTE_STRING__RETURN, NULL};
+Polyglot HASKELL_POLYGLOT = {
+	"haskell",
+			HASKELL_STATES,
+			HASKELL_TRANSITIONS,
+	NULL
+};
+
+/*****************************************************************************
                                       lisp
 *****************************************************************************/
 /* States */
@@ -1004,6 +1031,27 @@ Polyglot CLEARSILVER_TEMPLATE_POLYGLOT = {
 	NULL
 };
 
+/*****************************************************************************
+                                      tex
+*****************************************************************************/
+/* States */
+State TEX_CODE = { "TEX_CODE", "tex", semantic_code };
+State TEX_DQUOTE_STRING = { "TEX_DQUOTE_STRING", "tex", semantic_code };
+State TEX_SQUOTE_STRING = { "TEX_SQUOTE_STRING", "tex", semantic_code };
+State TEX_LINE_COMMENT = { "TEX_LINE_COMMENT", "tex", semantic_comment };
+State TEX_BLOCK_COMMENT = { "TEX_BLOCK_COMMENT", "tex", semantic_comment };
+State *TEX_STATES[] = { &TEX_CODE, &TEX_DQUOTE_STRING, &TEX_SQUOTE_STRING, &TEX_LINE_COMMENT, &TEX_BLOCK_COMMENT, NULL };
+/* Transitions */
+Transition TEX_CODE__LINE_COMMENT_0 = { "%", &TEX_CODE, &TEX_LINE_COMMENT, ToEatsToken, false };
+Transition TEX_LINE_COMMENT__RETURN = { "\n", &TEX_LINE_COMMENT, RETURN, FromEatsToken, false };
+Transition *TEX_TRANSITIONS[] = { &TEX_CODE__LINE_COMMENT_0, &TEX_LINE_COMMENT__RETURN, NULL};
+Polyglot TEX_POLYGLOT = {
+	"tex",
+			TEX_STATES,
+			TEX_TRANSITIONS,
+	NULL
+};
+
 
 /*****************************************************************************
                                    POLYGLOTS
@@ -1024,6 +1072,7 @@ Polyglot *POLYGLOTS[] = {
 	&JAVA_POLYGLOT,
 	&JAVASCRIPT_POLYGLOT,
 	&EMACSLISP_POLYGLOT,
+	&HASKELL_POLYGLOT,
 	&LISP_POLYGLOT,
 	&LUA_POLYGLOT,
 	&MATLAB_POLYGLOT,
@@ -1047,5 +1096,6 @@ Polyglot *POLYGLOTS[] = {
 	&RHTML_POLYGLOT,
 	&JSP_POLYGLOT,
 	&CLEARSILVER_TEMPLATE_POLYGLOT,
+	&TEX_POLYGLOT,
 	NULL
 };

@@ -164,7 +164,8 @@ class Ohcount::Detector
 		'.vbs'  => "visualbasic",
 		'.xml'  => "xml",
 		'.d'		=> 'dmd',
-		'.di'		=> 'dmd'
+		'.di'		=> 'dmd',
+		'.tex'		=> 'tex'
 	}
 
 	protected

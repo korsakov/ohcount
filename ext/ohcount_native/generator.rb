@@ -59,6 +59,7 @@ module Ohcount
 			groovy = CMonoglot.new("groovy",           '//',             [e('/*'), e('*/')], true,  false)
 			clearsilver_template = ClearsilverTemplate.new("clearsilver_template", html, clearsilver)
 			dmd = DMonoglot.new('dmd')
+			tex = CMonoglot.new("tex",             '%',              nil,                false, false)
 
 			polyglots = [
 				ada ,
@@ -101,7 +102,8 @@ module Ohcount
 				php,
 				rhtml,
 				jsp,
-				clearsilver_template
+				clearsilver_template,
+				tex
 			]
 			File.open("polyglots.c", "w") do |io|
 

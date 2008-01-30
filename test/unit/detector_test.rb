@@ -39,6 +39,7 @@ class Ohcount::DetectorTest < Ohcount::Test
 		assert_equal "objective_c", do_detect("foo_objective_c.h", ["foo_objective_c.h, different_than_foo.m"])
 		assert_equal "php", do_detect("upper_case_php")
 		assert_equal "vala", do_detect("foo.vala")
+		assert_equal "tex", do_detect("foo.tex")
 		assert_equal "lisp", do_detect("core.lisp")
 		assert_equal "dmd", do_detect("foo.d")
 	end

@@ -67,7 +67,8 @@ class Ohcount::SlocInfo
 			'vala'          => {:nice_name => 'Vala'             , :category => 0},
 			'visualbasic'   => {:nice_name => 'Visual Basic'     , :category => 0},
 			'xml'           => {:nice_name => 'XML'              , :category => 1},
-			'dmd'           => {:nice_name => 'D'                , :category => 0}
+			'dmd'           => {:nice_name => 'D'                , :category => 0},
+			'tex'           => {:nice_name => 'TeX/LaTeX'        , :category => 1}
 	}
 
 	def language_nice_name
