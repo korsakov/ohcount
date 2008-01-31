@@ -52,6 +52,8 @@ module Ohcount
 			vala = CMonoglot.new("vala",               '//',             [e('/*'), e('*/')], true,  false)
 			visualbasic = CMonoglot.new("visualbasic", '\'',             nil,                true,  false)
 			xml = XmlMonoglot.new("xml")
+			xslt = XmlMonoglot.new("xslt")
+			xmlschema = XmlMonoglot.new("xmlschema")
 			html = HtmlPolyglot.new("html", javascript, css)
 			php = HtmlWithPhpPolyglot.new("php", html, phplanguage)
 			rhtml = RhtmlPolyglot.new("rhtml", html, ruby)
@@ -60,7 +62,6 @@ module Ohcount
 			clearsilver_template = ClearsilverTemplate.new("clearsilver_template", html, clearsilver)
 			dmd = DMonoglot.new('dmd')
 			tex = CMonoglot.new("tex",             '%',              nil,                false, false)
-
 			polyglots = [
 				ada ,
 				assembler ,
@@ -95,6 +96,8 @@ module Ohcount
 				vala ,
 				visualbasic ,
 				xml ,
+				xmlschema ,
+				xslt ,
 				dmd ,
 
 				# poly
