@@ -16,6 +16,7 @@ ARCH_DL  = "#{ARCH_DIR}/ohcount_native.#{CONFIG['DLEXT']}"
 
 CLEAN.include FileList["#{EXT_DIR}/*.{so,bundle,#{CONFIG['DLEXT']}}"],
 						  FileList["#{EXT_DIR}/*.o"],
+						  FileList["#{EXT_DIR}/polyglots.c"],
 						  FileList["#{EXT_DIR}/Makefile"]
 
 RDOC_OPTS = ['--quiet', '--title', 'Ohcount Reference', '--main', 'README', '--inline-source']
@@ -59,7 +60,7 @@ file ARCH_DL => EXT_DL do
 	cp EXT_DL, ARCH_DIR
 end
 
-file EXT_DL => FileList["#{EXT_DIR}/Makefile", "#{EXT_DIR}/*.{c,h,rb}"] do
+file EXT_DL => FileList["#{EXT_DIR}/polyglots.c", "#{EXT_DIR}/Makefile", "#{EXT_DIR}/*.{c,h,rb}"] do
 	cd EXT_DIR do
 		sh 'make'
 	end

@@ -3,3 +3,4 @@ Makefile
 *.log
 *.so
 *.bundle
+polyglots.c
