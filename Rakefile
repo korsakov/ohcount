@@ -21,10 +21,12 @@ CLEAN.include FileList["#{EXT_DIR}/*.{so,bundle,#{CONFIG['DLEXT']}}"],
 
 RDOC_OPTS = ['--quiet', '--title', 'Ohcount Reference', '--main', 'README', '--inline-source']
 
-PKG_FILES = %w(README Rakefile lib/ohcount.rb) +
+PKG_FILES = %w(README COPYING Rakefile lib/ohcount.rb) +
 	Dir.glob("ext/ohcount_native/*.{h,c,rb}") +
 	Dir.glob("ext/ohcount_native/glots/*.rb") +
 	Dir.glob("lib/ohcount/*.rb") +
+	Dir.glob("test/*") +
+	Dir.glob("test/**/*") +
 	Dir.glob("bin/*")
 
 SPEC =
@@ -40,7 +42,7 @@ SPEC =
 		s.email = "info@ohloh.net"
 		s.homepage = "http://www.ohloh.net"
 		s.files = PKG_FILES
-		s.require_paths = ["lib", ARCH_DIR]
+		s.require_paths = ["lib"]
 		s.extensions << 'ext/ohcount_native/extconf.rb'
 		s.bindir = 'bin'
 		s.executables = ['ohcount']
