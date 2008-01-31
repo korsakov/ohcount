@@ -165,7 +165,8 @@ class Ohcount::Detector
 		'.xml'  => "xml",
 		'.d'		=> 'dmd',
 		'.di'		=> 'dmd',
-		'.tex'		=> 'tex'
+		'.tex'  => 'tex',
+		'.latex'=> 'tex'
 	}
 
 	protected
