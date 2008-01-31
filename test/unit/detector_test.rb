@@ -40,6 +40,7 @@ class Ohcount::DetectorTest < Ohcount::Test
 		assert_equal "php", do_detect("upper_case_php")
 		assert_equal "vala", do_detect("foo.vala")
 		assert_equal "tex", do_detect("foo.tex")
+		assert_equal "xslt", do_detect("example.xsl")
 		assert_equal "lisp", do_detect("core.lisp")
 		assert_equal "dmd", do_detect("foo.d")
 	end

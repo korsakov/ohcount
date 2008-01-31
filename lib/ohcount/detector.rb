@@ -163,6 +163,8 @@ class Ohcount::Detector
 		'.vba'  => "visualbasic",
 		'.vbs'  => "visualbasic",
 		'.xml'  => "xml",
+		'.xsd'  => "xmlschema",
+		'.xsl'  => "xslt",
 		'.d'		=> 'dmd',
 		'.di'		=> 'dmd',
 		'.tex'		=> 'tex'
