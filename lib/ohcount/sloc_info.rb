@@ -1,4 +1,9 @@
-# a DTO class to hold the sloc information
+# A generic data object for returning parsing results from Ohcount to Ohloh.
+#
+# This class has the additional job of declaring a "nice" (human readable) name
+# for each language, as well as the category (procedural code vs. markup) for each
+# language. These features should probably live elsewhere, and are currently
+# not covered by unit tests.
 class Ohcount::SlocInfo
 	attr_reader :language
 	attr_accessor :code_added, :code_removed, :comments_added, :comments_removed, :blanks_added, :blanks_removed
@@ -70,13 +75,19 @@ class Ohcount::SlocInfo
 			'xmlschema'     => {:nice_name => 'XML Schema'       , :category => 1},
 			'xslt'          => {:nice_name => 'XSL Transformation',:category => 0},
 			'dmd'           => {:nice_name => 'D'                , :category => 0},
-			'tex'           => {:nice_name => 'TeX/LaTeX'        , :category => 1}
+			'tex'           => {:nice_name => 'TeX/LaTeX'        , :category => 1},
+			'haskell'       => {:nice_name => 'Haskell'          , :category => 0}
 	}
 
+	# Returns the human readable name for a language.
 	def language_nice_name
 		@@lang_map[self.language][:nice_name]
 	end
 
+	# Returns the category (procedural code vs. markup) for a language.
+	#
+	# Category 0 indicates procedural code (most languages).
+	# Category 1 indicates a markup file, such as XML.
 	def language_category
 		@@lang_map[self.language][:category]
 	end
