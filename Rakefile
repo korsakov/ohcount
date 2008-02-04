@@ -42,7 +42,7 @@ SPEC =
 		s.email = "info@ohloh.net"
 		s.homepage = "http://www.ohloh.net"
 		s.files = PKG_FILES
-		s.require_paths = ["lib"]
+		s.require_paths = ["lib", ARCH_DIR]
 		s.extensions << 'ext/ohcount_native/extconf.rb'
 		s.bindir = 'bin'
 		s.executables = ['ohcount']
