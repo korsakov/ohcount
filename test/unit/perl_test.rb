@@ -13,4 +13,8 @@ class Ohcount::PerlTest < Ohcount::Test
 	def test_comprehensive
 		verify_parse("perl1.pl")
 	end
+
+	def test_comprehensive
+		verify_parse("perl_module.pm")
+	end
 end
