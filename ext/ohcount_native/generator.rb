@@ -40,7 +40,7 @@ module Ohcount
 			matlab = CMonoglot.new("matlab",           '#|%',            ['{%', '%}'], false,true)
 			objective_c = CMonoglot.new("objective_c", '//',             [e('/*'), e('*/')], true,  false)
 			pascal = CMonoglot.new("pascal",           '//',             ['{','}'],          true,  false)
-			perl = CMonoglot.new("perl",               '#',              nil,                true,  true)
+			perl = CMonoglot.new("perl",               '#',              ['^=\\\\w+', '^=cut[ \t]*\\\\n'],  true,  true)
 			phplanguage = CMonoglot.new("php",         '//',             [e('/*'), e('*/')], true,  true, {:polyglot_name => 'phplanguage'})
 			python = PythonMonoglot.new("python")
 			ruby = CMonoglot.new("ruby",               '#',              nil,                true,  true)
