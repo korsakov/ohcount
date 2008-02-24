@@ -1,0 +1,5 @@
+C     Just a comment, whee.
+C     Many languages seem to count split lines as multiple lines,
+C     so we should, too.
+C     And I've never seen Fortran code that wraps strings; I'm
+C     not even sure fixed form allows it.

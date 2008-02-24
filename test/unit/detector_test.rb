@@ -31,6 +31,11 @@ class Ohcount::DetectorTest < Ohcount::Test
 		assert_equal 'objective_c', do_detect("t2.m")
 	end
 
+	def text_fortran_fixedfree
+		assert_equal 'fortranfixed', do_detect("fortranfixed.f")
+		assert_equal 'fortranfree', do_detect("fortranfree.f")
+	end
+
 	def test_detect_polyglot
 		assert_equal "cncpp", do_detect("foo.c")
 		assert_equal "ruby", do_detect("foo.rb")

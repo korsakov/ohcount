@@ -1,0 +1,5 @@
+program foo
+write (*,*) 1
++ + 1
+write (*,*) 'So we don''t bother testing odd string foo.'
+end

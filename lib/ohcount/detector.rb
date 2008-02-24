@@ -115,6 +115,17 @@ class Ohcount::Detector
 		'.cs'   => :disambiguate_cs,
 		'.dylan'=> "dylan",
 		'.erl'  => "erlang",
+		'.f'    => :disambiguate_fortran,
+		'.ftn'  => :disambiguate_fortran,
+		'.f77'  => :disambiguate_fortran,
+		'.f90'  => :disambiguate_fortran,
+		'.f95'  => :disambiguate_fortran,
+		'.f03'  => :disambiguate_fortran,
+		'.F'    => :disambiguate_fortran,
+		'.F77'  => :disambiguate_fortran,
+		'.F90'  => :disambiguate_fortran,
+		'.F95'  => :disambiguate_fortran,
+		'.F03'  => :disambiguate_fortran,
 		'.frx'  => "visualbasic",
 		'.groovy'=> "groovy",
 		'.h'    => :disambiguate_h_header,
@@ -264,6 +275,23 @@ class Ohcount::Detector
     buffer = file_context.contents
     return 'clearsilver_template' if lines_matching(file_context.contents, /\<\?cs/) > 0
     return 'csharp'
+  end
+
+  def self.disambiguate_fortran(file_context)
+    buffer = file_context.contents
+
+    definitely_not_f77 = /^ [^0-9 ]{5}/
+    return 'fortranfixed' if lines_matching(buffer, definitely_not_f77) > 0
+
+    free_form_continuation = /&\s*\n\s*&/m
+    return 'fortranfree' if buffer.match(free_form_continuation)
+
+    possibly_fixed = /^ [0-9 ]{5}/
+    contig_number = /^\s*\d+\s*$/
+    buffer.scan(possibly_fixed) {|leader|
+      return 'fortranfixed' if !(leader =~ contig_number) }
+    # Might as well be free-form.
+    return 'fortranfree'
   end
 
 	# Attempts to determine the Polyglot for files that do not have a

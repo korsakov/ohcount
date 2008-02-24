@@ -34,6 +34,8 @@ module Ohcount
 			java = CMonoglot.new("java",               '//',             [e('/*'), e('*/')], true,  false)
 			javascript = CMonoglot.new("javascript",   '//',             [e('/*'), e('*/')], true,  true)
 			emacslisp = LineCommentMonoglot.new("emacslisp", ";")
+			fortranfixed = CMonoglot.new("fortranfixed", '^[^ \n]',          nil,                true,  true, {:no_escape_dquote => true, :no_escape_squote => true})
+			fortranfree  = CMonoglot.new("fortranfree",  '!',            nil,                true,  true, {:no_escape_dquote => true, :no_escape_squote => true})
 			haskell = CMonoglot.new("haskell",         '--',             [e('{-'), e('-}')], true, false)
 			lisp = LineCommentMonoglot.new("lisp", ";")
 			lua = CMonoglot.new("lua",                 '--',             nil,                true,  true)
@@ -78,6 +80,8 @@ module Ohcount
 				java ,
 				javascript ,
 				emacslisp ,
+				fortranfixed ,
+				fortranfree ,
 				haskell,
 				lisp ,
 				lua ,
