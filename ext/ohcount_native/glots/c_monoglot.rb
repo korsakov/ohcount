@@ -27,6 +27,8 @@ module Ohcount
 		#
 		# * +no_escape_dquote+ - By default, the generated state machine will support \" as an escaped double-quote character
 		#   within a double-quoted string literal. To turn off this feature, specify <tt>:no_escape_dquote => true</tt>.
+		# * +no_escape_squote+ - Likewise, turns off recognition of support \' as an escaped single-quote character
+		#   within a single-quoted string literal.
 		#
 		def initialize(language, line_comment, block_comment, double_quote = true, single_quote = false, options = {})
 			@name = options[:polyglot_name] || language
@@ -58,8 +60,10 @@ module Ohcount
 
 			if single_quote
 				@transitions << Transition.new(language, "'", :code, :squote_string, :to, false)
-				@transitions << Transition.new(language, e('\\\\'), :squote_string, :squote_string, :from, true, "ESC_SLASH")
-				@transitions << Transition.new(language, e("\\'"), :squote_string, :squote_string, :from, true, "ESC")
+				unless options[:no_escape_squote]
+					@transitions << Transition.new(language, e('\\\\'), :squote_string, :squote_string, :from, true, "ESC_SLASH")
+					@transitions << Transition.new(language, e("\\'"), :squote_string, :squote_string, :from, true, "ESC")
+				end
 				@transitions << Transition.new(language, "'", :squote_string, :return, :from, false)
 			end
 

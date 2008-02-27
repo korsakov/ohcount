@@ -156,6 +156,7 @@ class Ohcount::Detector
 		'.scm'  => "scheme",
 		'.sh'   => "shell",
 		'.sql'  => "sql",
+		'.st'   => "smalltalk",
 		'.tcl'  => "tcl",
 		'.tpl'  => "html",
 		'.vala' => "vala",
