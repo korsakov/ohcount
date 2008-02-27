@@ -49,6 +49,7 @@ module Ohcount
 			rexx = CMonoglot.new("rexx",               nil,              [e('/*'), e('*/')], true,  true)
 			scheme = LineCommentMonoglot.new("scheme", ";")
 			shell = CMonoglot.new("shell",             '#',              nil,                false, false)
+			smalltalk = CMonoglot.new("smalltalk",            nil,             [e('"'), e('"')], false,  true, options = {:no_escape_squote => true})
 			sql = CMonoglot.new("sql",                 ['--','//'],      [['{','}'], [e('/*'), e('*/')]], true, true)
 			tcl = CMonoglot.new("tcl",                 '#',              nil,                true,  false)
 			vala = CMonoglot.new("vala",               '//',             [e('/*'), e('*/')], true,  false)
@@ -95,6 +96,7 @@ module Ohcount
 				rexx ,
 				scheme ,
 				shell ,
+				smalltalk ,
 				sql ,
 				tcl ,
 				vala ,
