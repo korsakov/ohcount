@@ -180,6 +180,7 @@ class Ohcount::Detector
 		'.d'		=> 'dmd',
 		'.di'		=> 'dmd',
 		'.tex'  => 'tex',
+		'.ltx'  => 'tex',
 		'.latex'=> 'tex'
 	}
 
