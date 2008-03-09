@@ -236,7 +236,7 @@ void parse_context_attribute(ParseContext *parse_context, char *at, bool process
 	}
 	State *last_state = parse_context->line_attributed_state;
 	if (last_state) {
-		log("[ohcount] - last_attirbuted_state: '%s'\n", last_state->name);
+		log("[ohcount] - last_attributed_state: '%s'\n", last_state->name);
 	}
 #endif
 
