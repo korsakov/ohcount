@@ -23,4 +23,8 @@ class Ohcount::CTest < Ohcount::Test
 		verify_parse("c_str.c")
 	end
 
+	def test_comprehensive_in
+		verify_parse("c2.h.in")
+	end
+
 end

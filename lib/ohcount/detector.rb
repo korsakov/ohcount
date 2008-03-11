@@ -137,6 +137,7 @@ class Ohcount::Detector
 		'.hrl'  => "erlang",
 		'.htm'  => "html",
 		'.html' => "html",
+		'.in'   => :disambiguate_in,
 		'.inc'  => :disambiguate_inc,
 		'.java' => "java",
 		'.js'   => "javascript",
@@ -264,6 +265,18 @@ class Ohcount::Detector
 	# True if the provided buffer includes a '?php' directive
   def self.php_instruction?(buffer)
     buffer =~ /\?php/
+  end
+
+	# For *.in files, checks the prior extension.
+	# Typically used for template files (eg Makefile.in, auto.c.in, etc).
+  def self.disambiguate_in(file_context)
+    # if the filename has an extension prior to the .in
+    if file_context.filename =~ /\..*\.in$/
+      filename = file_context.filename.gsub(/\.in$/, "")
+      context = Ohcount::SimpleFileContext.new(filename, file_context.filenames, file_context.contents, file_context.file_location)
+      return detect(context)
+    end
+    nil
   end
 
 	# For *.inc files, checks for a PHP class.
