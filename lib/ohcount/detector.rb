@@ -156,6 +156,8 @@ class Ohcount::Detector
 		'.pm'   => "perl",
 		'.perl' => "perl",
 		'.ph'   => "perl",
+		'.pod'  => "perl",
+		'.t'    => "perl",
 		'.py'   => "python",
 		'.rhtml'=> "rhtml",
 		'.rb'   => "ruby",
