@@ -37,7 +37,11 @@ class Ohcount::DetectorTest < Ohcount::Test
 	end
 
 	def test_detect_polyglot
-		assert_equal "cncpp", do_detect("foo.c")
+		assert_equal "c", do_detect("foo.c")
+		assert_equal "c", do_detect("uses_no_cpp.h")
+		assert_equal "cpp", do_detect("uses_cpp_headers.h")
+		assert_equal "cpp", do_detect("uses_cpp_stdlib_headers.h")
+		assert_equal "cpp", do_detect("uses_cpp_keywords.h")
 		assert_equal "ruby", do_detect("foo.rb")
     assert_equal "matlab", do_detect("foo_matlab.m", ["foo_matlab.m", "bar.m", "README"])
 		assert_equal "objective_c", do_detect("foo_objective_c.m", ["foo_objective_c.m", "bar.h", "README"])
@@ -52,7 +56,7 @@ class Ohcount::DetectorTest < Ohcount::Test
 	end
 
 	def test_upper_case_extensions
-		assert_equal "cncpp", do_detect("foo_upper_case.C")
+		assert_equal "cpp", do_detect("foo_upper_case.C")
 		assert_equal "ruby", do_detect("foo_upper_case.RB")
 	end
 

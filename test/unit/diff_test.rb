@@ -24,7 +24,7 @@ class Ohcount::DiffTest < Ohcount::Test
 		src_dir = File.dirname(__FILE__) + '/../src_dir/'
 		sloc_infos = Ohcount.diff_files(src_dir + 'diff2_old.c', src_dir + 'diff2_new.c')
 
-		c = Ohcount::SlocInfo.new('cncpp')
+		c = Ohcount::SlocInfo.new('c')
 		c.code_added,     c.code_removed     = [1,1]
 		c.comments_added, c.comments_removed = [1,1]
 

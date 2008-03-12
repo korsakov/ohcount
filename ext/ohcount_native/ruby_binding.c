@@ -104,7 +104,7 @@ static VALUE _language_breakdown_blanks(VALUE self) {
  *
  *   # Print each line to the console, labeled as code or comments
  *   buffer = File.read("helloworld.c")
- *   results = Ohcount::parse(buffer, 'cncpp') do |language, semantic, line|
+ *   results = Ohcount::parse(buffer, 'c') do |language, semantic, line|
  *     puts "#{semantic.to_s} #{line}"
  *   end
  *
@@ -112,7 +112,7 @@ static VALUE _language_breakdown_blanks(VALUE self) {
  *
  *   # Print total lines of code
  *   buffer = File.read("helloworld.c")
- *   results = Ohcount::parse(buffer, 'cncpp')
+ *   results = Ohcount::parse(buffer, 'c')
  *   results.each do |result|
  *     puts "Lines of #{result.name} code: #{ result.code.split("\n").size }"
  *   end
