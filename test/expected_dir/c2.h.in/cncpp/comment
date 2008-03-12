@@ -1,0 +1,4 @@
+/* c2.h.in. */
+/* Define to 1 if you have the <inttypes.h> header file. */
+/* Define to 1 if you have the `m' library (-lm). */
+/* Define to 1 if you have the ANSI C header files. */
