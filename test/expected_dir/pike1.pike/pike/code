@@ -1,0 +1,5 @@
+#!/bin/env pike
+int main(int argc, array(string) argv)
+{
+Stdio.stdout.write("Hello, world.\n");
+}
