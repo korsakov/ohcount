@@ -20,6 +20,7 @@ class Ohcount::CTest < Ohcount::Test
 
 	def test_comprehensive
 		verify_parse("c1.c")
+		verify_parse("c_str.c")
 	end
 
 end
