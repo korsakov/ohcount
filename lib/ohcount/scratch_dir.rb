@@ -30,14 +30,18 @@ class ScratchDir
 			end
 		end
 		if block_given?
-			yield @path
-			FileUtils.rm_rf(@path)
+			begin
+				yield @path
+			ensure
+				FileUtils.rm_rf(@path)
+			end
 		end
 	end
 end
 
 if $0 == __FILE__
 	path = nil
+
 	ScratchDir.new do |d|
 		path = d
 		STDOUT.puts "Created scratch direcory #{d}"
@@ -46,5 +50,16 @@ if $0 == __FILE__
 		end
 	end
 	raise RuntimeError.new("Directory wasn't cleaned up") if FileTest.directory?(path)
-	STDOUT.puts "Test passed."
+
+	begin
+		ScratchDir.new do |d|
+			path = d
+			STDOUT.puts "Created scratch direcory #{d}"
+			raise RuntimeError.new("This error should not prevent cleanup")
+		end
+	rescue
+	end
+	raise RuntimeError.new("Directory wasn't cleaned up") if FileTest.directory?(path)
+
+	STDOUT.puts "Tests passed."
 end
