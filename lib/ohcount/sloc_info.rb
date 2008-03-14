@@ -64,6 +64,7 @@ class Ohcount::SlocInfo
 			'pascal'        => {:nice_name => 'Pascal'           , :category => 0},
 			'perl'          => {:nice_name => 'Perl'             , :category => 0},
 			'php'           => {:nice_name => 'PHP'              , :category => 0},
+			'pike'          => {:nice_name => 'Pike'             , :category => 0},
 			'python'        => {:nice_name => 'Python'           , :category => 0},
 			'rexx'          => {:nice_name => 'rexx'             , :category => 0},
 			'ruby'          => {:nice_name => 'Ruby'             , :category => 0},

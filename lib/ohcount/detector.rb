@@ -23,6 +23,9 @@ class Ohcount::Detector
 		# A performance hack -- once we've checked for the presence of *.m files, the result
 		# is stored here to avoid checking twice.
 		attr_accessor :contains_m
+		# A performance hack -- once we've checked for the presence of *.pike and *.pmod files, the result
+		# is stored here to avoid checking twice.
+		attr_accessor :contains_pike_or_pmod
 	end
 
 	# The primary entry point for the detector.
@@ -159,6 +162,8 @@ class Ohcount::Detector
 		'.ph'   => "perl",
 		'.pod'  => "perl",
 		'.t'    => "perl",
+		'.pike' => "pike",
+		'.pmod' => "pike",
 		'.py'   => "python",
 		'.rhtml'=> "rhtml",
 		'.rb'   => "ruby",
@@ -235,20 +240,35 @@ class Ohcount::Detector
     unless defined?(file_context.filenames.contains_m)
       file_context.filenames.extend(ContainsM)
       file_context.filenames.contains_m = file_context.filenames.select { |a| a =~ /\.m$/ }.any?
+      file_context.filenames.contains_pike_or_pmod = file_context.filenames.select { |a| a =~ /\.p(ike|mod)$/ }.any?
     end
-    return 'cncpp' unless file_context.filenames.contains_m
-
-    # if the dir contains a matching *.m file, likely objective_c
-    if file_context.filename =~ /\.h$/
-      m_counterpart = file_context.filename.gsub(/\.h$/, ".m")
-      return 'objective_c' if file_context.filenames.include?(m_counterpart)
+    unless file_context.filenames.contains_pike_or_pmod
+      return 'cncpp' unless file_context.filenames.contains_m
     end
 
-    # ok - it just might be objective_c, let's check contents for objective_c signatures
-    objective_c_signatures = /(^\s*@interface)|(^\s*@end)/
-    objective_c += lines_matching(buffer, objective_c_signatures)
+    if file_context.filenames.contains_m
+      # if the dir contains a matching *.m file, likely objective_c
+      if file_context.filename =~ /\.h$/
+        m_counterpart = file_context.filename.gsub(/\.h$/, ".m")
+        return 'objective_c' if file_context.filenames.include?(m_counterpart)
+      end
 
-    return objective_c > 1 ? 'objective_c' : 'cncpp'
+      # ok - it just might be objective_c, let's check contents for objective_c signatures
+      objective_c_signatures = /(^\s*@interface)|(^\s*@end)/
+      objective_c += lines_matching(buffer, objective_c_signatures)
+
+      return 'objective_c' if objective_c > 1
+    end
+
+    if file_context.filenames.contains_pike_or_pmod
+      # The string "pike" and a selection of common Pike keywords.
+      pike_signatures = /([Pp][Ii][Kk][Ee])|(string )|(mapping)|(multiset)|(import )|(inherit )|(predef)/
+      pike = lines_matching(buffer, pike_signatures)
+      return 'pike' if pike > 0
+    end
+
+
+    return 'cncpp'
 	end
 
 	# Tests whether the provided buffer contains binary or text content.

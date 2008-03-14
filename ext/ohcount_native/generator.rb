@@ -44,6 +44,7 @@ module Ohcount
 			pascal = CMonoglot.new("pascal",           '//',             ['{','}'],          true,  false)
 			perl = CMonoglot.new("perl",               '#',              ['^=\\\\w+', '^=cut[ \t]*\\\\n'],  true,  true)
 			phplanguage = CMonoglot.new("php",         '//',             [e('/*'), e('*/')], true,  true, {:polyglot_name => 'phplanguage'})
+			pike = CMonoglot.new("pike",             '//',             [e('/*'), e('*/')], true,  false)
 			python = PythonMonoglot.new("python")
 			ruby = CMonoglot.new("ruby",               '#',              nil,                true,  true)
 			rexx = CMonoglot.new("rexx",               nil,              [e('/*'), e('*/')], true,  true)
@@ -90,6 +91,7 @@ module Ohcount
 				objective_c,
 				pascal ,
 				perl ,
+				pike ,
 				phplanguage ,
 				python ,
 				ruby ,
