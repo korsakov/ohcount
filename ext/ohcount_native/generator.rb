@@ -26,8 +26,9 @@ module Ohcount
 			bat = LineCommentMonoglot.new("bat",        '^\\\\s*(?i)REM(?-i)')
 			boo = PythonMonoglot.new("boo")
 			clearsilver = CMonoglot.new("clearsilver", '#',              nil,                true,  true)
-			cncpp = CMonoglot.new("cncpp",             '//',             [e('/*'), e('*/')], true,  true)
-			csharp = CMonoglot.new("csharp",           '//',             [e('/*'), e('*/')], true,  true)
+			c = CMonoglot.new("c",                     '//',             [e('/*'), e('*/')], true,  true)
+			cpp = CMonoglot.new("cpp",                 '//',             [e('/*'), e('*/')], true,  true)
+			csharp = CMonoglot.new("csharp",           '//',             [e('/*'), e('*/')], true,  false)
 			css = CMonoglot.new("css",                  nil,             [e('/*'), e('*/')], false,  false)
 			dylan = CMonoglot.new("dylan",             '//',             nil,                true,  false)
 			erlang = CMonoglot.new("erlang",           '%%',             nil,                true,  true)
@@ -73,7 +74,8 @@ module Ohcount
 				bat ,
 				boo ,
 				clearsilver ,
-				cncpp ,
+				c ,
+				cpp ,
 				csharp ,
 				css ,
 				dylan ,
