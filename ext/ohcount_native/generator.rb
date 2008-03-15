@@ -42,6 +42,8 @@ module Ohcount
 			lisp = LineCommentMonoglot.new("lisp", ";")
 			lua = CMonoglot.new("lua",                 '--',             nil,                true,  true)
 			matlab = CMonoglot.new("matlab",           '#|%',            ['{%', '%}'], false,true)
+			metafont = LineCommentMonoglot.new("metafont", "%");
+			metapost = LineCommentMonoglot.new("metapost", "%");
 			objective_c = CMonoglot.new("objective_c", '//',             [e('/*'), e('*/')], true,  false)
 			pascal = CMonoglot.new("pascal",           '//',             ['{','}'],          true,  true, {:no_escape_dquote => true, :no_escape_squote => true})
 			perl = CMonoglot.new("perl",               '#',              ['^=\\\\w+', '^=cut[ \t]*\\\\n'],  true,  true)
@@ -68,6 +70,11 @@ module Ohcount
 			clearsilver_template = ClearsilverTemplate.new("clearsilver_template", html, clearsilver)
 			dmd = DMonoglot.new('dmd')
 			tex = CMonoglot.new("tex",             '%',              nil,                false, false)
+			metapost_with_tex = Biglot.new('metapost_with_tex', metapost, tex, [], [
+				["verbatimtex", :metapost_code, :tex_code, :from, false, 'verbatim'],
+				["btex", :metapost_code, :tex_code, :from, false, 'btex'],
+				["etex", :tex_code, :return, :to, false, 'etex']
+			]);
 			polyglots = [
 				ada ,
 				assembler ,
@@ -92,6 +99,8 @@ module Ohcount
 				lisp ,
 				lua ,
 				matlab,
+				metafont,
+				metapost,
 				objective_c,
 				pascal ,
 				perl ,
@@ -118,7 +127,8 @@ module Ohcount
 				rhtml,
 				jsp,
 				clearsilver_template,
-				tex
+				tex,
+				metapost_with_tex
 			]
 			File.open("polyglots.c", "w") do |io|
 

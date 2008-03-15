@@ -62,6 +62,8 @@ class Ohcount::SlocInfo
 			'lisp'          => {:nice_name => 'Lisp'             , :category => 0},
 			'lua'           => {:nice_name => 'Lua'              , :category => 0},
 			'matlab'        => {:nice_name => 'Matlab'           , :category => 0},
+			'metafont'      => {:nice_name => 'MetaFont'         , :category => 1},
+			'metapost'      => {:nice_name => 'MetaPost'         , :category => 1},
 			'objective_c'   => {:nice_name => 'Objective C'      , :category => 0},
 			'pascal'        => {:nice_name => 'Pascal'           , :category => 0},
 			'perl'          => {:nice_name => 'Perl'             , :category => 0},
