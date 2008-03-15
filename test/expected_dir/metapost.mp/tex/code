@@ -1,0 +1,16 @@
+\documentclass{article}
+\newcommand{\uB}{\upshape{B\'ezier}}   % up: upright
+\newcommand{\iB}{\itshape{B\'ezier}}   % it: italic
+\newcommand{\lB}{\slshape{B\'ezier}}   % sl: slanted
+\newcommand{\cB}{\scshape{B\'ezier}}   % sc: small caps
+\newfont{\cyr}{wncyr10}
+\begin{document}
+\begin{tabular}{|r|l|l|l|l|}
+\hline
+\textbf{md} & upright      & italic       & slanted      & smallcaps   \\ 
+\hline
+rm          & \textrm{\uB} & \textrm{\iB} & \textrm{\lB} &\textrm{\cB} \\
+sf          & \textsf{\uB} & \textsf{\iB} &\textsf{\lB}  &\textsf{\cB} \\
+tt          & \texttt{\uB} & \texttt{\iB} &\texttt{\lB}  &\texttt{\cB} \\
+\hline
+\end{tabular}

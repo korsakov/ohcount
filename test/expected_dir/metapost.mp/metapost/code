@@ -1,0 +1,29 @@
+verbatimtex
+etex
+u:=25;                    % 25 = 25bp = 25 PostScript points = 30/72 in
+wi:=10;                   % width  in units u   
+he:=7;                    % height in units u
+hoehe:=he*u;              % height
+breite:=wi*u;             % width
+picture lab;
+beginfig(1)
+for i=0 upto he:
+draw (0, i*u)--(breite, i*u) withcolor .7white;
+endfor
+for j=0 upto wi:
+draw (j*u, 0)--(j*u, hoehe) withcolor .7white;
+endfor
+draw (0, 0)--(breite, 0)--(breite, hoehe)--(0, hoehe)--cycle;
+for i=0 upto 5:
+draw .5(u, u){dir 20i}..{dir 20i}(9.5u, 4u);
+endfor  
+lab:=\thelabel(
+btex 
+etex, 
+(.5breite, hoehe-1.5u)
+);
+unfill bbox lab;
+draw lab; 
+label.ulft(btex \cyr C\char24 rih, 08.09.2002 etex, (breite, 0));   
+endfig;
+end
