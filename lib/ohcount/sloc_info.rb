@@ -49,6 +49,7 @@ class Ohcount::SlocInfo
 			'clearsilver'   => {:nice_name => 'ClearSilver'      , :category => 0},
 			'csharp'        => {:nice_name => 'C#'               , :category => 0},
 			'css'           => {:nice_name => 'CSS'              , :category => 1},
+                        'dcl'           => {:nice_name => 'DCL'              , :category => 0},
 			'dylan'         => {:nice_name => 'Dylan'            , :category => 0},
 			'emacslisp'     => {:nice_name => 'Emacs Lisp'       , :category => 0},
 			'erlang'        => {:nice_name => 'Erlang'           , :category => 0},
