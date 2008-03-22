@@ -84,6 +84,12 @@ Ohloh source code line counter command line tool.
 
 -h, --help                      Display this message
 
+-i, --individual                Count lines of code per file
+
+   Count lines in all source code files within the given paths, and
+   emit a report of the lines of code, comments, and blanks in each
+   language per file.
+
 -s, --summary                   Count lines of code (default)
 
    Count lines in all source code files within the given paths, and
@@ -96,6 +102,48 @@ Ohloh source code line counter command line tool.
 
 HELP
 	end
+
+        def individual
+		STDOUT.write "Examining #{files.size} file(s)"
+
+                puts
+ 		puts "Ohloh Line Count".center(76)
+		puts "File                                             Language             Code    Comment  Comment %      Blank      Total"
+		puts "-----------------------------------------------  --------------  ---------  ---------  ---------  ---------  ---------"
+
+		files.each do |file|
+			counts = {}
+			languages_found=[]
+			sfc = Ohcount::SimpleFileContext.new(file, files)
+			polyglot = Ohcount::Detector.detect(sfc)
+			if polyglot
+				Ohcount::parse(sfc.contents, polyglot) do |language_name, semantic, line|
+					counts[language_name] ||={:code => 0, :comment => 0, :blank => 0}
+					counts[language_name][semantic] += 1
+					languages_found << language_name unless languages_found.include?(language_name)
+				end
+			end
+
+			counts.keys.sort{ |a,b| counts[b][:code] <=> counts[a][:code] }.each do |key|
+				write_individual_row(file, key, counts[key][:code],counts[key][:comment],counts[key][:blank])
+			end
+		end
+	end
+
+	def write_individual_row(file, name, code, comment, blank)
+		printf("%-48s", file)
+		printf(" %-14s",name)
+		printf(" %10d",code)
+		printf(" %10d",comment)
+		if comment+code > 0
+			printf(" %9.1f%%", comment.to_f / (comment+code).to_f * 100.0)
+		else
+			printf("           ")
+		end
+		printf(" %10d",blank)
+		printf(" %10d\n",code+comment+blank)
+	end
+
 
 	def summary
 		STDOUT.write "Examining #{files.size} file(s)"
@@ -180,6 +228,8 @@ HELP
 			self.subcommand = :detect
 		when '-a', '--annotate'
 			self.subcommand = :annotate
+		when '-i', '--individual'
+			self.subcommand = :individual
 		when '-?', '-h', '--help'
 			self.subcommand = :help
 		else
