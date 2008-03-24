@@ -30,7 +30,7 @@ module Ohcount
 			cpp = CMonoglot.new("cpp",                 '//',             [e('/*'), e('*/')], true,  true)
 			csharp = CMonoglot.new("csharp",           '//',             [e('/*'), e('*/')], true,  false)
 			css = CMonoglot.new("css",                  nil,             [e('/*'), e('*/')], false,  false)
-                        dcl = DclMonoglot.new("dcl")
+			dcl = DclMonoglot.new("dcl")
 			dylan = CMonoglot.new("dylan",             '//',             nil,                true,  false)
 			erlang = CMonoglot.new("erlang",           '%%',             nil,                true,  true)
 			java = CMonoglot.new("java",               '//',             [e('/*'), e('*/')], true,  false)

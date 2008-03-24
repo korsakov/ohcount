@@ -6,20 +6,20 @@ class Ohcount::DclTest < Ohcount::Test
 		assert_equal lb, Ohcount::parse("$!comment", "dcl")
 	end
 
-        def test_code
-                lb= [Ohcount::LanguageBreakdown.new("dcl", "$code", "", 0)]
-                assert_equal lb, Ohcount::parse("$code", "dcl")
-        end
+	def test_code
+		lb= [Ohcount::LanguageBreakdown.new("dcl", "$code", "", 0)]
+		assert_equal lb, Ohcount::parse("$code", "dcl")
+	end
 
-        def test_blank
-                lb=[Ohcount::LanguageBreakdown.new("dcl", "", "", 1)]
-                assert_equal lb, Ohcount::parse("$ ", "dcl")
-        end
+	def test_blank
+		lb=[Ohcount::LanguageBreakdown.new("dcl", "", "", 1)]
+		assert_equal lb, Ohcount::parse("$ ", "dcl")
+	end
 
-        def test_input_line
-                lb=[Ohcount::LanguageBreakdown.new("dcl", "input", "", 0)]
-                assert_equal lb, Ohcount::parse("input", "dcl")
-        end
+	def test_input_line
+		lb=[Ohcount::LanguageBreakdown.new("dcl", "input", "", 0)]
+		assert_equal lb, Ohcount::parse("input", "dcl")
+	end
 
 
 	def test_comprehensive

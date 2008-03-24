@@ -114,7 +114,7 @@ class Ohcount::Detector
 		'.css'  => "css",
 		'.c++'  => "cpp",
 		'.cxx'  => "cpp",
-                '.com'  => "dcl",
+		'.com'  => "dcl",
 		'.el'   => "emacslisp",
 		#		'.cbl'  => "cobol",
 		#		'.cob'  => "cobol",
