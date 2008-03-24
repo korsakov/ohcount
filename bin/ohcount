@@ -103,13 +103,13 @@ Ohloh source code line counter command line tool.
 HELP
 	end
 
-        def individual
+	def individual
 		STDOUT.write "Examining #{files.size} file(s)"
 
-                puts
- 		puts "Ohloh Line Count".center(76)
-		puts "File                                             Language             Code    Comment  Comment %      Blank      Total"
-		puts "-----------------------------------------------  --------------  ---------  ---------  ---------  ---------  ---------"
+		puts
+		puts "Ohloh Line Count".center(76)
+		puts "Language             Code    Comment  Comment %      Blank      Total  File"
+		puts "--------------  ---------  ---------  ---------  ---------  ---------  -----------------------------------------------"
 
 		files.each do |file|
 			counts = {}
@@ -131,8 +131,7 @@ HELP
 	end
 
 	def write_individual_row(file, name, code, comment, blank)
-		printf("%-48s", file)
-		printf(" %-14s",name)
+		printf("%-14s",name)
 		printf(" %10d",code)
 		printf(" %10d",comment)
 		if comment+code > 0
@@ -141,7 +140,8 @@ HELP
 			printf("           ")
 		end
 		printf(" %10d",blank)
-		printf(" %10d\n",code+comment+blank)
+		printf(" %10d",code+comment+blank)
+		printf("  %s\n", file)
 	end
 
 
