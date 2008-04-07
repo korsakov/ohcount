@@ -1,0 +1,9 @@
+if &compatible || v:version < 700
+finish
+endif
+if exists("b:current_syntax")
+finish
+endif
+syn region GiantSpaceMonkey start=/^\s*#/ end=/$/
+hi def link GiantSpaceMonkey Comment
+let b:current_syntax = "ohcount-test"

@@ -53,6 +53,7 @@ class Ohcount::DetectorTest < Ohcount::Test
 		assert_equal "xslt", do_detect("example.xsl")
 		assert_equal "lisp", do_detect("core.lisp")
 		assert_equal "dmd", do_detect("foo.d")
+		assert_equal "vim", do_detect("foo.vim")
 	end
 
 	def test_upper_case_extensions

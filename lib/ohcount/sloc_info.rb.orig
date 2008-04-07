@@ -79,7 +79,6 @@ class Ohcount::SlocInfo
 			'tcl'           => {:nice_name => 'Tcl'              , :category => 0},
 			'vala'          => {:nice_name => 'Vala'             , :category => 0},
 			'visualbasic'   => {:nice_name => 'Visual Basic'     , :category => 0},
-			'vim'           => {:nice_name => 'Vim Script'       , :category => 0},
 			'xml'           => {:nice_name => 'XML'              , :category => 1},
 			'xmlschema'     => {:nice_name => 'XML Schema'       , :category => 1},
 			'xslt'          => {:nice_name => 'XSL Transformation',:category => 0},
