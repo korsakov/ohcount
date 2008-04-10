@@ -156,6 +156,7 @@ class Ohcount::Detector
 		'.mf'   => 'metafont',
 		'.mm'   => "objective_c",
 		'.mp'   => 'metapost_with_tex',
+		'.nse'  => 'lua',
 		'.pas'  => "pascal",
 		'.pp'   => "pascal",
 		'.php'  => "php",
