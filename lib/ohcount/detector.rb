@@ -472,7 +472,7 @@ class Ohcount::Detector
 	#
   def self.disambiguate_nil(file_context)
     file_location = file_context.file_location
-    output = `file -b #{ file_location }`
+    output = `file -b '#{ file_location }'`
     case output
     when /([\w\/]+) script text/, /script text executable for ([\w\/]+)/
       script = $1
