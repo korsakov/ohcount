@@ -54,6 +54,8 @@ class Ohcount::DetectorTest < Ohcount::Test
 		assert_equal "lisp", do_detect("core.lisp")
 		assert_equal "dmd", do_detect("foo.d")
 		assert_equal "vim", do_detect("foo.vim")
+		assert_equal "ebuild", do_detect("foo.ebuild")
+		assert_equal "ebuild", do_detect("foo.eclass")
 	end
 
 	def test_upper_case_extensions
