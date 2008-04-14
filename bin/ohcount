@@ -30,9 +30,23 @@ class OhcountCommandLine
 	def files
 		return @files if @files
 
-		@files = `find #{(self.paths.any? ? self.paths : ['.']).collect{ |s| "'#{s}'" }.join(' ')} \! -path "*/.*" -type f -print`.split("\n")
+		@files = []
+		(self.paths.any? ? self.paths : ['.']).each { | p | self.find_files_recursively @files, p }
+
 		exit 1 unless @files.any?
 		@files
+	end
+
+	def find_files_recursively array, path
+		s = File.lstat(path)
+		if s.directory?
+			Dir.foreach(path) do | d |
+				File.basename(d) =~ /^\./ and next
+				find_files_recursively array, File.join(path, d)
+			end
+		elsif s.file?
+			array << path
+		end
 	end
 
 	def annotate
