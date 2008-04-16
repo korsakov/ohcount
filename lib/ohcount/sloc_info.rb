@@ -41,8 +41,8 @@ class Ohcount::SlocInfo
 	@@lang_map = {
 			'ada'           => {:nice_name => 'Ada'              , :category => 0},
 			'assembler'     => {:nice_name => 'Assembler'        , :category => 0},
-			'autoconf'      => {:nice_name => 'Autoconf'         , :category => 0},
-			'automake'      => {:nice_name => 'Automake'         , :category => 0},
+			'autoconf'      => {:nice_name => 'Autoconf'         , :category => 2},
+			'automake'      => {:nice_name => 'Automake'         , :category => 2},
 			'awk'           => {:nice_name => 'AWK'              , :category => 0},
 			'bat'           => {:nice_name => 'DOS batch script' , :category => 0},
 			'boo'           => {:nice_name => 'Boo'              , :category => 0},
@@ -53,7 +53,7 @@ class Ohcount::SlocInfo
 			'css'           => {:nice_name => 'CSS'              , :category => 1},
 			'dcl'           => {:nice_name => 'DCL'              , :category => 0},
 			'dylan'         => {:nice_name => 'Dylan'            , :category => 0},
-			'ebuild'        => {:nice_name => 'Ebuild'           , :category => 0},
+			'ebuild'        => {:nice_name => 'Ebuild'           , :category => 2},
 			'emacslisp'     => {:nice_name => 'Emacs Lisp'       , :category => 0},
 			'erlang'        => {:nice_name => 'Erlang'           , :category => 0},
 			'fortranfixed'  => {:nice_name => 'Fortran (Fixed-format)', :category => 0},
@@ -64,7 +64,7 @@ class Ohcount::SlocInfo
 			'javascript'    => {:nice_name => 'JavaScript'       , :category => 0},
 			'lisp'          => {:nice_name => 'Lisp'             , :category => 0},
 			'lua'           => {:nice_name => 'Lua'              , :category => 0},
-			'make'          => {:nice_name => 'Make'             , :category => 0},
+			'make'          => {:nice_name => 'Make'             , :category => 2},
 			'matlab'        => {:nice_name => 'Matlab'           , :category => 0},
 			'metafont'      => {:nice_name => 'MetaFont'         , :category => 1},
 			'metapost'      => {:nice_name => 'MetaPost'         , :category => 1},
@@ -101,6 +101,12 @@ class Ohcount::SlocInfo
 	#
 	# Category 0 indicates procedural code (most languages).
 	# Category 1 indicates a markup file, such as XML.
+	# Category 2 indicates a build script, such as make or autoconf
+	#
+	# In the Ohloh reports, categories are used only as hints when determining
+	# the "primary" language of an application. Using them, a C application
+	# with a lot of supporting HTML documentation or large autoconf file will
+	# still be successfully identified as a C application.
 	def language_category
 		@@lang_map[self.language][:category]
 	end
