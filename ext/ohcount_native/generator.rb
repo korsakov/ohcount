@@ -22,6 +22,8 @@ module Ohcount
 			# Defines all of the monoglots and polyglots known to the parser.
 			ada = CMonoglot.new("ada",                 '--',             nil,                true,  false)
 			assembler = CMonoglot.new("assembler",     [';', '!', '//'], [e('/*'), e('*/')], false, false)
+			autoconf = LineCommentMonoglot.new("autoconf", 'dnl')
+			automake = LineCommentMonoglot.new("automake", '#')
 			awk = CMonoglot.new("awk",                 '#',              nil,                true,  false, {:no_escape_dquote => true})
 			bat = LineCommentMonoglot.new("bat",        '^\\\\s*(?i)REM(?-i)')
 			boo = PythonMonoglot.new("boo")
@@ -42,6 +44,7 @@ module Ohcount
 			haskell = CMonoglot.new("haskell",         '--',             [e('{-'), e('-}')], true, false)
 			lisp = LineCommentMonoglot.new("lisp", ";")
 			lua = CMonoglot.new("lua",                 '--',             nil,                true,  true)
+			make = LineCommentMonoglot.new("make",     '#')
 			matlab = CMonoglot.new("matlab",           '#|%',            ['{%', '%}'], false,true)
 			metafont = LineCommentMonoglot.new("metafont", "%");
 			metapost = LineCommentMonoglot.new("metapost", "%");
@@ -80,6 +83,8 @@ module Ohcount
 			polyglots = [
 				ada ,
 				assembler ,
+				autoconf ,
+				automake ,
 				awk ,
 				bat ,
 				boo ,
@@ -101,6 +106,7 @@ module Ohcount
 				haskell,
 				lisp ,
 				lua ,
+				make ,
 				matlab,
 				metafont,
 				metapost,

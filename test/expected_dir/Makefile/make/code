@@ -1,0 +1,2 @@
+giant_space_monkey : giant_space_monkey.c
+$(CC) $(CFLAGS) -o $@ $?

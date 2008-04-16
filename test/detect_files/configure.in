@@ -1,0 +1,4 @@
+dnl This is an autoconf file using the old name.
+
+AC_INIT([giant-space-monkey], [0.0])
+AC_PREREQ(2.5)

@@ -41,6 +41,8 @@ class Ohcount::SlocInfo
 	@@lang_map = {
 			'ada'           => {:nice_name => 'Ada'              , :category => 0},
 			'assembler'     => {:nice_name => 'Assembler'        , :category => 0},
+			'autoconf'      => {:nice_name => 'Autoconf'         , :category => 0},
+			'automake'      => {:nice_name => 'Automake'         , :category => 0},
 			'awk'           => {:nice_name => 'AWK'              , :category => 0},
 			'bat'           => {:nice_name => 'DOS batch script' , :category => 0},
 			'boo'           => {:nice_name => 'Boo'              , :category => 0},
@@ -62,6 +64,7 @@ class Ohcount::SlocInfo
 			'javascript'    => {:nice_name => 'JavaScript'       , :category => 0},
 			'lisp'          => {:nice_name => 'Lisp'             , :category => 0},
 			'lua'           => {:nice_name => 'Lua'              , :category => 0},
+			'make'          => {:nice_name => 'Make'             , :category => 0},
 			'matlab'        => {:nice_name => 'Matlab'           , :category => 0},
 			'metafont'      => {:nice_name => 'MetaFont'         , :category => 1},
 			'metapost'      => {:nice_name => 'MetaPost'         , :category => 1},

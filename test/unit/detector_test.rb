@@ -38,11 +38,13 @@ class Ohcount::DetectorTest < Ohcount::Test
 
 	def test_detect_polyglot
 		assert_equal "c", do_detect("foo.c")
+		assert_equal "c", do_detect("foo.c")
 		assert_equal "c", do_detect("uses_no_cpp.h")
 		assert_equal "cpp", do_detect("uses_cpp_headers.h")
 		assert_equal "cpp", do_detect("uses_cpp_stdlib_headers.h")
 		assert_equal "cpp", do_detect("uses_cpp_keywords.h")
 		assert_equal "ruby", do_detect("foo.rb")
+		assert_equal "make", do_detect("foo.mk")
     assert_equal "matlab", do_detect("foo_matlab.m", ["foo_matlab.m", "bar.m", "README"])
 		assert_equal "objective_c", do_detect("foo_objective_c.m", ["foo_objective_c.m", "bar.h", "README"])
 		assert_equal "objective_c", do_detect("foo_objective_c.h", ["foo_objective_c.h, different_than_foo.m"])
@@ -71,6 +73,13 @@ class Ohcount::DetectorTest < Ohcount::Test
     assert_equal "perl", do_detect("perl_w", [])
     assert_equal "dmd", do_detect("d_script", [])
   end
+
+	def test_by_filename
+		assert_equal "autoconf", do_detect("configure.ac")
+		assert_equal "autoconf", do_detect("configure.in")
+		assert_equal "automake", do_detect("Makefile.am")
+		assert_equal "make", do_detect("Makefile")
+	end
 
   def test_csharp_or_clearsilver
 		assert_equal 'csharp', do_detect("cs1.cs")

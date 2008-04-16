@@ -46,9 +46,12 @@ class Ohcount::Detector
 	#   end
 	#
 	def self.detect(file_context)
-		# start with extension
-		polyglot = EXTENSION_MAP[File.extname(file_context.filename)]
-		polyglot = EXTENSION_MAP[File.extname(file_context.filename).downcase] unless polyglot
+		# start with filename and extension
+		polyglot = [
+			lambda { | f | FILENAME_MAP[File.basename(f.filename)] },
+			lambda { | f | EXTENSION_MAP[File.extname(f.filename)] },
+			lambda { | f | EXTENSION_MAP[File.extname(f.filename).downcase] }
+		].inject(nil) { | a, f | a and break a or f.call(file_context) }
     case polyglot
     when String
       # simplest case
@@ -157,6 +160,7 @@ class Ohcount::Detector
 		'.lisp' => "lisp",
 		'.m'    => :matlab_or_objective_c,
 		'.mf'   => 'metafont',
+		'.mk'   => 'make',
 		'.mm'   => "objective_c",
 		'.mp'   => 'metapost_with_tex',
 		'.nse'  => 'lua',
@@ -201,6 +205,17 @@ class Ohcount::Detector
 		'.tex'  => 'tex',
 		'.ltx'  => 'tex',
 		'.latex'=> 'tex'
+	}
+
+	# Map full filenames to glots. The right hand side is a string or symbol as
+	# for EXTENSION_MAP.
+	FILENAME_MAP = {
+		'Makefile'      => 'make',
+		'GNUmakefile'   => 'make',
+		'makefile'      => 'make',
+		'Makefile.am'   => 'automake',
+		'configure.in'  => 'autoconf',
+		'configure.ac'  => 'autoconf'
 	}
 
 	protected
