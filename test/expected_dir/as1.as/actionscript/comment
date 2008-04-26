@@ -1,0 +1,68 @@
+/* SVN FILE: $Id: FakeObject.as 42 2008-03-26 03:18:02Z xpointsh $ */
+/**
+* Description
+*
+* Fake
+* Copyright 2008, Sean Chatman and Garrett Woodworth
+*
+* Licensed under The MIT License
+* Redistributions of files must retain the above copyright notice.
+*
+* @filesource
+* @copyright		Copyright 2008, Sean Chatman and Garrett Woodworth
+* @link			http://code.google.com/p/fake-as3/
+* @package			fake
+* @subpackage		com.fake
+* @since			2008-03-06
+* @version			$Revision: 42 $
+* @modifiedby		$LastChangedBy: xpointsh $
+* @lastmodified	$Date: 2008-03-25 20:18:02 -0700 (Tue, 25 Mar 2008) $
+* @license			http://www.opensource.org/licenses/mit-license.php The MIT License
+*/
+/**
+* FakeObject is the root object for all classes
+* in Fake. It contains a reference to the class name
+* and class object. These are obtained by using the
+* reflection classes in flash.utils.
+*/
+/**
+* The name of the top level subclass
+*/
+/**
+* A reference to the top level subclass
+*/
+/**
+* This method is called by the constructor. Populates the className and ClassRef using
+* getQualifiedClassName and getDefinitionByName
+*/
+/**
+* Override the callProperty of the flash_proxy
+* @param method
+* @param args
+* @return
+*
+*/
+/**
+* To be overriden by subclasses. Allows calling any method on any object that extends FakeOject
+* @param method
+* @param args
+*
+*/
+/**
+* get a property on the object
+* @param name
+* @return
+*
+*/
+/**
+* Set a property on the object
+* @param name
+* @param value
+*
+*/
+/**
+* Check if the property exits
+* @param name
+* @param value
+*
+*/

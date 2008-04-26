@@ -93,7 +93,8 @@ class Ohcount::Detector
 			".mpg",
 			".mov",
 			".qt",
-			".avi"
+			".avi",
+			".swf"
 			]
 		ignore.include?(File.extname(filename))
 	end
@@ -105,6 +106,7 @@ class Ohcount::Detector
 		'.ada'  => "ada",
 		'.adb'  => "ada",
 		'.ads'  => "ada",
+		'.as'   => "actionscript",
 		'.asm'  => "assembler",
 		'.awk'  => "awk",
 		'.bas'  => "visualbasic",
@@ -163,6 +165,7 @@ class Ohcount::Detector
 		'.mk'   => 'make',
 		'.mm'   => "objective_c",
 		'.mp'   => 'metapost_with_tex',
+		'.mxml' => 'mxml',
 		'.nse'  => 'lua',
 		'.pas'  => "pascal",
 		'.pp'   => "pascal",

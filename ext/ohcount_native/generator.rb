@@ -20,6 +20,7 @@ module Ohcount
 		def generate
 
 			# Defines all of the monoglots and polyglots known to the parser.
+			actionscript = CMonoglot.new("actionscript",   '//',             [e('/*'), e('*/')], true,  true)
 			ada = CMonoglot.new("ada",                 '--',             nil,                true,  false)
 			assembler = CMonoglot.new("assembler",     [';', '!', '//'], [e('/*'), e('*/')], false, false)
 			autoconf = LineCommentMonoglot.new("autoconf", 'dnl')
@@ -67,6 +68,7 @@ module Ohcount
 			xml = XmlMonoglot.new("xml")
 			xslt = XmlMonoglot.new("xslt")
 			xmlschema = XmlMonoglot.new("xmlschema")
+			mxml = MxmlPolyglot.new("mxml", actionscript, css)
 			html = HtmlPolyglot.new("html", javascript, css)
 			php = HtmlWithPhpPolyglot.new("php", html, phplanguage)
 			rhtml = RhtmlPolyglot.new("rhtml", html, ruby)
@@ -81,6 +83,7 @@ module Ohcount
 				["etex", :tex_code, :return, :to, false, 'etex']
 			]);
 			polyglots = [
+			  actionscript ,
 				ada ,
 				assembler ,
 				autoconf ,
@@ -93,7 +96,7 @@ module Ohcount
 				cpp ,
 				csharp ,
 				css ,
-                                dcl,
+        dcl,
 				dylan ,
 				ebuild ,
 				erlang ,
@@ -138,7 +141,8 @@ module Ohcount
 				jsp,
 				clearsilver_template,
 				tex,
-				metapost_with_tex
+				metapost_with_tex,
+				mxml
 			]
 			File.open("polyglots.c", "w") do |io|
 

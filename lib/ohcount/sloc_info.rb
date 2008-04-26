@@ -39,6 +39,7 @@ class Ohcount::SlocInfo
 	end
 
 	@@lang_map = {
+	    'actionscriot'  => {:nice_name => 'ActionScript'     , :category => 0},
 			'ada'           => {:nice_name => 'Ada'              , :category => 0},
 			'assembler'     => {:nice_name => 'Assembler'        , :category => 0},
 			'autoconf'      => {:nice_name => 'Autoconf'         , :category => 2},
@@ -68,6 +69,7 @@ class Ohcount::SlocInfo
 			'matlab'        => {:nice_name => 'Matlab'           , :category => 0},
 			'metafont'      => {:nice_name => 'MetaFont'         , :category => 1},
 			'metapost'      => {:nice_name => 'MetaPost'         , :category => 1},
+			'mxml'          => {:nice_name => 'Flex'             , :category => 1},
 			'objective_c'   => {:nice_name => 'Objective C'      , :category => 0},
 			'pascal'        => {:nice_name => 'Pascal'           , :category => 0},
 			'perl'          => {:nice_name => 'Perl'             , :category => 0},
