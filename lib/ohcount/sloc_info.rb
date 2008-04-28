@@ -39,7 +39,7 @@ class Ohcount::SlocInfo
 	end
 
 	@@lang_map = {
-	    'actionscriot'  => {:nice_name => 'ActionScript'     , :category => 0},
+	    'actionscript'  => {:nice_name => 'ActionScript'     , :category => 0},
 			'ada'           => {:nice_name => 'Ada'              , :category => 0},
 			'assembler'     => {:nice_name => 'Assembler'        , :category => 0},
 			'autoconf'      => {:nice_name => 'Autoconf'         , :category => 2},
