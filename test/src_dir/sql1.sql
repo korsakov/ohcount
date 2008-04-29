@@ -5,6 +5,7 @@
 // Author:     Deepak Rai, SSE, Satyam Computer Services Ltd. India
 // -----------------------------------------------------------------------
 
+## Comment with a hash symbol ##
 select level, min('col_name') from my_table
 where level = '&n'
 connect by prior ('col_name') < 'col_name')

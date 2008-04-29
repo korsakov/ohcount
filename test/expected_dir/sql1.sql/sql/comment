@@ -4,6 +4,7 @@
 // Date:       18-Apr-2001
 // Author:     Deepak Rai, SSE, Satyam Computer Services Ltd. India
 // -----------------------------------------------------------------------
+## Comment with a hash symbol ##
 /* a block comment
 -- finished here */
 -- Example:
