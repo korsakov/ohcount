@@ -189,7 +189,7 @@ class Ohcount::Detector
 		'.s'    => "assembler",
 		'.S'    => "assembler",
 		'.sc'   => "scheme",
-        '.scala'=> "scala",
+		'.scala'=> "scala",
 		'.scm'  => "scheme",
 		'.sh'   => "shell",
 		'.sql'  => "sql",

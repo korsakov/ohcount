@@ -81,8 +81,9 @@ module Ohcount
 				["verbatimtex", :metapost_code, :tex_code, :from, false, 'verbatim'],
 				["btex", :metapost_code, :tex_code, :from, false, 'btex'],
 				["etex", :tex_code, :return, :to, false, 'etex']
-			]);
-            scala = CMonoglot.new("scala",               '//',             [e('/*'), e('*/')], true,  false)
+			])
+			scala = CMonoglot.new("scala",               '//',             [e('/*'), e('*/')], true,  false)
+
 			polyglots = [
 			  actionscript ,
 				ada ,
@@ -123,7 +124,7 @@ module Ohcount
 				ruby ,
 				rexx ,
 				scheme ,
-                scala,
+				scala,
 				shell ,
 				smalltalk ,
 				sql ,

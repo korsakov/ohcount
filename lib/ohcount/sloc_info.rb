@@ -79,7 +79,7 @@ class Ohcount::SlocInfo
 			'rexx'          => {:nice_name => 'rexx'             , :category => 0},
 			'ruby'          => {:nice_name => 'Ruby'             , :category => 0},
 			'scheme'        => {:nice_name => 'Scheme'           , :category => 0},
-            'scala'         => {:nice_name => 'Scala'            , :category => 0},
+			'scala'         => {:nice_name => 'Scala'            , :category => 0},
 			'shell'         => {:nice_name => 'shell script'     , :category => 0},
 			'smalltalk'     => {:nice_name => 'Smalltalk'        , :category => 0},
 			'sql'           => {:nice_name => 'SQL'              , :category => 0},
