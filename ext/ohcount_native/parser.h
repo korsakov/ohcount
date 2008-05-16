@@ -7,6 +7,8 @@
  *
  */
 
+#ifndef __parser_h__
+#define __parser_h__
 
 /*
  * ParseResult
@@ -35,3 +37,4 @@ void parse_result_free(ParseResult *parse_result);
  */
 void parser_parse(ParseResult *pr, char *buffer, int buffer_len, Polyglot *polyglot);
 
+#endif
