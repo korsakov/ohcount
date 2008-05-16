@@ -25,7 +25,7 @@ enum {
     'ifndef' | 'import' | 'include' | 'line' | 'pragma' | 'undef' |
     'using';
   c_preproc = ('#' when starts_line) [\t ]* c_preproc_word
-    (newline+ | spaces (nonnewline | '\\' newlines)*);
+    (spaces (escaped_newline | nonnewline)*)?;
   c_keyword =
     'and' | 'and_eq' | 'asm' | 'auto' | 'bitand' | 'bitor' | 'bool' |
     'break' | 'case' | 'catch' | 'char' | 'class' | 'compl' | 'const' |
