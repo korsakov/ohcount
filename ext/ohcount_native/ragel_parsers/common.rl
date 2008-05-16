@@ -6,17 +6,9 @@ machine common;
 # whitespace, non-printables
 spaces = [\t ]+;
 newline = ('\r\n' | '\n\r' | '\n' | '\f');
-newlines = newline+;
 escaped_newline = '\\' newline;
 nonnewline = any - [\r\n\f];
 nonprintable_char = cntrl - [\r\n\f];
-
-# comments
-c_style_line_comment = '//' nonnewline*;
-c_style_line_comment_with_esc = '//' (escaped_newline | nonnewline)*;
-c_style_block_comment = '/*' any* :>> '*/'?;
-shell_style_line_comment = '#' nonnewline*;
-shell_style_line_comment_with_esc = '#' (escaped_newline | nonnewline)*;
 
 # numbers
 dec_num = digit+;
@@ -26,13 +18,19 @@ integer = [+\-]? (hex_num | oct_num | dec_num);
 float = [+\-]? ((digit* '.' digit+) | (digit+ '.' digit*) | digit+)
         [eE] [+\-]? digit+;
 
-# strings
-sq_str_with_esc = '\'' ([^'\\] | '\\' any)* '\''?;
-dq_str_with_esc = '"' ([^"\\] | '\\' any)* '"'?;
-bt_str_with_esc = '`' ([^`\\] | '\\' any)* '`'?;
-re_str_with_esc = '/' ([^/\\] | '\\' any)* '/'?;
-
 # common actions
+
+action code {
+  if (!line_contains_code && !line_start) line_start = ts;
+  line_contains_code = 1;
+}
+
+action comment {
+  if (!line_contains_code) {
+    whole_line_comment = 1;
+    if (!line_start) line_start = ts;
+  }
+}
 
 # common conditionals
 
