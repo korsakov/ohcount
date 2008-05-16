@@ -18,8 +18,12 @@
 typedef struct {
 	LanguageBreakdown language_breakdowns[MAX_LANGUAGE_BREAKDOWN_SIZE];
 	int language_breakdown_count;
+	// Need these for Ragel parser callbacks; added by Mitchell
+	char *buffer;
+	int parse_buffer_len;
 } ParseResult;
 
+ParseResult *pr; // need this for Ragel parser callbacks; added by Mitchell
 
 /*
  * Fills out the ParseResult with the result of parsing the buffer with the specific Language
