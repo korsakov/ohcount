@@ -13,10 +13,10 @@ nonprintable_char = cntrl - [\r\n\f];
 
 # comments
 c_style_line_comment = '//' nonnewline*;
-c_style_line_comment_with_esc = '//' ([^\r\n\f\\] | escaped_newline)*;
+c_style_line_comment_with_esc = '//' (escaped_newline | nonnewline)*;
 c_style_block_comment = '/*' any* :>> '*/'?;
 shell_style_line_comment = '#' nonnewline*;
-shell_style_line_comment_with_esc = '#' ([^\r\n\f\\] | escaped_newline)*;
+shell_style_line_comment_with_esc = '#' (escaped_newline | nonnewline)*;
 
 # numbers
 dec_num = digit+;
