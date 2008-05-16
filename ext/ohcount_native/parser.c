@@ -15,6 +15,8 @@
                         Ragel Stuff (Added by Mitchell)
 *****************************************************************************/
 
+ParseResult *pr; // need this for Ragel parser callbacks; added by Mitchell
+
 // BEGIN parser includes
 #include "c_parser.h"
 // END parser includes
