@@ -17,7 +17,8 @@ ARCH_DL  = "#{ARCH_DIR}/ohcount_native.#{CONFIG['DLEXT']}"
 CLEAN.include FileList["#{EXT_DIR}/*.{so,bundle,#{CONFIG['DLEXT']}}"],
 						  FileList["#{EXT_DIR}/*.o"],
 						  FileList["#{EXT_DIR}/polyglots.c"],
-						  FileList["#{EXT_DIR}/Makefile"]
+						  FileList["#{EXT_DIR}/Makefile"],
+						  FileList["#{EXT_DIR}/*_parser.h"]
 
 RDOC_OPTS = ['--quiet', '--title', 'Ohcount Reference', '--main', 'README', '--inline-source']
 
@@ -64,6 +65,14 @@ end
 
 file EXT_DL => FileList["#{EXT_DIR}/polyglots.c", "#{EXT_DIR}/Makefile", "#{EXT_DIR}/*.{c,h,rb}"] do
 	cd EXT_DIR do
+		cd 'ragel_parsers' do
+			rls = FileList['*.rl']
+			rls.exclude('common.rl')
+			rls.each do |rl|
+				h = rl.scan(/^(.+)\.[^\.]+$/).flatten.first + '_parser.h'
+				sh "ragel #{rl} -o ../#{h}"
+			end
+		end
 		sh 'make'
 	end
 end
