@@ -135,6 +135,8 @@ int entity;
       nonnewline
     )*)?;
 
+  c_identifier = (alpha | '_') (alnum | '_')*;
+
   c_keyword =
     'and' | 'and_eq' | 'asm' | 'auto' | 'bitand' | 'bitor' | 'bool' |
     'break' | 'case' | 'catch' | 'char' | 'class' | 'compl' | 'const' |
@@ -148,8 +150,6 @@ int entity;
     'template' | 'this' | 'throw' | 'true' | 'try' | 'typedef' | 'typeid' |
     'typename' | 'union' | 'unsigned' | 'using' | 'virtual' | 'void' |
     'volatile' | 'wchar_t' | 'while' | 'xor' | 'xor_eq';
-
-  c_identifier = (alpha | '_') (alnum | '_')*;
 
   c_operator = [+\-/*%<>!=&|?:;.,()\[\]{}];
 
