@@ -135,6 +135,20 @@ int entity;
       nonnewline
     )*)?;
 
+  c_keyword =
+    'and' | 'and_eq' | 'asm' | 'auto' | 'bitand' | 'bitor' | 'bool' |
+    'break' | 'case' | 'catch' | 'char' | 'class' | 'compl' | 'const' |
+    'const_cast' | 'continue' | 'default' | 'delete' | 'do' | 'double' |
+    'dynamic_cast' | 'else' | 'enum' | 'explicit' | 'export' | 'extern' |
+    'false' | 'float' | 'for' | 'friend' | 'goto' | 'if' | 'inline' | 'int' |
+    'long' | 'mutable' | 'namespace' | 'new' | 'not' | 'not_eq' |
+    'operator' | 'or' | 'or_eq' | 'private' | 'protected' | 'public' |
+    'register' | 'reinterpret_cast' | 'return' | 'short' | 'signed' |
+    'sizeof' | 'static' | 'static_cast' | 'struct' | 'switch' |
+    'template' | 'this' | 'throw' | 'true' | 'try' | 'typedef' | 'typeid' |
+    'typename' | 'union' | 'unsigned' | 'using' | 'virtual' | 'void' |
+    'volatile' | 'wchar_t' | 'while' | 'xor' | 'xor_eq';
+
   c_identifier = (alpha | '_') (alnum | '_')*;
 
   c_operator = [+\-/*%<>!=&|?:;.,()\[\]{}];
@@ -146,6 +160,7 @@ int entity;
     c_number          ${ entity = NUMBER;      } => c_callback;
     c_preproc         ${ entity = PREPROC;     } => c_callback;
     c_identifier      ${ entity = IDENTIFIER;  } => c_callback;
+    c_keyword         ${ entity = KEYWORD;     } => c_callback;
     c_operator        ${ entity = OPERATOR;    } => c_callback;
     escaped_newline   ${ entity = ESCAPED_NL;  } => c_callback;
     newline           ${ entity = NEWLINE;     } => c_callback;
