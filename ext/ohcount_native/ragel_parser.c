@@ -71,13 +71,13 @@ void ragel_parser_callback(const char *lang, const char *entity, int s, int e) {
   LanguageBreakdown *lb = get_language_breakdown((char *) lang);
   if (strcmp(entity, "lcode") == 0) {
     language_breakdown_copy_code(lb, parse_buffer + s, parse_buffer + e);
-    parse_yield_line(lang, entity, s, e);
+    ragel_parse_yield_line(lang, entity, s, e);
   } else if (strcmp(entity, "lcomment") == 0) {
     language_breakdown_copy_comment(lb, parse_buffer + s, parse_buffer + e);
-    parse_yield_line(lang, entity, s, e);
+    ragel_parse_yield_line(lang, entity, s, e);
   } else if (strcmp(entity, "lblank") == 0) {
     lb->blank_count++;
-    parse_yield_line(lang, entity, s, e);
+    ragel_parse_yield_line(lang, entity, s, e);
   }
 }
 
