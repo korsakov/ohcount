@@ -10,29 +10,7 @@
 /* #include <mcheck.h> - for memory debugging */
 #include "ruby.h"
 #include "common.h"
-
-/*****************************************************************************
-                        Ragel Stuff (Added by Mitchell)
-*****************************************************************************/
-
-ParseResult *pr; // need this for Ragel parser callbacks; added by Mitchell
-
-// BEGIN parser includes
-#include "c_parser.h"
-// END parser includes
-
-struct language {
-	char name[MAX_LANGUAGE_NAME];
-	void (*parser) (char*, int, void*);
-};
-
-struct language languages[] = {
-// BEGIN languages
-	{ "c", parse_c },
-	{ "cpp", parse_c },
-// END languages
-	{ "", NULL }
-};
+#include "ragel_parser.h"
 
 
 /*****************************************************************************
@@ -427,60 +405,6 @@ void parse_result_free(ParseResult *parse_result) {
 	}
 }
 
-/*
- * parse_result_find_or_create_language_breakdown
- *
- * Will return a valid language_breakdown pointer for a given language name.
- *
- * Added by Mitchell
- */
-LanguageBreakdown *parse_result_find_or_create_language_breakdown(ParseResult *parse_result, char *name) {
-	int i_lb;
-
-	// iterate to find
-	for (i_lb = 0; i_lb < parse_result->language_breakdown_count; i_lb++) {
-		if (strcmp(parse_result->language_breakdowns[i_lb].name, name) == 0) {
-			return &parse_result->language_breakdowns[i_lb];
-		}
-	}
-
-	// doesn't exist, create new onw
-	log("[ohcount] creating language_breakdown: '%s'\n", name);
-#ifndef NDEBUG
-	if (parse_result->language_breakdown_count >= MAX_LANGUAGE_BREAKDOWN_SIZE) {
-		log("[ohcount] - ASSERT FAILED: parse_result->language_breakdown_count too big (%d)\n", parse_result->language_breakdown_count);
-	}
-#endif
-	language_breakdown_initialize(&parse_result->language_breakdowns[parse_result->language_breakdown_count], name, parse_result->parse_buffer_len + 5); /* just in case we pad with newline or something */
-	log("[ohcount] done creating language_breakdown: '%s'\n", name);
-	return &parse_result->language_breakdowns[parse_result->language_breakdown_count++];
-}
-
-/*
- * parse_yield_line2
- *
- * yeilds the just-processed line back up to an optional Ruby block,
- * along with its language and semantic information.
- *
- * Added by Mitchell
- */
-void parse_yield_line2(const char *lang, const char *entity, int start, int end) {
-	VALUE ary;
-	if (rb_block_given_p()) {
-		ary = rb_ary_new2(2);
-		rb_ary_store(ary, 0, ID2SYM(rb_intern(lang)));
-		rb_ary_store(ary, 2, rb_str_new(pr->buffer + start, end - start));
-
-		if (strcmp(entity, "lcode") == 0)
-			rb_ary_store(ary, 1, ID2SYM(rb_intern("code")));
-		else if (strcmp(entity, "lcomment") == 0)
-			rb_ary_store(ary, 1, ID2SYM(rb_intern("comment")));
-		else if (strcmp(entity, "lblank") == 0)
-			rb_ary_store(ary, 1, ID2SYM(rb_intern("blank")));
-		rb_yield(ary);
-	}
-}
-
 
 /*****************************************************************************
                                      Parser
@@ -519,45 +443,9 @@ bool parser_ate_newline(ParseContext *parse_context, int *ovector) {
 	return false;
 }
 
-/*
- * parser_callback
- *
- * Added by Mitchell
- *
- * Called everytime an entity in the source file is discovered.
- * Entities are defined in the parser and are things like comments, strings,
- * keywords, etc.
- * This callback yields for a Ruby block if necessary:
- *   |language, semantic, line|
- * @param *lang The language associated with the entity.
- * @param *entity The entity discovered. There are 3 additional entities used
- *   by Ohcount for counting: lcode, lcomment, and lblank for a line of code,
- *   a whole line comment, or a blank line respectively.
- * @param start The start position of the entity relative to the start of the
- *   buffer.
- * @param end The end position of the entity relative to the start of the
- *   buffer (non-inclusive).
- */
-void parser_callback(const char *lang, const char *entity, int start, int end) {
-	LanguageBreakdown *lb = parse_result_find_or_create_language_breakdown(pr, (char *) lang);
-	if (strcmp(entity, "lcode") == 0) {
-		language_breakdown_copy_code(lb, pr->buffer + start, pr->buffer + end);
-		parse_yield_line2(lang, entity, start, end);
-	} else if (strcmp(entity, "lcomment") == 0) {
-		language_breakdown_copy_comment(lb, pr->buffer + start, pr->buffer + end);
-		parse_yield_line2(lang, entity, start, end);
-	} else if (strcmp(entity, "lblank") == 0) {
-		lb->blank_count++;
-		parse_yield_line2(lang, entity, start, end);
-	}
-}
-
 
 /*
  * parser_parse
- *
- * Tries to use an existing Ragel parser for the given polyglot. If one is not
- * available, uses the old parser. (Documentation added by Mitchell.)
  *
  * The main parsing algorith consists of doing a DFA walk on the source code.
  * We start in the initial state of the language and then maintain a stack of
@@ -571,25 +459,14 @@ void parser_callback(const char *lang, const char *entity, int start, int end) {
  * of a string state, or something.
  *
  */
-void parser_parse(ParseResult *parse_result, char *buffer, int buffer_len, Polyglot *polyglot) {
+void parser_parse(ParseResult *pr, char *buffer, int buffer_len, Polyglot *polyglot) {
 #ifndef NDEBUG
 /* to help debug, export MALLOC_TRACE to output file */
 /*	mtrace(); */
 #endif
 
-	// Ragel stuff; added by Mitchell
-	// Try to use a Ragel parser, otherwise use an old parser
-	int i;
-	for (i = 0; strlen(languages[i].name) != 0; i++)
-		if (strcmp(languages[i].name, polyglot->name) == 0) {
-			pr = parse_result;
-			pr->language_breakdown_count = 0;
-			pr->buffer = buffer;
-			pr->parse_buffer_len = buffer_len;
-			languages[i].parser(buffer, buffer_len, parser_callback);
-			return;
-		}
-	// end Ragel stuff
+	if (ragel_parser_parse(pr, buffer, buffer_len, polyglot->name))
+		return;
 
 	// make sure we have compiled states
 	polyglot_compile_states(polyglot);
@@ -671,7 +548,7 @@ void parser_parse(ParseResult *parse_result, char *buffer, int buffer_len, Polyg
 	}
 
 	/* setup the parse result */
-	parse_result_initialize(parse_result, &parse_context);
+	parse_result_initialize(pr, &parse_context);
 
 #ifndef NDEBUG
 /*	muntrace(); */

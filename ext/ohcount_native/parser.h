@@ -7,8 +7,6 @@
  *
  */
 
-#ifndef __parser_h__
-#define __parser_h__
 
 /*
  * ParseResult
@@ -20,10 +18,8 @@
 typedef struct {
 	LanguageBreakdown language_breakdowns[MAX_LANGUAGE_BREAKDOWN_SIZE];
 	int language_breakdown_count;
-	// Need these for Ragel parser callbacks; added by Mitchell
-	char *buffer;
-	int parse_buffer_len;
 } ParseResult;
+
 
 /*
  * Fills out the ParseResult with the result of parsing the buffer with the specific Language
@@ -35,4 +31,3 @@ void parse_result_free(ParseResult *parse_result);
  */
 void parser_parse(ParseResult *pr, char *buffer, int buffer_len, Polyglot *polyglot);
 
-#endif

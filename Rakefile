@@ -18,7 +18,7 @@ CLEAN.include FileList["#{EXT_DIR}/*.{so,bundle,#{CONFIG['DLEXT']}}"],
 						  FileList["#{EXT_DIR}/*.o"],
 						  FileList["#{EXT_DIR}/polyglots.c"],
 						  FileList["#{EXT_DIR}/Makefile"],
-						  FileList["#{EXT_DIR}/*_parser.h"]
+						  (FileList["#{EXT_DIR}/*_parser.h"] - FileList["#{EXT_DIR}/ragel_parser.h"])
 
 RDOC_OPTS = ['--quiet', '--title', 'Ohcount Reference', '--main', 'README', '--inline-source']
 
