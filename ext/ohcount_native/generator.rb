@@ -63,6 +63,7 @@ module Ohcount
 			sql = CMonoglot.new("sql",                 ['--','//', '#'],      [['{','}'], [e('/*'), e('*/')]], true, true)
 			tcl = CMonoglot.new("tcl",                 '#',              nil,                true,  false)
 			vala = CMonoglot.new("vala",               '//',             [e('/*'), e('*/')], true,  false)
+			vhdl = CMonoglot.new("vhdl",               '--',             nil,                true,  false)
 			vim = CMonoglot.new("vim",                 '\"',             nil,                false, false)
 			visualbasic = CMonoglot.new("visualbasic", '\'',             nil,                true,  false)
 			xml = XmlMonoglot.new("xml")
@@ -130,6 +131,7 @@ module Ohcount
 				sql ,
 				tcl ,
 				vala ,
+				vhdl ,
 				visualbasic ,
 				vim ,
 				xml ,

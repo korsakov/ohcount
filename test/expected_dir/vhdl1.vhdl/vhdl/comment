@@ -1,0 +1,10 @@
+-- toggle period
+-- we'll be poking on this signal
+-----------------------------------------------------------------------------
+-- Process toggle
+--
+-- Purpose:
+--   Flip the toggle_s signal periodically.
+--
+--
+-----------------------------------------------------------------------------

@@ -85,6 +85,7 @@ class Ohcount::SlocInfo
 			'sql'           => {:nice_name => 'SQL'              , :category => 0},
 			'tcl'           => {:nice_name => 'Tcl'              , :category => 0},
 			'vala'          => {:nice_name => 'Vala'             , :category => 0},
+			'vhdl'          => {:nice_name => 'VHDL'             , :category => 0},
 			'visualbasic'   => {:nice_name => 'Visual Basic'     , :category => 0},
 			'vim'           => {:nice_name => 'Vim Script'       , :category => 0},
 			'xml'           => {:nice_name => 'XML'              , :category => 1},
