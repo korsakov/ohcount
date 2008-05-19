@@ -1,0 +1,20 @@
+# This is an exheres.
+
+require subversion bash-completion eutils flag-o-matic
+
+DESCRIPTION="An exheres"
+HOMEPAGE="http://example.org/"
+SRC_URI=""
+
+MYOPTIONS="monkey"
+LICENSE="GPL-2"
+SLOT="0"
+PLATFORMS="~amd64 ~ia64 ~x86"
+
+DEPENDENCIES=""
+
+src_prepare() {
+    default
+    ./autogen.bash || die "autogen.bash failed"
+}
+

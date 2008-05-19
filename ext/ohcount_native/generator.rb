@@ -37,6 +37,7 @@ module Ohcount
 			dylan = CMonoglot.new("dylan",             '//',             nil,                true,  false)
 			ebuild = CMonoglot.new("ebuild",           '#',              nil,                false, false)
 			erlang = CMonoglot.new("erlang",           '%%',             nil,                true,  true)
+			exheres = CMonoglot.new("exheres",         '#',              nil,                false, false)
 			java = CMonoglot.new("java",               '//',             [e('/*'), e('*/')], true,  false)
 			javascript = CMonoglot.new("javascript",   '//',             [e('/*'), e('*/')], true,  true)
 			emacslisp = LineCommentMonoglot.new("emacslisp", ";")
@@ -102,6 +103,7 @@ module Ohcount
 				dylan ,
 				ebuild ,
 				erlang ,
+				exheres ,
 				groovy ,
 				java ,
 				javascript ,

@@ -58,6 +58,8 @@ class Ohcount::DetectorTest < Ohcount::Test
 		assert_equal "vim", do_detect("foo.vim")
 		assert_equal "ebuild", do_detect("foo.ebuild")
 		assert_equal "ebuild", do_detect("foo.eclass")
+		assert_equal "exheres", do_detect("foo.exheres-0")
+		assert_equal "exheres", do_detect("foo.exlib")
 	end
 
 	def test_upper_case_extensions
