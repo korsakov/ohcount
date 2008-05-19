@@ -129,6 +129,8 @@ class Ohcount::Detector
 		'.eclass'=> "ebuild",
 		'.kdebuild-1'=> "ebuild",
 		'.erl'  => "erlang",
+		'.exheres-0' => "exheres",
+		'.exlib' => "exheres",
 		'.f'    => :disambiguate_fortran,
 		'.ftn'  => :disambiguate_fortran,
 		'.f77'  => :disambiguate_fortran,
