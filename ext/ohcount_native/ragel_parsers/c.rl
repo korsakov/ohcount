@@ -151,7 +151,7 @@ int entity;
     'typename' | 'union' | 'unsigned' | 'using' | 'virtual' | 'void' |
     'volatile' | 'wchar_t' | 'while' | 'xor' | 'xor_eq';
 
-  c_operator = [+\-/*%<>!=&|?:;.,()\[\]{}];
+  c_operator = [+\-/*%<>!=^&|?:;.,()\[\]{}];
 
   c_line := |*
     spaces            ${ entity = SPACE;       } => c_callback;
