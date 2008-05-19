@@ -105,19 +105,19 @@ int entity;
 
   c_sq_str =
     '\'' @code (
-      '\\\''
-      |
       newline %{ entity = INTERNAL_NL; } %c_callback
       |
-      [^']
+      [^'\\]
+      |
+      '\\' any
     )* '\''?;
   c_dq_str =
     '"' @code (
-      '\\"'
-      |
       newline %{ entity = INTERNAL_NL; } %c_callback
       |
-      [^"]
+      [^"\\]
+      |
+      '\\' any
     )* '"'?;
   c_string = c_sq_str | c_dq_str;
 
