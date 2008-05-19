@@ -78,7 +78,7 @@ int entity;
           c_callback(LANG, "lcode", cint(line_start), cint(te));
         else if (whole_line_comment)
           c_callback(LANG, "lcomment", cint(line_start), cint(te));
-        else if (!line_start)
+        else
           c_callback(LANG, "lblank", cint(ts), cint(te));
       }
       whole_line_comment = 0;
