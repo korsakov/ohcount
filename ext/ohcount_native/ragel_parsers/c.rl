@@ -108,7 +108,7 @@ int entity;
       ws
       |
       nonnewline @comment
-    )* :>> '*/'?;
+    )* :>> '*/';
   c_comment = c_line_comment | c_block_comment;
 
   c_sq_str =
@@ -120,7 +120,7 @@ int entity;
       [^'\\] @code
       |
       '\\' any @code
-    )* '\''?;
+    )* '\'';
   c_dq_str =
     '"' @code (
       newline %{ entity = INTERNAL_NL; } %c_callback
@@ -130,7 +130,7 @@ int entity;
       [^"\\] @code
       |
       '\\' any @code
-    )* '"'?;
+    )* '"';
   c_string = c_sq_str | c_dq_str;
 
   c_number = float | integer;
@@ -141,13 +141,13 @@ int entity;
     'using';
   c_preproc =
     ('#' when no_code) ws* c_preproc_word
-    (spaces (
+    (
       escaped_newline %{ entity = INTERNAL_NL; } %c_callback
       |
       ws
       |
       nonnewline @code
-    )*)?;
+    )*;
 
   c_identifier = (alpha | '_') (alnum | '_')*;
 
