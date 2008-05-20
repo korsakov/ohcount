@@ -35,6 +35,10 @@ action comment {
 
 # common conditionals
 
+action no_code { !line_contains_code }
+action no_comment { !whole_line_comment }
+action no_code_or_comment { !line_contains_code && !whole_line_comment }
+
 action starts_line {
   p == buffer || *(p-1) == '\r' || *(p-1) == '\n' || *(p-1) == '\f'
 }
