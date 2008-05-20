@@ -208,9 +208,12 @@ void parse_c(char *buffer, int length,
     In it, you will check if the current line is code or comment and call the
     callback function with the appropriate string ("lcode" or "lcomment") and
     beginning and end of the line (including the newline). Afterwards, you will
-    NOT modify the line_contains_code or whole_line_comment state variables, but
-    you WILL set the line_start variable to be p, the current Ragel buffer
-    position. Matching will then proceed as normal.
+    reset the line_contains_code and whole_line_comment state variables. Then
+    set the line_start variable to be p, the current Ragel buffer position.
+    Because line_contains_code and whole_line_comment have been reset, any non-
+    newline and non-space character in the multi-line pattern should set
+    line_contains_code or whole_line_comment back to 1. Otherwise you would
+    count the line as blank.
 
     For multi-line matches, it is important to call the 'code' or 'comment'
     actions (mentioned earlier) before an internal newline is detected so the
