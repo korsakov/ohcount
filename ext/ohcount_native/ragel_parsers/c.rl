@@ -99,7 +99,7 @@ int entity;
       |
       ws
       |
-      nonnewline @comment
+      (nonnewline - ws) @comment
     )*;
   c_block_comment =
     '/*' @comment (
@@ -107,7 +107,7 @@ int entity;
       |
       ws
       |
-      nonnewline @comment
+      (nonnewline - ws) @comment
     )* :>> '*/';
   c_comment = c_line_comment | c_block_comment;
 
@@ -117,7 +117,7 @@ int entity;
       |
       ws
       |
-      [^'\\] @code
+      [^\t '\\] @code
       |
       '\\' any @code
     )* '\'';
@@ -127,7 +127,7 @@ int entity;
       |
       ws
       |
-      [^"\\] @code
+      [^\t "\\] @code
       |
       '\\' any @code
     )* '"';
@@ -146,7 +146,7 @@ int entity;
       |
       ws
       |
-      nonnewline @code
+      (nonnewline - ws) @code
     )*;
 
   c_identifier = (alpha | '_') (alnum | '_')*;
