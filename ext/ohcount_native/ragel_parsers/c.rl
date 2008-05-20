@@ -69,6 +69,10 @@ int entity;
           c_callback(LANG, "lcode", cint(line_start), cint(p));
         else if (whole_line_comment)
           c_callback(LANG, "lcomment", cint(line_start), cint(p));
+        else
+          c_callback(LANG, "lblank", cint(line_start), cint(p));
+        whole_line_comment = 0;
+        line_contains_code = 0;
         line_start = p;
       }
       break;
@@ -93,13 +97,17 @@ int entity;
     '//' @comment (
       escaped_newline %{ entity = INTERNAL_NL; } %c_callback
       |
-      nonnewline
+      ws
+      |
+      nonnewline @comment
     )*;
   c_block_comment =
     '/*' @comment (
       newline %{ entity = INTERNAL_NL; } %c_callback
       |
-      nonnewline
+      ws
+      |
+      nonnewline @comment
     )* :>> '*/'?;
   c_comment = c_line_comment | c_block_comment;
 
@@ -107,17 +115,21 @@ int entity;
     '\'' @code (
       newline %{ entity = INTERNAL_NL; } %c_callback
       |
-      [^'\\]
+      ws
       |
-      '\\' any
+      [^'\\] @code
+      |
+      '\\' any @code
     )* '\''?;
   c_dq_str =
     '"' @code (
       newline %{ entity = INTERNAL_NL; } %c_callback
       |
-      [^"\\]
+      ws
       |
-      '\\' any
+      [^"\\] @code
+      |
+      '\\' any @code
     )* '"'?;
   c_string = c_sq_str | c_dq_str;
 
@@ -132,7 +144,9 @@ int entity;
     (spaces (
       escaped_newline %{ entity = INTERNAL_NL; } %c_callback
       |
-      nonnewline
+      ws
+      |
+      nonnewline @code
     )*)?;
 
   c_identifier = (alpha | '_') (alnum | '_')*;
