@@ -113,23 +113,23 @@ int entity;
 
   c_sq_str =
     '\'' @code (
-      newline %{ entity = INTERNAL_NL; } %c_callback
+      escaped_newline %{ entity = INTERNAL_NL; } %c_callback
       |
       ws
       |
       [^\t '\\] @code
       |
-      '\\' any @code
+      '\\' nonnewline @code
     )* '\'';
   c_dq_str =
     '"' @code (
-      newline %{ entity = INTERNAL_NL; } %c_callback
+      escaped_newline %{ entity = INTERNAL_NL; } %c_callback
       |
       ws
       |
       [^\t "\\] @code
       |
-      '\\' any @code
+      '\\' nonnewline @code
     )* '"';
   c_string = c_sq_str | c_dq_str;
 
