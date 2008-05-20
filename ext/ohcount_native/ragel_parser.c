@@ -3,6 +3,7 @@
 
 // BEGIN parser includes
 #include "c_parser.h"
+#include "lua_parser.h"
 // END parser includes
 
 ParseResult *pr;
@@ -18,6 +19,7 @@ struct language languages[] = {
 // BEGIN languages
   { "c", parse_c },
   { "cpp", parse_c },
+  { "lua", parse_lua },
 // END languages
   { "", NULL }
 };
