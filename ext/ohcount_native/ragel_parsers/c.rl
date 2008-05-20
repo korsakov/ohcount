@@ -138,7 +138,7 @@ int entity;
   c_preproc_word =
     'define' | 'elif' | 'else' | 'endif' | 'error' | 'if' | 'ifdef' |
     'ifndef' | 'import' | 'include' | 'line' | 'pragma' | 'undef' |
-    'using';
+    'using' | 'warning';
   c_preproc =
     ('#' when no_code) @code ws* (c_block_comment ws*)? c_preproc_word
     (
