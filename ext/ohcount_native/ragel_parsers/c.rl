@@ -6,13 +6,13 @@ const char *C_LANG = "c";
 // the languages entities
 const char *c_entities[] = {
   "space", "comment", "string", "number", "preproc", "keyword",
-  "identifier", "operator", "escaped_newline", "newline", "any"
+  "identifier", "operator", "escaped_newline", "newline"
 };
 
 // constants associated with the entities
 enum {
   C_SPACE = 0, C_COMMENT, C_STRING, C_NUMBER, C_PREPROC, C_KEYWORD,
-  C_IDENTIFIER, C_OPERATOR, C_ESCAPED_NL, C_NEWLINE, C_ANY
+  C_IDENTIFIER, C_OPERATOR, C_ESCAPED_NL, C_NEWLINE
 };
 
 // do not change the following variables
@@ -49,7 +49,6 @@ int entity;
   action c_callback {
     switch(entity) {
     case C_SPACE:
-    case C_ANY:
       if (!line_start) line_start = ts;
       break;
     //case C_COMMENT:
@@ -178,7 +177,6 @@ int entity;
     c_operator        ${ entity = C_OPERATOR;    } => c_callback;
     escaped_newline   ${ entity = C_ESCAPED_NL;  } => c_callback;
     newline           ${ entity = C_NEWLINE;     } => c_callback;
-    nonprintable_char ${ entity = C_ANY;         } => c_callback;
   *|;
 }%%
 
