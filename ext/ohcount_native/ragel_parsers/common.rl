@@ -4,6 +4,7 @@ machine common;
 # common definitions
 
 # whitespace, non-printables
+ws = [\t ];
 spaces = [\t ]+;
 newline = ('\r\n' | '\n\r' | '\n' | '\f');
 escaped_newline = '\\' newline;
