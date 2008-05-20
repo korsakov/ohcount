@@ -1,7 +1,7 @@
 /************************* Required for every parser *************************/
 
 // the name of the language
-const char *LANG = "c";
+const char *C_LANG = "c";
 
 // the languages entities
 const char *c_entities[] = {
@@ -11,8 +11,8 @@ const char *c_entities[] = {
 
 // constants associated with the entities
 enum {
-  SPACE = 0, COMMENT, STRING, NUMBER, PREPROC, KEYWORD,
-  IDENTIFIER, OPERATOR, ESCAPED_NL, NEWLINE, ANY
+  C_SPACE = 0, C_COMMENT, C_STRING, C_NUMBER, C_PREPROC, C_KEYWORD,
+  C_IDENTIFIER, C_OPERATOR, C_ESCAPED_NL, C_NEWLINE, C_ANY
 };
 
 // do not change the following variables
@@ -48,49 +48,49 @@ int entity;
 
   action c_callback {
     switch(entity) {
-    case SPACE:
-    case ANY:
+    case C_SPACE:
+    case C_ANY:
       if (!line_start) line_start = ts;
       break;
-    //case COMMENT:
-    //case STRING:
-    case NUMBER:
-    //case PREPROC:
-    case KEYWORD:
-    case IDENTIFIER:
-    case OPERATOR:
+    //case C_COMMENT:
+    //case C_STRING:
+    case C_NUMBER:
+    //case C_PREPROC:
+    case C_KEYWORD:
+    case C_IDENTIFIER:
+    case C_OPERATOR:
       if (!line_contains_code && !line_start) line_start = ts;
       line_contains_code = 1;
       break;
-    case ESCAPED_NL:
+    case C_ESCAPED_NL:
     case INTERNAL_NL:
       if (c_callback && p > line_start) {
         if (line_contains_code)
-          c_callback(LANG, "lcode", cint(line_start), cint(p));
+          c_callback(C_LANG, "lcode", cint(line_start), cint(p));
         else if (whole_line_comment)
-          c_callback(LANG, "lcomment", cint(line_start), cint(p));
+          c_callback(C_LANG, "lcomment", cint(line_start), cint(p));
         else
-          c_callback(LANG, "lblank", cint(line_start), cint(p));
+          c_callback(C_LANG, "lblank", cint(line_start), cint(p));
         whole_line_comment = 0;
         line_contains_code = 0;
         line_start = p;
       }
       break;
-    case NEWLINE:
+    case C_NEWLINE:
       if (c_callback && te > line_start) {
         if (line_contains_code)
-          c_callback(LANG, "lcode", cint(line_start), cint(te));
+          c_callback(C_LANG, "lcode", cint(line_start), cint(te));
         else if (whole_line_comment)
-          c_callback(LANG, "lcomment", cint(line_start), cint(te));
+          c_callback(C_LANG, "lcomment", cint(line_start), cint(te));
         else
-          c_callback(LANG, "lblank", cint(ts), cint(te));
+          c_callback(C_LANG, "lblank", cint(ts), cint(te));
       }
       whole_line_comment = 0;
       line_contains_code = 0;
       line_start = 0;
     }
     if (c_callback && entity != INTERNAL_NL)
-      c_callback(LANG, c_entities[entity], cint(ts), cint(te));
+      c_callback(C_LANG, c_entities[entity], cint(ts), cint(te));
   }
 
   c_line_comment =
@@ -168,17 +168,17 @@ int entity;
   c_operator = [+\-/*%<>!=^&|?~:;.,()\[\]{}@];
 
   c_line := |*
-    spaces            ${ entity = SPACE;       } => c_callback;
-    c_comment         ${ entity = COMMENT;     } => c_callback;
-    c_string          ${ entity = STRING;      } => c_callback;
-    c_number          ${ entity = NUMBER;      } => c_callback;
-    c_preproc         ${ entity = PREPROC;     } => c_callback;
-    c_identifier      ${ entity = IDENTIFIER;  } => c_callback;
-    c_keyword         ${ entity = KEYWORD;     } => c_callback;
-    c_operator        ${ entity = OPERATOR;    } => c_callback;
-    escaped_newline   ${ entity = ESCAPED_NL;  } => c_callback;
-    newline           ${ entity = NEWLINE;     } => c_callback;
-    nonprintable_char ${ entity = ANY;         } => c_callback;
+    spaces            ${ entity = C_SPACE;       } => c_callback;
+    c_comment         ${ entity = C_COMMENT;     } => c_callback;
+    c_string          ${ entity = C_STRING;      } => c_callback;
+    c_number          ${ entity = C_NUMBER;      } => c_callback;
+    c_preproc         ${ entity = C_PREPROC;     } => c_callback;
+    c_identifier      ${ entity = C_IDENTIFIER;  } => c_callback;
+    c_keyword         ${ entity = C_KEYWORD;     } => c_callback;
+    c_operator        ${ entity = C_OPERATOR;    } => c_callback;
+    escaped_newline   ${ entity = C_ESCAPED_NL;  } => c_callback;
+    newline           ${ entity = C_NEWLINE;     } => c_callback;
+    nonprintable_char ${ entity = C_ANY;         } => c_callback;
   *|;
 }%%
 
@@ -209,8 +209,8 @@ void parse_c(char *buffer, int length,
   // no newline at EOF; get contents of last line
   if ((whole_line_comment || line_contains_code) && c_callback) {
     if (line_contains_code)
-      c_callback(LANG, "lcode", cint(line_start), cint(pe));
+      c_callback(C_LANG, "lcode", cint(line_start), cint(pe));
     else if (whole_line_comment)
-      c_callback(LANG, "lcomment", cint(line_start), cint(pe));
+      c_callback(C_LANG, "lcomment", cint(line_start), cint(pe));
   }
 }
