@@ -116,6 +116,10 @@ void parse_c(char *buffer, int length,
       (e.g. c_callback) and change all occurances in the parse_[lang] function
       appropriately.
 
+    You may be asking why you have to rename variables and functions. Well when
+    you have languages embedded inside others, any identifiers with the same
+    name can easily be mixed up.
+
   Try to understand what the main variables are used for. They will make more
   sense later on.
 
