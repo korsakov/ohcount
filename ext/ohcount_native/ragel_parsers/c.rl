@@ -140,7 +140,7 @@ int entity;
     'ifndef' | 'import' | 'include' | 'line' | 'pragma' | 'undef' |
     'using';
   c_preproc =
-    ('#' when no_code) ws* c_block_comment? ws* c_preproc_word @code
+    ('#' when no_code) ws* c_preproc_word
     (spaces (
       escaped_newline %{ entity = INTERNAL_NL; } %c_callback
       |
