@@ -21,18 +21,18 @@ Writing a Parser:
 /************************* Required for every parser *************************/
 
 // the name of the language
-const char *LANG = "c";
+const char *C_LANG = "c";
 
 // the languages entities
 const char *c_entities[] = {
   "space", "comment", "string", "number", "preproc", "keyword",
-  "identifier", "operator", "escaped_newline", "newline", "any"
+  "identifier", "operator", "escaped_newline", "newline"
 };
 
 // constants associated with the entities
 enum {
-  SPACE = 0, COMMENT, STRING, NUMBER, PREPROC, KEYWORD,
-  IDENTIFIER, OPERATOR, ESCAPED_NL, NEWLINE, ANY
+  C_SPACE = 0, C_COMMENT, C_STRING, C_NUMBER, C_PREPROC, C_KEYWORD,
+  C_IDENTIFIER, C_OPERATOR, C_ESCAPED_NL, C_NEWLINE
 };
 
 // do not change the following variables
@@ -99,14 +99,15 @@ void parse_c(char *buffer, int length,
   (Your parser will go between these two blocks.)
 
   The code can be found in the existing c.rl parser. You'll need to change:
-    * LANG - Set the value of LANG to be the name of your language to parse.
-    * [lang]_entities - Set the variable name to be [lang]_entities where [lang]
-      is your language name. So if you're writing a C parser, it would be
-      c_entities. The value is an array of string entities your language has.
+    * [lang]_LANG - Set the variable name to be [lang]_LANG and its value to be
+      the name of your language to parse. [lang] is your language name. So if
+      you're writing a C parser, it would be C_LANG.
+    * [lang]_entities - Set the variable name to be [lang]_entities (e.g.
+      c_entries) The value is an array of string entities your language has.
       For example C has comment, string, number, etc. entities. You should
-      definately have "space", "newline", and "any" entities. If your language
-      has escaped newlines (or continuations), have an "escaped_newline" entity
-      as well.
+      definately have "space", and "newline" entities. If your language has
+      escaped newlines (or continuations), have an "escaped_newline" entity as
+      well.
     * enum - Change the value of the enum to correspond with your entities. So
       if in your parser you look up [lang]_entities[ENTITY], you'll get the
       associated entity's string name.
