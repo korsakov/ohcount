@@ -119,7 +119,8 @@ void parse_c(char *buffer, int length,
 
     You may be asking why you have to rename variables and functions. Well when
     you have languages embedded inside others, any identifiers with the same
-    name can easily be mixed up.
+    name can easily be mixed up. It's also important to prefix your Ragel
+    definitions with your language to avoid conflicts with other parsers.
 
   Try to understand what the main variables are used for. They will make more
   sense later on.
