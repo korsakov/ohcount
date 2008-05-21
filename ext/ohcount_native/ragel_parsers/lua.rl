@@ -60,33 +60,31 @@ int entity;
       line_contains_code = 1;
       break;
     case INTERNAL_NL:
-      if (lua_callback && p > line_start) {
+      if (callback && p > line_start) {
         if (line_contains_code)
-          lua_callback(LUA_LANG, "lcode", cint(line_start), cint(p));
+          callback(LUA_LANG, "lcode", cint(line_start), cint(p));
         else if (whole_line_comment)
-          lua_callback(LUA_LANG, "lcomment", cint(line_start), cint(p));
+          callback(LUA_LANG, "lcomment", cint(line_start), cint(p));
         else
-          lua_callback(LUA_LANG, "lblank", cint(line_start), cint(p));
+          callback(LUA_LANG, "lblank", cint(line_start), cint(p));
         whole_line_comment = 0;
         line_contains_code = 0;
         line_start = p;
       }
       break;
     case LUA_NEWLINE:
-      if (lua_callback && te > line_start) {
+      if (callback && te > line_start) {
         if (line_contains_code)
-          lua_callback(LUA_LANG, "lcode", cint(line_start), cint(te));
+          callback(LUA_LANG, "lcode", cint(line_start), cint(te));
         else if (whole_line_comment)
-          lua_callback(LUA_LANG, "lcomment", cint(line_start), cint(te));
+          callback(LUA_LANG, "lcomment", cint(line_start), cint(te));
         else
-          lua_callback(LUA_LANG, "lblank", cint(ts), cint(te));
+          callback(LUA_LANG, "lblank", cint(ts), cint(te));
       }
       whole_line_comment = 0;
       line_contains_code = 0;
       line_start = 0;
     }
-    if (lua_callback && entity != INTERNAL_NL)
-      lua_callback(LUA_LANG, lua_entities[entity], cint(ts), cint(te));
   }
 
   action lua_long_ec_res { equal_count = 0; }
@@ -157,12 +155,12 @@ int entity;
  * @param count Integer flag specifying whether or not to count lines. If yes,
  *   uses the Ragel machine optimized for counting. Otherwise uses the Ragel
  *   machine optimized for returning entity positions.
- * @param *lua_callback Callback function. If count is set, callback is called
- *   for every line of code, comment, or blank with 'lcode', 'lcomment', and
+ * @param *callback Callback function. If count is set, callback is called for
+ *   every line of code, comment, or blank with 'lcode', 'lcomment', and
  *   'lblank' respectively. Otherwise callback is called for each entity found.
  */
 void parse_lua(char *buffer, int length, int count,
-  void (*lua_callback) (const char *lang, const char *entity, int start, int end)
+  void (*callback) (const char *lang, const char *entity, int start, int end)
   ) {
   p = buffer;
   pe = buffer + length;
@@ -180,11 +178,11 @@ void parse_lua(char *buffer, int length, int count,
   if (count) {
     %% write exec lua_line;
     // no newline at EOF; get contents of last line
-    if ((whole_line_comment || line_contains_code) && lua_callback) {
+    if ((whole_line_comment || line_contains_code) && callback) {
       if (line_contains_code)
-        lua_callback(LUA_LANG, "lcode", cint(line_start), cint(pe));
+        callback(LUA_LANG, "lcode", cint(line_start), cint(pe));
       else if (whole_line_comment)
-        lua_callback(LUA_LANG, "lcomment", cint(line_start), cint(pe));
+        callback(LUA_LANG, "lcomment", cint(line_start), cint(pe));
     }
   }
 }

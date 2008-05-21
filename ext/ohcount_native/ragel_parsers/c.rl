@@ -62,26 +62,26 @@ int entity;
       break;
     case C_ESCAPED_NL:
     case INTERNAL_NL:
-      if (c_callback && p > line_start) {
+      if (callback && p > line_start) {
         if (line_contains_code)
-          c_callback(C_LANG, "lcode", cint(line_start), cint(p));
+          callback(C_LANG, "lcode", cint(line_start), cint(p));
         else if (whole_line_comment)
-          c_callback(C_LANG, "lcomment", cint(line_start), cint(p));
+          callback(C_LANG, "lcomment", cint(line_start), cint(p));
         else
-          c_callback(C_LANG, "lblank", cint(line_start), cint(p));
+          callback(C_LANG, "lblank", cint(line_start), cint(p));
       }
       whole_line_comment = 0;
       line_contains_code = 0;
       line_start = p;
       break;
     case C_NEWLINE:
-      if (c_callback && te > line_start) {
+      if (callback && te > line_start) {
         if (line_contains_code)
-          c_callback(C_LANG, "lcode", cint(line_start), cint(te));
+          callback(C_LANG, "lcode", cint(line_start), cint(te));
         else if (whole_line_comment)
-          c_callback(C_LANG, "lcomment", cint(line_start), cint(te));
+          callback(C_LANG, "lcomment", cint(line_start), cint(te));
         else
-          c_callback(C_LANG, "lblank", cint(ts), cint(te));
+          callback(C_LANG, "lblank", cint(ts), cint(te));
       }
       whole_line_comment = 0;
       line_contains_code = 0;
@@ -165,12 +165,12 @@ int entity;
  * @param count Integer flag specifying whether or not to count lines. If yes,
  *   uses the Ragel machine optimized for counting. Otherwise uses the Ragel
  *   machine optimized for returning entity positions.
- * @param *c_callback Callback function. If count is set, callback is called for
+ * @param *callback Callback function. If count is set, callback is called for
  *   every line of code, comment, or blank with 'lcode', 'lcomment', and
  *   'lblank' respectively. Otherwise callback is called for each entity found.
  */
 void parse_c(char *buffer, int length, int count,
-  void (*c_callback) (const char *lang, const char *entity, int start, int end)
+  void (*callback) (const char *lang, const char *entity, int start, int end)
   ) {
   p = buffer;
   pe = buffer + length;
@@ -186,11 +186,11 @@ void parse_c(char *buffer, int length, int count,
   if (count) {
     %% write exec c_line;
     // no newline at EOF; get contents of last line
-    if ((whole_line_comment || line_contains_code) && c_callback) {
+    if ((whole_line_comment || line_contains_code) && callback) {
       if (line_contains_code)
-        c_callback(C_LANG, "lcode", cint(line_start), cint(pe));
+        callback(C_LANG, "lcode", cint(line_start), cint(pe));
       else if (whole_line_comment)
-        c_callback(C_LANG, "lcomment", cint(line_start), cint(pe));
+        callback(C_LANG, "lcomment", cint(line_start), cint(pe));
     }
   }
 }
