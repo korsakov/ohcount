@@ -3,12 +3,12 @@ Written by Mitchell Foral
 Overview:
   I will assume the reader has a decent knowledge of how Ragel works and the
   Ragel syntax.
-  All parsers must do 4 things:
-    * Call back when a line of code is parsed.
-    * Call back when a line of comment is parsed.
-    * Call back when a blank line is parsed.
-    * Call back for entities parsed.
-  The first three are tricker than they may seem; the last is very easy.
+  All parsers must at least:
+    * Call a callback function when a line of code is parsed.
+    * Call a callback function when a line of comment is parsed.
+    * Call a callback function when a blank line is parsed.
+  Additionally a parser can call the callback function for each position of
+  entities parsed.
 
   Take a look at c.rl and even keep it open for reference when reading this
   document to better understand how parsers work and how to write one.
@@ -25,13 +25,13 @@ const char *C_LANG = "c";
 
 // the languages entities
 const char *c_entities[] = {
-  "space", "comment", "string", "number", "preproc", "keyword",
+  "space", "comment", "string", "number", "preproc",
   "identifier", "operator", "escaped_newline", "newline"
 };
 
 // constants associated with the entities
 enum {
-  C_SPACE = 0, C_COMMENT, C_STRING, C_NUMBER, C_PREPROC, C_KEYWORD,
+  C_SPACE = 0, C_COMMENT, C_STRING, C_NUMBER, C_PREPROC,
   C_IDENTIFIER, C_OPERATOR, C_ESCAPED_NL, C_NEWLINE
 };
 
@@ -67,12 +67,15 @@ int entity;
  *
  * @param *buffer The string to parse.
  * @param length The length of the string to parse.
- * @param *c_callback Callback function called for each entity. Entities are
- *   the ones defined in the lexer as well as 3 additional entities used by
- *   Ohcount for counting lines: lcode, lcomment, lblank.
+ * @param count Integer flag specifying whether or not to count lines. If yes,
+ *   uses the Ragel machine optimized for counting. Otherwise uses the Ragel
+ *   machine optimized for returning entity positions.
+ * @param *callback Callback function. If count is set, callback is called for
+ *   every line of code, comment, or blank with 'lcode', 'lcomment', and
+ *   'lblank' respectively. Otherwise callback is called for each entity found.
  */
-void parse_c(char *buffer, int length,
-  void (*c_callback) (const char *lang, const char *entity, int start, int end)
+void parse_c(char *buffer, int length, int count,
+  void (*callback) (const char *lang, const char *entity, int start, int end)
   ) {
   p = buffer;
   pe = buffer + length;
@@ -85,14 +88,15 @@ void parse_c(char *buffer, int length,
   entity = 0;
 
   %% write init;
-  %% write exec;
-
-  // no newline at EOF; get contents of last line
-  if ((whole_line_comment || line_contains_code) && c_callback) {
-    if (line_contains_code)
-      c_callback(LANG, "lcode", cint(line_start), cint(pe));
-    else if (whole_line_comment)
-      c_callback(LANG, "lcomment", cint(line_start), cint(pe));
+  if (count) {
+    %% write exec c_line;
+    // no newline at EOF; get contents of last line
+    if ((whole_line_comment || line_contains_code) && callback) {
+      if (line_contains_code)
+        callback(C_LANG, "lcode", cint(line_start), cint(pe));
+      else if (whole_line_comment)
+        callback(C_LANG, "lcomment", cint(line_start), cint(pe));
+    }
   }
 }
 
@@ -113,14 +117,16 @@ void parse_c(char *buffer, int length,
       associated entity's string name.
     * parse_[lang] - Set the function name to parse_[lang] where again, [lang]
       is the name of your language. In the case of C, it is parse_c.
-    * [lang]_callback - Set the name of the callback to be [lang]_callback
-      (e.g. c_callback) and change all occurances in the parse_[lang] function
-      appropriately.
+    * [lang]_line - (Inside parse_[lang], after 'write exec'). This is the line
+      counting machine.
+    TODO: [lang]_lang - The entity machine.
 
-    You may be asking why you have to rename variables and functions. Well when
-    you have languages embedded inside others, any identifiers with the same
-    name can easily be mixed up. It's also important to prefix your Ragel
-    definitions with your language to avoid conflicts with other parsers.
+    You may be asking why you have to rename variables and functions. Well if
+    variables have the same name in header files (which is what parsers are),
+    the compiler complains. Also, when you have languages embedded inside each
+    other, any identifiers with the same name can easily be mixed up. It's also
+    important to prefix your Ragel definitions with your language to avoid
+    conflicts with other parsers.
 
   Try to understand what the main variables are used for. They will make more
   sense later on.
@@ -140,92 +146,110 @@ void parse_c(char *buffer, int length,
     Before you begin to write patterns for each entity in your language, you
     need to understand how the parser should work.
 
-    You should write a parser as a line-by-line parser for multiple lines. This
-    means you match any combination of entities except a newline up until you do
-    reach a newline. If the line contains only spaces, or nothing at all, it is
-    blank. If the line contains spaces at first, but then a comment, or just
-    simply a comment, the line is a comment. If the line contains anything but a
-    comment after spaces (if there are any), it is a line of code. You will do
-    this using a Ragel scanner.
+    Each parser has two machines: one optimized for counting lines of code,
+    comments, and blanks; the other for identifying entity positions in the
+    buffer.
 
-  Scanner Parser Structure:
-    A scanner parser will look like this:
-      [lang]_line := |*
-        entity1 ${ entity = ENTITY1; } => [lang]_callback;
-        entity1 ${ entity = ENTITY2; } => [lang]_callback;
-        ...
-        entityn ${ entity = ENTITYN; } => [lang]_callback;
-      *|;
-    (As usual, replace [lang] with your language name.)
-    Each entity is the pattern for an entity to match. For each match, the
-    variable is set to a constant defined in the enum, and the main action is
-    called (you will need to create this action above the scanner).
+    Line Counting Machine:
+      This machine should be written as a line-by-line parser for multiple
+      lines. This means you match any combination of entities except a newline
+      up until you do reach a newline. If the line contains only spaces, or
+      nothing at all, it is blank. If the line contains spaces at first, but
+      then a comment, or just simply a comment, the line is a comment. If the
+      line contains anything but a comment after spaces (if there are any), it
+      is a line of code. You will do this using a Ragel scanner.
+      The callback function will be called for each line parsed.
 
-    When you detect whether or not a line is code or comment, you should call
-    the appropriate 'code' or 'comment' action defined in common.rl as soon as
-    possible. It is not necessary to worry about whether or not these actions
-    are called more than once for a given line; the first call to either sets
-    the status of the line permanently. Sometimes you cannot call 'code' or
-    'comment' for one reason or another. Do not worry, as this is discussed
-    later.
+      Scanner Parser Structure:
+        A scanner parser will look like this:
+          [lang]_line := |*
+            entity1 ${ entity = ENTITY1; } => [lang]_callback;
+            entity1 ${ entity = ENTITY2; } => [lang]_callback;
+            ...
+            entityn ${ entity = ENTITYN; } => [lang]_callback;
+          *|;
+        (As usual, replace [lang] with your language name.)
+        Each entity is the pattern for an entity to match, the last one
+        typically being the newline entity. For each match, the variable is set
+        to a constant defined in the enum, and the main action is called (you
+        will need to create this action above the scanner).
 
-    When you reach a newline, you will need to decide whether the current line
-    is a line of code, comment, or blank. This is easy. Simply check if the
-    line_contains_code or whole_line_comment variables are set to 1. If neither
-    of them are, the line is blank. Then call the [lang]_callback function (not
-    action) with an "lcode", "lcomment", or "lblank" string, and the start and
-    end positions of that line (including the newline). The start position of
-    the line is in the line_start variable. It should be set at the beginning
-    of every line either through the 'code' or 'comment' actions, or manually
-    in the main action. Finally the line_contains_code, whole_line_comment, and
-    line_start state variables must be reset. All this is done in the main
-    action shown below.
+        When you detect whether or not a line is code or comment, you should
+        call the appropriate 'code' or 'comment' action defined in common.rl as
+        soon as possible. It is not necessary to worry about whether or not
+        these actions are called more than once for a given line; the first call
+        to either sets the status of the line permanently. Sometimes you cannot
+        call 'code' or 'comment' for one reason or another. Do not worry, as
+        this is discussed later.
 
-  Main Action Structure:
-    The main action looks like this:
-      action [lang]_callback {
-        switch(entity) {
-        when ENTITY1:
-          ...
-          break;
-        when ENTITY2:
-          ...
-          break;
-        ...
-        when ENTITYN:
-          ...
-          break;
-        }
-        if([lang]_callback && entity != INTERNAL_NL)
-          [lang]_callback(LANG, [lang]_entities[entity], cint(ts), cint(te));
-      }
-    The last bit of code is for the entity callback. It passes the entire entity
-    text (including internal newlines) and position of the entity in the buffer
-    to the callback function.
+        When you reach a newline, you will need to decide whether the current
+        line is a line of code, comment, or blank. This is easy. Simply check if
+        the line_contains_code or whole_line_comment variables are set to 1. If
+        neither of them are, the line is blank. Then call the callback function
+        (not action) with an "lcode", "lcomment", or "lblank" string, and the
+        start and end positions of that line (including the newline). The start
+        position of the line is in the line_start variable. It should be set at
+        the beginning of every line either through the 'code' or 'comment'
+        actions, or manually in the main action. Finally the line_contains_code,
+        whole_line_comment, and line_start state variables must be reset. All
+        this should be done within the main action shown below.
 
-  Defining Patterns for Entities:
-    Now it is time to write patterns for each entity in your language. That
-    doesn't seem very hard, except when your entity can cover multiple lines.
-    Comments and strings in particular can do this. To make an accurate line
-    counter, you will need to count the lines covered by multi-line entities.
-    When you detect a newline inside your multi-line entity, you should set the
-    entity variable to be INTERNAL_NL (-1) and call the main action. The main
-    action should have a case for INTERNAL_NL separate from the newline entity.
-    In it, you will check if the current line is code or comment and call the
-    callback function with the appropriate string ("lcode" or "lcomment") and
-    beginning and end of the line (including the newline). Afterwards, you will
-    reset the line_contains_code and whole_line_comment state variables. Then
-    set the line_start variable to be p, the current Ragel buffer position.
-    Because line_contains_code and whole_line_comment have been reset, any non-
-    newline and non-space character in the multi-line pattern should set
-    line_contains_code or whole_line_comment back to 1. Otherwise you would
-    count the line as blank.
+      Main Action Structure:
+        The main action looks like this:
+          action [lang]_callback {
+            switch(entity) {
+            when ENTITY1:
+              ...
+              break;
+            when ENTITY2:
+              ...
+              break;
+            ...
+            when ENTITYN:
+              ...
+              break;
+            }
+          }
 
-    For multi-line matches, it is important to call the 'code' or 'comment'
-    actions (mentioned earlier) before an internal newline is detected so the
-    line_contains_code and whole_line_comment variables are properly set. For
-    other entities, you can add code for setting line_contains_code and
-    whole_line_comment inside the switch statement of the main action. See the
-    'code' and 'comment' actions in 'common.rl' for the appropriate code.
+      Defining Patterns for Entities:
+        Now it is time to write patterns for each entity in your language. That
+        doesn't seem very hard, except when your entity can cover multiple
+        lines. Comments and strings in particular can do this. To make an
+        accurate line counter, you will need to count the lines covered by
+        multi-line entities. When you detect a newline inside your multi-line
+        entity, you should set the entity variable to be INTERNAL_NL (-1) and
+        call the main action. The main action should have a case for INTERNAL_NL
+        separate from the newline entity. In it, you will check if the current
+        line is code or comment and call the callback function with the
+        appropriate string ("lcode" or "lcomment") and beginning and end of the
+        line (including the newline). Afterwards, you will reset the
+        line_contains_code and whole_line_comment state variables. Then set the
+        line_start variable to be p, the current Ragel buffer position. Because
+        line_contains_code and whole_line_comment have been reset, any non-
+        newline and non-space character in the multi-line pattern should set
+        line_contains_code or whole_line_comment back to 1. Otherwise you would
+        count the line as blank.
 
-  That's all there is to it!
+        For multi-line matches, it is important to call the 'code' or 'comment'
+        actions (mentioned earlier) before an internal newline is detected so
+        the line_contains_code and whole_line_comment variables are properly
+        set. For other entities, you can add code for setting line_contains_code
+        and whole_line_comment inside the switch statement of the main action.
+        See the 'code' and 'comment' actions in 'common.rl' for the appropriate
+        code.
+
+    Notes:
+      * You can be a bit sloppy with the line counting machine. For example C
+        preprocessor statements have specific words such as include, ifdef, etc.
+        You wouldn't have to check for those specific words to make it a
+        perfectly valid preprocessor statement, you are only interested in
+        whether or not the line contains code, which in this case it would. The
+        entity identifying machine would have to check words however.
+
+    Entity Identifying Machine:
+      This machine doesn't have to be written as a line-by-line parser. It only
+      has to identify the positions of language entities, such as whitespace,
+      comments, strings, etc. in sequence.
+      The callback function will be called for each entity parsed.
+
+    TODO: more doc for this machine.
