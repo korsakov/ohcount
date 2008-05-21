@@ -5,13 +5,13 @@ const char *C_LANG = "c";
 
 // the languages entities
 const char *c_entities[] = {
-  "space", "comment", "string", "number", "preproc", "keyword",
+  "space", "comment", "string", "number", "preproc",
   "identifier", "operator", "escaped_newline", "newline"
 };
 
 // constants associated with the entities
 enum {
-  C_SPACE = 0, C_COMMENT, C_STRING, C_NUMBER, C_PREPROC, C_KEYWORD,
+  C_SPACE = 0, C_COMMENT, C_STRING, C_NUMBER, C_PREPROC,
   C_IDENTIFIER, C_OPERATOR, C_ESCAPED_NL, C_NEWLINE
 };
 
@@ -55,7 +55,6 @@ int entity;
     //case C_STRING:
     case C_NUMBER:
     //case C_PREPROC:
-    case C_KEYWORD:
     case C_IDENTIFIER:
     case C_OPERATOR:
       if (!line_contains_code && !line_start) line_start = ts;
@@ -70,10 +69,10 @@ int entity;
           c_callback(C_LANG, "lcomment", cint(line_start), cint(p));
         else
           c_callback(C_LANG, "lblank", cint(line_start), cint(p));
-        whole_line_comment = 0;
-        line_contains_code = 0;
-        line_start = p;
       }
+      whole_line_comment = 0;
+      line_contains_code = 0;
+      line_start = p;
       break;
     case C_NEWLINE:
       if (c_callback && te > line_start) {
@@ -88,8 +87,6 @@ int entity;
       line_contains_code = 0;
       line_start = 0;
     }
-    if (c_callback && entity != INTERNAL_NL)
-      c_callback(C_LANG, c_entities[entity], cint(ts), cint(te));
   }
 
   c_line_comment =
@@ -134,12 +131,8 @@ int entity;
 
   c_number = float | integer;
 
-  c_preproc_word =
-    'define' | 'elif' | 'else' | 'endif' | 'error' | 'if' | 'ifdef' |
-    'ifndef' | 'import' | 'include' | 'line' | 'pragma' | 'undef' |
-    'using' | 'warning';
   c_preproc =
-    ('#' when no_code) @code ws* (c_block_comment ws*)? c_preproc_word
+    ('#' when no_code) @code ws* (c_block_comment ws*)? alpha+
     (
       escaped_newline %{ entity = INTERNAL_NL; } %c_callback
       |
@@ -150,33 +143,18 @@ int entity;
 
   c_identifier = (alpha | '_') (alnum | '_')*;
 
-  c_keyword =
-    'and' | 'and_eq' | 'asm' | 'auto' | 'bitand' | 'bitor' | 'bool' |
-    'break' | 'case' | 'catch' | 'char' | 'class' | 'compl' | 'const' |
-    'const_cast' | 'continue' | 'default' | 'delete' | 'do' | 'double' |
-    'dynamic_cast' | 'else' | 'enum' | 'explicit' | 'export' | 'extern' |
-    'false' | 'float' | 'for' | 'friend' | 'goto' | 'if' | 'inline' | 'int' |
-    'long' | 'mutable' | 'namespace' | 'new' | 'not' | 'not_eq' |
-    'operator' | 'or' | 'or_eq' | 'private' | 'protected' | 'public' |
-    'register' | 'reinterpret_cast' | 'return' | 'short' | 'signed' |
-    'sizeof' | 'static' | 'static_cast' | 'struct' | 'switch' |
-    'template' | 'this' | 'throw' | 'true' | 'try' | 'typedef' | 'typeid' |
-    'typename' | 'union' | 'unsigned' | 'using' | 'virtual' | 'void' |
-    'volatile' | 'wchar_t' | 'while' | 'xor' | 'xor_eq';
-
   c_operator = [+\-/*%<>!=^&|?~:;.,()\[\]{}@];
 
   c_line := |*
-    spaces            ${ entity = C_SPACE;       } => c_callback;
-    c_comment         ${ entity = C_COMMENT;     } => c_callback;
-    c_string          ${ entity = C_STRING;      } => c_callback;
-    c_number          ${ entity = C_NUMBER;      } => c_callback;
-    c_preproc         ${ entity = C_PREPROC;     } => c_callback;
-    c_identifier      ${ entity = C_IDENTIFIER;  } => c_callback;
-    c_keyword         ${ entity = C_KEYWORD;     } => c_callback;
-    c_operator        ${ entity = C_OPERATOR;    } => c_callback;
-    escaped_newline   ${ entity = C_ESCAPED_NL;  } => c_callback;
-    newline           ${ entity = C_NEWLINE;     } => c_callback;
+    spaces          ${ entity = C_SPACE;      } => c_callback;
+    c_comment       ${ entity = C_COMMENT;    } => c_callback;
+    c_string        ${ entity = C_STRING;     } => c_callback;
+    c_number        ${ entity = C_NUMBER;     } => c_callback;
+    c_preproc       ${ entity = C_PREPROC;    } => c_callback;
+    c_identifier    ${ entity = C_IDENTIFIER; } => c_callback;
+    c_operator      ${ entity = C_OPERATOR;   } => c_callback;
+    escaped_newline ${ entity = C_ESCAPED_NL; } => c_callback;
+    newline         ${ entity = C_NEWLINE;    } => c_callback;
   *|;
 }%%
 
@@ -184,11 +162,14 @@ int entity;
  *
  * @param *buffer The string to parse.
  * @param length The length of the string to parse.
- * @param *c_callback Callback function called for each entity. Entities are
- *   the ones defined in the lexer as well as 3 additional entities used by
- *   Ohcount for counting lines: lcode, lcomment, lblank.
+ * @param count Integer flag specifying whether or not to count lines. If yes,
+ *   uses the Ragel machine optimized for counting. Otherwise uses the Ragel
+ *   machine optimized for returning entity positions.
+ * @param *c_callback Callback function. If count is set, callback is called for
+ *   every line of code, comment, or blank with 'lcode', 'lcomment', and
+ *   'lblank' respectively. Otherwise callback is called for each entity found.
  */
-void parse_c(char *buffer, int length,
+void parse_c(char *buffer, int length, int count,
   void (*c_callback) (const char *lang, const char *entity, int start, int end)
   ) {
   p = buffer;
@@ -202,13 +183,14 @@ void parse_c(char *buffer, int length,
   entity = 0;
 
   %% write init;
-  %% write exec;
-
-  // no newline at EOF; get contents of last line
-  if ((whole_line_comment || line_contains_code) && c_callback) {
-    if (line_contains_code)
-      c_callback(C_LANG, "lcode", cint(line_start), cint(pe));
-    else if (whole_line_comment)
-      c_callback(C_LANG, "lcomment", cint(line_start), cint(pe));
+  if (count) {
+    %% write exec c_line;
+    // no newline at EOF; get contents of last line
+    if ((whole_line_comment || line_contains_code) && c_callback) {
+      if (line_contains_code)
+        c_callback(C_LANG, "lcode", cint(line_start), cint(pe));
+      else if (whole_line_comment)
+        c_callback(C_LANG, "lcomment", cint(line_start), cint(pe));
+    }
   }
 }

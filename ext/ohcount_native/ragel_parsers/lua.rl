@@ -5,13 +5,13 @@ const char *LUA_LANG = "lua";
 
 // the languages entities
 const char *lua_entities[] = {
-  "space", "comment", "string", "number", "keyword",
+  "space", "comment", "string", "number",
   "identifier", "operator", "newline"
 };
 
 // constants associated with the entities
 enum {
-  LUA_SPACE = 0, LUA_COMMENT, LUA_STRING, LUA_NUMBER, LUA_KEYWORD,
+  LUA_SPACE = 0, LUA_COMMENT, LUA_STRING, LUA_NUMBER,
   LUA_IDENTIFIER, LUA_OPERATOR, LUA_NEWLINE
 };
 
@@ -54,7 +54,6 @@ int entity;
     //case LUA_COMMENT:
     //case LUA_STRING:
     case LUA_NUMBER:
-    case LUA_KEYWORD:
     case LUA_IDENTIFIER:
     case LUA_OPERATOR:
       if (!line_contains_code && !line_start) line_start = ts;
@@ -140,34 +139,29 @@ int entity;
 
   lua_identifier = ([a-zA-Z] | '_') (alnum + '_')*;
 
-  lua_keyword =
-    'and' | 'break' | 'do' | 'else' | 'elseif' | 'end' | 'false' | 'for' |
-    'function' | 'if' | 'in' | 'local' | 'nil' | 'not' | 'or' | 'repeat' |
-    'return' | 'then' | 'true' | 'until' | 'while';
-
   lua_operator = '~=' | [+\-*/%^#=<>,;:,.{}\[\]()];
 
   lua_line := |*
-    spaces            ${ entity = LUA_SPACE;      } => lua_callback;
-    lua_comment       ${ entity = LUA_COMMENT;    } => lua_callback;
-    lua_string        ${ entity = LUA_STRING;     } => lua_callback;
-    lua_number        ${ entity = LUA_NUMBER;     } => lua_callback;
-    lua_identifier    ${ entity = LUA_IDENTIFIER; } => lua_callback;
-    lua_keyword       ${ entity = LUA_KEYWORD;    } => lua_callback;
-    lua_operator      ${ entity = LUA_OPERATOR;   } => lua_callback;
-    newline           ${ entity = LUA_NEWLINE;    } => lua_callback;
+    spaces         ${ entity = LUA_SPACE;      } => lua_callback;
+    lua_comment    ${ entity = LUA_COMMENT;    } => lua_callback;
+    lua_string     ${ entity = LUA_STRING;     } => lua_callback;
+    lua_number     ${ entity = LUA_NUMBER;     } => lua_callback;
+    lua_identifier ${ entity = LUA_IDENTIFIER; } => lua_callback;
+    lua_operator   ${ entity = LUA_OPERATOR;   } => lua_callback;
+    newline        ${ entity = LUA_NEWLINE;    } => lua_callback;
   *|;
 }%%
 
 /* Parses a string buffer with Lua code.
  *
- * @param *buffer The string to parse.
- * @param length The length of the string to parse.
- * @param *lua_callback Callback function called for each entity. Entities are
- *   the ones defined in the lexer as well as 3 additional entities used by
- *   Ohcount for counting lines: lcode, lcomment, lblank.
+ * @param count Integer flag specifying whether or not to count lines. If yes,
+ *   uses the Ragel machine optimized for counting. Otherwise uses the Ragel
+ *   machine optimized for returning entity positions.
+ * @param *lua_callback Callback function. If count is set, callback is called
+ *   for every line of code, comment, or blank with 'lcode', 'lcomment', and
+ *   'lblank' respectively. Otherwise callback is called for each entity found.
  */
-void parse_lua(char *buffer, int length,
+void parse_lua(char *buffer, int length, int count,
   void (*lua_callback) (const char *lang, const char *entity, int start, int end)
   ) {
   p = buffer;
@@ -183,13 +177,14 @@ void parse_lua(char *buffer, int length,
   int equal_count = 0;
 
   %% write init;
-  %% write exec;
-
-  // no newline at EOF; get contents of last line
-  if ((whole_line_comment || line_contains_code) && lua_callback) {
-    if (line_contains_code)
-      lua_callback(LUA_LANG, "lcode", cint(line_start), cint(pe));
-    else if (whole_line_comment)
-      lua_callback(LUA_LANG, "lcomment", cint(line_start), cint(pe));
+  if (count) {
+    %% write exec lua_line;
+    // no newline at EOF; get contents of last line
+    if ((whole_line_comment || line_contains_code) && lua_callback) {
+      if (line_contains_code)
+        lua_callback(LUA_LANG, "lcode", cint(line_start), cint(pe));
+      else if (whole_line_comment)
+        lua_callback(LUA_LANG, "lcomment", cint(line_start), cint(pe));
+    }
   }
 }

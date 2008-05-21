@@ -12,7 +12,7 @@ int parse_buffer_len;
 
 struct language {
   char name[MAX_LANGUAGE_NAME];
-  void (*parser) (char*, int, void*);
+  void (*parser) (char*, int, int, void*);
 };
 
 struct language languages[] = {
@@ -101,7 +101,7 @@ int ragel_parser_parse(ParseResult *parse_result,
   int i;
   for (i = 0; strlen(languages[i].name) != 0; i++)
     if (strcmp(languages[i].name, lang) == 0) {
-      languages[i].parser(buffer, buffer_len, ragel_parser_callback);
+      languages[i].parser(buffer, buffer_len, 1, ragel_parser_callback);
       return 1;
     }
   return 0;
