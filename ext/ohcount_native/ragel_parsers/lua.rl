@@ -152,6 +152,8 @@ int entity;
 
 /* Parses a string buffer with Lua code.
  *
+ * @param *buffer The string to parse.
+ * @param length The length of the string to parse.
  * @param count Integer flag specifying whether or not to count lines. If yes,
  *   uses the Ragel machine optimized for counting. Otherwise uses the Ragel
  *   machine optimized for returning entity positions.
