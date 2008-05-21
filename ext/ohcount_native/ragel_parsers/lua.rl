@@ -1,5 +1,5 @@
 /************************* Required for every parser *************************/
-#include "ragel_parser_defines.h"
+#include "ragel_parser_macros.h"
 
 // the name of the language
 const char *LUA_LANG = "lua";

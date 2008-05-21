@@ -1,5 +1,5 @@
 /************************* Required for every parser *************************/
-#include "ragel_parser_defines.h"
+#include "ragel_parser_macros.h"
 
 // the name of the language
 const char *C_LANG = "c";
@@ -112,8 +112,7 @@ int entity;
   c_number = float | integer;
 
   c_preproc =
-    ('#' when no_code) @code ws* (c_block_comment ws*)? alpha+
-    (
+    ('#' when no_code) @code ws* (c_block_comment ws*)? alpha+ (
       escaped_newline %{ entity = INTERNAL_NL; } %c_callback
       |
       ws
