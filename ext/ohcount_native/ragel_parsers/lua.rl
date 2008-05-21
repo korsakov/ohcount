@@ -157,14 +157,9 @@ void parse_lua(char *buffer, int length, int count,
   int equal_count = 0;
 
   %% write init;
-  if (count) {
+  if (count)
     %% write exec lua_line;
-    // no newline at EOF; get contents of last line
-    if ((whole_line_comment || line_contains_code) && callback) {
-      if (line_contains_code)
-        callback(LUA_LANG, "lcode", cint(line_start), cint(pe));
-      else if (whole_line_comment)
-        callback(LUA_LANG, "lcomment", cint(line_start), cint(pe));
-    }
-  }
+
+  // if no newline at EOF; get contents of last line
+  process_last_line(LUA_LANG)
 }

@@ -163,14 +163,9 @@ void parse_c(char *buffer, int length, int count,
   entity = 0;
 
   %% write init;
-  if (count) {
+  if (count)
     %% write exec c_line;
-    // no newline at EOF; get contents of last line
-    if ((whole_line_comment || line_contains_code) && callback) {
-      if (line_contains_code)
-        callback(C_LANG, "lcode", cint(line_start), cint(pe));
-      else if (whole_line_comment)
-        callback(C_LANG, "lcomment", cint(line_start), cint(pe));
-    }
-  }
+
+  // if no newline at EOF; callback contents of last line
+  process_last_line(C_LANG)
 }

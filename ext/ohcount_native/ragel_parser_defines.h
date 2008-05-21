@@ -39,3 +39,12 @@
   line_contains_code = 0; \
   line_start = 0; \
 }
+
+#define process_last_line(lang) {\
+  if ((whole_line_comment || line_contains_code) && callback) { \
+    if (line_contains_code) \
+      callback(lang, "lcode", cint(line_start), cint(pe)); \
+    else if (whole_line_comment) \
+      callback(lang, "lcomment", cint(line_start), cint(pe)); \
+  } \
+}
