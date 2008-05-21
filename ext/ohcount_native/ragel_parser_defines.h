@@ -1,3 +1,16 @@
+#define ls { if (!line_start) line_start = ts; }
+
+#define code {\
+  if (!line_contains_code && !line_start) line_start = ts; \
+  line_contains_code = 1; \
+}
+
+#define comment {\
+  if (!line_contains_code) { \
+    whole_line_comment = 1; \
+    if (!line_start) line_start = ts; \
+  } \
+}
 
 #define std_internal_newline(lang) { \
   if (callback && p > line_start) { \
@@ -26,10 +39,3 @@
   line_contains_code = 0; \
   line_start = 0; \
 }
-
-#define code {\
-  if (!line_contains_code && !line_start) line_start = ts; \
-  line_contains_code = 1; \
-}
-
-#define ls { if (!line_start) line_start = ts; }
