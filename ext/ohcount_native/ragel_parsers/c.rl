@@ -1,4 +1,5 @@
 /************************* Required for every parser *************************/
+#include "ragel_parser_defines.h"
 
 // the name of the language
 const char *C_LANG = "c";
@@ -49,7 +50,7 @@ int entity;
   action c_callback {
     switch(entity) {
     case C_SPACE:
-      if (!line_start) line_start = ts;
+      ls
       break;
     //case C_COMMENT:
     //case C_STRING:
@@ -57,35 +58,14 @@ int entity;
     //case C_PREPROC:
     case C_IDENTIFIER:
     case C_OPERATOR:
-      if (!line_contains_code && !line_start) line_start = ts;
-      line_contains_code = 1;
+      code
       break;
     case C_ESCAPED_NL:
     case INTERNAL_NL:
-      if (callback && p > line_start) {
-        if (line_contains_code)
-          callback(C_LANG, "lcode", cint(line_start), cint(p));
-        else if (whole_line_comment)
-          callback(C_LANG, "lcomment", cint(line_start), cint(p));
-        else
-          callback(C_LANG, "lblank", cint(line_start), cint(p));
-      }
-      whole_line_comment = 0;
-      line_contains_code = 0;
-      line_start = p;
+      std_internal_newline(C_LANG)
       break;
     case C_NEWLINE:
-      if (callback && te > line_start) {
-        if (line_contains_code)
-          callback(C_LANG, "lcode", cint(line_start), cint(te));
-        else if (whole_line_comment)
-          callback(C_LANG, "lcomment", cint(line_start), cint(te));
-        else
-          callback(C_LANG, "lblank", cint(ts), cint(te));
-      }
-      whole_line_comment = 0;
-      line_contains_code = 0;
-      line_start = 0;
+      std_newline(C_LANG)
     }
   }
 

@@ -1,4 +1,5 @@
 /************************* Required for every parser *************************/
+#include "ragel_parser_defines.h"
 
 // the name of the language
 const char *LUA_LANG = "lua";
@@ -49,41 +50,20 @@ int entity;
   action lua_callback {
     switch(entity) {
     case LUA_SPACE:
-      if (!line_start) line_start = ts;
+      ls
       break;
     //case LUA_COMMENT:
     //case LUA_STRING:
     case LUA_NUMBER:
     case LUA_IDENTIFIER:
     case LUA_OPERATOR:
-      if (!line_contains_code && !line_start) line_start = ts;
-      line_contains_code = 1;
+      code
       break;
     case INTERNAL_NL:
-      if (callback && p > line_start) {
-        if (line_contains_code)
-          callback(LUA_LANG, "lcode", cint(line_start), cint(p));
-        else if (whole_line_comment)
-          callback(LUA_LANG, "lcomment", cint(line_start), cint(p));
-        else
-          callback(LUA_LANG, "lblank", cint(line_start), cint(p));
-        whole_line_comment = 0;
-        line_contains_code = 0;
-        line_start = p;
-      }
+      std_internal_newline(LUA_LANG)
       break;
     case LUA_NEWLINE:
-      if (callback && te > line_start) {
-        if (line_contains_code)
-          callback(LUA_LANG, "lcode", cint(line_start), cint(te));
-        else if (whole_line_comment)
-          callback(LUA_LANG, "lcomment", cint(line_start), cint(te));
-        else
-          callback(LUA_LANG, "lblank", cint(ts), cint(te));
-      }
-      whole_line_comment = 0;
-      line_contains_code = 0;
-      line_start = 0;
+      std_newline(LUA_LANG)
     }
   }
 
