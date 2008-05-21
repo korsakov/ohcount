@@ -19,6 +19,7 @@ Writing a Parser:
   must have the following at the top:
 
 /************************* Required for every parser *************************/
+#include "ragel_parser_macros.h"
 
 // the name of the language
 const char *C_LANG = "c";
@@ -88,16 +89,11 @@ void parse_c(char *buffer, int length, int count,
   entity = 0;
 
   %% write init;
-  if (count) {
+  if (count)
     %% write exec c_line;
-    // no newline at EOF; get contents of last line
-    if ((whole_line_comment || line_contains_code) && callback) {
-      if (line_contains_code)
-        callback(C_LANG, "lcode", cint(line_start), cint(pe));
-      else if (whole_line_comment)
-        callback(C_LANG, "lcomment", cint(line_start), cint(pe));
-    }
-  }
+
+  // if no newline at EOF; get contents of last line
+  process_last_line(C_LANG)
 }
 
   (Your parser will go between these two blocks.)
@@ -192,6 +188,9 @@ void parse_c(char *buffer, int length, int count,
       actions, or manually in the main action. Finally the line_contains_code,
       whole_line_comment, and line_start state variables must be reset. All this
       should be done within the main action shown below.
+      Note: For most parsers, the std_newline(lang) macro is sufficient and does
+      everything in the main action mentioned above. The lang parameter is the
+      [lang]_LANG string.
 
     Main Action Structure:
       The main action looks like this:
@@ -224,16 +223,20 @@ void parse_c(char *buffer, int length, int count,
       Afterwards, you will reset the line_contains_code and whole_line_comment
       state variables. Then set the line_start variable to be p, the current
       Ragel buffer position. Because line_contains_code and whole_line_comment
-      have been reset, any non- newline and non-space character in the multi-
-      line pattern should set line_contains_code or whole_line_comment back to
-      1. Otherwise you would count the line as blank.
+      have been reset, any non-newline and non-space character in the multi-line
+      pattern should set line_contains_code or whole_line_comment back to 1.
+      Otherwise you would count the line as blank.
+      Note: For most parsers, the std_internal_newline(lang) macro is sufficient
+      and does everything in the main action mentioned above. The lang parameter
+      is the [lang]_LANG string.
 
       For multi-line matches, it is important to call the 'code' or 'comment'
       actions (mentioned earlier) before an internal newline is detected so the
       line_contains_code and whole_line_comment variables are properly set. For
-      other entities, you can add code for setting line_contains_code and
-      whole_line_comment inside the switch statement of the main action. See the
-      'code' and 'comment' actions in 'common.rl' for the appropriate code.
+      other entities, you can use the 'code' macro inside the main action which
+      executes the same code as the Ragel 'code' action. Other C macros are
+      'comment' and 'ls', the latter is typically used for the SPACE entity when
+      defining line_start.
 
   Notes:
     * You can be a bit sloppy with the line counting machine. For example C
