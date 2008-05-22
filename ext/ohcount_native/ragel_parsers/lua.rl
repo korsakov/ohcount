@@ -116,14 +116,18 @@ int entity;
   lua_string = lua_sq_str | lua_dq_str | lua_long_string;
 
   lua_line := |*
-    spaces      ${ entity = LUA_SPACE;   } => lua_ccallback;
+    spaces      ${ entity = LUA_SPACE; } => lua_ccallback;
     lua_comment;
     lua_string;
-    newline     ${ entity = NEWLINE;     } => lua_ccallback;
-    ^space      ${ entity = LUA_ANY;     } => lua_ccallback;
+    newline     ${ entity = NEWLINE;   } => lua_ccallback;
+    ^space      ${ entity = LUA_ANY;   } => lua_ccallback;
   *|;
 
   # Entity machine
+
+  action lua_ecallback {
+    callback(LUA_LANG, entity, cint(ts), cint(te));
+  }
 
   lua_entity := '';
 }%%
