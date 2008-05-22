@@ -113,8 +113,8 @@ void parse_c(char *buffer, int length, int count,
       associated entity's string name.
     * parse_[lang] - Set the function name to parse_[lang] where again, [lang]
       is the name of your language. In the case of C, it is parse_c.
-    * c_en_[lang]_line - The line counting machine.
-    * c_en_[lang]_entity - The entity machine.
+    * [lang]_en_[lang]_line - The line counting machine.
+    * [lang]_en_[lang]_entity - The entity machine.
 
     You may be asking why you have to rename variables and functions. Well if
     variables have the same name in header files (which is what parsers are),
