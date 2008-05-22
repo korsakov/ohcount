@@ -21,6 +21,8 @@ float = [+\-]? ((digit* '.' digit+) | (digit+ '.' digit*) | digit+)
 
 # common actions
 
+action ls { if (!line_start) line_start = ts; }
+
 action code {
   if (!line_contains_code && !line_start) line_start = ts;
   line_contains_code = 1;
