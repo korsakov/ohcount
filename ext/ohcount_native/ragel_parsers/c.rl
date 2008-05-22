@@ -9,13 +9,13 @@ const char *C_LANG = "c";
 // the languages entities
 const char *c_entities[] = {
   "space", "comment", "string", "number", "preproc",
-  "identifier", "operator", "escaped_newline", "newline"
+  "keyword", "identifier", "operator", "newline", "any"
 };
 
 // constants associated with the entities
 enum {
   C_SPACE = 0, C_COMMENT, C_STRING, C_NUMBER, C_PREPROC,
-  C_IDENTIFIER, C_OPERATOR, C_ESCAPED_NL, C_NEWLINE
+  C_KEYWORD, C_IDENTIFIER, C_OPERATOR, C_NEWLINE, C_ANY
 };
 
 // do not change the following variables
@@ -49,20 +49,16 @@ int entity;
   write data;
   include common "common.rl";
 
-  action c_callback {
+  # Line counting machine
+
+  action c_ccallback {
     switch(entity) {
     case C_SPACE:
       ls
       break;
-    //case C_COMMENT:
-    //case C_STRING:
-    case C_NUMBER:
-    //case C_PREPROC:
-    case C_IDENTIFIER:
-    case C_OPERATOR:
+    case C_ANY:
       code
       break;
-    case C_ESCAPED_NL:
     case INTERNAL_NL:
       std_internal_newline(C_LANG)
       break;
@@ -73,7 +69,7 @@ int entity;
 
   c_line_comment =
     '//' @comment (
-      escaped_newline %{ entity = INTERNAL_NL; } %c_callback
+      escaped_newline %{ entity = INTERNAL_NL; } %c_ccallback
       |
       ws
       |
@@ -81,7 +77,7 @@ int entity;
     )*;
   c_block_comment =
     '/*' @comment (
-      newline %{ entity = INTERNAL_NL; } %c_callback
+      newline %{ entity = INTERNAL_NL; } %c_ccallback
       |
       ws
       |
@@ -91,7 +87,7 @@ int entity;
 
   c_sq_str =
     '\'' @code (
-      escaped_newline %{ entity = INTERNAL_NL; } %c_callback
+      escaped_newline %{ entity = INTERNAL_NL; } %c_ccallback
       |
       ws
       |
@@ -101,7 +97,7 @@ int entity;
     )* '\'';
   c_dq_str =
     '"' @code (
-      escaped_newline %{ entity = INTERNAL_NL; } %c_callback
+      escaped_newline %{ entity = INTERNAL_NL; } %c_ccallback
       |
       ws
       |
@@ -111,31 +107,68 @@ int entity;
     )* '"';
   c_string = c_sq_str | c_dq_str;
 
-  c_number = float | integer;
-
-  c_preproc =
-    ('#' when no_code) @code ws* (c_block_comment ws*)? alpha+ (
-      escaped_newline %{ entity = INTERNAL_NL; } %c_callback
-      |
-      ws
-      |
-      (nonnewline - ws) @code
-    )*;
-
-  c_identifier = (alpha | '_') (alnum | '_')*;
-
-  c_operator = [+\-/*%<>!=^&|?~:;.,()\[\]{}@];
-
   c_line := |*
-    spaces          ${ entity = C_SPACE;      } => c_callback;
-    c_comment       ${ entity = C_COMMENT;    } => c_callback;
-    c_string        ${ entity = C_STRING;     } => c_callback;
-    c_number        ${ entity = C_NUMBER;     } => c_callback;
-    c_preproc       ${ entity = C_PREPROC;    } => c_callback;
-    c_identifier    ${ entity = C_IDENTIFIER; } => c_callback;
-    c_operator      ${ entity = C_OPERATOR;   } => c_callback;
-    escaped_newline ${ entity = C_ESCAPED_NL; } => c_callback;
-    newline         ${ entity = C_NEWLINE;    } => c_callback;
+    spaces    ${ entity = C_SPACE;      } => c_ccallback;
+    c_comment ${ entity = C_COMMENT;    } => c_ccallback;
+    c_string  ${ entity = C_STRING;     } => c_ccallback;
+    newline   ${ entity = C_NEWLINE;    } => c_ccallback;
+    ^space    ${ entity = C_ANY;        } => c_ccallback;
+  *|;
+
+  # Entity machine
+
+  action c_ecallback {
+    callback(C_LANG, c_entities[entity], cint(ts), cint(te));
+  }
+
+  c_line_comment_entity = '//' (escaped_newline | nonnewline)*;
+  c_block_comment_entity = '/*' any* :>> '*/';
+  c_comment_entity = c_line_comment_entity | c_block_comment_entity;
+
+  c_sq_str_entity = '\'' ([^'\\] | '\\' any)* '\'';
+  c_dq_str_entity = '"' ([^"\\] | '\\' any)* '"';
+  c_string_entity = c_sq_str_entity | c_dq_str_entity;
+
+  c_number_entity = float | integer;
+
+  c_preproc_word =
+    'define' | 'elif' | 'else' | 'endif' | 'error' | 'if' | 'ifdef' |
+    'ifndef' | 'import' | 'include' | 'line' | 'pragma' | 'undef' |
+    'using' | 'warning';
+  # TODO: find some way of making preproc match the beginning of a line.
+  # Putting a 'when starts_line' conditional throws an assertion error.
+  c_preproc_entity =
+    '#' space* (c_block_comment_entity space*)?
+      c_preproc_word (escaped_newline | nonnewline)*;
+
+  c_identifier_entity = (alpha | '_') (alnum | '_')*;
+
+  c_keyword_entity =
+    'and' | 'and_eq' | 'asm' | 'auto' | 'bitand' | 'bitor' | 'bool' |
+    'break' | 'case' | 'catch' | 'char' | 'class' | 'compl' | 'const' |
+    'const_cast' | 'continue' | 'default' | 'delete' | 'do' | 'double' |
+    'dynamic_cast' | 'else' | 'enum' | 'explicit' | 'export' | 'extern' |
+    'false' | 'float' | 'for' | 'friend' | 'goto' | 'if' | 'inline' | 'int' |
+    'long' | 'mutable' | 'namespace' | 'new' | 'not' | 'not_eq' |
+    'operator' | 'or' | 'or_eq' | 'private' | 'protected' | 'public' |
+    'register' | 'reinterpret_cast' | 'return' | 'short' | 'signed' |
+    'sizeof' | 'static' | 'static_cast' | 'struct' | 'switch' |
+    'template' | 'this' | 'throw' | 'true' | 'try' | 'typedef' | 'typeid' |
+    'typename' | 'union' | 'unsigned' | 'using' | 'virtual' | 'void' |
+    'volatile' | 'wchar_t' | 'while' | 'xor' | 'xor_eq';
+
+  c_operator_entity = [+\-/*%<>!=^&|?~:;.,()\[\]{}];
+
+  c_entity := |*
+    space+ ${ entity = C_SPACE; } => c_ecallback;
+    c_comment_entity ${ entity = C_COMMENT; } => c_ecallback;
+    c_string_entity ${ entity = C_STRING; } => c_ecallback;
+    c_number_entity ${ entity = C_NUMBER; } => c_ecallback;
+    c_preproc_entity ${ entity = C_PREPROC; } => c_ecallback;
+    c_identifier_entity ${ entity = C_IDENTIFIER; } => c_ecallback;
+    c_keyword_entity ${ entity = C_KEYWORD; } => c_ecallback;
+    c_operator_entity ${ entity = C_OPERATOR; } => c_ecallback;
+    ^space ${ entity = C_ANY; } => c_ecallback;
   *|;
 }%%
 
@@ -164,9 +197,9 @@ void parse_c(char *buffer, int length, int count,
   entity = 0;
 
   %% write init;
-  if (count)
-    %% write exec c_line;
+  cs = (count) ? c_en_c_line : c_en_c_entity;
+  %% write exec;
 
   // if no newline at EOF; callback contents of last line
-  process_last_line(C_LANG)
+  if (count) { process_last_line(C_LANG) }
 }
