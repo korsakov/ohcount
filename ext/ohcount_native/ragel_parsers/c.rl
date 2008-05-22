@@ -111,11 +111,11 @@ int entity;
   c_string = c_sq_str | c_dq_str;
 
   c_line := |*
-    spaces    ${ entity = C_SPACE;   } => c_ccallback;
+    spaces    ${ entity = C_SPACE; } => c_ccallback;
     c_comment;
     c_string;
-    newline   ${ entity = NEWLINE;   } => c_ccallback;
-    ^space    ${ entity = C_ANY;     } => c_ccallback;
+    newline   ${ entity = NEWLINE; } => c_ccallback;
+    ^space    ${ entity = C_ANY;   } => c_ccallback;
   *|;
 
   # Entity machine
