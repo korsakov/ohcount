@@ -8,14 +8,14 @@ const char *LUA_LANG = "lua";
 
 // the languages entities
 const char *lua_entities[] = {
-  "space", "comment", "string", "number",
-  "identifier", "operator", "newline"
+  "space", "comment", "string", "number", "keyword",
+  "identifier", "operator", "newline", "any"
 };
 
 // constants associated with the entities
 enum {
-  LUA_SPACE = 0, LUA_COMMENT, LUA_STRING, LUA_NUMBER,
-  LUA_IDENTIFIER, LUA_OPERATOR, LUA_NEWLINE
+  LUA_SPACE = 0, LUA_COMMENT, LUA_STRING, LUA_NUMBER, LUA_KEYWORD,
+  LUA_IDENTIFIER, LUA_OPERATOR, LUA_NEWLINE, LUA_ANY
 };
 
 // do not change the following variables
@@ -49,16 +49,14 @@ int entity;
   write data;
   include common "common.rl";
 
-  action lua_callback {
+  # Line counting machine
+
+  action lua_ccallback {
     switch(entity) {
     case LUA_SPACE:
       ls
       break;
-    //case LUA_COMMENT:
-    //case LUA_STRING:
-    case LUA_NUMBER:
-    case LUA_IDENTIFIER:
-    case LUA_OPERATOR:
+    case LUA_ANY:
       code
       break;
     case INTERNAL_NL:
@@ -75,7 +73,7 @@ int entity;
 
   lua_long_comment =
     '--' @comment ('[' >lua_long_ec_res '='* $lua_long_ec_inc '[') (
-      newline %{ entity = INTERNAL_NL; } %lua_callback
+      newline %{ entity = INTERNAL_NL; } %lua_ccallback
       |
       ws
       |
@@ -86,7 +84,7 @@ int entity;
 
   lua_long_string =
     ('[' >lua_long_ec_res '='* $lua_long_ec_inc '[') @code (
-      newline %{ entity = INTERNAL_NL; } %lua_callback
+      newline %{ entity = INTERNAL_NL; } %lua_ccallback
       |
       ws
       |
@@ -94,7 +92,7 @@ int entity;
     )* :>> (']' '='* $lua_long_ec_dec ']' when { equal_count == 0 });
   lua_sq_str =
     '\'' @code (
-      newline %{ entity = INTERNAL_NL; } %lua_callback
+      newline %{ entity = INTERNAL_NL; } %lua_ccallback
       |
       ws
       |
@@ -104,7 +102,7 @@ int entity;
     )* '\'';
   lua_dq_str =
     '"' @code (
-      newline %{ entity = INTERNAL_NL; } %lua_callback
+      newline %{ entity = INTERNAL_NL; } %lua_ccallback
       |
       ws
       |
@@ -114,22 +112,17 @@ int entity;
     )* '"';
   lua_string = lua_sq_str | lua_dq_str | lua_long_string;
 
-  lua_integer = '-'? (hex_num | dec_num);
-  lua_number = float | lua_integer;
-
-  lua_identifier = ([a-zA-Z] | '_') (alnum + '_')*;
-
-  lua_operator = '~=' | [+\-*/%^#=<>,;:,.{}\[\]()];
-
   lua_line := |*
-    spaces         ${ entity = LUA_SPACE;      } => lua_callback;
-    lua_comment    ${ entity = LUA_COMMENT;    } => lua_callback;
-    lua_string     ${ entity = LUA_STRING;     } => lua_callback;
-    lua_number     ${ entity = LUA_NUMBER;     } => lua_callback;
-    lua_identifier ${ entity = LUA_IDENTIFIER; } => lua_callback;
-    lua_operator   ${ entity = LUA_OPERATOR;   } => lua_callback;
-    newline        ${ entity = LUA_NEWLINE;    } => lua_callback;
+    spaces         ${ entity = LUA_SPACE;      } => lua_ccallback;
+    lua_comment    ${ entity = LUA_COMMENT;    } => lua_ccallback;
+    lua_string     ${ entity = LUA_STRING;     } => lua_ccallback;
+    newline        ${ entity = LUA_NEWLINE;    } => lua_ccallback;
+    ^space         ${ entity = LUA_ANY;        } => lua_ccallback;
   *|;
+
+  # Entity machine
+
+  lua_entity := '';
 }%%
 
 /* Parses a string buffer with Lua code.
@@ -159,8 +152,8 @@ void parse_lua(char *buffer, int length, int count,
   int equal_count = 0;
 
   %% write init;
-  if (count)
-    %% write exec lua_line;
+  cs = (count) ? lua_en_lua_line : lua_en_lua_entity;
+  %% write exec;
 
   // if no newline at EOF; callback contents of last line
   process_last_line(LUA_LANG)
