@@ -156,5 +156,5 @@ void parse_lua(char *buffer, int length, int count,
   %% write exec;
 
   // if no newline at EOF; callback contents of last line
-  process_last_line(LUA_LANG)
+  if (count) { process_last_line(LUA_LANG) }
 }
