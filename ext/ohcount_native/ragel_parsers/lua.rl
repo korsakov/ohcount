@@ -117,8 +117,8 @@ int entity;
 
   lua_line := |*
     spaces      ${ entity = LUA_SPACE;   } => lua_ccallback;
-    lua_comment ${ entity = LUA_COMMENT; } => lua_ccallback;
-    lua_string  ${ entity = LUA_STRING;  } => lua_ccallback;
+    lua_comment;
+    lua_string;
     newline     ${ entity = NEWLINE;     } => lua_ccallback;
     ^space      ${ entity = LUA_ANY;     } => lua_ccallback;
   *|;

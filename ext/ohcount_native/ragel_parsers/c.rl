@@ -112,8 +112,8 @@ int entity;
 
   c_line := |*
     spaces    ${ entity = C_SPACE;   } => c_ccallback;
-    c_comment ${ entity = C_COMMENT; } => c_ccallback;
-    c_string  ${ entity = C_STRING;  } => c_ccallback;
+    c_comment;
+    c_string;
     newline   ${ entity = NEWLINE;   } => c_ccallback;
     ^space    ${ entity = C_ANY;     } => c_ccallback;
   *|;
