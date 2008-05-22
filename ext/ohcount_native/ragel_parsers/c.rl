@@ -9,20 +9,23 @@ const char *C_LANG = "c";
 // the languages entities
 const char *c_entities[] = {
   "space", "comment", "string", "number", "preproc",
-  "keyword", "identifier", "operator", "newline", "any"
+  "keyword", "identifier", "operator", "any"
 };
 
 // constants associated with the entities
 enum {
   C_SPACE = 0, C_COMMENT, C_STRING, C_NUMBER, C_PREPROC,
-  C_KEYWORD, C_IDENTIFIER, C_OPERATOR, C_NEWLINE, C_ANY
+  C_KEYWORD, C_IDENTIFIER, C_OPERATOR, C_ANY
 };
 
 // do not change the following variables
 
+// used for newlines
+#define NEWLINE -1
+
 // used for newlines inside patterns like strings and comments that can have
 // newlines in them
-#define INTERNAL_NL -1
+#define INTERNAL_NL -2
 
 // required by Ragel
 int cs, act;
@@ -62,7 +65,7 @@ int entity;
     case INTERNAL_NL:
       std_internal_newline(C_LANG)
       break;
-    case C_NEWLINE:
+    case NEWLINE:
       std_newline(C_LANG)
     }
   }
@@ -108,11 +111,11 @@ int entity;
   c_string = c_sq_str | c_dq_str;
 
   c_line := |*
-    spaces    ${ entity = C_SPACE;      } => c_ccallback;
-    c_comment ${ entity = C_COMMENT;    } => c_ccallback;
-    c_string  ${ entity = C_STRING;     } => c_ccallback;
-    newline   ${ entity = C_NEWLINE;    } => c_ccallback;
-    ^space    ${ entity = C_ANY;        } => c_ccallback;
+    spaces    ${ entity = C_SPACE;   } => c_ccallback;
+    c_comment ${ entity = C_COMMENT; } => c_ccallback;
+    c_string  ${ entity = C_STRING;  } => c_ccallback;
+    newline   ${ entity = NEWLINE;   } => c_ccallback;
+    ^space    ${ entity = C_ANY;     } => c_ccallback;
   *|;
 
   # Entity machine

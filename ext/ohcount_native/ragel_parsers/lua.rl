@@ -9,20 +9,23 @@ const char *LUA_LANG = "lua";
 // the languages entities
 const char *lua_entities[] = {
   "space", "comment", "string", "number", "keyword",
-  "identifier", "operator", "newline", "any"
+  "identifier", "operator", "any"
 };
 
 // constants associated with the entities
 enum {
   LUA_SPACE = 0, LUA_COMMENT, LUA_STRING, LUA_NUMBER, LUA_KEYWORD,
-  LUA_IDENTIFIER, LUA_OPERATOR, LUA_NEWLINE, LUA_ANY
+  LUA_IDENTIFIER, LUA_OPERATOR, LUA_ANY
 };
 
 // do not change the following variables
 
+// used for newlines
+#define NEWLINE -1
+
 // used for newlines inside patterns like strings and comments that can have
 // newlines in them
-#define INTERNAL_NL -1
+#define INTERNAL_NL -2
 
 // required by Ragel
 int cs, act;
@@ -62,7 +65,7 @@ int entity;
     case INTERNAL_NL:
       std_internal_newline(LUA_LANG)
       break;
-    case LUA_NEWLINE:
+    case NEWLINE:
       std_newline(LUA_LANG)
     }
   }
@@ -116,7 +119,7 @@ int entity;
     spaces      ${ entity = LUA_SPACE;   } => lua_ccallback;
     lua_comment ${ entity = LUA_COMMENT; } => lua_ccallback;
     lua_string  ${ entity = LUA_STRING;  } => lua_ccallback;
-    newline     ${ entity = LUA_NEWLINE; } => lua_ccallback;
+    newline     ${ entity = NEWLINE;     } => lua_ccallback;
     ^space      ${ entity = LUA_ANY;     } => lua_ccallback;
   *|;
 

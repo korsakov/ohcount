@@ -38,9 +38,12 @@ enum {
 
 // do not change the following variables
 
+// used for newlines
+#define NEWLINE -1
+
 // used for newlines inside patterns like strings and comments that can have
 // newlines in them
-#define INTERNAL_NL -1
+#define INTERNAL_NL -2
 
 // required by Ragel
 int cs, act;
