@@ -1,3 +1,5 @@
+// lua.rl written by Mitchell Foral. mitchell<att>caladbolg<dott>net.
+
 /************************* Required for every parser *************************/
 #include "ragel_parser_macros.h"
 
