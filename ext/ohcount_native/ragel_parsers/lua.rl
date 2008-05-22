@@ -113,11 +113,11 @@ int entity;
   lua_string = lua_sq_str | lua_dq_str | lua_long_string;
 
   lua_line := |*
-    spaces         ${ entity = LUA_SPACE;      } => lua_ccallback;
-    lua_comment    ${ entity = LUA_COMMENT;    } => lua_ccallback;
-    lua_string     ${ entity = LUA_STRING;     } => lua_ccallback;
-    newline        ${ entity = LUA_NEWLINE;    } => lua_ccallback;
-    ^space         ${ entity = LUA_ANY;        } => lua_ccallback;
+    spaces      ${ entity = LUA_SPACE;   } => lua_ccallback;
+    lua_comment ${ entity = LUA_COMMENT; } => lua_ccallback;
+    lua_string  ${ entity = LUA_STRING;  } => lua_ccallback;
+    newline     ${ entity = LUA_NEWLINE; } => lua_ccallback;
+    ^space      ${ entity = LUA_ANY;     } => lua_ccallback;
   *|;
 
   # Entity machine

@@ -160,15 +160,15 @@ int entity;
   c_operator_entity = [+\-/*%<>!=^&|?~:;.,()\[\]{}];
 
   c_entity := |*
-    space+ ${ entity = C_SPACE; } => c_ecallback;
-    c_comment_entity ${ entity = C_COMMENT; } => c_ecallback;
-    c_string_entity ${ entity = C_STRING; } => c_ecallback;
-    c_number_entity ${ entity = C_NUMBER; } => c_ecallback;
-    c_preproc_entity ${ entity = C_PREPROC; } => c_ecallback;
+    space+              ${ entity = C_SPACE;      } => c_ecallback;
+    c_comment_entity    ${ entity = C_COMMENT;    } => c_ecallback;
+    c_string_entity     ${ entity = C_STRING;     } => c_ecallback;
+    c_number_entity     ${ entity = C_NUMBER;     } => c_ecallback;
+    c_preproc_entity    ${ entity = C_PREPROC;    } => c_ecallback;
     c_identifier_entity ${ entity = C_IDENTIFIER; } => c_ecallback;
-    c_keyword_entity ${ entity = C_KEYWORD; } => c_ecallback;
-    c_operator_entity ${ entity = C_OPERATOR; } => c_ecallback;
-    ^space ${ entity = C_ANY; } => c_ecallback;
+    c_keyword_entity    ${ entity = C_KEYWORD;    } => c_ecallback;
+    c_operator_entity   ${ entity = C_OPERATOR;   } => c_ecallback;
+    ^space              ${ entity = C_ANY;        } => c_ecallback;
   *|;
 }%%
 
