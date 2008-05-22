@@ -1,4 +1,4 @@
-Written by Mitchell Foral
+PARSER_DOC written by Mitchell Foral
 
 Overview:
   I will assume the reader has a decent knowledge of how Ragel works and the
@@ -27,13 +27,13 @@ const char *C_LANG = "c";
 // the languages entities
 const char *c_entities[] = {
   "space", "comment", "string", "number", "preproc",
-  "identifier", "operator", "escaped_newline", "newline"
+  "keyword", "identifier", "operator", "newline", "any"
 };
 
 // constants associated with the entities
 enum {
   C_SPACE = 0, C_COMMENT, C_STRING, C_NUMBER, C_PREPROC,
-  C_IDENTIFIER, C_OPERATOR, C_ESCAPED_NL, C_NEWLINE
+  C_KEYWORD, C_IDENTIFIER, C_OPERATOR, C_NEWLINE, C_ANY
 };
 
 // do not change the following variables
@@ -89,11 +89,11 @@ void parse_c(char *buffer, int length, int count,
   entity = 0;
 
   %% write init;
-  if (count)
-    %% write exec c_line;
+  cs = (count) ? c_en_c_line : c_en_c_entity;
+  %% write exec;
 
-  // if no newline at EOF; get contents of last line
-  process_last_line(C_LANG)
+  // if no newline at EOF; callback contents of last line
+  if (count) { process_last_line(C_LANG) }
 }
 
   (Your parser will go between these two blocks.)
@@ -113,9 +113,8 @@ void parse_c(char *buffer, int length, int count,
       associated entity's string name.
     * parse_[lang] - Set the function name to parse_[lang] where again, [lang]
       is the name of your language. In the case of C, it is parse_c.
-    * [lang]_line - (Inside parse_[lang], after 'write exec'). This is the line
-      counting machine.
-    TODO: [lang]_lang - The entity machine.
+    * c_en_[lang]_line - The line counting machine.
+    * c_en_[lang]_entity - The entity machine.
 
     You may be asking why you have to rename variables and functions. Well if
     variables have the same name in header files (which is what parsers are),
@@ -158,10 +157,10 @@ void parse_c(char *buffer, int length, int count,
     Scanner Parser Structure:
       A scanner parser will look like this:
         [lang]_line := |*
-          entity1 ${ entity = ENTITY1; } => [lang]_callback;
-          entity1 ${ entity = ENTITY2; } => [lang]_callback;
+          entity1 ${ entity = ENTITY1; } => [lang]_ccallback;
+          entity1 ${ entity = ENTITY2; } => [lang]_ccallback;
           ...
-          entityn ${ entity = ENTITYN; } => [lang]_callback;
+          entityn ${ entity = ENTITYN; } => [lang]_ccallback;
         *|;
       (As usual, replace [lang] with your language name.)
       Each entity is the pattern for an entity to match, the last one typically
@@ -194,7 +193,7 @@ void parse_c(char *buffer, int length, int count,
 
     Main Action Structure:
       The main action looks like this:
-        action [lang]_callback {
+        action [lang]_ccallback {
           switch(entity) {
           when ENTITY1:
             ...
@@ -238,18 +237,30 @@ void parse_c(char *buffer, int length, int count,
       'comment' and 'ls', the latter is typically used for the SPACE entity when
       defining line_start.
 
-  Notes:
-    * You can be a bit sloppy with the line counting machine. For example C
-      preprocessor statements have specific words such as include, ifdef, etc.
-      You wouldn't have to check for those specific words to make it a perfectly
-      valid preprocessor statement, you are only interested in whether or not
-      the line contains code, which in this case it would.
-      The entity identifying machine would have to check words however.
+    Notes:
+      * You can be a bit sloppy with the line counting machine. For example the
+        only C entities that can contain newlines are strings and comments, so
+        INTERNAL_NEWLINE would only be needed inside those. Other than those,
+        anything other than spaces is considered code, so don't waste your time
+        defining specific patterns for other entities.
 
   Entity Identifying Machine:
     This machine doesn't have to be written as a line-by-line parser. It only
     has to identify the positions of language entities, such as whitespace,
-    comments, strings, etc. in sequence.
+    comments, strings, etc. in sequence. As a result they can be written much
+    faster and more easily with less thought than a line counter. Using a
+    scanner is most efficient.
     The callback function will be called for each entity parsed.
 
-  TODO: more doc for this machine.
+    Scanner Structure:
+      [lang]_entity := |*
+        entity1 ${ entity = ENTITY1; } => [lang]_ecallback;
+        entity1 ${ entity = ENTITY2; } => [lang]_ecallback;
+        ...
+        entityn ${ entity = ENTITYN; } => [lang]_ecallback;
+      *|;
+
+    Main Action Structure:
+      action [lang]_ecallback {
+        callback([lang]_LANG, entity, cint(ts), cint(te));
+      }
