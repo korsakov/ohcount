@@ -2,7 +2,9 @@ PARSER_DOC written by Mitchell Foral
 
 Overview:
   I will assume the reader has a decent knowledge of how Ragel works and the
-  Ragel syntax.
+  Ragel syntax. If not, please review the Ragel manual found at:
+    http://research.cs.queensu.ca/~thurston/ragel/
+
   All parsers must at least:
     * Call a callback function when a line of code is parsed.
     * Call a callback function when a line of comment is parsed.
@@ -14,8 +16,8 @@ Overview:
   document to better understand how parsers work and how to write one.
 
 Writing a Parser:
-  First create your parser in ext/ohcount_native/ragel_parsers/. It's name
-  should be the language you're parsing with a '.rl' extension. Every parser
+  First create your parser in ext/ohcount_native/ragel_parsers/. Its name
+  should be the language you are parsing with a '.rl' extension. Every parser
   must have the following at the top:
 
 /************************* Required for every parser *************************/
@@ -27,13 +29,13 @@ const char *C_LANG = "c";
 // the languages entities
 const char *c_entities[] = {
   "space", "comment", "string", "number", "preproc",
-  "keyword", "identifier", "operator", "newline", "any"
+  "keyword", "identifier", "operator", "any"
 };
 
 // constants associated with the entities
 enum {
   C_SPACE = 0, C_COMMENT, C_STRING, C_NUMBER, C_PREPROC,
-  C_KEYWORD, C_IDENTIFIER, C_OPERATOR, C_NEWLINE, C_ANY
+  C_KEYWORD, C_IDENTIFIER, C_OPERATOR, C_ANY
 };
 
 // do not change the following variables
@@ -101,18 +103,18 @@ void parse_c(char *buffer, int length, int count,
 
   (Your parser will go between these two blocks.)
 
-  The code can be found in the existing c.rl parser. You'll need to change:
+  The code can be found in the existing c.rl parser. You will need to change:
     * [lang]_LANG - Set the variable name to be [lang]_LANG and its value to be
       the name of your language to parse. [lang] is your language name. So if
-      you're writing a C parser, it would be C_LANG.
+      you are writing a C parser, it would be C_LANG.
     * [lang]_entities - Set the variable name to be [lang]_entities (e.g.
       c_entries) The value is an array of string entities your language has.
       For example C has comment, string, number, etc. entities. You should
-      definately have "space", and "newline" entities. If your language has
-      escaped newlines (or continuations), have an "escaped_newline" entity as
-      well.
+      definately have "space", and "any" entities. "any" entities are typically
+      used for entity machines (discussed later) and match any character that
+      is not recognized so the parser does not do something unpredictable.
     * enum - Change the value of the enum to correspond with your entities. So
-      if in your parser you look up [lang]_entities[ENTITY], you'll get the
+      if in your parser you look up [lang]_entities[ENTITY], you will get the
       associated entity's string name.
     * parse_[lang] - Set the function name to parse_[lang] where again, [lang]
       is the name of your language. In the case of C, it is parse_c.
@@ -122,7 +124,7 @@ void parse_c(char *buffer, int length, int count,
     You may be asking why you have to rename variables and functions. Well if
     variables have the same name in header files (which is what parsers are),
     the compiler complains. Also, when you have languages embedded inside each
-    other, any identifiers with the same name can easily be mixed up. It's also
+    other, any identifiers with the same name can easily be mixed up. It is also
     important to prefix your Ragel definitions with your language to avoid
     conflicts with other parsers.
 
@@ -161,7 +163,7 @@ void parse_c(char *buffer, int length, int count,
       A scanner parser will look like this:
         [lang]_line := |*
           entity1 ${ entity = ENTITY1; } => [lang]_ccallback;
-          entity1 ${ entity = ENTITY2; } => [lang]_ccallback;
+          entity2 ${ entity = ENTITY2; } => [lang]_ccallback;
           ...
           entityn ${ entity = ENTITYN; } => [lang]_ccallback;
         *|;
@@ -213,11 +215,11 @@ void parse_c(char *buffer, int length, int count,
 
     Defining Patterns for Entities:
       Now it is time to write patterns for each entity in your language. That
-      doesn't seem very hard, except when your entity can cover multiple lines.
+      does not seem very hard, except when your entity can cover multiple lines.
       Comments and strings in particular can do this. To make an accurate line
       counter, you will need to count the lines covered by multi-line entities.
       When you detect a newline inside your multi-line entity, you should set
-      the entity variable to be INTERNAL_NL (-1) and call the main action. The
+      the entity variable to be INTERNAL_NL (-2) and call the main action. The
       main action should have a case for INTERNAL_NL separate from the newline
       entity. In it, you will check if the current line is code or comment and
       call the callback function with the appropriate string ("lcode" or
@@ -243,12 +245,12 @@ void parse_c(char *buffer, int length, int count,
     Notes:
       * You can be a bit sloppy with the line counting machine. For example the
         only C entities that can contain newlines are strings and comments, so
-        INTERNAL_NEWLINE would only be needed inside those. Other than those,
-        anything other than spaces is considered code, so don't waste your time
+        INTERNAL_NL would only be necessary inside them. Other than those,
+        anything other than spaces is considered code, so do not waste your time
         defining specific patterns for other entities.
 
   Entity Identifying Machine:
-    This machine doesn't have to be written as a line-by-line parser. It only
+    This machine does not have to be written as a line-by-line parser. It only
     has to identify the positions of language entities, such as whitespace,
     comments, strings, etc. in sequence. As a result they can be written much
     faster and more easily with less thought than a line counter. Using a
@@ -258,7 +260,7 @@ void parse_c(char *buffer, int length, int count,
     Scanner Structure:
       [lang]_entity := |*
         entity1 ${ entity = ENTITY1; } => [lang]_ecallback;
-        entity1 ${ entity = ENTITY2; } => [lang]_ecallback;
+        entity2 ${ entity = ENTITY2; } => [lang]_ecallback;
         ...
         entityn ${ entity = ENTITYN; } => [lang]_ecallback;
       *|;
