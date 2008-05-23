@@ -6,7 +6,7 @@ machine common;
 # whitespace, non-printables
 ws = [\t ];
 spaces = [\t ]+;
-newline = ('\r\n' | '\n\r' | '\n' | '\f');
+newline = ('\r\n' | '\r' | '\n' | '\f');
 escaped_newline = '\\' newline;
 nonnewline = any - [\r\n\f];
 nonprintable_char = cntrl - [\r\n\f];
