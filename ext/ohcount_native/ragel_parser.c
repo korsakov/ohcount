@@ -1,9 +1,13 @@
+// ragel_parser.c written by Mitchell Foral. mitchell<att>caladbolg<dott>net.
+
 #include "ruby.h"
 #include "common.h"
 
 // BEGIN parser includes
 #include "c_parser.h"
 #include "lua_parser.h"
+#include "ruby_parser.h"
+//#include "html_parser.h"
 // END parser includes
 
 ParseResult *pr;
@@ -20,6 +24,10 @@ struct language languages[] = {
   { "c", parse_c },
   { "cpp", parse_c },
   { "lua", parse_lua },
+  { "ruby", parse_ruby },
+  //{ "css", parse_css },
+  //{ "js", parse_javascript },
+  //{ "html", parse_html },
 // END languages
   { "", NULL }
 };
