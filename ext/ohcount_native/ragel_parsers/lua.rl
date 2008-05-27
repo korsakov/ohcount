@@ -129,7 +129,7 @@ int entity;
     callback(LUA_LANG, entity, cint(ts), cint(te));
   }
 
-  lua_entity := '';
+  lua_entity := 'TODO:';
 }%%
 
 /* Parses a string buffer with Lua code.
