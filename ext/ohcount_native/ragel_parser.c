@@ -8,6 +8,7 @@
 #include "lua_parser.h"
 #include "ruby_parser.h"
 #include "java_parser.h"
+#include "objective_c_parser.h"
 #include "css_parser.h"
 #include "javascript_parser.h"
 //#include "html_parser.h"
@@ -29,6 +30,7 @@ struct language languages[] = {
   { "lua", parse_lua },
   { "ruby", parse_ruby },
   { "java", parse_java },
+  { "objective_c", parse_objective_c },
   { "css", parse_css },
   { "javascript", parse_javascript },
   //{ "html", parse_html },
@@ -114,6 +116,7 @@ int ragel_parser_parse(ParseResult *parse_result,
   for (i = 0; strlen(languages[i].name) != 0; i++)
     if (strcmp(languages[i].name, lang) == 0) {
       languages[i].parser(buffer, buffer_len, 1, ragel_parser_callback);
+      printf("parsed %s", lang);
       return 1;
     }
   return 0;
