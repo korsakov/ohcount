@@ -207,10 +207,12 @@ void parse_c(char *buffer, int length, int count,
   if (count) { process_last_line(C_LANG) }
 }
 
+const char *CPP_LANG = "cpp";
+const char *ORIG_C_LANG = "c";
 void parse_cpp(char *buffer, int length, int count,
   void (*callback) (const char *lang, const char *entity, int start, int end)
   ) {
-  C_LANG = "cpp";
+  C_LANG = CPP_LANG;
   parse_c(buffer, length, count, callback);
-  C_LANG = "c";
+  C_LANG = ORIG_C_LANG;
 }
