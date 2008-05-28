@@ -206,3 +206,11 @@ void parse_c(char *buffer, int length, int count,
   // if no newline at EOF; callback contents of last line
   if (count) { process_last_line(C_LANG) }
 }
+
+void parse_cpp(char *buffer, int length, int count,
+  void (*callback) (const char *lang, const char *entity, int start, int end)
+  ) {
+  C_LANG = "cpp";
+  parse_c(buffer, length, count, callback);
+  C_LANG = "c";
+}

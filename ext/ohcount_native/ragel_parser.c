@@ -22,7 +22,7 @@ struct language {
 struct language languages[] = {
 // BEGIN languages
   { "c", parse_c },
-  { "cpp", parse_c },
+  { "cpp", parse_cpp },
   { "lua", parse_lua },
   { "ruby", parse_ruby },
   //{ "css", parse_css },
