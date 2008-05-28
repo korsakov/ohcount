@@ -7,6 +7,9 @@
 #include "c_parser.h"
 #include "lua_parser.h"
 #include "ruby_parser.h"
+#include "java_parser.h"
+#include "css_parser.h"
+#include "javascript_parser.h"
 //#include "html_parser.h"
 // END parser includes
 
@@ -25,8 +28,9 @@ struct language languages[] = {
   { "cpp", parse_cpp },
   { "lua", parse_lua },
   { "ruby", parse_ruby },
-  //{ "css", parse_css },
-  //{ "js", parse_javascript },
+  { "java", parse_java },
+  { "css", parse_css },
+  { "javascript", parse_javascript },
   //{ "html", parse_html },
 // END languages
   { "", NULL }
