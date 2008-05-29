@@ -17,8 +17,9 @@ Overview:
 
 Writing a Parser:
   First create your parser in ext/ohcount_native/ragel_parsers/. Its name
-  should be the language you are parsing with a '.rl' extension. Every parser
-  must have the following at the top:
+  should be the language you are parsing with a '.rl' extension. You will not
+  have to manually compile any parsers, as the Rakefile does this automatically
+  for you. Every parser must have the following at the top:
 
 /************************* Required for every parser *************************/
 #ifndef RAGEL_C_PARSER
@@ -234,6 +235,49 @@ void parse_c(char *buffer, int length, int count,
         anything other than spaces is considered code, so do not waste your time
         defining specific patterns for other entities.
 
+    Parsers with Embedded Languages:
+      Notation: [lang] is the parent language, [elang] is the embedded language.
+
+      To write a parser with embedded languages (such as HTML with embedded CSS
+      and Javascript), you should first #include the parser(s) above your Ragel
+      code. The header file is "[elang]_parser.h".
+
+      Next, after the inclusion of 'common.rl', add '#EMBED([elang])' on
+      separate lines for each embedded language. The Rakefile looks for these
+      special comments to embed the language for you automatically.
+
+      In your main action, you need to add another entity CHECK_BLANK_ENTRY. It
+      should call the 'check_blank_entry([lang]_LANG)' macro. Blank entries are
+      an entry into an embedded language, but the rest of the line is blank
+      before a newline. For example, a CSS entry in HTML is something like:
+        <style type="text/css">
+      If there is no CSS code after the entry (a blank entry), the line should
+      be counted as HTML code, and the 'check_blank_entry' macro handles this.
+      But you may be asking, "how do I get to the CHECK_BLANK_ENTRY entity?".
+      This will be discussed in just a bit.
+
+      For each embedded language you will have to define an entry and outry. An
+      entry is the pattern that transitions from the parent language into the
+      child language. An outry is the pattern from child to parent. You will
+      need to put your entries in your [lang]_line machine. You will also need
+      to re-create each embedded language's line machine (define as
+      [lang]_[elang]_line; e.g. html_css_line) and put outry patterns in those.
+      Entries typically would be defined as [lang]_[elang]_entry, and outries
+      as [lang]_[elang]_outry.
+
+      Entry pattern actions should be:
+        [lang]_[elang]_entry @{ entity = CHECK_BLANK_ENTRY; } @[lang]_callback
+          @{ fgoto [lang]_[elang]_line; };
+      What this does is checks for a blank entry, and if it is, counts the line
+      as a line of parent language code. If it is not, the macro will not do
+      anything. The machine then transitions into the child language.
+
+      Outry pattern actions should be:
+        @{ p = ts; fgoto [lang]_line };
+      What this does is sets the current Ragel parser position to the beginning
+      of the outry so the line is counted as a line of parent language code. The
+      machine then transitions into the parent language.
+
   Entity Identifying Machine:
     This machine does not have to be written as a line-by-line parser. It only
     has to identify the positions of language entities, such as whitespace,
@@ -254,3 +298,6 @@ void parse_c(char *buffer, int length, int count,
       action [lang]_ecallback {
         callback([lang]_LANG, entity, cint(ts), cint(te));
       }
+
+    Parsers for Embedded Languages:
+      TODO:
