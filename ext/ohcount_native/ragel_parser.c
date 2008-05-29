@@ -13,6 +13,7 @@
 #include "java_parser.h"
 #include "objective_c_parser.h"
 #include "visual_basic_parser.h"
+#include "sql_parser.h"
 // END parser includes
 
 ParseResult *pr;
@@ -36,6 +37,7 @@ struct language languages[] = {
   { "java", parse_java },
   { "objective_c", parse_objective_c },
   { "visualbasic", parse_visual_basic },
+  { "sql", parse_sql },
 // END languages
   { "", NULL }
 };
