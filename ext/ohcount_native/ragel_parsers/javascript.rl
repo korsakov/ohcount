@@ -1,6 +1,9 @@
 // Javascript.rl written by Mitchell Foral. mitchell<att>caladbolg<dott>net.
 
 /************************* Required for every parser *************************/
+#ifndef RAGEL_JAVASCRIPT_PARSER
+#define RAGEL_JAVASCRIPT_PARSER
+
 #include "ragel_parser_macros.h"
 
 // the name of the language
@@ -127,3 +130,4 @@ void parse_javascript(char *buffer, int length, int count,
   if (count) { process_last_line(JS_LANG) }
 }
 
+#endif

@@ -1,6 +1,9 @@
 // css.rl written by Mitchell Foral. mitchell<att>caladbolg<dott>net.
 
 /************************* Required for every parser *************************/
+#ifndef RAGEL_CSS_PARSER
+#define RAGEL_CSS_PARSER
+
 #include "ragel_parser_macros.h"
 
 // the name of the language
@@ -91,6 +94,8 @@ enum {
   css_entity := 'TODO:';
 }%%
 
+/************************* Required for every parser *************************/
+
 /* Parses a string buffer with CSS code.
  *
  * @param *buffer The string to parse.
@@ -123,3 +128,6 @@ void parse_css(char *buffer, int length, int count,
   if (count) { process_last_line(CSS_LANG) }
 }
 
+#endif
+
+/*****************************************************************************/

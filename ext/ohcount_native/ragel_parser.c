@@ -9,7 +9,7 @@
 #include "ruby_parser.h"
 #include "css_parser.h"
 #include "javascript_parser.h"
-//#include "html_parser.h"
+#include "html_parser.h"
 #include "java_parser.h"
 #include "objective_c_parser.h"
 #include "visual_basic_parser.h"
@@ -33,7 +33,7 @@ struct language languages[] = {
   { "ruby", parse_ruby },
   { "css", parse_css },
   { "javascript", parse_javascript },
-  //{ "html", parse_html },
+  { "html", parse_html },
   { "java", parse_java },
   { "objective_c", parse_objective_c },
   { "visualbasic", parse_visual_basic },

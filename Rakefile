@@ -66,11 +66,18 @@ end
 file EXT_DL => FileList["#{EXT_DIR}/polyglots.c", "#{EXT_DIR}/Makefile", "#{EXT_DIR}/*.{c,h,rb}"] do
 	cd EXT_DIR do
 		cd 'ragel_parsers' do
+			require 'construct_embedded'
 			rls = FileList['*.rl']
 			rls.exclude('common.rl')
 			rls.each do |rl|
-				h = rl.scan(/^(.+)\.[^\.]+$/).flatten.first + '_parser.h'
-				sh "ragel #{rl} -o ../#{h}"
+				h = rl.scan(/^(.+)\.rl$/).flatten.first + '_parser.h'
+				if has_embedded?(rl)
+					construct_language(rl)
+					sh "ragel #{rl + '.tmp'} -o ../#{h}"
+					File.delete(rl + '.tmp')
+				else
+					sh "ragel #{rl} -o ../#{h}"
+				end
 			end
 		end
 		sh 'make'

@@ -1,3 +1,6 @@
+#ifndef RAGEL_PARSER_MACROS
+#define RAGEL_PARSER_MACROS
+
 /* Sets the line_start variable to ts.
  * This is typically used for the SPACE entity in the main action.
  */
@@ -72,6 +75,38 @@
   } \
 }
 
+/* Determines whether or not the rest of the line is blank.
+ * This is typically used when entering an embedded language.
+ * @param p The position of entry into the emebedded language.
+ * @return 0 if the rest of the line is not blank, the position at the end of
+ *   the newline otherwise (inclusive).
+ */
+int is_blank_entry(char *p) {
+  char *pos = p+1;
+  while (*pos != '\n' && *pos != '\r' && *pos != '\f') {
+    if (*pos != '\t' || *pos != ' ') return 0;
+    pos++;
+  }
+  if (*pos == '\r' && *(pos+1) == '\n') pos++;
+  return pos;
+}
+
+/* If there is a transition into an embedded language and there is only parent
+ * language code on the line (the rest of the line is blank with no child code),
+ * count the line as a line of parent code.
+ * Moves p and te to the end of the newline and calls the std_newline macro. (p
+ * is inclusive, te is not.)
+ * This is typically used in the main action for the CHECK_BLANK_ENTRY entity.
+ * @param lang The language name string.
+ */
+#define check_blank_entry(lang) { \
+  if (is_blank_entry(p)) { \
+    p = is_blank_entry(p); \
+    te = p + 1; \
+    std_newline(lang) \
+  } \
+}
+
 // Variables used by all parsers. Do not modify.
 
 // used for newlines
@@ -81,9 +116,12 @@
 // newlines in them
 #define INTERNAL_NL -2
 
+#define CHECK_BLANK_ENTRY -3
+
 // required by Ragel
 int cs, act;
 char *p, *pe, *eof, *ts, *te;
+int stack[5], top;
 
 // used for calculating offsets from buffer start for start and end positions
 char *buffer_start;
@@ -98,3 +136,5 @@ char *line_start;
 
 // state variable for the current entity being matched
 int entity;
+
+#endif
