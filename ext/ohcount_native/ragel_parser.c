@@ -20,6 +20,7 @@
 #include "autoconf_parser.h"
 #include "automake_parser.h"
 #include "awk_parser.h"
+#include "bat_parser.h"
 // END parser includes
 
 ParseResult *pr;
@@ -50,6 +51,7 @@ struct language languages[] = {
   { "autoconf", parse_autoconf },
   { "automake", parse_automake },
   { "awk", parse_awk },
+  { "bat", parse_bat },
 // END languages
   { "", NULL }
 };
