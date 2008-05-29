@@ -17,6 +17,7 @@
 #include "actionscript_parser.h"
 #include "ada_parser.h"
 #include "assembler_parser.h"
+#include "autoconf_parser.h"
 // END parser includes
 
 ParseResult *pr;
@@ -44,6 +45,7 @@ struct language languages[] = {
   { "actionscript", parse_actionscript },
   { "ada", parse_ada },
   { "assembler", parse_assembler },
+  { "autoconf", parse_autoconf },
 // END languages
   { "", NULL }
 };
