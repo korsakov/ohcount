@@ -38,33 +38,6 @@ enum {
   C_KEYWORD, C_IDENTIFIER, C_OPERATOR, C_ANY
 };
 
-// do not change the following variables
-
-// used for newlines
-#define NEWLINE -1
-
-// used for newlines inside patterns like strings and comments that can have
-// newlines in them
-#define INTERNAL_NL -2
-
-// required by Ragel
-int cs, act;
-char *p, *pe, *eof, *ts, *te;
-
-// used for calculating offsets from buffer start for start and end positions
-char *buffer_start;
-#define cint(c) ((int) (c - buffer_start))
-
-// state flags for line and comment counting
-int whole_line_comment;
-int line_contains_code;
-
-// the beginning of a line in the buffer for line and comment counting
-char *line_start;
-
-// state variable for the current entity being matched
-int entity;
-
 /*****************************************************************************/
 
   And the following at the bottom:
@@ -128,8 +101,9 @@ void parse_c(char *buffer, int length, int count,
     important to prefix your Ragel definitions with your language to avoid
     conflicts with other parsers.
 
-  Try to understand what the main variables are used for. They will make more
-  sense later on.
+  Additional variables available to parsers are in the "ragel_parser_macros.h"
+  file. Take a look at it and try to understand what the variables are used for.
+  They will make more sense later on.
 
   Now you can define your Ragel parser. Name your machine after your language,
   'write data', and include 'common.rl', a file with common Ragel definitions,

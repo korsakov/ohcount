@@ -16,33 +16,6 @@ enum {
   SQL_SPACE = 0, SQL_COMMENT, SQL_STRING, SQL_ANY
 };
 
-// do not change the following variables
-
-// used for newlines
-#define NEWLINE -1
-
-// used for newlines inside patterns like strings and comments that can have
-// newlines in them
-#define INTERNAL_NL -2
-
-// required by Ragel
-int cs, act;
-char *p, *pe, *eof, *ts, *te;
-
-// used for calculating offsets from buffer start for start and end positions
-char *buffer_start;
-#define cint(c) ((int) (c - buffer_start))
-
-// state flags for line and comment counting
-int whole_line_comment;
-int line_contains_code;
-
-// the beginning of a line in the buffer for line and comment counting
-char *line_start;
-
-// state variable for the current entity being matched
-int entity;
-
 /*****************************************************************************/
 
 %%{
