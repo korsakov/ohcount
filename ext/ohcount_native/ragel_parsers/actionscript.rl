@@ -55,8 +55,8 @@ enum {
     )* :>> '*/';
   as_comment = as_line_comment | as_block_comment;
 
-  as_sq_str = '\'' @code ([^'\\] | '\\' nonnewline)* '\'';
-  as_dq_str = '"' @code ([^"\\] | '\\' nonnewline)* '"';
+  as_sq_str = '\'' @code ([^\r\n\f'\\] | '\\' nonnewline)* '\'';
+  as_dq_str = '"' @code ([^\r\n\f"\\] | '\\' nonnewline)* '"';
   as_ml_str = '<![CDATA[' @code (
     newline %{ entity = INTERNAL_NL; } %as_ccallback
     |

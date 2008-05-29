@@ -46,7 +46,7 @@ enum {
 
   ada_comment = '--' @comment nonnewline*;
 
-  ada_string = '"' @code [^"]* '"';
+  ada_string = '"' @code [^\r\n\f"]* '"';
 
   ada_line := |*
     spaces      ${ entity = ADA_SPACE; } => ada_ccallback;

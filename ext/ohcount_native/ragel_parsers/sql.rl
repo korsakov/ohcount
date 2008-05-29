@@ -63,8 +63,8 @@ enum {
     )* :>> '}';
   sql_comment = sql_line_comment | sql_c_block_comment | sql_block_comment;
 
-  sql_sq_str = '\'' @code ([^'\\] | '\\' nonnewline)* '\'';
-  sql_dq_str = '"' @code ([^"\\] | '\\' nonnewline)* '"';
+  sql_sq_str = '\'' @code ([^\r\n\f'\\] | '\\' nonnewline)* '\'';
+  sql_dq_str = '"' @code ([^\r\n\f"\\] | '\\' nonnewline)* '"';
   sql_string = sql_sq_str | sql_dq_str;
 
   sql_line := |*

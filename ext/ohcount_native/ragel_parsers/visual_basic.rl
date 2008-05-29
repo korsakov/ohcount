@@ -46,7 +46,7 @@ enum {
 
   vb_comment = '\'' @comment nonnewline*;
 
-  vb_string = '"' @code ([^"\\] | '\\' nonnewline)* '"';
+  vb_string = '"' @code ([^\r\n\f"\\] | '\\' nonnewline)* '"';
 
   vb_line := |*
     spaces      ${ entity = VB_SPACE; } => vb_ccallback;

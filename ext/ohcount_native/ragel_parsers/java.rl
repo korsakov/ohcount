@@ -57,8 +57,8 @@ enum {
     )* :>> '*/';
   java_comment = java_line_comment | java_block_comment;
 
-  java_sq_str = '\'' @code ([^'\\] | '\\' nonnewline)* '\'';
-  java_dq_str = '"' @code ([^"\\] | '\\' nonnewline)* '"';
+  java_sq_str = '\'' @code ([^\r\n\f'\\] | '\\' nonnewline)* '\'';
+  java_dq_str = '"' @code ([^\r\n\f"\\] | '\\' nonnewline)* '"';
   java_string = java_sq_str | java_dq_str;
 
   java_line := |*

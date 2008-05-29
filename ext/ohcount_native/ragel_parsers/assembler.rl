@@ -57,7 +57,7 @@ enum {
     )* :>> '*/';
   asm_comment = asm_line_comment | asm_block_comment;
 
-  asm_string = '"' @code ([^"\\] | '\\' nonnewline)* '"';
+  asm_string = '"' @code ([^\r\n\f"\\] | '\\' nonnewline)* '"';
 
   asm_line := |*
     spaces       ${ entity = ASM_SPACE; } => asm_ccallback;

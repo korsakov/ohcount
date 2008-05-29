@@ -62,8 +62,8 @@ enum {
     )* :>> '*/';
   objc_comment = objc_line_comment | objc_block_comment;
 
-  objc_sq_str = '\'' @code ([^'\\] | '\\' nonnewline)* '\'';
-  objc_dq_str = '"' @code ([^"\\] | '\\' nonnewline)* '"';
+  objc_sq_str = '\'' @code ([^\r\n\f'\\] | '\\' nonnewline)* '\'';
+  objc_dq_str = '"' @code ([^\r\n\f"\\] | '\\' nonnewline)* '"';
   objc_string = objc_sq_str | objc_dq_str;
 
   objc_line := |*

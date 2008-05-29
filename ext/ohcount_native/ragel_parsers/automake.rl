@@ -46,8 +46,8 @@ enum {
 
   am_comment = '#' @comment nonnewline*;
 
-  am_sq_str = '\'' @code ([^'\\] | '\\' nonnewline)* '\'';
-  am_dq_str = '"' @code ([^"\\] | '\\' nonnewline)* '"';
+  am_sq_str = '\'' @code ([^\r\n\f'\\] | '\\' nonnewline)* '\'';
+  am_dq_str = '"' @code ([^\r\n\f"\\] | '\\' nonnewline)* '"';
   am_string = am_sq_str | am_dq_str;
 
   am_line := |*
