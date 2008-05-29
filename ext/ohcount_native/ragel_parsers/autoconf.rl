@@ -11,14 +11,12 @@ const char *AC_LANG = "autoconf";
 
 // the languages entities
 const char *ac_entities[] = {
-  "space", "comment", "string", "number", "keyword",
-  "identifier", "operator", "any"
+  "space", "comment", "string", "any"
 };
 
 // constants associated with the entities
 enum {
-  AC_SPACE = 0, AC_COMMENT, AC_STRING, AC_NUMBER, AC_KEYWORD,
-  AC_IDENTIFIER, AC_OPERATOR, AC_ANY
+  AC_SPACE = 0, AC_COMMENT, AC_STRING, AC_ANY
 };
 
 /*****************************************************************************/
