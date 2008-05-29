@@ -18,6 +18,7 @@
 #include "ada_parser.h"
 #include "assembler_parser.h"
 #include "autoconf_parser.h"
+#include "automake_parser.h"
 // END parser includes
 
 ParseResult *pr;
@@ -46,6 +47,7 @@ struct language languages[] = {
   { "ada", parse_ada },
   { "assembler", parse_assembler },
   { "autoconf", parse_autoconf },
+  { "automake", parse_automake },
 // END languages
   { "", NULL }
 };
