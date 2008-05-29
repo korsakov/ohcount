@@ -137,4 +137,16 @@ char *line_start;
 // state variable for the current entity being matched
 int entity;
 
+#define init { \
+  p = buffer; \
+  pe = buffer + length; \
+  eof = pe; \
+  \
+  buffer_start = buffer; \
+  whole_line_comment = 0; \
+  line_contains_code = 0; \
+  line_start = 0; \
+  entity = 0; \
+}
+
 #endif

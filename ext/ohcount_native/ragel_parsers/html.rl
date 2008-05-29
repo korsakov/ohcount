@@ -149,15 +149,7 @@ enum {
 void parse_html(char *buffer, int length, int count,
   void (*callback) (const char *lang, const char *entity, int start, int end)
   ) {
-  p = buffer;
-  pe = buffer + length;
-  eof = pe;
-
-  buffer_start = buffer;
-  whole_line_comment = 0;
-  line_contains_code = 0;
-  line_start = 0;
-  entity = 0;
+  init
 
   %% write init;
   cs = (count) ? html_en_html_line : html_en_html_entity;
