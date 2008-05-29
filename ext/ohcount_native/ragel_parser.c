@@ -15,6 +15,7 @@
 #include "visual_basic_parser.h"
 #include "sql_parser.h"
 #include "actionscript_parser.h"
+#include "ada_parser.h"
 // END parser includes
 
 ParseResult *pr;
@@ -40,6 +41,7 @@ struct language languages[] = {
   { "visualbasic", parse_visual_basic },
   { "sql", parse_sql },
   { "actionscript", parse_actionscript },
+  { "ada", parse_ada },
 // END languages
   { "", NULL }
 };
