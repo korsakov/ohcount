@@ -1,6 +1,9 @@
 // c.rl written by Mitchell Foral. mitchell<att>caladbolg<dott>net.
 
 /************************* Required for every parser *************************/
+#ifndef RAGEL_C_PARSER
+#define RAGEL_C_PARSER
+
 #include "ragel_parser_macros.h"
 
 // the name of the language
@@ -148,6 +151,8 @@ enum {
   *|;
 }%%
 
+/************************* Required for every parser *************************/
+
 /* Parses a string buffer with C/C++ code.
  *
  * @param *buffer The string to parse.
@@ -189,3 +194,7 @@ void parse_cpp(char *buffer, int length, int count,
   parse_c(buffer, length, count, callback);
   C_LANG = ORIG_C_LANG;
 }
+
+#endif
+
+/*****************************************************************************/

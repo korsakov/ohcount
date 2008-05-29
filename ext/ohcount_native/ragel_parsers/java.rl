@@ -1,6 +1,9 @@
 // java.rl written by Mitchell Foral. mitchell<att>caladbolg<dott>net.
 
 /************************* Required for every parser *************************/
+#ifndef RAGEL_JAVA_PARSER
+#define RAGEL_JAVA_PARSER
+
 #include "ragel_parser_macros.h"
 
 // the name of the language
@@ -75,6 +78,8 @@ enum {
   java_entity := 'TODO:';
 }%%
 
+/************************* Required for every parser *************************/
+
 /* Parses a string buffer with Java code.
  *
  * @param *buffer The string to parse.
@@ -106,3 +111,7 @@ void parse_java(char *buffer, int length, int count,
   // if no newline at EOF; callback contents of last line
   if (count) { process_last_line(JAVA_LANG) }
 }
+
+#endif
+
+/*****************************************************************************/

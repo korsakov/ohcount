@@ -1,6 +1,9 @@
 // objective_c.rl written by Mitchell Foral. mitchell<att>caladbolg<dott>net.
 
 /************************* Required for every parser *************************/
+#ifndef RAGEL_OBJECTIVE_C_PARSER
+#define RAGEL_OBJECTIVE_C_PARSER
+
 #include "ragel_parser_macros.h"
 
 // the name of the language
@@ -80,6 +83,8 @@ enum {
   objc_entity := 'TODO:';
 }%%
 
+/************************* Required for every parser *************************/
+
 /* Parses a string buffer with Objective C code.
  *
  * @param *buffer The string to parse.
@@ -111,3 +116,7 @@ void parse_objective_c(char *buffer, int length, int count,
   // if no newline at EOF; callback contents of last line
   if (count) { process_last_line(OBJC_LANG) }
 }
+
+#endif
+
+/*****************************************************************************/

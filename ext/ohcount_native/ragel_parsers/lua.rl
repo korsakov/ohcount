@@ -1,6 +1,9 @@
 // lua.rl written by Mitchell Foral. mitchell<att>caladbolg<dott>net.
 
 /************************* Required for every parser *************************/
+#ifndef RAGEL_LUA_PARSER
+#define RAGEL_LUA_PARSER
+
 #include "ragel_parser_macros.h"
 
 // the name of the language
@@ -105,6 +108,8 @@ enum {
   lua_entity := 'TODO:';
 }%%
 
+/************************* Required for every parser *************************/
+
 /* Parses a string buffer with Lua code.
  *
  * @param *buffer The string to parse.
@@ -138,3 +143,7 @@ void parse_lua(char *buffer, int length, int count,
   // if no newline at EOF; callback contents of last line
   if (count) { process_last_line(LUA_LANG) }
 }
+
+#endif
+
+/*****************************************************************************/

@@ -1,6 +1,9 @@
 // sql.rl written by Mitchell Foral. mitchell<att>caladbolg<dott>net.
 
 /************************* Required for every parser *************************/
+#ifndef RAGEL_SQL_PARSER
+#define RAGEL_SQL_PARSER
+
 #include "ragel_parser_macros.h"
 
 // the name of the language
@@ -81,6 +84,8 @@ enum {
   sql_entity := 'TODO:';
 }%%
 
+/************************* Required for every parser *************************/
+
 /* Parses a string buffer with SQL code.
  *
  * @param *buffer The string to parse.
@@ -112,3 +117,7 @@ void parse_sql(char *buffer, int length, int count,
   // if no newline at EOF; callback contents of last line
   if (count) { process_last_line(SQL_LANG) }
 }
+
+#endif
+
+/*****************************************************************************/

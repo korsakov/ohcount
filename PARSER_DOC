@@ -21,6 +21,9 @@ Writing a Parser:
   must have the following at the top:
 
 /************************* Required for every parser *************************/
+#ifndef RAGEL_C_PARSER
+#define RAGEL_C_PARSER
+
 #include "ragel_parser_macros.h"
 
 // the name of the language
@@ -41,6 +44,8 @@ enum {
 /*****************************************************************************/
 
   And the following at the bottom:
+
+/************************* Required for every parser *************************/
 
 /* Parses a string buffer with C/C++ code.
  *
@@ -74,12 +79,18 @@ void parse_c(char *buffer, int length, int count,
   if (count) { process_last_line(C_LANG) }
 }
 
+#endif
+
+/*****************************************************************************/
+
   (Your parser will go between these two blocks.)
 
   The code can be found in the existing c.rl parser. You will need to change:
+    * RAGEL_[lang]_PARSER - Replace [lang] with your language name. So if you
+      are writing a C parser, it would be RAGEL_C_PARSER.
     * [lang]_LANG - Set the variable name to be [lang]_LANG and its value to be
-      the name of your language to parse. [lang] is your language name. So if
-      you are writing a C parser, it would be C_LANG.
+      the name of your language to parse. [lang] is your language name. For C it
+      would be C_LANG.
     * [lang]_entities - Set the variable name to be [lang]_entities (e.g.
       c_entries) The value is an array of string entities your language has.
       For example C has comment, string, number, etc. entities. You should

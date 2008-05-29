@@ -1,6 +1,9 @@
 // ruby.rl written by Mitchell Foral. mitchell<att>caladbolg<dott>net
 
 /************************* Required for every parser *************************/
+#ifndef RAGEL_RUBY_PARSER
+#define RAGEL_RUBY_PARSER
+
 #include "ragel_parser_macros.h"
 
 // the name of the language
@@ -150,6 +153,8 @@ enum {
   ruby_entity := 'TODO:';
 }%%
 
+/************************* Required for every parser *************************/
+
 /* Parses a string buffer with Ruby code.
  *
  * @param *buffer The string to parse.
@@ -181,3 +186,7 @@ void parse_ruby(char *buffer, int length, int count,
   // if no newline at EOF; callback contents of last line
   if (count) { process_last_line(RUBY_LANG) }
 }
+
+#endif
+
+/*****************************************************************************/

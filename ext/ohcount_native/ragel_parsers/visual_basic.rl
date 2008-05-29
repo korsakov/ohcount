@@ -1,6 +1,9 @@
 // visual_basic.rl written by Mitchell Foral. mitchell<att>caladbolg<dott>net.
 
 /************************* Required for every parser *************************/
+#ifndef RAGEL_VISUAL_BASIC_PARSER
+#define RAGEL_VISUAL_BASIC_PARSER
+
 #include "ragel_parser_macros.h"
 
 // the name of the language
@@ -62,6 +65,8 @@ enum {
   vb_entity := 'TODO:';
 }%%
 
+/************************* Required for every parser *************************/
+
 /* Parses a string buffer with Visual Basic code.
  *
  * @param *buffer The string to parse.
@@ -93,3 +98,7 @@ void parse_visual_basic(char *buffer, int length, int count,
   // if no newline at EOF; callback contents of last line
   if (count) { process_last_line(VB_LANG) }
 }
+
+#endif
+
+/*****************************************************************************/
