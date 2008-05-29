@@ -14,6 +14,7 @@
 #include "objective_c_parser.h"
 #include "visual_basic_parser.h"
 #include "sql_parser.h"
+#include "actionscript_parser.h"
 // END parser includes
 
 ParseResult *pr;
@@ -38,6 +39,7 @@ struct language languages[] = {
   { "objective_c", parse_objective_c },
   { "visualbasic", parse_visual_basic },
   { "sql", parse_sql },
+  { "actionscript", parse_actionscript },
 // END languages
   { "", NULL }
 };
@@ -120,6 +122,7 @@ int ragel_parser_parse(ParseResult *parse_result,
   for (i = 0; strlen(languages[i].name) != 0; i++)
     if (strcmp(languages[i].name, lang) == 0) {
       languages[i].parser(buffer, buffer_len, 1, ragel_parser_callback);
+      printf("%s", lang);
       return 1;
     }
   return 0;
