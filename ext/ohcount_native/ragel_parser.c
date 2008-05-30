@@ -23,6 +23,7 @@
 #include "bat_parser.h"
 //#include "boo_parser.h"
 #include "dcl_parser.h"
+#include "dylan_parser.h"
 // END parser includes
 
 ParseResult *pr;
@@ -57,6 +58,7 @@ struct language languages[] = {
   { "bat", parse_bat },
   //{ "boo", parse_boo },
   { "dcl", parse_dcl },
+  { "dylan", parse_dylan },
 // END languages
   { "", NULL }
 };
