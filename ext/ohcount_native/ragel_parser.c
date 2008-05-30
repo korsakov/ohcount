@@ -34,6 +34,7 @@
 #include "matlab_parser.h"
 #include "metafont_parser.h"
 #include "metapost_parser.h"
+#include "pascal_parser.h"
 // END parser includes
 
 ParseResult *pr;
@@ -80,6 +81,7 @@ struct language languages[] = {
   { "matlab", parse_matlab },
   { "metafont", parse_metafont },
   { "metapost", parse_metapost },
+  { "pascal", parse_pascal },
 // END languages
   { "", NULL }
 };
