@@ -98,6 +98,7 @@ struct language languages[] = {
   { "shell", parse_shell },
   { "smalltalk", parse_smalltalk },
   { "tcl", parse_tcl },
+  { "vala", parse_vala },
 // END languages
   { "", NULL }
 };

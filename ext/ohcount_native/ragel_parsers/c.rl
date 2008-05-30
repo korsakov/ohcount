@@ -196,6 +196,15 @@ void parse_csharp(char *buffer, int length, int count,
   C_LANG = ORIG_C_LANG;
 }
 
+const char *VALA_LANG = "vala";
+void parse_vala(char *buffer, int length, int count,
+  void (*callback) (const char *lang, const char *entity, int start, int end)
+  ) {
+  C_LANG = VALA_LANG;
+  parse_c(buffer, length, count, callback);
+  C_LANG = ORIG_C_LANG;
+}
+
 #endif
 
 /*****************************************************************************/
