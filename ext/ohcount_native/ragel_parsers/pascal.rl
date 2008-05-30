@@ -44,7 +44,7 @@ enum {
     }
   }
 
-  pascal_line_comment = '//' @{ fhold; } @comment nonnewline*;
+  pascal_line_comment = '//' @comment nonnewline*;
   pascal_old_block_comment =
     '(*' @comment (
       newline %{ entity = INTERNAL_NL; } %pascal_ccallback
