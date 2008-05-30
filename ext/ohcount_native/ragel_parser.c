@@ -29,6 +29,7 @@
 #include "lisp_parser.h"
 #include "fortranfixed_parser.h"
 #include "fortranfree_parser.h"
+#include "haskell_parser.h"
 // END parser includes
 
 ParseResult *pr;
@@ -70,6 +71,7 @@ struct language languages[] = {
   { "lisp", parse_lisp },
   { "fortranfixed", parse_fortranfixed },
   { "fortranfree", parse_fortranfree },
+  { "haskell", parse_haskell },
 // END languages
   { "", NULL }
 };
