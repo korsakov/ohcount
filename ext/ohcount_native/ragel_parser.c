@@ -42,6 +42,7 @@
 #include "scheme_parser.h"
 #include "shell_parser.h"
 #include "smalltalk_parser.h"
+#include "tcl_parser.h"
 // END parser includes
 
 ParseResult *pr;
@@ -96,6 +97,7 @@ struct language languages[] = {
   { "scheme", parse_scheme },
   { "shell", parse_shell },
   { "smalltalk", parse_smalltalk },
+  { "tcl", parse_tcl },
 // END languages
   { "", NULL }
 };
