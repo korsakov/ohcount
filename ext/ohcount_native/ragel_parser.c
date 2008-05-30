@@ -41,6 +41,7 @@
 #include "rexx_parser.h"
 #include "scheme_parser.h"
 #include "shell_parser.h"
+#include "smalltalk_parser.h"
 // END parser includes
 
 ParseResult *pr;
@@ -94,6 +95,7 @@ struct language languages[] = {
   { "rexx", parse_rexx },
   { "scheme", parse_scheme },
   { "shell", parse_shell },
+  { "smalltalk", parse_smalltalk },
 // END languages
   { "", NULL }
 };
