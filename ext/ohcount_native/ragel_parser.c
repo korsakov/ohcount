@@ -37,6 +37,8 @@
 #include "pascal_parser.h"
 //#include "perl_parser.h"
 #include "pike_parser.h"
+//#include "python_parser.h"
+#include "rexx_parser.h"
 // END parser includes
 
 ParseResult *pr;
@@ -86,6 +88,8 @@ struct language languages[] = {
   { "pascal", parse_pascal },
   //{ "perl", parse_perl },
   { "pike", parse_pike },
+  //{ "python", parse_python },
+  { "rexx", parse_rexx },
 // END languages
   { "", NULL }
 };
