@@ -39,6 +39,7 @@
 #include "pike_parser.h"
 //#include "python_parser.h"
 #include "rexx_parser.h"
+#include "scheme_parser.h"
 // END parser includes
 
 ParseResult *pr;
@@ -90,6 +91,7 @@ struct language languages[] = {
   { "pike", parse_pike },
   //{ "python", parse_python },
   { "rexx", parse_rexx },
+  { "scheme", parse_scheme },
 // END languages
   { "", NULL }
 };

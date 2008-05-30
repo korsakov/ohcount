@@ -1,84 +1,73 @@
-// pike.rl written by Mitchell Foral. mitchell<att>caladbolg<dott>net.
+// scheme.rl written by Mitchell Foral. mitchell<att>caladbolg<dott>net.
 
 /************************* Required for every parser *************************/
-#ifndef RAGEL_PIKE_PARSER
-#define RAGEL_PIKE_PARSER
+#ifndef RAGEL_SCHEME_PARSER
+#define RAGEL_SCHEME_PARSER
 
 #include "ragel_parser_macros.h"
 
 // the name of the language
-const char *PIKE_LANG = "pike";
+const char *SCHEME_LANG = "scheme";
 
 // the languages entities
-const char *pike_entities[] = {
+const char *scheme_entities[] = {
   "space", "comment", "string", "any"
 };
 
 // constants associated with the entities
 enum {
-  PIKE_SPACE = 0, PIKE_COMMENT, PIKE_STRING, PIKE_ANY
+  SCHEME_SPACE = 0, SCHEME_COMMENT, SCHEME_STRING, SCHEME_ANY
 };
 
 /*****************************************************************************/
 
 %%{
-  machine pike;
+  machine scheme;
   write data;
   include common "common.rl";
 
   # Line counting machine
 
-  action pike_ccallback {
+  action scheme_ccallback {
     switch(entity) {
-    case PIKE_SPACE:
+    case SCHEME_SPACE:
       ls
       break;
-    case PIKE_ANY:
+    case SCHEME_ANY:
       code
       break;
     case INTERNAL_NL:
-      std_internal_newline(PIKE_LANG)
+      std_internal_newline(SCHEME_LANG)
       break;
     case NEWLINE:
-      std_newline(PIKE_LANG)
+      std_newline(SCHEME_LANG)
     }
   }
 
-  pike_line_comment = '//' @comment nonnewline*;
-  pike_block_comment =
-    '/*' @comment (
-      newline %{ entity = INTERNAL_NL; } %pike_ccallback
-      |
-      ws
-      |
-      (nonnewline - ws) @comment
-    )* :>> '*/';
-  pike_comment = pike_line_comment | pike_block_comment;
+  scheme_comment = ';' @comment nonnewline*;
 
-  pike_sq_str = '\'' @code ([^\r\n\f'\\] | '\\' nonnewline)* '\'';
-  pike_dq_str = '"' @code ([^\r\n\f"\\] | '\\' nonnewline)* '"';
-  pike_string = pike_sq_str | pike_dq_str;
+  scheme_string = '"' @code ([^\r\n\f"\\] | '\\' nonnewline)* '"';
 
-  pike_line := |*
-    spaces        ${ entity = PIKE_SPACE; } => pike_ccallback;
-    pike_comment;
-    pike_string;
-    newline       ${ entity = NEWLINE;    } => pike_ccallback;
-    ^space        ${ entity = PIKE_ANY;   } => pike_ccallback;
+  scheme_line := |*
+    spaces        ${ entity = SCHEME_SPACE; } => scheme_ccallback;
+    scheme_comment;
+    scheme_string;
+    newline       ${ entity = NEWLINE;    } => scheme_ccallback;
+    ^space        ${ entity = SCHEME_ANY;   } => scheme_ccallback;
   *|;
 
   # Entity machine
 
-  action pike_ecallback {
-    callback(PIKE_LANG, pike_entities[entity], cint(ts), cint(te));
+  action scheme_ecallback {
+    callback(SCHEME_LANG, scheme_entities[entity], cint(ts), cint(te));
   }
 
-  pike_entity := 'TODO:';
+  scheme_entity := 'TODO:';
 }%%
 
 /************************* Required for every parser *************************/
 
-/* Parses a string buffer with Pike code.
+/* Parses a string buffer with Scheme code.
  *
  * @param *buffer The string to parse.
  * @param length The length of the string to parse.
@@ -89,17 +78,17 @@ enum {
  *   every line of code, comment, or blank with 'lcode', 'lcomment', and
  *   'lblank' respectively. Otherwise callback is called for each entity found.
  */
-void parse_pike(char *buffer, int length, int count,
+void parse_scheme(char *buffer, int length, int count,
   void (*callback) (const char *lang, const char *entity, int start, int end)
   ) {
   init
 
   %% write init;
-  cs = (count) ? pike_en_pike_line : pike_en_pike_entity;
+  cs = (count) ? scheme_en_scheme_line : scheme_en_scheme_entity;
   %% write exec;
 
   // if no newline at EOF; callback contents of last line
-  if (count) { process_last_line(PIKE_LANG) }
+  if (count) { process_last_line(SCHEME_LANG) }
 }
 
 #endif
