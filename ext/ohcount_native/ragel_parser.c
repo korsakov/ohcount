@@ -31,6 +31,7 @@
 #include "fortranfree_parser.h"
 #include "haskell_parser.h"
 #include "makefile_parser.h"
+#include "matlab_parser.h"
 // END parser includes
 
 ParseResult *pr;
@@ -74,6 +75,7 @@ struct language languages[] = {
   { "fortranfree", parse_fortranfree },
   { "haskell", parse_haskell },
   { "make", parse_makefile },
+  { "matlab", parse_matlab },
 // END languages
   { "", NULL }
 };
