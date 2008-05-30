@@ -21,6 +21,7 @@
 #include "automake_parser.h"
 #include "awk_parser.h"
 #include "bat_parser.h"
+//#include "boo_parser.h"
 // END parser includes
 
 ParseResult *pr;
@@ -36,6 +37,7 @@ struct language languages[] = {
 // BEGIN languages
   { "c", parse_c },
   { "cpp", parse_cpp },
+  { "csharp", parse_csharp },
   { "lua", parse_lua },
   { "ruby", parse_ruby },
   { "css", parse_css },
@@ -52,6 +54,7 @@ struct language languages[] = {
   { "automake", parse_automake },
   { "awk", parse_awk },
   { "bat", parse_bat },
+  //{ "boo", parse_boo },
 // END languages
   { "", NULL }
 };

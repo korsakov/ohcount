@@ -187,6 +187,15 @@ void parse_cpp(char *buffer, int length, int count,
   C_LANG = ORIG_C_LANG;
 }
 
+const char *CSHARP_LANG = "csharp";
+void parse_csharp(char *buffer, int length, int count,
+  void (*callback) (const char *lang, const char *entity, int start, int end)
+  ) {
+  C_LANG = CSHARP_LANG;
+  parse_c(buffer, length, count, callback);
+  C_LANG = ORIG_C_LANG;
+}
+
 #endif
 
 /*****************************************************************************/
