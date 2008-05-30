@@ -22,6 +22,7 @@
 #include "awk_parser.h"
 #include "bat_parser.h"
 //#include "boo_parser.h"
+#include "dcl_parser.h"
 // END parser includes
 
 ParseResult *pr;
@@ -55,6 +56,7 @@ struct language languages[] = {
   { "awk", parse_awk },
   { "bat", parse_bat },
   //{ "boo", parse_boo },
+  { "dcl", parse_dcl },
 // END languages
   { "", NULL }
 };
