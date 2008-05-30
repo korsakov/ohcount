@@ -69,7 +69,7 @@ enum {
       |
       ws
       |
-      [^\t '\\] @code
+      [^\r\n\f\t '\\] @code
       |
       '\\' nonnewline @code
     )* '\'';
@@ -79,7 +79,7 @@ enum {
       |
       ws
       |
-      [^\t "\\] @code
+      [^\r\n\f\t "\\] @code
       |
       '\\' nonnewline @code
     )* '"';
