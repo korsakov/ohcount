@@ -55,7 +55,7 @@ enum {
     )* :>> '*/';
   boo_comment = boo_line_comment | boo_block_comment;
 
-  boo_char = '\'' @code nonnewline '\'';
+  boo_char = '\'' @code ([^\r\n\f'\\] | '\\' nonnewline) '\'';
   boo_dq_str = '"' @code ([^\r\n\f"\\] | '\\' nonnewline)* '"';
   boo_tq_str =
     '"""' @code (
