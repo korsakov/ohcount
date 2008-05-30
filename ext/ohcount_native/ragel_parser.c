@@ -24,6 +24,7 @@
 //#include "boo_parser.h"
 #include "dcl_parser.h"
 #include "dylan_parser.h"
+#include "ebuild_parser.h"
 // END parser includes
 
 ParseResult *pr;
@@ -59,6 +60,7 @@ struct language languages[] = {
   //{ "boo", parse_boo },
   { "dcl", parse_dcl },
   { "dylan", parse_dylan },
+  { "ebuild", parse_ebuild },
 // END languages
   { "", NULL }
 };
