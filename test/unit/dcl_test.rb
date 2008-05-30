@@ -13,7 +13,7 @@ class Ohcount::DclTest < Ohcount::Test
 
 	def test_blank
 		lb=[Ohcount::LanguageBreakdown.new("dcl", "", "", 1)]
-		assert_equal lb, Ohcount::parse("$ ", "dcl")
+		assert_equal lb, Ohcount::parse("\n", "dcl")
 	end
 
 	def test_input_line
