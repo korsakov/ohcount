@@ -35,6 +35,8 @@
 #include "metafont_parser.h"
 #include "metapost_parser.h"
 #include "pascal_parser.h"
+//#include "perl_parser.h"
+#include "pike_parser.h"
 // END parser includes
 
 ParseResult *pr;
@@ -82,6 +84,8 @@ struct language languages[] = {
   { "metafont", parse_metafont },
   { "metapost", parse_metapost },
   { "pascal", parse_pascal },
+  //{ "perl", parse_perl },
+  { "pike", parse_pike },
 // END languages
   { "", NULL }
 };
