@@ -32,6 +32,8 @@
 #include "haskell_parser.h"
 #include "makefile_parser.h"
 #include "matlab_parser.h"
+#include "metafont_parser.h"
+#include "metapost_parser.h"
 // END parser includes
 
 ParseResult *pr;
@@ -76,6 +78,8 @@ struct language languages[] = {
   { "haskell", parse_haskell },
   { "make", parse_makefile },
   { "matlab", parse_matlab },
+  { "metafont", parse_metafont },
+  { "metapost", parse_metapost },
 // END languages
   { "", NULL }
 };
