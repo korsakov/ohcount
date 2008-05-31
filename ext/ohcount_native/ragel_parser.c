@@ -44,6 +44,8 @@
 #include "smalltalk_parser.h"
 #include "tcl_parser.h"
 #include "vhdl_parser.h"
+//#include "vim_parser.h"
+#include "xml_parser.h"
 // END parser includes
 
 ParseResult *pr;
@@ -101,6 +103,8 @@ struct language languages[] = {
   { "tcl", parse_tcl },
   { "vala", parse_vala },
   { "vhdl", parse_vhdl },
+  //{ "vim", parse_vim },
+  { "xml", parse_xml },
 // END languages
   { "", NULL }
 };
