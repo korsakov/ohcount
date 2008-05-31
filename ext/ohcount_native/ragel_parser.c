@@ -47,6 +47,7 @@
 //#include "vim_parser.h"
 #include "xml_parser.h"
 #include "xslt_parser.h"
+#include "xmlschema_parser.h"
 // END parser includes
 
 ParseResult *pr;
@@ -107,6 +108,7 @@ struct language languages[] = {
   //{ "vim", parse_vim },
   { "xml", parse_xml },
   { "xslt", parse_xslt },
+  { "xmlschema", parse_xmlschema },
 // END languages
   { "", NULL }
 };
