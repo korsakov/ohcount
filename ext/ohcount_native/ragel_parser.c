@@ -34,6 +34,7 @@
 #include "matlab_parser.h"
 #include "metafont_parser.h"
 #include "metapost_parser.h"
+#include "mxml_parser.h"
 #include "pascal_parser.h"
 //#include "perl_parser.h"
 #include "pike_parser.h"
@@ -94,6 +95,7 @@ struct language languages[] = {
   { "matlab", parse_matlab },
   { "metafont", parse_metafont },
   { "metapost", parse_metapost },
+  { "mxml", parse_mxml },
   { "pascal", parse_pascal },
   //{ "perl", parse_perl },
   { "pike", parse_pike },
