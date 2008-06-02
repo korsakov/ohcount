@@ -12,7 +12,7 @@
  */
 #define code {\
   if (!line_contains_code && !line_start) line_start = ts; \
-  line_contains_code = 1; \
+  if (!whole_line_comment) line_contains_code = 1; \
 }
 
 /* The C equivalent of the Ragel 'comment' action.
