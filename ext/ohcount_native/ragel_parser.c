@@ -26,6 +26,7 @@
 #include "dylan_parser.h"
 #include "ebuild_parser.h"
 #include "exheres_parser.h"
+#include "groovy_parser.h"
 #include "lisp_parser.h"
 #include "fortranfixed_parser.h"
 #include "fortranfree_parser.h"
@@ -88,6 +89,7 @@ struct language languages[] = {
   { "ebuild", parse_ebuild },
   { "exheres", parse_exheres },
   { "emacslisp", parse_emacslisp },
+  { "groovy", parse_groovy },
   { "lisp", parse_lisp },
   { "fortranfixed", parse_fortranfixed },
   { "fortranfree", parse_fortranfree },
