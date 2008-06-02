@@ -25,7 +25,7 @@ action ls { if (!line_start) line_start = ts; }
 
 action code {
   if (!line_contains_code && !line_start) line_start = ts;
-  if (!whole_line_comment) line_contains_code = 1;
+  line_contains_code = 1;
 }
 
 action comment {

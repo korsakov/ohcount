@@ -47,7 +47,7 @@ enum {
   vim_comment = '"' when no_code  @comment nonnewline*;
 
   vim_sq_str = '\'' @code ([^\r\n\f'\\] | '\\' any)* '\'';
-  vim_dq_str = '"' @code ([^\r\n\f"\\] | '\\' any)* '"';
+  vim_dq_str = '"' when !no_code @code ([^\r\n\f"\\] | '\\' any)* '"';
   vim_string = vim_sq_str | vim_dq_str;
 
   vim_line := |*
@@ -55,7 +55,7 @@ enum {
     vim_comment;
     vim_string;
     newline        ${ entity = NEWLINE;   } => vim_ccallback;
-    '"';
+    #'"';
     ^(space | '"') ${ entity = VIM_ANY;   } => vim_ccallback;
 
   *|;
