@@ -40,12 +40,13 @@
 #include "pike_parser.h"
 //#include "python_parser.h"
 #include "rexx_parser.h"
+//#include "rhtml_parser.h"
 #include "scheme_parser.h"
 #include "shell_parser.h"
 #include "smalltalk_parser.h"
 #include "tcl_parser.h"
 #include "vhdl_parser.h"
-//#include "vim_parser.h"
+#include "vim_parser.h"
 #include "xml_parser.h"
 #include "xslt_parser.h"
 #include "xmlschema_parser.h"
@@ -101,13 +102,14 @@ struct language languages[] = {
   { "pike", parse_pike },
   //{ "python", parse_python },
   { "rexx", parse_rexx },
+  //{ "rhtml", parse_rhtml },
   { "scheme", parse_scheme },
   { "shell", parse_shell },
   { "smalltalk", parse_smalltalk },
   { "tcl", parse_tcl },
   { "vala", parse_vala },
   { "vhdl", parse_vhdl },
-  //{ "vim", parse_vim },
+  { "vim", parse_vim },
   { "xml", parse_xml },
   { "xslt", parse_xslt },
   { "xmlschema", parse_xmlschema },
