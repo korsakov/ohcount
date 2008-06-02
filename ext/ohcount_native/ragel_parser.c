@@ -22,6 +22,7 @@
 #include "awk_parser.h"
 #include "bat_parser.h"
 //#include "boo_parser.h"
+#include "d_parser.h"
 #include "dcl_parser.h"
 #include "dylan_parser.h"
 #include "ebuild_parser.h"
@@ -85,6 +86,7 @@ struct language languages[] = {
   { "bat", parse_bat },
   //{ "boo", parse_boo },
   { "dcl", parse_dcl },
+  { "dmd", parse_d },
   { "dylan", parse_dylan },
   { "ebuild", parse_ebuild },
   { "exheres", parse_exheres },
