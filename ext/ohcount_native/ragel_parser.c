@@ -43,6 +43,7 @@
 //#include "python_parser.h"
 #include "rexx_parser.h"
 //#include "rhtml_parser.h"
+#include "scala_parser.h"
 #include "scheme_parser.h"
 #include "shell_parser.h"
 #include "smalltalk_parser.h"
@@ -108,6 +109,7 @@ struct language languages[] = {
   //{ "python", parse_python },
   { "rexx", parse_rexx },
   //{ "rhtml", parse_rhtml },
+  { "scala", parse_scala },
   { "scheme", parse_scheme },
   { "shell", parse_shell },
   { "smalltalk", parse_smalltalk },
