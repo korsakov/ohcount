@@ -25,7 +25,7 @@ action ls { if (!line_start) line_start = ts; }
 
 action code {
   if (!line_contains_code && !line_start) line_start = ts;
-  line_contains_code = 1;
+  if (!whole_line_comment) line_contains_code = 1;
 }
 
 action comment {
@@ -47,4 +47,5 @@ action starts_line {
 action starts_line2 {
   p == buffer || *(p-2) == '\r' || *(p-2) == '\n' || *(p-2) == '\f'
 }
+
 }%%
