@@ -47,6 +47,7 @@
 #include "shell_parser.h"
 #include "smalltalk_parser.h"
 #include "tcl_parser.h"
+#include "tex_parser.h"
 #include "vhdl_parser.h"
 #include "vim_parser.h"
 #include "xml_parser.h"
@@ -111,6 +112,7 @@ struct language languages[] = {
   { "shell", parse_shell },
   { "smalltalk", parse_smalltalk },
   { "tcl", parse_tcl },
+  { "tex", parse_tex },
   { "vala", parse_vala },
   { "vhdl", parse_vhdl },
   { "vim", parse_vim },
