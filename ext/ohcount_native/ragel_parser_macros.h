@@ -10,7 +10,7 @@
  * This is tyically used in the main action for entities where Ragel actions
  * cannot, for one reason or another, be used.
  */
-#define code {\
+#define code { \
   if (!line_contains_code && !line_start) line_start = ts; \
   line_contains_code = 1; \
 }
@@ -18,11 +18,23 @@
 /* The C equivalent of the Ragel 'comment' action.
  * This is typically unused, but here for consistency.
  */
-#define comment {\
+#define comment { \
   if (!line_contains_code) { \
     whole_line_comment = 1; \
     if (!line_start) line_start = ts; \
   } \
+}
+
+/* Sets up for having seen an embedded language.
+ * This is typically used when entering an embedded language which usually does
+ * not span multiple lines (e.g. php for <?php echo 'blah' ?> on single lines)
+ * so the line is counted as embedded code or comment, not parent code.
+ * @param lang The language name string.
+ */
+#define saw(lang) { \
+  seen = lang; \
+  whole_line_comment = 0; \
+  line_contains_code = 0; \
 }
 
 /* Executes standard line counting actions for INTERNAL_NL entities.
@@ -43,6 +55,20 @@
   line_start = p; \
 }
 
+/* Executes emebedded language line counting actions for INTERNAL_NL entities
+ * based on whether or not the embedded language's code has been seen in a
+ * parent line.
+ * This is typically used in the main action for the INTERNAL_NL entity.
+ * @param lang The language name string.
+ */
+#define emb_internal_newline(lang) { \
+  if (seen && seen != lang) \
+    std_internal_newline(seen) \
+  else \
+    std_internal_newline(lang) \
+  seen = 0; \
+}
+
 /* Executes standard line counting actions for NEWLINE entities.
  * This is typically used in the main action for the NEWLINE entity.
  * @param lang The language name string.
@@ -59,6 +85,20 @@
   whole_line_comment = 0; \
   line_contains_code = 0; \
   line_start = 0; \
+}
+
+/* Executes embedded language line counting actions for NEWLINE entities based
+ * on whether or not the embedded language's code has been seen in a parent
+ * line.
+ * This is typically used in the main action for the NEWLINE entity.
+ * @param lang The language name string.
+ */
+#define emb_newline(lang) { \
+  if (seen && seen != lang) \
+    std_newline(seen) \
+  else \
+    std_newline(lang) \
+  seen = 0; \
 }
 
 /* Processes the last line for buffers that don't have a newline at EOF.
@@ -137,6 +177,9 @@ char *line_start;
 // state variable for the current entity being matched
 int entity;
 
+// keeps track of an embedded language
+const char *seen;
+
 #define init { \
   p = buffer; \
   pe = buffer + length; \
@@ -147,6 +190,7 @@ int entity;
   line_contains_code = 0; \
   line_start = 0; \
   entity = 0; \
+  seen = 0; \
 }
 
 #endif
