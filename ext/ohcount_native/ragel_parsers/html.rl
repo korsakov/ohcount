@@ -88,9 +88,9 @@ enum {
   ws_or_inl = (ws | newline @{ entity = INTERNAL_NL; } %html_ccallback);
 
   html_css_entry = '<' /style/i [^>]+ :>> 'text/css' [^>]+ '>' @code;
-  html_css_outry = '</' /style/i ws_or_inl* '>' @code;
+  html_css_outry = '</' /style/i ws_or_inl* '>' @check_blank_outry @code;
   html_css_line := |*
-    html_css_outry @{ p = ts; fgoto html_line; };
+    html_css_outry @{ p = ts; fret; };
     # unmodified CSS patterns
     spaces      ${ entity = CSS_SPACE; } => css_ccallback;
     css_comment;
@@ -100,9 +100,9 @@ enum {
   *|;
 
   html_js_entry = '<' /script/i [^>]+ :>> 'text/javascript' [^>]+ '>' @code;
-  html_js_outry = '</' /script/i ws_or_inl* '>' @code;
+  html_js_outry = '</' /script/i ws_or_inl* '>' @check_blank_outry @code;
   html_js_line := |*
-    html_js_outry @{ p = ts; fgoto html_line; };
+    html_js_outry @{ p = ts; fret; };
     # unmodified Javascript patterns
     spaces     ${ entity = JS_SPACE; } => js_ccallback;
     js_comment;
@@ -113,9 +113,9 @@ enum {
 
   html_line := |*
     html_css_entry @{ entity = CHECK_BLANK_ENTRY; } @html_ccallback
-      @{ fgoto html_css_line; };
+      @{ saw(CSS_LANG); } => { fcall html_css_line; };
     html_js_entry @{ entity = CHECK_BLANK_ENTRY; } @html_ccallback
-      @{ fgoto html_js_line; };
+      @{ saw(JS_LANG); } => { fcall html_js_line; };
     # standard HTML patterns
     spaces       ${ entity = HTML_SPACE; } => html_ccallback;
     html_comment;

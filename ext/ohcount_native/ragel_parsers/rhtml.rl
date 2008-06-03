@@ -57,54 +57,50 @@ enum {
   }
 
   rhtml_comment := (
-    #'<!--' @comment (
-      newline %{ entity = INTERNAL_NL; } %rhtml_ccallback
-      |
-      ws
-      |
-      ^(space | [\-<]) @comment
-      |
-      '<' '%' @{ saw(RUBY_LANG); fcall rhtml_ruby_line; }
-      |
-      '<' !'%'
-    )* :>> '-->' @comment @{ fgoto rhtml_line; };
+    newline %{ entity = INTERNAL_NL; } %rhtml_ccallback
+    |
+    ws
+    |
+    ^(space | [\-<]) @comment
+    |
+    '<' '%' @{ saw(RUBY_LANG); fcall rhtml_ruby_line; }
+    |
+    '<' !'%'
+  )* :>> '-->' @comment @{ fgoto rhtml_line; };
 
   rhtml_sq_str := (
-    #'\'' @code (
-      newline %{ entity = INTERNAL_NL; } %rhtml_ccallback
-      |
-      ws
-      |
-      [^\r\n\f\t '\\<] @code
-      |
-      '\\' nonnewline @code
-      |
-      '<' '%' @{ saw(RUBY_LANG); fcall rhtml_ruby_line; }
-      |
-      '<' !'%'
-    )* '\'' @{ fgoto rhtml_line; };
+    newline %{ entity = INTERNAL_NL; } %rhtml_ccallback
+    |
+    ws
+    |
+    [^\r\n\f\t '\\<] @code
+    |
+    '\\' nonnewline @code
+    |
+    '<' '%' @{ saw(RUBY_LANG); fcall rhtml_ruby_line; }
+    |
+    '<' !'%'
+  )* '\'' @{ fgoto rhtml_line; };
   rhtml_dq_str := (
-    #'"' @code (
-      newline %{ entity = INTERNAL_NL; } %rhtml_ccallback
-      |
-      ws
-      |
-      [^\r\n\f\t "\\<] @code
-      |
-      '\\' nonnewline @code
-      |
-      '<' '%' @{ saw(RUBY_LANG); fcall rhtml_ruby_line; }
-      |
-      '<' !'%'
-    )* '"' @{ fgoto rhtml_line; };
-  #rhtml_string = rhtml_sq_str | rhtml_dq_str;
+    newline %{ entity = INTERNAL_NL; } %rhtml_ccallback
+    |
+    ws
+    |
+    [^\r\n\f\t "\\<] @code
+    |
+    '\\' nonnewline @code
+    |
+    '<' '%' @{ saw(RUBY_LANG); fcall rhtml_ruby_line; }
+    |
+    '<' !'%'
+  )* '"' @{ fgoto rhtml_line; };
 
   ws_or_inl = (ws | newline @{ entity = INTERNAL_NL; } %rhtml_ccallback);
 
   rhtml_css_entry = '<' /style/i [^>]+ :>> 'text/css' [^>]+ '>' @code;
-  rhtml_css_outry = '</' /style/i ws_or_inl* '>' @code;
+  rhtml_css_outry = '</' /style/i ws_or_inl* '>' @check_blank_outry @code;
   rhtml_css_line := |*
-    rhtml_css_outry @{ p = ts; fgoto rhtml_line; };
+    rhtml_css_outry @{ p = ts; fret; };
     # unmodified CSS patterns
     spaces      ${ entity = CSS_SPACE; } => css_ccallback;
     css_comment;
@@ -114,9 +110,9 @@ enum {
   *|;
 
   rhtml_js_entry = '<' /script/i [^>]+ :>> 'text/javascript' [^>]+ '>' @code;
-  rhtml_js_outry = '</' /script/i ws_or_inl* '>' @code;
+  rhtml_js_outry = '</' /script/i ws_or_inl* '>' @check_blank_outry @code;
   rhtml_js_line := |*
-    rhtml_js_outry @{ p = ts; fgoto rhtml_line; };
+    rhtml_js_outry @{ p = ts; fret; };
     # unmodified Javascript patterns
     spaces     ${ entity = JS_SPACE; } => js_ccallback;
     js_comment;
@@ -126,7 +122,7 @@ enum {
   *|;
 
   rhtml_ruby_entry = '<%' @code;
-  rhtml_ruby_outry = '%>' @reset_seen @code;
+  rhtml_ruby_outry = '%>' @check_blank_outry @code;
   rhtml_ruby_line := |*
     rhtml_ruby_outry @{ p = ts; fret; };
     # unmodified Ruby patterns
@@ -139,9 +135,9 @@ enum {
 
   rhtml_line := |*
     rhtml_css_entry @{ entity = CHECK_BLANK_ENTRY; } @rhtml_ccallback
-      @{ fgoto rhtml_css_line; };
+      @{ saw(CSS_LANG); } => { fcall rhtml_css_line; };
     rhtml_js_entry @{ entity = CHECK_BLANK_ENTRY; } @rhtml_ccallback
-      @{ fgoto rhtml_js_line; };
+      @{ saw(JS_LANG); } => { fcall rhtml_js_line; };
     rhtml_ruby_entry @{ entity = CHECK_BLANK_ENTRY; } @rhtml_ccallback
       @{ saw(RUBY_LANG); } => { fcall rhtml_ruby_line; };
     # standard RHTML patterns
