@@ -35,6 +35,10 @@ action comment {
   }
 }
 
+action check_blank_outry {
+  if (!line_contains_code && !whole_line_comment) seen = 0;
+}
+
 # common conditionals
 
 action no_code { !line_contains_code }
