@@ -88,9 +88,9 @@ enum {
   ws_or_inl = (ws | newline @{ entity = INTERNAL_NL; } %mxml_ccallback);
 
   mxml_css_entry = '<mx:Style>' @code;
-  mxml_css_outry = '</mx:Style>' @code;
+  mxml_css_outry = '</mx:Style>' @check_blank_outry @code;
   mxml_css_line := |*
-    mxml_css_outry @{ p = ts; fgoto mxml_line; };
+    mxml_css_outry @{ p = ts; fret; };
     # unmodified CSS patterns
     spaces      ${ entity = CSS_SPACE; } => css_ccallback;
     css_comment;
@@ -100,9 +100,9 @@ enum {
   *|;
 
   mxml_as_entry = '<mx:Script>' @code;
-  mxml_as_outry = '</mx:Script>' @code;
+  mxml_as_outry = '</mx:Script>' @check_blank_outry @code;
   mxml_as_line := |*
-    mxml_as_outry @{ p = ts; fgoto mxml_line; };
+    mxml_as_outry @{ p = ts; fret; };
     # unmodified Actionscript patterns
     spaces      ${ entity = AS_SPACE; } => as_ccallback;
     as_comment;
@@ -113,15 +113,15 @@ enum {
 
   mxml_line := |*
     mxml_css_entry @{ entity = CHECK_BLANK_ENTRY; } @mxml_ccallback
-      @{ fgoto mxml_css_line; };
+      @{ saw(CSS_LANG); } => { fcall mxml_css_line; };
     mxml_as_entry @{ entity = CHECK_BLANK_ENTRY; } @mxml_ccallback
-      @{ fgoto mxml_as_line; };
+      @{ saw(AS_LANG); } => { fcall mxml_as_line; };
     # standard MXML patterns
-    spaces       ${ entity = MXML_SPACE; } => mxml_ccallback;
+    spaces        ${ entity = MXML_SPACE; } => mxml_ccallback;
     mxml_comment;
     mxml_string;
-    newline      ${ entity = NEWLINE;    } => mxml_ccallback;
-    ^space       ${ entity = MXML_ANY;   } => mxml_ccallback;
+    newline       ${ entity = NEWLINE;    } => mxml_ccallback;
+    ^space        ${ entity = MXML_ANY;   } => mxml_ccallback;
   *|;
 
   # Entity machine
