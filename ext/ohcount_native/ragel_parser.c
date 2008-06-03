@@ -22,6 +22,8 @@
 #include "awk_parser.h"
 #include "bat_parser.h"
 //#include "boo_parser.h"
+#include "clearsilver_parser.h"
+#include "clearsilverhtml_parser.h"
 #include "d_parser.h"
 #include "dcl_parser.h"
 #include "dylan_parser.h"
@@ -89,6 +91,8 @@ struct language languages[] = {
   { "awk", parse_awk },
   { "bat", parse_bat },
   //{ "boo", parse_boo },
+  { "clearsilver", parse_clearsilver },
+  { "clearsilver_template", parse_cshtml },
   { "dcl", parse_dcl },
   { "dmd", parse_d },
   { "dylan", parse_dylan },
