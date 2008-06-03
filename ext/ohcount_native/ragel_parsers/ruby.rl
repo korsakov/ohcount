@@ -87,7 +87,7 @@ enum {
   # let Ragel know what it is (currently unsupported), and put its respective
   # closing char in the literal string below.
   ruby_lit_str =
-    '%' @code [qQ]? [(\[{] (
+    '%' [qQ]? [(\[{] @code (
       newline %{ entity = INTERNAL_NL; } %ruby_ccallback
       |
       ws
@@ -119,7 +119,7 @@ enum {
   # TODO: true literal array and command detection
   # See TODO above about literal string detection
   ruby_lit_other =
-    '%' @code [wrx] [(\[{] (
+    '%' [wrx] [(\[{] @code (
       newline %{ entity = INTERNAL_NL; } %ruby_ccallback
       |
       ws
