@@ -124,7 +124,7 @@
 int is_blank_entry(char *p) {
   char *pos = p+1;
   while (*pos != '\n' && *pos != '\r' && *pos != '\f') {
-    if (*pos != '\t' || *pos != ' ') return 0;
+    if (*pos != '\t' && *pos != ' ') return 0;
     pos++;
   }
   if (*pos == '\r' && *(pos+1) == '\n') pos++;
