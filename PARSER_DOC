@@ -247,6 +247,8 @@ void parse_c(char *buffer, int length, int count,
       be counted as HTML code, and the 'check_blank_entry' macro handles this.
       But you may be asking, "how do I get to the CHECK_BLANK_ENTRY entity?".
       This will be discussed in just a bit.
+      Also use the emb_newline and emb_internal_newline macros instead of the
+      std_newline and std_internal_newline macros.
 
       For each embedded language you will have to define an entry and outry. An
       entry is the pattern that transitions from the parent language into the
@@ -256,16 +258,19 @@ void parse_c(char *buffer, int length, int count,
       [lang]_[elang]_line; e.g. html_css_line) and put outry patterns in those.
       Entries typically would be defined as [lang]_[elang]_entry, and outries
       as [lang]_[elang]_outry.
+      Note: An outry should have a 'check_blank_outry' action so the line is not
+      mistakenly counted as a line of embedded language code if it is actually a
+      line of parent code.
 
       Entry pattern actions should be:
         [lang]_[elang]_entry @{ entity = CHECK_BLANK_ENTRY; } @[lang]_callback
-          @{ fgoto [lang]_[elang]_line; };
+          @{ saw([lang]_LANG)} => { fcall [lang]_[elang]_line; };
       What this does is checks for a blank entry, and if it is, counts the line
       as a line of parent language code. If it is not, the macro will not do
       anything. The machine then transitions into the child language.
 
       Outry pattern actions should be:
-        @{ p = ts; fgoto [lang]_line };
+        @{ p = ts; fret; };
       What this does is sets the current Ragel parser position to the beginning
       of the outry so the line is counted as a line of parent language code. The
       machine then transitions into the parent language.
