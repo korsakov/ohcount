@@ -28,6 +28,7 @@
 #include "ebuild_parser.h"
 #include "exheres_parser.h"
 #include "groovy_parser.h"
+#include "jsp_parser.h"
 #include "lisp_parser.h"
 #include "fortranfixed_parser.h"
 #include "fortranfree_parser.h"
@@ -39,6 +40,7 @@
 #include "mxml_parser.h"
 #include "pascal_parser.h"
 //#include "perl_parser.h"
+#include "phphtml_parser.h"
 #include "pike_parser.h"
 //#include "python_parser.h"
 #include "rexx_parser.h"
@@ -94,6 +96,7 @@ struct language languages[] = {
   { "exheres", parse_exheres },
   { "emacslisp", parse_emacslisp },
   { "groovy", parse_groovy },
+  { "jsp", parse_jsp },
   { "lisp", parse_lisp },
   { "fortranfixed", parse_fortranfixed },
   { "fortranfree", parse_fortranfree },
@@ -105,6 +108,7 @@ struct language languages[] = {
   { "mxml", parse_mxml },
   { "pascal", parse_pascal },
   //{ "perl", parse_perl },
+  //{ "php", parse_phtml },
   { "pike", parse_pike },
   //{ "python", parse_python },
   { "rexx", parse_rexx },
