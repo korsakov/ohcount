@@ -272,8 +272,9 @@ void parse_c(char *buffer, int length, int count,
       Outry pattern actions should be:
         @{ p = ts; fret; };
       What this does is sets the current Ragel parser position to the beginning
-      of the outry so the line is counted as a line of parent language code. The
-      machine then transitions into the parent language.
+      of the outry so the line is counted as a line of parent language code if
+      no child code is on the same line. The machine then transitions into the
+      parent language.
 
   Entity Identifying Machine:
     This machine does not have to be written as a line-by-line parser. It only
