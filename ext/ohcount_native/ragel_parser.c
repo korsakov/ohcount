@@ -4,16 +4,6 @@
 #include "common.h"
 
 // BEGIN parser includes
-#include "c_parser.h"
-#include "lua_parser.h"
-#include "ruby_parser.h"
-#include "css_parser.h"
-#include "javascript_parser.h"
-#include "html_parser.h"
-#include "java_parser.h"
-#include "objective_c_parser.h"
-#include "visual_basic_parser.h"
-#include "sql_parser.h"
 #include "actionscript_parser.h"
 #include "ada_parser.h"
 #include "assembler_parser.h"
@@ -21,41 +11,51 @@
 #include "automake_parser.h"
 #include "awk_parser.h"
 #include "bat_parser.h"
-//#include "boo_parser.h"
+#include "boo_parser.h"
+#include "c_parser.h"
 #include "clearsilver_parser.h"
 #include "clearsilverhtml_parser.h"
+#include "css_parser.h"
 #include "d_parser.h"
 #include "dcl_parser.h"
 #include "dylan_parser.h"
 #include "ebuild_parser.h"
 #include "exheres_parser.h"
-#include "groovy_parser.h"
-#include "jsp_parser.h"
-#include "lisp_parser.h"
 #include "fortranfixed_parser.h"
 #include "fortranfree_parser.h"
+#include "groovy_parser.h"
 #include "haskell_parser.h"
+#include "html_parser.h"
+#include "java_parser.h"
+#include "javascript_parser.h"
+#include "jsp_parser.h"
+#include "lisp_parser.h"
+#include "lua_parser.h"
 #include "makefile_parser.h"
 #include "matlab_parser.h"
 #include "metafont_parser.h"
 #include "metapost_parser.h"
 #include "metapost_with_tex_parser.h"
 #include "mxml_parser.h"
+#include "objective_c_parser.h"
 #include "pascal_parser.h"
-//#include "perl_parser.h"
+#include "perl_parser.h"
 #include "phphtml_parser.h"
 #include "pike_parser.h"
-//#include "python_parser.h"
+#include "python_parser.h"
 #include "rexx_parser.h"
+#include "ruby_parser.h"
 #include "rhtml_parser.h"
 #include "scala_parser.h"
 #include "scheme_parser.h"
 #include "shell_parser.h"
 #include "smalltalk_parser.h"
+#include "sql_parser.h"
 #include "tcl_parser.h"
 #include "tex_parser.h"
 #include "vhdl_parser.h"
 #include "vim_parser.h"
+#include "visual_basic_parser.h"
 #include "xml_parser.h"
 #include "xslt_parser.h"
 #include "xmlschema_parser.h"
@@ -72,18 +72,6 @@ struct language {
 
 struct language languages[] = {
 // BEGIN languages
-  { "c", parse_c },
-  { "cpp", parse_cpp },
-  { "csharp", parse_csharp },
-  { "lua", parse_lua },
-  { "ruby", parse_ruby },
-  { "css", parse_css },
-  { "javascript", parse_javascript },
-  { "html", parse_html },
-  { "java", parse_java },
-  { "objective_c", parse_objective_c },
-  { "visualbasic", parse_visual_basic },
-  { "sql", parse_sql },
   { "actionscript", parse_actionscript },
   { "ada", parse_ada },
   { "assembler", parse_assembler },
@@ -92,26 +80,35 @@ struct language languages[] = {
   { "awk", parse_awk },
   { "bat", parse_bat },
   //{ "boo", parse_boo },
+  { "c", parse_c },
   { "clearsilver", parse_clearsilver },
   { "clearsilver_template", parse_cshtml },
+  { "cpp", parse_cpp },
+  { "csharp", parse_csharp },
+  { "css", parse_css },
   { "dcl", parse_dcl },
   { "dmd", parse_d },
   { "dylan", parse_dylan },
   { "ebuild", parse_ebuild },
   { "exheres", parse_exheres },
   { "emacslisp", parse_emacslisp },
-  { "groovy", parse_groovy },
-  { "jsp", parse_jsp },
-  { "lisp", parse_lisp },
   { "fortranfixed", parse_fortranfixed },
   { "fortranfree", parse_fortranfree },
+  { "groovy", parse_groovy },
   { "haskell", parse_haskell },
+  { "html", parse_html },
+  { "java", parse_java },
+  { "javascript", parse_javascript },
+  { "jsp", parse_jsp },
+  { "lisp", parse_lisp },
+  { "lua", parse_lua },
   { "make", parse_makefile },
   { "matlab", parse_matlab },
   { "metafont", parse_metafont },
   { "metapost", parse_metapost },
   { "metapost_with_tex", parse_mptex },
   { "mxml", parse_mxml },
+  { "objective_c", parse_objective_c },
   { "pascal", parse_pascal },
   //{ "perl", parse_perl },
   //{ "php", parse_phtml },
@@ -119,15 +116,18 @@ struct language languages[] = {
   //{ "python", parse_python },
   { "rexx", parse_rexx },
   { "rhtml", parse_rhtml },
+  { "ruby", parse_ruby },
   { "scala", parse_scala },
   { "scheme", parse_scheme },
   { "shell", parse_shell },
   { "smalltalk", parse_smalltalk },
+  { "sql", parse_sql },
   { "tcl", parse_tcl },
   { "tex", parse_tex },
   { "vala", parse_vala },
   { "vhdl", parse_vhdl },
   { "vim", parse_vim },
+  { "visualbasic", parse_visual_basic },
   { "xml", parse_xml },
   { "xslt", parse_xslt },
   { "xmlschema", parse_xmlschema },
