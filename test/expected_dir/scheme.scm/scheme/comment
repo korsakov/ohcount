@@ -1,0 +1,6 @@
+; => A divide by zero error is raised
+; => The symbol 'error
+; => 6
+; => A divide by zero error is raised
+; => An error is raised: Error in /: could not perform the division.
+; => An error is raised: Error in example-function: could not evaluate the expression.

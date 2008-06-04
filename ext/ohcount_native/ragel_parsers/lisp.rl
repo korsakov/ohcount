@@ -108,4 +108,13 @@ void parse_emacslisp(char *buffer, int length, int count,
   LISP_LANG = ORIG_LISP_LANG;
 }
 
+const char *SCHEME_LANG = "scheme";
+void parse_scheme(char *buffer, int length, int count,
+  void (*callback) (const char *lang, const char *entity, int start, int end)
+  ) {
+  LISP_LANG = SCHEME_LANG;
+  parse_lisp(buffer, length, count, callback);
+  LISP_LANG = ORIG_LISP_LANG;
+}
+
 #endif
