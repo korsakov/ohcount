@@ -121,14 +121,15 @@
  * @return 0 if the rest of the line is not blank, the position at the end of
  *   the newline otherwise (inclusive).
  */
-int is_blank_entry(char *p) {
-  char *pos = p+1;
+int is_blank_entry(char **p) {
+  char *pos = *p+1;
   while (*pos != '\n' && *pos != '\r' && *pos != '\f') {
     if (*pos != '\t' && *pos != ' ') return 0;
     pos++;
   }
   if (*pos == '\r' && *(pos+1) == '\n') pos++;
-  return pos;
+  *p = pos;
+  return 1;
 }
 
 /* If there is a transition into an embedded language and there is only parent
@@ -140,8 +141,7 @@ int is_blank_entry(char *p) {
  * @param lang The language name string.
  */
 #define check_blank_entry(lang) { \
-  if (is_blank_entry(p)) { \
-    p = is_blank_entry(p); \
+  if (is_blank_entry(&p)) { \
     te = p + 1; \
     std_newline(lang) \
   } \

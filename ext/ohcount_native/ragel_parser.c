@@ -67,7 +67,7 @@ int parse_buffer_len;
 
 struct language {
   char name[MAX_LANGUAGE_NAME];
-  void (*parser) (char*, int, int, void*);
+  void (*parser)(char*, int, int, void(*)(const char*, const char*, int, int));
 };
 
 struct language languages[] = {
