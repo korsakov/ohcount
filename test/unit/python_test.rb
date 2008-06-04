@@ -6,9 +6,14 @@ class Ohcount::PythonTest < Ohcount::Test
 		assert_equal lb, Ohcount::parse(" #comment", "python")
 	end
 
+  def test_doc_comment
+    lb = [Ohcount::LanguageBreakdown.new("python", "", "'''\ndoc comment\n'''", 0)]
+    assert_equal lb, Ohcount::parse("  '''\n  doc comment\n  '''", "python")
+  end
+
 	def test_strings
-		lb = [Ohcount::LanguageBreakdown.new("python", "'''abc\n#not a 'comment\n'''", "", 0)]
-		assert_equal lb, Ohcount::parse("'''abc\n#not a 'comment\n'''", "python")
+		lb = [Ohcount::LanguageBreakdown.new("python", "\"abc#not a 'comment\"", "", 0)]
+		assert_equal lb, Ohcount::parse("\"abc#not a 'comment\"", "python")
 	end
 
 	def test_comprehensive

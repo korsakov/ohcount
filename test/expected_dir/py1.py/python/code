@@ -1,20 +1,5 @@
-"\"
-# still in string
-"
-'\'
-# still in string
-'
-import smtplib
-smtpServer='smtp.yourdomain.com';
-fromAddr='xah@xahlee.org';
-toAddr='xah@xahlee.org';
-text='''Subject: newfound love
-Hi friend,
-long time no write, i have a new manifesto i
-think it would be of interest for you to peruse.
-...
-'''
-server = smtplib.SMTP(smtpServer)
-server.set_debuglevel(1)
-server.sendmail(fromAddr, toAddr, text)
-server.quit()
+class Foo:
+def __init__(self, bar):
+print(bar)
+def string(self):
+print('This is a string')
