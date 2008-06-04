@@ -214,7 +214,6 @@ int ragel_parser_parse(ParseResult *parse_result,
   for (i = 0; strlen(languages[i].name) != 0; i++)
     if (strcmp(languages[i].name, lang) == 0) {
       languages[i].parser(buffer, buffer_len, 1, ragel_parser_callback);
-      printf("%s", lang);
       return 1;
     }
   return 0;
