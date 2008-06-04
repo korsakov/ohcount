@@ -47,7 +47,6 @@
 #include "ruby_parser.h"
 #include "rhtml_parser.h"
 #include "scala_parser.h"
-#include "scheme_parser.h"
 #include "shell_parser.h"
 #include "smalltalk_parser.h"
 #include "sql_parser.h"
