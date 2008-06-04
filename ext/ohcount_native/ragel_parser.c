@@ -20,6 +20,7 @@
 #include "dcl_parser.h"
 #include "dylan_parser.h"
 #include "ebuild_parser.h"
+#include "erlang_parser.h"
 #include "exheres_parser.h"
 #include "fortranfixed_parser.h"
 #include "fortranfree_parser.h"
@@ -89,6 +90,7 @@ struct language languages[] = {
   { "dmd", parse_d },
   { "dylan", parse_dylan },
   { "ebuild", parse_ebuild },
+  { "erlang", parse_erlang },
   { "exheres", parse_exheres },
   { "emacslisp", parse_emacslisp },
   { "fortranfixed", parse_fortranfixed },
