@@ -7,6 +7,11 @@ class Ohcount::MatlabTest < Ohcount::Test
 		assert_equal lb, Ohcount::parse(" %comment", "matlab")
 	end
 
+	def test_octave_syntax_comment
+		lb = [Ohcount::LanguageBreakdown.new("matlab", "", "#comment", 0)]
+		assert_equal lb, Ohcount::parse(" #comment", "matlab")
+	end
+
 	def test_false_line_comment
 		lb = [Ohcount::LanguageBreakdown.new("matlab", "%{block%} code", "", 0)]
 		assert_equal lb, Ohcount::parse(" %{block%} code", "matlab")

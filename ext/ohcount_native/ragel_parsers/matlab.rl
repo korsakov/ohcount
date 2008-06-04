@@ -44,7 +44,8 @@ enum {
     }
   }
 
-  matlab_line_comment = '%' [^{] @{ fhold; } @comment nonnewline*;
+  # note: the '#' comment is for GNU Octave
+  matlab_line_comment = ('%' [^{] @{ fhold; } | '#') @comment nonnewline*;
   matlab_block_comment =
     '%{' @comment (
       newline %{ entity = INTERNAL_NL; } %matlab_ccallback
