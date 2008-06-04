@@ -41,7 +41,7 @@
 #include "objective_c_parser.h"
 #include "pascal_parser.h"
 //#include "perl_parser.h"
-//#include "phphtml_parser.h"
+#include "phphtml_parser.h"
 #include "pike_parser.h"
 #include "python_parser.h"
 #include "rexx_parser.h"
@@ -112,7 +112,7 @@ struct language languages[] = {
   { "objective_c", parse_objective_c },
   { "pascal", parse_pascal },
   //{ "perl", parse_perl },
-  //{ "php", parse_phtml },
+  { "php", parse_phtml },
   { "pike", parse_pike },
   { "python", parse_python },
   { "rexx", parse_rexx },
