@@ -1,20 +1,71 @@
-"\"
-# still in string
-"
-'\'
-# still in string
-'
-import smtplib
-smtpServer='smtp.yourdomain.com';
-fromAddr='xah@xahlee.org';
-toAddr='xah@xahlee.org';
-text='''Subject: newfound love
-Hi friend,
-long time no write, i have a new manifesto i
-think it would be of interest for you to peruse.
-...
-'''
-server = smtplib.SMTP(smtpServer)
-server.set_debuglevel(1)
-server.sendmail(fromAddr, toAddr, text)
-server.quit()
+import System
+import System.IO
+import Gtk from "gtk-sharp"
+import Gdk from "gdk-sharp"
+import Glade from "glade-sharp"
+class StuffBrowser():
+public static final phile = """stuffbrowser.glade"""
+public static final supportedExtensions = ( ".png", ".jpeg", ".jpg", ".gif", ".tga", ".bmp", ".ico", ".tiff" )
+def constructor():
+for widget in ("mainStuff", "aboutDialog", "directorySelector"):
+gxml = Glade.XML(phile, widget, null)
+gxml.Autoconnect(self)
+def OnStuffClose(sender as object, e as DeleteEventArgs):
+Application.Quit()
+def OnStuffQuit(sender as object, e as EventArgs):
+Application.Quit()
+def OnAboutActivate(sender as object, e as EventArgs):
+aboutDialog.Show()
+def OnAboutDelete(sender as object, e as DeleteEventArgs):
+e.RetVal = true
+aboutDialog.Hide()
+def OnAboutResponse(sender as object, e as ResponseArgs):
+if e.ResponseId == ResponseType.Close:
+aboutDialog.Hide()
+def OnOpenDirectory(sender as object, e as EventArgs):
+directorySelector.FileList.Sensitive = false
+directorySelector.Show()
+def OnDirectoryDelete(sender as object, e as DeleteEventArgs):
+e.RetVal = true
+directorySelector.Hide() //Don't worry, the "Destroy" event will kill it.
+def OnDirectoryResponse(sender as object, args as ResponseArgs):
+directorySelector.Hide()
+if args.ResponseId == ResponseType.Ok and directorySelector.Filename.Length != 0:
+LoadDirectory(directorySelector.Filename)
+private def LoadDirectory(path as string):
+store = ListStore( (Gdk.Pixbuf, string)  )
+stuffThumbs.Model = store
+cell = CellRendererPixbuf()
+column = TreeViewColumn()
+column.PackStart(cell, false)
+column.AddAttribute(cell, "pixbuf", 0)
+column.Title = path
+if stuffThumbs.GetColumn(0) is not null:
+stuffThumbs.RemoveColumn(stuffThumbs.GetColumn(0))
+stuffThumbs.AppendColumn(column)
+files = Directory.GetFiles(path)
+validFiles = e for e as string in files if System.IO.FileInfo(e).Extension in StuffBrowser.supportedExtensions
+parse = do():
+for i as int, file as string in enumerate(validFiles):
+try:
+using image = Gdk.Pixbuf(file):
+store.AppendValues( (image.ScaleSimple(128, 128, InterpType.Bilinear), file ) )
+except e:
+print " Couldn't read file ${file} "
+print "Indexing start: ${DateTime.Now}"
+parse.BeginInvoke( { print "Indexing complete: ${DateTime.Now}" } ) //Spin off a new thread; fill the progress bar.
+def OnPictureActivated(sender as object, args as RowActivatedArgs):
+x as TreeIter
+stuffThumbs.Model.GetIter(x, args.Path)
+image = stuffThumbs.Model.GetValue(x, 1) as string
+stuffImage.Pixbuf = Gdk.Pixbuf(image)
+imageName.Text = Path.GetFileName(image)
+[Glade.Widget] aboutDialog as Gtk.Dialog
+[Glade.Widget] mainStuff as Gtk.Window
+[Glade.Widget] directorySelector as Gtk.FileSelection
+[Glade.Widget] stuffImage as Gtk.Image
+[Glade.Widget] stuffThumbs as Gtk.TreeView
+[Glade.Widget] imageName as Gtk.Label
+Application.Init()
+StuffBrowser()
+Application.Run()

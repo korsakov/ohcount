@@ -11,7 +11,7 @@
 #include "automake_parser.h"
 #include "awk_parser.h"
 #include "bat_parser.h"
-//#include "boo_parser.h"
+#include "boo_parser.h"
 #include "c_parser.h"
 #include "clearsilver_parser.h"
 #include "clearsilverhtml_parser.h"
@@ -79,7 +79,7 @@ struct language languages[] = {
   { "automake", parse_automake },
   { "awk", parse_awk },
   { "bat", parse_bat },
-  //{ "boo", parse_boo },
+  { "boo", parse_boo },
   { "c", parse_c },
   { "clearsilver", parse_clearsilver },
   { "clearsilver_template", parse_cshtml },

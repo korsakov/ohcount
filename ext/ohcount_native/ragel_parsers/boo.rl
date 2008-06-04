@@ -44,29 +44,38 @@ enum {
     }
   }
 
+  action boo_comment_nc_res { nest_count = 0; }
+  action boo_comment_nc_inc { nest_count++; }
+  action boo_comment_nc_dec { nest_count--; }
+
   boo_line_comment = ('#' | '//') @comment nonnewline*;
   boo_block_comment =
-    '/*' @comment (
+    '/*' >boo_comment_nc_res @comment (
+      newline %{ entity = INTERNAL_NL; } %boo_ccallback
+      |
+      ws
+      |
+      '/*' @boo_comment_nc_inc @comment
+      |
+      '*/' @boo_comment_nc_dec @comment
+      |
+      ^space @comment
+    )* :>> ('*/' when { nest_count == 0 }) @comment;
+  boo_doc_comment =
+    '"""' @comment (
       newline %{ entity = INTERNAL_NL; } %boo_ccallback
       |
       ws
       |
       (nonnewline - ws) @comment
-    )* :>> '*/';
-  boo_comment = boo_line_comment | boo_block_comment;
+    )* :>> '"""' @comment;
+  boo_comment = boo_line_comment | boo_block_comment | boo_doc_comment;
 
-  boo_char = '\'' @code ([^\r\n\f'\\] | '\\' nonnewline) '\'';
-  boo_dq_str = '"' @code ([^\r\n\f"\\] | '\\' nonnewline)* '"';
-  boo_tq_str =
-    '"""' @code (
-      newline %{ entity = INTERNAL_NL; } %boo_ccallback
-      |
-      ws
-      |
-      (nonnewline - ws) @code
-    )* :>> '"""' @code;
-  boo_regex = '/' @code ([^\r\n\f/\\] | '\\' nonnewline)* '/';
-  boo_string = boo_char | boo_dq_str | boo_tq_str | boo_regex;
+  boo_char = '\'' ([^\r\n\f'\\] | '\\' nonnewline) '\'';
+  boo_dq_str =
+    '"' [^"]{2} @{ fhold; fhold; } ([^\r\n\f"\\] | '\\' nonnewline)* '"';
+  boo_regex = '/' [^*/] @{ fhold; } ([^\r\n\f/\\] | '\\' nonnewline)* '/';
+  boo_string = (boo_char | boo_dq_str | boo_regex) @code;
 
   boo_line := |*
     spaces       ${ entity = BOO_SPACE; } => boo_ccallback;
@@ -102,6 +111,8 @@ void parse_boo(char *buffer, int length, int count,
   void (*callback) (const char *lang, const char *entity, int start, int end)
   ) {
   init
+
+  int nest_count = 0;
 
   %% write init;
   cs = (count) ? boo_en_boo_line : boo_en_boo_entity;

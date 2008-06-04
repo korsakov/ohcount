@@ -6,9 +6,24 @@ class Ohcount::BooTest < Ohcount::Test
 		assert_equal lb, Ohcount::parse(" #comment", "boo")
 	end
 
+  def test_block_comment
+    lb = [Ohcount::LanguageBreakdown.new("boo", "", "/*comment*/", 0)]
+    assert_equal lb, Ohcount::parse(" /*comment*/", "boo")
+  end
+
+  def test_nested_block_comment
+    lb = [Ohcount::LanguageBreakdown.new("boo", "", "/* comment\n/* nested */\nstill a comment */", 0)]
+    assert_equal lb, Ohcount::parse(" /* comment\n /* nested */\n still a comment */", "boo")
+  end
+
+  def test_doc_comments
+    lb = [Ohcount::LanguageBreakdown.new("boo", "", "\"\"\"\ndoc comment\n\"\"\"", 0)]
+    assert_equal lb, Ohcount::parse("\"\"\"\ndoc comment\n\"\"\"", "boo")
+  end
+
 	def test_strings
-		lb = [Ohcount::LanguageBreakdown.new("boo", "'''abc\n#not a 'comment\n'''", "", 0)]
-		assert_equal lb, Ohcount::parse("'''abc\n#not a 'comment\n'''", "boo")
+		lb = [Ohcount::LanguageBreakdown.new("boo", "\"abc#not a 'comment\"", "", 0)]
+		assert_equal lb, Ohcount::parse("\"abc#not a 'comment\"", "boo")
 	end
 
 	def test_comprehensive
