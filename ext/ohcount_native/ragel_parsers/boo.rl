@@ -73,7 +73,8 @@ enum {
 
   boo_char = '\'' ([^\r\n\f'\\] | '\\' nonnewline) '\'';
   boo_dq_str =
-    '"' [^"]{2} @{ fhold; fhold; } ([^\r\n\f"\\] | '\\' nonnewline)* '"';
+    '"' ([^"] | '"' [^"] @{ fhold; }) @{ fhold; } # make sure it's not """
+      ([^\r\n\f"\\] | '\\' nonnewline)* '"';
   boo_regex = '/' [^*/] @{ fhold; } ([^\r\n\f/\\] | '\\' nonnewline)* '/';
   boo_string = (boo_char | boo_dq_str | boo_regex) @code;
 
