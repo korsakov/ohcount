@@ -175,6 +175,7 @@ class Ohcount::Detector
 		'.php3' => "php",
 		'.php4' => "php",
 		'.php5' => "php",
+		'.p6'   => "perl",
 		'.pl'   => "perl",
 		'.pm'   => "perl",
 		'.perl' => "perl",
