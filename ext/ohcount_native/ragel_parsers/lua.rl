@@ -102,10 +102,39 @@ enum {
   # Entity machine
 
   action lua_ecallback {
-    callback(LUA_LANG, entity, cint(ts), cint(te));
+    callback(LUA_LANG, lua_entities[entity], cint(ts), cint(te));
   }
 
-  lua_entity := 'TODO:';
+  lua_block_comment_entity =
+    '--[' >lua_long_ec_res '='* $lua_long_ec_inc '[' any*
+    :>> (']' '='* $lua_long_ec_dec ']' when { equal_count == 0 });
+  lua_line_comment_entity = '--' (nonnewline)*;
+  lua_comment_entity = lua_block_comment_entity | lua_line_comment_entity;
+
+  lua_string_entity = sq_str_with_escapes | dq_str_with_escapes;
+
+  lua_integer = '-'? (dec_num | hex_num);
+  lua_number_entity = float | lua_integer;
+
+  lua_keyword_entity =
+    'and' | 'break' | 'do' | 'else' | 'elseif' | 'end' | 'false' | 'for' |
+    'function' | 'if' | 'in' | 'local' | 'nil' | 'not' | 'or' | 'repeat' |
+    'return' | 'then' | 'true' | 'until' | 'while';
+
+  lua_identifier_entity = (alpha | '_') alnum*;
+
+  lua_operator_entity = '~=' | [+\-*/%^#=<>;:,.{}\[\]()];
+
+  lua_entity := |*
+    space+                ${ entity = LUA_SPACE;      } => lua_ecallback;
+    lua_comment_entity    ${ entity = LUA_COMMENT;    } => lua_ecallback;
+    lua_string_entity     ${ entity = LUA_STRING;     } => lua_ecallback;
+    lua_number_entity     ${ entity = LUA_NUMBER;     } => lua_ecallback;
+    lua_identifier_entity ${ entity = LUA_IDENTIFIER; } => lua_ecallback;
+    lua_keyword_entity    ${ entity = LUA_KEYWORD;    } => lua_ecallback;
+    lua_operator_entity   ${ entity = LUA_OPERATOR;   } => lua_ecallback;
+    ^space                ${ entity = LUA_ANY;        } => lua_ecallback;
+  *|;
 }%%
 
 /************************* Required for every parser *************************/
