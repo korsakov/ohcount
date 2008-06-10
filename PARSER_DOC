@@ -294,7 +294,7 @@ void parse_c(char *buffer, int length, int count,
 
     Main Action Structure:
       action [lang]_ecallback {
-        callback([lang]_LANG, entity, cint(ts), cint(te));
+        callback([lang]_LANG, [lang]_entities[entity], cint(ts), cint(te));
       }
 
     Parsers for Embedded Languages:
