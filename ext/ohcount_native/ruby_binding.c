@@ -149,7 +149,7 @@ static VALUE _ohcount_parse(VALUE self, VALUE buffer, VALUE polyglot_name_value)
 			return ary;
 		}
 	}
-  rb_raise(rb_eStandardError,"Polyglot name invalid");
+  rb_raise(rb_eStandardError,"Polyglot name invalid: '%s'", polyglot_name);
 	return Qnil;
 }
 
