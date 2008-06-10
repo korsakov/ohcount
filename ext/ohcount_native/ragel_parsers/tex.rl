@@ -56,7 +56,7 @@ enum {
   # Entity machine
 
   action tex_ecallback {
-    callback(TEX_LANG, entity, cint(ts), cint(te));
+    callback(TEX_LANG, tex_entities[entity], cint(ts), cint(te));
   }
 
   tex_entity := 'TODO:';

@@ -99,7 +99,7 @@ enum {
   # Entity machine
 
   action xslt_ecallback {
-    callback(XSLT_LANG, entity, cint(ts), cint(te));
+    callback(XSLT_LANG, xslt_entities[entity], cint(ts), cint(te));
   }
 
   xslt_entity := 'TODO:';

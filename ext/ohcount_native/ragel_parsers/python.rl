@@ -91,7 +91,7 @@ enum {
   # Entity machine
 
   action python_ecallback {
-    callback(PYTHON_LANG, entity, cint(ts), cint(te));
+    callback(PYTHON_LANG, python_entities[entity], cint(ts), cint(te));
   }
 
   python_entity := 'TODO:';

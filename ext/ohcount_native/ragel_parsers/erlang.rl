@@ -61,7 +61,7 @@ enum {
   # Entity machine
 
   action erlang_ecallback {
-    callback(ERLANG_LANG, entity, cint(ts), cint(te));
+    callback(ERLANG_LANG, erlang_entities[entity], cint(ts), cint(te));
   }
 
   erlang_entity := 'TODO:';

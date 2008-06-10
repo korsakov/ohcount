@@ -99,7 +99,7 @@ enum {
   # Entity machine
 
   action xml_ecallback {
-    callback(XML_LANG, entity, cint(ts), cint(te));
+    callback(XML_LANG, xml_entities[entity], cint(ts), cint(te));
   }
 
   xml_entity := 'TODO:';

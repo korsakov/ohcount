@@ -121,7 +121,7 @@ enum {
   # Entity machine
 
   action c_ecallback {
-    callback(D_LANG, c_entities[entity], cint(ts), cint(te));
+    callback(D_LANG, d_entities[entity], cint(ts), cint(te));
   }
 
   d_entity := 'TODO:';

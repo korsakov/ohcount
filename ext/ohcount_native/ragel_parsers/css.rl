@@ -88,7 +88,7 @@ enum {
   # Entity machine
 
   action css_ecallback {
-    callback(CSS_LANG, entity, cint(ts), cint(te));
+    callback(CSS_LANG, css_entities[entity], cint(ts), cint(te));
   }
 
   css_entity := 'TODO:';

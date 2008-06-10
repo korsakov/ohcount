@@ -66,7 +66,7 @@ enum {
   # Entity machine
 
   action smalltalk_ecallback {
-    callback(SMALLTALK_LANG, entity, cint(ts), cint(te));
+    callback(SMALLTALK_LANG, smalltalk_entities[entity], cint(ts), cint(te));
   }
 
   smalltalk_entity := 'TODO:';

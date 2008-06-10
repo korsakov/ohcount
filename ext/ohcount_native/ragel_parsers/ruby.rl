@@ -147,7 +147,7 @@ enum {
   # Entity machine
 
   action ruby_ecallback {
-    callback(RUBY_LANG, entity, cint(ts), cint(te));
+    callback(RUBY_LANG, ruby_entities[entity], cint(ts), cint(te));
   }
 
   ruby_entity := 'TODO:';

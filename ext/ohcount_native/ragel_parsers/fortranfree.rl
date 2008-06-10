@@ -10,7 +10,7 @@
 const char *FORTRANFREE_LANG = "fortranfree";
 
 // the languages entities
-const char *fortranfree_entities[] = {
+const char *ffree_entities[] = {
   "space", "comment", "string", "any"
 };
 
@@ -75,7 +75,7 @@ enum {
   # Entity machine
 
   action ffree_ecallback {
-    callback(FORTRANFREE_LANG, entity, cint(ts), cint(te));
+    callback(FORTRANFREE_LANG, ffree_entities[entity], cint(ts), cint(te));
   }
 
   ffree_entity := 'TODO:';

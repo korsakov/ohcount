@@ -104,9 +104,7 @@ enum {
   c_block_comment_entity = '/*' any* :>> '*/';
   c_comment_entity = c_line_comment_entity | c_block_comment_entity;
 
-  c_sq_str_entity = '\'' ([^'\\] | '\\' any)* '\'';
-  c_dq_str_entity = '"' ([^"\\] | '\\' any)* '"';
-  c_string_entity = c_sq_str_entity | c_dq_str_entity;
+  c_string_entity = sq_str_with_escapes | dq_str_with_escapes;
 
   c_number_entity = float | integer;
 

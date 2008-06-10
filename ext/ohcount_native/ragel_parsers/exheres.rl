@@ -61,7 +61,7 @@ enum {
   # Entity machine
 
   action exheres_ecallback {
-    callback(EXHERES_LANG, entity, cint(ts), cint(te));
+    callback(EXHERES_LANG, exheres_entities[entity], cint(ts), cint(te));
   }
 
   exheres_entity := 'TODO:';

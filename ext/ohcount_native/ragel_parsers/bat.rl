@@ -56,7 +56,7 @@ enum {
   # Entity machine
 
   action bat_ecallback {
-    callback(BAT_LANG, entity, cint(ts), cint(te));
+    callback(BAT_LANG, bat_entities[entity], cint(ts), cint(te));
   }
 
   bat_entity := 'TODO:';

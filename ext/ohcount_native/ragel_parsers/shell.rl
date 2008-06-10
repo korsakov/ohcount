@@ -80,7 +80,7 @@ enum {
   # Entity machine
 
   action shell_ecallback {
-    callback(SHELL_LANG, entity, cint(ts), cint(te));
+    callback(SHELL_LANG, shell_entities[entity], cint(ts), cint(te));
   }
 
   shell_entity := 'TODO:';

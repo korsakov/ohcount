@@ -10,7 +10,7 @@
 const char *FORTRANFIXED_LANG = "fortranfixed";
 
 // the languages entities
-const char *fortranfixed_entities[] = {
+const char *ffixed_entities[] = {
   "space", "comment", "string", "any"
 };
 
@@ -61,7 +61,7 @@ enum {
   # Entity machine
 
   action ffixed_ecallback {
-    callback(FORTRANFIXED_LANG, entity, cint(ts), cint(te));
+    callback(FORTRANFIXED_LANG, ffixed_entities[entity], cint(ts), cint(te));
   }
 
   ffixed_entity := 'TODO:';

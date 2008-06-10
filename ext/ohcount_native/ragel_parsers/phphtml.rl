@@ -152,7 +152,7 @@ enum {
   # Entity machine
 
   action phtml_ecallback {
-    callback(PHTML_LANG, entity, cint(ts), cint(te));
+    callback(PHTML_LANG, phtml_entities[entity], cint(ts), cint(te));
   }
 
   phtml_entity := 'TODO:';

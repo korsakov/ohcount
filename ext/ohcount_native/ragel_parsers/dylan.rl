@@ -70,7 +70,7 @@ enum {
   # Entity machine
 
   action dylan_ecallback {
-    callback(DYLAN_LANG, entity, cint(ts), cint(te));
+    callback(DYLAN_LANG, dylan_entities[entity], cint(ts), cint(te));
   }
 
   dylan_entity := 'TODO:';

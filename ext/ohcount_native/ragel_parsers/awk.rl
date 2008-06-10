@@ -61,7 +61,7 @@ enum {
   # Entity machine
 
   action awk_ecallback {
-    callback(AWK_LANG, entity, cint(ts), cint(te));
+    callback(AWK_LANG, awk_entities[entity], cint(ts), cint(te));
   }
 
   awk_entity := 'TODO:';

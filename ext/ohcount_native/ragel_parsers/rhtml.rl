@@ -152,7 +152,7 @@ enum {
   # Entity machine
 
   action rhtml_ecallback {
-    callback(RHTML_LANG, entity, cint(ts), cint(te));
+    callback(RHTML_LANG, rhtml_entities[entity], cint(ts), cint(te));
   }
 
   rhtml_entity := 'TODO:';

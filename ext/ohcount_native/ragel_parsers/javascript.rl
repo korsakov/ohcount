@@ -92,7 +92,7 @@ enum {
   # Entity machine
 
   action js_ecallback {
-    callback(JS_LANG, entity, cint(ts), cint(te));
+    callback(JS_LANG, js_entities[entity], cint(ts), cint(te));
   }
 
   js_entity := 'TODO:';

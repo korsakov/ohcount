@@ -80,7 +80,7 @@ enum {
   # Entity machine
 
   action haskell_ecallback {
-    callback(HASKELL_LANG, entity, cint(ts), cint(te));
+    callback(HASKELL_LANG, haskell_entities[entity], cint(ts), cint(te));
   }
 
   haskell_entity := 'TODO:';

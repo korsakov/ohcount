@@ -106,7 +106,7 @@ enum {
   # Entity machine
 
   action perl_ecallback {
-    callback(PERL_LANG, entity, cint(ts), cint(te));
+    callback(PERL_LANG, perl_entities[entity], cint(ts), cint(te));
   }
 
   perl_entity := 'TODO:';

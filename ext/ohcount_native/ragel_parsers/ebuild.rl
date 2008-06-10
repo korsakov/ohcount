@@ -61,7 +61,7 @@ enum {
   # Entity machine
 
   action ebuild_ecallback {
-    callback(EBUILD_LANG, entity, cint(ts), cint(te));
+    callback(EBUILD_LANG, ebuild_entities[entity], cint(ts), cint(te));
   }
 
   ebuild_entity := 'TODO:';

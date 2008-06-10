@@ -59,7 +59,7 @@ enum {
   # Entity machine
 
   action ada_ecallback {
-    callback(ADA_LANG, entity, cint(ts), cint(te));
+    callback(ADA_LANG, ada_entities[entity], cint(ts), cint(te));
   }
 
   ada_entity := 'TODO:';

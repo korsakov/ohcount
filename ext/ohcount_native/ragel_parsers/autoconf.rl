@@ -74,7 +74,7 @@ enum {
   # Entity machine
 
   action ac_ecallback {
-    callback(AC_LANG, entity, cint(ts), cint(te));
+    callback(AC_LANG, ac_entities[entity], cint(ts), cint(te));
   }
 
   ac_entity := 'TODO:';

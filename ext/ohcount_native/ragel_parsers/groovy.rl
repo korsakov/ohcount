@@ -95,7 +95,7 @@ enum {
   # Entity machine
 
   action groovy_ecallback {
-    callback(GROOVY_LANG, entity, cint(ts), cint(te));
+    callback(GROOVY_LANG, groovy_entities[entity], cint(ts), cint(te));
   }
 
   groovy_entity := 'TODO:';

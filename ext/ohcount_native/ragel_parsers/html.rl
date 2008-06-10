@@ -127,7 +127,7 @@ enum {
   # Entity machine
 
   action html_ecallback {
-    callback(HTML_LANG, entity, cint(ts), cint(te));
+    callback(HTML_LANG, html_entities[entity], cint(ts), cint(te));
   }
 
   html_entity := 'TODO:';

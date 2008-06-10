@@ -68,7 +68,7 @@ enum {
   # Entity machine
 
   action lisp_ecallback {
-    callback(LISP_LANG, entity, cint(ts), cint(te));
+    callback(LISP_LANG, lisp_entities[entity], cint(ts), cint(te));
   }
 
   lisp_entity := 'TODO:';

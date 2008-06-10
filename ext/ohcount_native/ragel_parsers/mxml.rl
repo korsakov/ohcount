@@ -127,7 +127,7 @@ enum {
   # Entity machine
 
   action mxml_ecallback {
-    callback(MXML_LANG, entity, cint(ts), cint(te));
+    callback(MXML_LANG, mxml_entities[entity], cint(ts), cint(te));
   }
 
   mxml_entity := 'TODO:';

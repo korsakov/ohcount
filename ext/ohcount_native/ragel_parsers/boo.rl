@@ -89,7 +89,7 @@ enum {
   # Entity machine
 
   action boo_ecallback {
-    callback(BOO_LANG, entity, cint(ts), cint(te));
+    callback(BOO_LANG, boo_entities[entity], cint(ts), cint(te));
   }
 
   boo_entity := 'TODO:';

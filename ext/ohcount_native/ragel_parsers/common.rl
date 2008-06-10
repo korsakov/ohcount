@@ -19,6 +19,12 @@ integer = [+\-]? (hex_num | oct_num | dec_num);
 float = [+\-]? ((digit* '.' digit+) | (digit+ '.' digit*) | digit+)
         [eE] [+\-]? digit+;
 
+# common entities
+sq_str = '\'' [^']* '\'';
+dq_str = '"' [^"]* '"';
+sq_str_with_escapes = '\'' ([^'\\] | '\\' any)* '\'';
+dq_str_with_escapes = '"' ([^"\\] | '\\' any)* '"';
+
 # common actions
 
 action ls { if (!line_start) line_start = ts; }

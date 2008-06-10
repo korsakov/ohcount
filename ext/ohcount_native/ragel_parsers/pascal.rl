@@ -86,7 +86,7 @@ enum {
   # Entity machine
 
   action pascal_ecallback {
-    callback(PASCAL_LANG, entity, cint(ts), cint(te));
+    callback(PASCAL_LANG, pascal_entities[entity], cint(ts), cint(te));
   }
 
   pascal_entity := 'TODO:';

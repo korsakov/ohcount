@@ -152,7 +152,7 @@ enum {
   # Entity machine
 
   action jsp_ecallback {
-    callback(JSP_LANG, entity, cint(ts), cint(te));
+    callback(JSP_LANG, jsp_entities[entity], cint(ts), cint(te));
   }
 
   jsp_entity := 'TODO:';

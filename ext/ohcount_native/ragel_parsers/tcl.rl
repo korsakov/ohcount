@@ -75,7 +75,7 @@ enum {
   # Entity machine
 
   action tcl_ecallback {
-    callback(TCL_LANG, entity, cint(ts), cint(te));
+    callback(TCL_LANG, tcl_entities[entity], cint(ts), cint(te));
   }
 
   tcl_entity := 'TODO:';
