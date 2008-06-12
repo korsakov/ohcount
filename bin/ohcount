@@ -89,6 +89,18 @@ class OhcountCommandLine
 		p langs # TODO: pretty print
 	end
 
+	def raw_entities
+		files.each do |file|
+			sfc = Ohcount::SimpleFileContext.new(file, files)
+			polyglot = Ohcount::Detector.detect(sfc)
+			if polyglot
+				Ohcount::parse_entities(sfc.contents, polyglot) do |language, entity, s, e|
+					puts "#{language}\t#{entity}\t#{s}\t#{e}"
+				end
+			end
+		end
+	end
+
 	def help
 		puts <<HELP
 Usage: ohcount [option] [paths...]
@@ -100,6 +112,7 @@ Ohloh source code line counter command line tool.
    -a, --annotate
    -d, --detect
    -e, --entities
+	 -re
    -h, --help
    -s, --summary
 
@@ -119,6 +132,10 @@ Ohloh source code line counter command line tool.
 -e, --entities
 
    Prints the number of entities found for each language parsed.
+
+-re
+
+   Prints raw entity information to the screen (mainly for debugging).
 
 -h, --help                      Display this message
 
@@ -270,6 +287,8 @@ HELP
 			self.subcommand = :individual
 		when '-e', '--entities'
 			self.subcommand = :entities
+		when '-re'
+			self.subcommand = :raw_entities
 		#when /-n([\w_]+)/
 		#	@entities ||= []
 		#	@entities << $1.to_sym
