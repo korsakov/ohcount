@@ -145,7 +145,7 @@ enum {
     c_identifier_entity ${ entity = C_IDENTIFIER; } => c_ecallback;
     c_keyword_entity    ${ entity = C_KEYWORD;    } => c_ecallback;
     c_operator_entity   ${ entity = C_OPERATOR;   } => c_ecallback;
-    ^space              ${ entity = C_ANY;        } => c_ecallback;
+    ^(space | digit)    ${ entity = C_ANY;        } => c_ecallback;
   *|;
 }%%
 
