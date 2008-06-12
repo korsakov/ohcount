@@ -136,7 +136,7 @@ struct language languages[] = {
   { "", NULL }
 };
 
-/* Returns a language_breakdown for a given language name. */
+/** Returns a language_breakdown for a given language name. */
 LanguageBreakdown *get_language_breakdown(char *name) {
 	int i;
 	for (i = 0; i < pr->language_breakdown_count; i++)
@@ -149,7 +149,7 @@ LanguageBreakdown *get_language_breakdown(char *name) {
 	return &pr->language_breakdowns[pr->language_breakdown_count++];
 }
 
-/* Yields a line's language, semantic, and text to an optional Ruby block. */
+/** Yields a line's language, semantic, and text to an optional Ruby block. */
 void ragel_parse_yield_line(const char *lang, const char *entity, int s, int e) {
 	if (rb_block_given_p()) {
   	VALUE ary;
@@ -166,12 +166,27 @@ void ragel_parse_yield_line(const char *lang, const char *entity, int s, int e) 
 	}
 }
 
-/* Callback function called for every entity in the source file discovered.
+/** Yields an entity's language, id, start, and end position to a required Ruby block */
+void ragel_parse_yield_entity(const char *lang, const char *entity, int s, int e) {
+  if (rb_block_given_p()) {
+    VALUE ary;
+    ary = rb_ary_new2(3);
+    rb_ary_store(ary, 0, ID2SYM(rb_intern(lang)));
+    rb_ary_store(ary, 1, ID2SYM(rb_intern(entity)));
+    rb_ary_store(ary, 2, rb_int_new(s));
+    rb_ary_store(ary, 3, rb_int_new(e));
+    rb_yield(ary);
+  }
+}
+
+/**
+ * Callback function called for every entity in the source file discovered.
  *
  * Entities are defined in the parser and are things like comments, strings,
  * keywords, etc.
  * This callback yields for a Ruby block if necessary:
- *   |language, semantic, line|
+ *   |language, semantic, line| for line counting
+ *   |language, entity, s, e| for entity parsing
  * @param *lang The language associated with the entity.
  * @param *entity The entity discovered. There are 3 additional entities used
  *   by Ohcount for counting: lcode, lcomment, and lblank for a line of code,
@@ -192,19 +207,24 @@ void ragel_parser_callback(const char *lang, const char *entity, int s, int e) {
   } else if (strcmp(entity, "lblank") == 0) {
     lb->blank_count++;
     ragel_parse_yield_line(lang, entity, s, e);
+  } else {
+    ragel_parse_yield_entity(lang, entity, s, e);
   }
 }
 
-/* Tries to use an existing Ragel parser for the given language.
+/**
+ * Tries to use an existing Ragel parser for the given language.
  *
  * @param *parse_result An allocated, empty ParseResult to hold parse results.
+ * @param count An integer flag indicating whether to count lines or parse
+ *   entities.
  * @param *buffer A pointer to the buffer or character in the buffer to start
  *   parsing at.
  * @param buffer_len The length of the buffer to parse.
  * @param *lang The language name associated with the buffer to parse.
  * @return 1 if a Ragel parser is found, 0 otherwise.
  */
-int ragel_parser_parse(ParseResult *parse_result,
+int ragel_parser_parse(ParseResult *parse_result, int count,
                        char *buffer, int buffer_len, char *lang) {
   pr = parse_result;
   pr->language_breakdown_count = 0;
@@ -213,7 +233,7 @@ int ragel_parser_parse(ParseResult *parse_result,
   int i;
   for (i = 0; strlen(languages[i].name) != 0; i++)
     if (strcmp(languages[i].name, lang) == 0) {
-      languages[i].parser(buffer, buffer_len, 1, ragel_parser_callback);
+      languages[i].parser(buffer, buffer_len, count, ragel_parser_callback);
       return 1;
     }
   return 0;

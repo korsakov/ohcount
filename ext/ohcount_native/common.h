@@ -37,6 +37,7 @@
 #include "polyglots.h"
 #include "language_breakdown.h"
 #include "parser.h"
+#include "ragel_parser.h"
 
 /*******************************************
  Error Handling

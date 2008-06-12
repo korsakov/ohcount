@@ -177,9 +177,47 @@ static VALUE _ohcount_polyglots(VALUE self) {
 }
 
 
+/**
+ * Parses a source file's entities (if available).
+ * An entity is each comment, string, number, keyword, etc. that occurs in a
+ * source file.
+ *
+ * You must pass a Ruby block to this function of the form:
+ *   |language, entity, s, e| where:
+ *     language is the language's name (symbol) e.g. ruby.
+ *     entity is the entity's name (symbol) e.g. comment.
+ *     s is the entity's start position in the buffer (number).
+ *     e is the entity's end position in the buffer non-inclusive (number).
+ * If an entity parser is not available for the given language, the block will
+ * never be called. There is currently no way to dynamically test if a language
+ * has an entity parser.
+ *
+ * @param buffer The buffer to parse.
+ * @param language String language name to parse the buffer as. If you are
+ *   unsure which language name is correct, use Ohcount::Detector.detect(file).
+ * @return nil
+ *
+ * @usage
+ *
+ *   # Print each entity and its position in the buffer
+ *   buffer = File.read("helloworld.c")
+ *   Ohcount::parse_entities(buffer, 'c') do |lang, entity, s, e|
+ *     puts "#{lang}\t#{entity}\t#{s}\t#{e}"
+ *   end
+ */
+static VALUE _ohcount_parse_entities(VALUE self, VALUE buffer, VALUE polyglot_name_value) {
+	char *polyglot_name = RSTRING(polyglot_name_value)->ptr;
+	ParseResult pr;
+	if (!ragel_parser_parse(&pr, 0, RSTRING(buffer)->ptr, RSTRING(buffer)->len, polyglot_name))
+		rb_raise(rb_eStandardError,"Polyglot name invalid: '%s'", polyglot_name);
+	return Qnil;
+}
+
+
 void Init_ohcount_native () {
 	rb_module_ohcount = rb_define_module("Ohcount");
 	rb_define_module_function(rb_module_ohcount, "parse", _ohcount_parse, 2);
+	rb_define_module_function(rb_module_ohcount, "parse_entities", _ohcount_parse_entities, 2);
 	rb_define_module_function(rb_module_ohcount, "polyglots", _ohcount_polyglots, 0);
 
 	// define language_breakdown

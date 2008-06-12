@@ -70,6 +70,20 @@ class OhcountCommandLine
 		end
 	end
 
+	# Entities
+	# TODO: do more fun stuff rather than print entities and positions
+	def entities
+		files.each do |file|
+			sfc = Ohcount::SimpleFileContext.new(file, files)
+			polyglot = Ohcount::Detector.detect(sfc)
+			if polyglot
+				Ohcount::parse_entities(sfc.contents, polyglot) do |language, entity, s, e|
+					puts "#{language}\t#{entity}\t#{s}\t#{e}"
+				end
+			end
+		end
+	end
+
 	def help
 		puts <<HELP
 Usage: ohcount [option] [paths...]
@@ -80,6 +94,7 @@ Ohloh source code line counter command line tool.
 [option] can be one of the following:
    -a, --annotate
    -d, --detect
+   -e, --entities
    -h, --help
    -s, --summary
 
@@ -95,6 +110,11 @@ Ohloh source code line counter command line tool.
    Recursively find all source code files within the given paths.
    For each source code file found, the file name will be emitted to
    stdout prefixed with a tab-delimited language name.
+
+-e, --entities
+
+   For now, simply prints the positions of entities parsed in all
+   source files found within the given paths.
 
 -h, --help                      Display this message
 
@@ -244,6 +264,8 @@ HELP
 			self.subcommand = :annotate
 		when '-i', '--individual'
 			self.subcommand = :individual
+		when '-e', '--entities'
+			self.subcommand = :entities
 		when '-?', '-h', '--help'
 			self.subcommand = :help
 		else

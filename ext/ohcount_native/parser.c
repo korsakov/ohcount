@@ -10,7 +10,6 @@
 /* #include <mcheck.h> - for memory debugging */
 #include "ruby.h"
 #include "common.h"
-#include "ragel_parser.h"
 
 
 /*****************************************************************************
@@ -465,7 +464,7 @@ void parser_parse(ParseResult *pr, char *buffer, int buffer_len, Polyglot *polyg
 /*	mtrace(); */
 #endif
 
-	if (ragel_parser_parse(pr, buffer, buffer_len, polyglot->name))
+	if (ragel_parser_parse(pr, 1, buffer, buffer_len, polyglot->name))
 		return;
 
 	// make sure we have compiled states
