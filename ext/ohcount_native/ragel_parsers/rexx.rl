@@ -44,14 +44,22 @@ enum {
     }
   }
 
+  action rexx_comment_nc_res { nest_count = 0; }
+  action rexx_comment_nc_inc { nest_count++; }
+  action rexx_comment_nc_dec { nest_count--; }
+
   rexx_comment =
-    '/*' @comment (
+    '/*' >rexx_comment_nc_res @comment (
       newline %{ entity = INTERNAL_NL; } %rexx_ccallback
       |
       ws
       |
-      (nonnewline - ws) @comment
-    )* :>> '*/';
+      '/*' @rexx_comment_nc_inc @comment
+      |
+      '*/' @rexx_comment_nc_dec @comment
+      |
+      ^space @comment
+    )* :>> ('*/' when { nest_count == 0 }) @comment;
 
   rexx_sq_str = '\'' @code ([^\r\n\f'\\] | '\\' nonnewline)* '\'';
   rexx_dq_str = '"' @code ([^\r\n\f"\\] | '\\' nonnewline)* '"';
@@ -91,6 +99,8 @@ void parse_rexx(char *buffer, int length, int count,
   void (*callback) (const char *lang, const char *entity, int start, int end)
   ) {
   init
+
+  int nest_count = 0;
 
   %% write init;
   cs = (count) ? rexx_en_rexx_line : rexx_en_rexx_entity;
