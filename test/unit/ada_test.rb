@@ -10,7 +10,7 @@ class Ohcount::AdaTest < Ohcount::Test
 		verify_parse("ada1.ada")
 	end
 
-  def test_comprehensive_adb
+	def test_comprehensive_adb
 		verify_parse("ada1.adb")
 	end
 end
