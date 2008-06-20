@@ -224,7 +224,8 @@ class Ohcount::Detector
 		'makefile'      => 'make',
 		'Makefile.am'   => 'automake',
 		'configure.in'  => 'autoconf',
-		'configure.ac'  => 'autoconf'
+		'configure.ac'  => 'autoconf',
+		'configure'     => 'autoconf'
 	}
 
 	protected
