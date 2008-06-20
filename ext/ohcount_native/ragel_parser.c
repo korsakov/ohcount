@@ -138,32 +138,32 @@ struct language languages[] = {
 
 /** Returns a language_breakdown for a given language name. */
 LanguageBreakdown *get_language_breakdown(char *name) {
-	int i;
-	for (i = 0; i < pr->language_breakdown_count; i++)
-		if (strcmp(pr->language_breakdowns[i].name, name) == 0)
-			return &pr->language_breakdowns[i]; // found one
+  int i;
+  for (i = 0; i < pr->language_breakdown_count; i++)
+    if (strcmp(pr->language_breakdowns[i].name, name) == 0)
+      return &pr->language_breakdowns[i]; // found one
 
-	language_breakdown_initialize(
+  language_breakdown_initialize(
     &pr->language_breakdowns[pr->language_breakdown_count],
-    name, parse_buffer_len); // create one
-	return &pr->language_breakdowns[pr->language_breakdown_count++];
+    name, parse_buffer_len + 5); // create one
+  return &pr->language_breakdowns[pr->language_breakdown_count++];
 }
 
 /** Yields a line's language, semantic, and text to an optional Ruby block. */
 void ragel_parse_yield_line(const char *lang, const char *entity, int s, int e) {
-	if (rb_block_given_p()) {
-  	VALUE ary;
-		ary = rb_ary_new2(2);
-		rb_ary_store(ary, 0, ID2SYM(rb_intern(lang)));
-		if (strcmp(entity, "lcode") == 0)
+  if (rb_block_given_p()) {
+    VALUE ary;
+    ary = rb_ary_new2(2);
+    rb_ary_store(ary, 0, ID2SYM(rb_intern(lang)));
+    if (strcmp(entity, "lcode") == 0)
       rb_ary_store(ary, 1, ID2SYM(rb_intern("code")));
     else if (strcmp(entity, "lcomment") == 0)
       rb_ary_store(ary, 1, ID2SYM(rb_intern("comment")));
     else if (strcmp(entity, "lblank") == 0)
       rb_ary_store(ary, 1, ID2SYM(rb_intern("blank")));
     rb_ary_store(ary, 2, rb_str_new(parse_buffer + s, e - s));
-		rb_yield(ary);
-	}
+    rb_yield(ary);
+  }
 }
 
 /** Yields an entity's language, id, start, and end position to a required Ruby block */
