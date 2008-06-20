@@ -91,9 +91,9 @@ Rake::RDocTask.new do |rdoc|
 end
 
 Rake::TestTask.new :ohcount_unit_tests => ARCH_DL do |t|
-	puts File.dirname(__FILE__) + '/test/unit/*_test.rb'
+	# puts File.dirname(__FILE__) + '/test/unit/*_test.rb'
 	t.test_files = FileList[File.dirname(__FILE__) + '/test/unit/*_test.rb']
-	t.verbose = true
+	# t.verbose = true
 end
 
 task :default => :ohcount_unit_tests
