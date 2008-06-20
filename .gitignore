@@ -1,5 +1,7 @@
 pkg
 doc
-lib/i686*
+lib/i[3-9]86*
 lib/x86*
 *.swp
+ext/ohcount_native/*_parser.h
+!ext/ohcount_native/ragel_*
