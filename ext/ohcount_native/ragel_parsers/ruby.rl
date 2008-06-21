@@ -106,7 +106,7 @@ enum {
       |
       '\\' nonnewline @code
     )* '`' @commit @code;
-  ruby_regex = '/' ([^\r\n\f\t /\\] | '\\' nonnewline)* '/' @code;
+  ruby_regex = '/' ([^\r\n\f/\\] | '\\' nonnewline)* '/' @code;
   # TODO: true literal array and command detection
   # See TODO above about literal string detection
   ruby_lit_other =
