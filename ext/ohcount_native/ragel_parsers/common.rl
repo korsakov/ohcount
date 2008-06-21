@@ -27,6 +27,27 @@ dq_str_with_escapes = '"' ([^"\\] | '\\' any)* '"';
 
 # common actions
 
+action queue {
+  inqueue = 1;
+  free_queue(); // free the current queue
+  callback_list_head = NULL;
+  callback_list_tail = NULL;
+  // set backup variables
+  last_line_start = line_start;
+  last_line_contains_code = line_contains_code;
+  last_whole_line_comment = whole_line_comment;
+}
+
+action commit {
+  if (inqueue) {
+    Callback *item;
+    for (item = callback_list_head; item != NULL; item = item->next)
+      callback(item->lang, item->entity, item->s, item->e);
+    free_queue();
+    inqueue = 0;
+  }
+}
+
 action ls { if (!line_start) line_start = ts; }
 
 action code {

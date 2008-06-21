@@ -63,26 +63,8 @@ enum {
       (nonnewline - ws) @comment
     )* :>> '-->';
 
-  html_sq_str =
-    '\'' @code (
-      newline %{ entity = INTERNAL_NL; } %html_ccallback
-      |
-      ws
-      |
-      [^\r\n\f\t '\\] @code
-      |
-      '\\' nonnewline @code
-    )* '\'';
-  html_dq_str =
-    '"' @code (
-      newline %{ entity = INTERNAL_NL; } %html_ccallback
-      |
-      ws
-      |
-      [^\r\n\f\t "\\] @code
-      |
-      '\\' nonnewline @code
-    )* '"';
+  html_sq_str = '\'' ([^\r\n\f'\\] | '\\' nonnewline)* '\'' @code;
+  html_dq_str = '"' ([^\r\n\f"\\] | '\\' nonnewline)* '"' @code;
   html_string = html_sq_str | html_dq_str;
 
   ws_or_inl = (ws | newline @{ entity = INTERNAL_NL; } %html_ccallback);

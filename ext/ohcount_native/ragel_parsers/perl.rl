@@ -87,7 +87,7 @@ enum {
       |
       '\\' nonnewline @code
     )* '`' @code;
-  perl_regex = '/' ([^\r\n\f\t /\\] | '\\' nonnewline)* '/' @code;
+  perl_regex = '/' ([^\r\n\f/\\] | '\\' nonnewline)* '/' @code;
   # TODO: heredoc detection
   # This is impossible with current Ragel. We need to extract what the end
   # delimiter should be from the heredoc and search up to it on a new line.

@@ -220,6 +220,13 @@ void parse_c(char *buffer, int length, int count,
       'comment' and 'ls', the latter is typically used for the SPACE entity when
       defining line_start.
 
+      Also for multi-line matches, it may be necessary to use the 'queue' and
+      'commit' actions. If it is possible that a multi-line entity will not have
+      an ending delimiter (for example a string), use the 'queue' action as soon
+      as the start delimitter has been detected, and the 'commit' action as soon
+      as the end delimitter has been detected. This will eliminate the potential
+      for any counting errors.
+
     Notes:
       * You can be a bit sloppy with the line counting machine. For example the
         only C entities that can contain newlines are strings and comments, so
@@ -296,6 +303,9 @@ void parse_c(char *buffer, int length, int count,
       action [lang]_ecallback {
         callback([lang]_LANG, [lang]_entities[entity], cint(ts), cint(te));
       }
+
+    Note: the 'ls', 'code', 'comment', 'queue' and 'commit' actions are
+    completely unnecessary.
 
     Parsers for Embedded Languages:
       TODO:

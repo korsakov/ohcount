@@ -48,17 +48,17 @@ enum {
   # TODO: detect =begin and =end at start of their lines
   # Can't do that now because using 'when starts_line' fails a Ragel assertion.
   ruby_block_comment =
-    '=begin' @comment (
+    '=begin' @queue @comment (
       newline %{ entity = INTERNAL_NL; } %ruby_ccallback
       |
       ws
       |
       (nonnewline - ws) @comment
-    )* :>> '=end';
+    )* :>> '=end' @commit;
   ruby_comment = ruby_line_comment | ruby_block_comment;
 
   ruby_sq_str =
-    '\'' @code (
+    '\'' @queue @code (
       newline %{ entity = INTERNAL_NL; } %ruby_ccallback
       |
       ws
@@ -66,9 +66,9 @@ enum {
       [^\r\n\f\t '\\] @code
       |
       '\\' nonnewline @code
-    )* '\'' @code;
+    )* '\'' @commit @code;
   ruby_dq_str =
-    '"' @code (
+    '"' @queue @code (
       newline %{ entity = INTERNAL_NL; } %ruby_ccallback
       |
       ws
@@ -76,7 +76,7 @@ enum {
       [^\r\n\f\t "\\] @code
       |
       '\\' nonnewline @code
-    )* '"' @code;
+    )* '"' @commit @code;
   # TODO: true literal string detection
   # Turns out any non-alphanum char can be after the initial '%' for a literal
   # string. I only have '(', '[', '{' for now because they are common(?). Their
@@ -87,7 +87,7 @@ enum {
   # let Ragel know what it is (currently unsupported), and put its respective
   # closing char in the literal string below.
   ruby_lit_str =
-    '%' [qQ]? [(\[{] @code (
+    '%' [qQ]? [(\[{] @queue @code (
       newline %{ entity = INTERNAL_NL; } %ruby_ccallback
       |
       ws
@@ -95,9 +95,9 @@ enum {
       [^\r\n\f\t )\]}\\] @code
       |
       '\\' nonnewline @code
-    )* [)\]}] @code;
+    )* [)\]}] @commit @code;
   ruby_cmd_str =
-    '`' @code (
+    '`' @queue @code (
       newline %{ entity = INTERNAL_NL; } %ruby_ccallback
       |
       ws
@@ -105,21 +105,12 @@ enum {
       [^\r\n\f\t `\\] @code
       |
       '\\' nonnewline @code
-    )* '`' @code;
-  ruby_regex =
-    '/' @code (
-      newline %{ entity = INTERNAL_NL; } %ruby_ccallback
-      |
-      ws
-      |
-      [^\r\n\f\t /\\] @code
-      |
-      '\\' nonnewline @code
-    )* '/' @code;
+    )* '`' @commit @code;
+  ruby_regex = '/' ([^\r\n\f\t /\\] | '\\' nonnewline)* '/' @code;
   # TODO: true literal array and command detection
   # See TODO above about literal string detection
   ruby_lit_other =
-    '%' [wrx] [(\[{] @code (
+    '%' [wrx] [(\[{] @queue @code (
       newline %{ entity = INTERNAL_NL; } %ruby_ccallback
       |
       ws
@@ -127,7 +118,7 @@ enum {
       [^\r\n\f\t )\]}\\] @code
       |
       '\\' nonnewline @code
-    )* [)\]}] @code;
+    )* [)\]}] @commit @code;
   # TODO: heredoc detection
   # This is impossible with current Ragel. We need to extract what the end
   # delimiter should be from the heredoc and search up to it on a new line.
