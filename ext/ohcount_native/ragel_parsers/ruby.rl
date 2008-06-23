@@ -48,7 +48,7 @@ enum {
   # TODO: detect =begin and =end at start of their lines
   # Can't do that now because using 'when starts_line' fails a Ragel assertion.
   ruby_block_comment =
-    '=begin' @queue @comment (
+    '=begin' @enqueue @comment (
       newline %{ entity = INTERNAL_NL; } %ruby_ccallback
       |
       ws
@@ -58,7 +58,7 @@ enum {
   ruby_comment = ruby_line_comment | ruby_block_comment;
 
   ruby_sq_str =
-    '\'' @queue @code (
+    '\'' @enqueue @code (
       newline %{ entity = INTERNAL_NL; } %ruby_ccallback
       |
       ws
@@ -68,7 +68,7 @@ enum {
       '\\' nonnewline @code
     )* '\'' @commit @code;
   ruby_dq_str =
-    '"' @queue @code (
+    '"' @enqueue @code (
       newline %{ entity = INTERNAL_NL; } %ruby_ccallback
       |
       ws
@@ -87,7 +87,7 @@ enum {
   # let Ragel know what it is (currently unsupported), and put its respective
   # closing char in the literal string below.
   ruby_lit_str =
-    '%' [qQ]? [(\[{] @queue @code (
+    '%' [qQ]? [(\[{] @enqueue @code (
       newline %{ entity = INTERNAL_NL; } %ruby_ccallback
       |
       ws
@@ -97,7 +97,7 @@ enum {
       '\\' nonnewline @code
     )* [)\]}] @commit @code;
   ruby_cmd_str =
-    '`' @queue @code (
+    '`' @enqueue @code (
       newline %{ entity = INTERNAL_NL; } %ruby_ccallback
       |
       ws
@@ -110,7 +110,7 @@ enum {
   # TODO: true literal array and command detection
   # See TODO above about literal string detection
   ruby_lit_other =
-    '%' [wrx] [(\[{] @queue @code (
+    '%' [wrx] [(\[{] @enqueue @code (
       newline %{ entity = INTERNAL_NL; } %ruby_ccallback
       |
       ws

@@ -220,12 +220,12 @@ void parse_c(char *buffer, int length, int count,
       'comment' and 'ls', the latter is typically used for the SPACE entity when
       defining line_start.
 
-      Also for multi-line matches, it may be necessary to use the 'queue' and
+      Also for multi-line matches, it may be necessary to use the 'enqueue' and
       'commit' actions. If it is possible that a multi-line entity will not have
-      an ending delimiter (for example a string), use the 'queue' action as soon
-      as the start delimitter has been detected, and the 'commit' action as soon
-      as the end delimitter has been detected. This will eliminate the potential
-      for any counting errors.
+      an ending delimiter (for example a string), use the 'enqueue' action as
+      soon as the start delimitter has been detected, and the 'commit' action as
+      soon as the end delimitter has been detected. This will eliminate the
+      potential for any counting errors.
 
     Notes:
       * You can be a bit sloppy with the line counting machine. For example the

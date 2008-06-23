@@ -41,7 +41,7 @@ Callback *callback_list_tail = NULL;
  */
 void enqueue(const char *lang, const char *entity, int s, int e) {
   Callback *item = (Callback *) malloc(sizeof(Callback));
-  //assert(item != NULL); // trap malloc errors
+  if (!item) printf("Failed to allocate memory for enqueued callback.\n");
 
   item->lang = lang;
   item->entity = entity;
@@ -61,11 +61,13 @@ void enqueue(const char *lang, const char *entity, int s, int e) {
 /** Frees the memory used by a queue. */
 void free_queue() {
   Callback *item = callback_list_head;
-  while (item != NULL) {
+  while (item) {
     Callback *next = item->next;
     free(item);
     item = next;
   }
+  callback_list_head = NULL;
+  callback_list_tail = NULL;
 }
 
 /**
@@ -174,6 +176,7 @@ void free_queue() {
  * @param lang The language name string.
  */
 #define std_newline(lang) {\
+  if (inqueue) { dequeue; } \
   if (callback && te > line_start) { \
     if (line_contains_code) \
       callback(lang, "lcode", cint(line_start), cint(te)); \

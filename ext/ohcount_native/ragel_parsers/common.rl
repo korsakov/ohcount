@@ -27,9 +27,9 @@ dq_str_with_escapes = '"' ([^"\\] | '\\' any)* '"';
 
 # common actions
 
-action queue {
+action enqueue {
   inqueue = 1;
-  free_queue(); // free the current queue
+  if (callback_list_head) free_queue(); // free the current queue
   callback_list_head = NULL;
   callback_list_tail = NULL;
   // set backup variables
