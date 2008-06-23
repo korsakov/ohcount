@@ -46,8 +46,8 @@ enum {
 
   perl_line_comment = '#' @comment nonnewline*;
   perl_block_comment =
-    '=' when starts_line @comment nonnewline+ (
-      '=' when starts_line 'cut' @comment @{ fgoto perl_line; }
+    '=' when starts_line @enqueue @comment nonnewline+ (
+      '=' when starts_line 'cut' @commit @comment @{ fgoto perl_line; }
       |
       newline %{ entity = INTERNAL_NL; } %perl_ccallback
       |
@@ -58,7 +58,7 @@ enum {
   perl_comment = perl_line_comment | perl_block_comment;
 
   perl_sq_str =
-    '\'' @code (
+    '\'' @enqueue @code (
       newline %{ entity = INTERNAL_NL; } %perl_ccallback
       |
       ws
@@ -66,9 +66,9 @@ enum {
       [^\r\n\f\t '\\] @code
       |
       '\\' nonnewline @code
-    )* '\'' @code;
+    )* '\'' @commit @code;
   perl_dq_str =
-    '"' @code (
+    '"' @enqueue @code (
       newline %{ entity = INTERNAL_NL; } %perl_ccallback
       |
       ws
@@ -76,9 +76,9 @@ enum {
       [^\r\n\f\t "\\] @code
       |
       '\\' nonnewline @code
-    )* '"' @code;
+    )* '"' @commit @code;
   perl_cmd_str =
-    '`' @code (
+    '`' @enqueue @code (
       newline %{ entity = INTERNAL_NL; } %perl_ccallback
       |
       ws
@@ -86,7 +86,7 @@ enum {
       [^\r\n\f\t `\\] @code
       |
       '\\' nonnewline @code
-    )* '`' @code;
+    )* '`' @commit @code;
   perl_regex = '/' ([^\r\n\f/\\] | '\\' nonnewline)* '/' @code;
   # TODO: heredoc detection
   # This is impossible with current Ragel. We need to extract what the end

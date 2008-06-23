@@ -47,7 +47,7 @@ enum {
   shell_comment = '#' @comment nonnewline*;
 
   shell_sq_str =
-    '\'' @code (
+    '\'' @enqueue @code (
       newline %{ entity = INTERNAL_NL; } %shell_ccallback
       |
       ws
@@ -55,9 +55,9 @@ enum {
       [^\r\n\f\t '\\] @code
       |
       '\\' nonnewline @code
-    )* '\'';
+    )* '\'' @commit;
   shell_dq_str =
-    '"' @code (
+    '"' @enqueue @code (
       newline %{ entity = INTERNAL_NL; } %shell_ccallback
       |
       ws
@@ -65,7 +65,7 @@ enum {
       [^\r\n\f\t "\\] @code
       |
       '\\' nonnewline @code
-    )* '"';
+    )* '"' @commit;
   # TODO: heredocs; see ruby.rl for details
   shell_string = shell_sq_str | shell_dq_str;
 

@@ -51,13 +51,13 @@ enum {
   action lua_long_ec_dec { equal_count--; }
 
   lua_long_comment =
-    '--' @comment ('[' >lua_long_ec_res '='* $lua_long_ec_inc '[') (
+    '--' ('[' >lua_long_ec_res '='* $lua_long_ec_inc '[') @enqueue @comment (
       newline %{ entity = INTERNAL_NL; } %lua_ccallback
       |
       ws
       |
       (nonnewline - ws) @comment
-    )* :>> (']' '='* $lua_long_ec_dec ']' when { equal_count == 0 });
+    )* :>> (']' '='* $lua_long_ec_dec ']' when { equal_count == 0 }) @commit;
   lua_line_comment = '--' @comment nonnewline*;
   lua_comment = lua_long_comment | lua_line_comment;
 

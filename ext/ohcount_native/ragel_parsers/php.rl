@@ -56,7 +56,7 @@ enum {
   php_comment = php_line_comment | php_block_comment;
 
   php_sq_str =
-    '\'' @code (
+    '\'' @enqueue @code (
       newline %{ entity = INTERNAL_NL; } %php_ccallback
       |
       ws
@@ -64,9 +64,9 @@ enum {
       [^\r\n\f'\\] @code
       |
       '\\' nonnewline @code
-    )* '\'' @code;
+    )* '\'' @commit @code;
   php_dq_str =
-    '"' @code (
+    '"' @enqueue @code (
       newline %{ entity = INTERNAL_NL; } %php_ccallback
       |
       ws
@@ -74,7 +74,7 @@ enum {
       [^\r\n\f"\\] @code
       |
       '\\' nonnewline @code
-    )* '"' @code;
+    )* '"' @commit @code;
   # TODO: heredoc; see ruby.rl for details.
   php_string = php_sq_str | php_dq_str;
 
