@@ -195,15 +195,17 @@ void ragel_parse_yield_entity(const char *lang, const char *entity, int s, int e
  *   buffer.
  * @param e The end position of the entity relative to the start of the buffer
  *   (non-inclusive).
+ * TODO: instead of ignoring syntax errors that cause buffer overflows, consider
+ *   raising Ruby exceptions to catch and notify the user of.
  */
 void ragel_parser_callback(const char *lang, const char *entity, int s, int e) {
   LanguageBreakdown *lb = get_language_breakdown((char *) lang);
   if (strcmp(entity, "lcode") == 0) {
-    language_breakdown_copy_code(lb, parse_buffer + s, parse_buffer + e);
-    ragel_parse_yield_line(lang, entity, s, e);
+    if (language_breakdown_copy_code(lb, parse_buffer + s, parse_buffer + e))
+      ragel_parse_yield_line(lang, entity, s, e);
   } else if (strcmp(entity, "lcomment") == 0) {
-    language_breakdown_copy_comment(lb, parse_buffer + s, parse_buffer + e);
-    ragel_parse_yield_line(lang, entity, s, e);
+    if (language_breakdown_copy_comment(lb, parse_buffer + s, parse_buffer + e))
+      ragel_parse_yield_line(lang, entity, s, e);
   } else if (strcmp(entity, "lblank") == 0) {
     lb->blank_count++;
     ragel_parse_yield_line(lang, entity, s, e);
