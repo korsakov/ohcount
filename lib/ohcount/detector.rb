@@ -499,7 +499,7 @@ class Ohcount::Detector
     file_location = file_context.file_location
     output = `file -b '#{ file_location }'`
     case output
-    when /([\w\/]+) script text/, /script text executable for ([\w\/]+)/
+    when /([\w\/]+)(?: -[\w_]+)* script text/, /script text executable for ([\w\/]+)/
       script = $1
       if script =~ /\/(\w*)$/
         script = $1
