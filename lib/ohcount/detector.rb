@@ -129,6 +129,8 @@ class Ohcount::Detector
 		'.eclass'=> "ebuild",
 		'.kdebuild-1'=> "ebuild",
 		'.erl'  => "erlang",
+		'.exheres-0' => "exheres",
+		'.exlib' => "exheres",
 		'.f'    => :disambiguate_fortran,
 		'.ftn'  => :disambiguate_fortran,
 		'.f77'  => :disambiguate_fortran,
@@ -173,6 +175,7 @@ class Ohcount::Detector
 		'.php3' => "php",
 		'.php4' => "php",
 		'.php5' => "php",
+		'.p6'   => "perl",
 		'.pl'   => "perl",
 		'.pm'   => "perl",
 		'.perl' => "perl",
@@ -221,7 +224,8 @@ class Ohcount::Detector
 		'makefile'      => 'make',
 		'Makefile.am'   => 'automake',
 		'configure.in'  => 'autoconf',
-		'configure.ac'  => 'autoconf'
+		'configure.ac'  => 'autoconf',
+		'configure'     => 'autoconf'
 	}
 
 	protected

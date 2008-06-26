@@ -257,6 +257,8 @@ HELP
 		printf(" %10d", comment)
 		if comment+code > 0
 			printf(" %9.1f%%", comment.to_f / (comment+code).to_f * 100.0)
+		else
+			printf("       0.0%");
 		end
 		printf(" %10d", blank)
 		printf(" %10d\n", code+comment+blank)
