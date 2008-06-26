@@ -1,3 +1,5 @@
+// ragel_parser_macros.h written by Mitchell Foral. mitchell<att>caladbolg<dott>net
+
 #ifndef RAGEL_PARSER_MACROS
 #define RAGEL_PARSER_MACROS
 

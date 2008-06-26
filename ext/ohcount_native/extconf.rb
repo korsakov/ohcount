@@ -2,7 +2,6 @@
 require 'mkmf'
 
 dir_config('ohcount_native')
-have_library('pcre','pcre_compile')
 
 # FLAGS: enable logging (or not)
 if $*.include?("debug")

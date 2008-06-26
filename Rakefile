@@ -16,7 +16,6 @@ ARCH_DL  = "#{ARCH_DIR}/ohcount_native.#{CONFIG['DLEXT']}"
 
 CLEAN.include FileList["#{EXT_DIR}/*.{so,bundle,#{CONFIG['DLEXT']}}"],
 						  FileList["#{EXT_DIR}/*.o"],
-						  FileList["#{EXT_DIR}/polyglots.c"],
 						  FileList["#{EXT_DIR}/Makefile"],
 						  (FileList["#{EXT_DIR}/*_parser.h"] - FileList["#{EXT_DIR}/ragel_parser.h"])
 
@@ -24,7 +23,6 @@ RDOC_OPTS = ['--quiet', '--title', 'Ohcount Reference', '--main', 'README', '--i
 
 PKG_FILES = %w(README COPYING Rakefile lib/ohcount.rb) +
 	Dir.glob("ext/ohcount_native/*.{h,c,rb}") +
-	Dir.glob("ext/ohcount_native/glots/*.rb") +
 	Dir.glob("lib/ohcount/*.rb") +
 	Dir.glob("test/*") +
 	Dir.glob("test/**/*") +
@@ -63,7 +61,7 @@ file ARCH_DL => EXT_DL do
 	cp EXT_DL, ARCH_DIR
 end
 
-file EXT_DL => FileList["#{EXT_DIR}/polyglots.c", "#{EXT_DIR}/Makefile", "#{EXT_DIR}/*.{c,h,rb}"] do
+file EXT_DL => FileList["#{EXT_DIR}/Makefile", "#{EXT_DIR}/*.{c,h,rb}"] do
 	cd EXT_DIR do
 		cd 'ragel_parsers' do
 			require 'construct_embedded'
@@ -91,12 +89,6 @@ file "#{EXT_DIR}/Makefile" => "#{EXT_DIR}/extconf.rb" do
 		else
 			ruby 'extconf.rb'
 		end
-	end
-end
-
-file "#{EXT_DIR}/polyglots.c" => FileList["#{EXT_DIR}/*.rb", "#{EXT_DIR}/glots/*.rb"] do
-	cd EXT_DIR do
-		ruby 'generator.rb'
 	end
 end
 

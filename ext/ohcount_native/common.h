@@ -12,14 +12,8 @@
 /*******************************************
  Limits
 *******************************************/
-// The Parser's CompiledState Stack
-#define MAX_CS_STACK 20
 // Parser's Maximum number of LanguageBreakdowns it can return
 #define MAX_LANGUAGE_BREAKDOWN_SIZE 8
-// How large can a CompiledState's regex term be?
-#define MAX_REGEX 200
-// CompiledState's number of transitions
-#define MAX_TRANSITIONS 10
 // The longest a language name can be
 #define MAX_LANGUAGE_NAME 20
 
@@ -29,27 +23,8 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
-#include <pcre.h>
-#include "transition.h"
-#include "state.h"
-#include "compiled_state.h"
-#include "polyglot.h"
-#include "polyglots.h"
 #include "language_breakdown.h"
-#include "parser.h"
 #include "ragel_parser.h"
-
-/*******************************************
- Error Handling
-*******************************************/
-void die(char *err, int exit_code);
-
-enum EXIT_CODES {
-	ERR_PCRE_OUT_OF_MEMORY = 15,
-	ERR_PCRE_GENERIC,
-	ERR_UNKNOWN_SEMANTIC
-};
-
 
 /*******************************************
  Logging
