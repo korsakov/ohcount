@@ -15,7 +15,7 @@
 // Parser's Maximum number of LanguageBreakdowns it can return
 #define MAX_LANGUAGE_BREAKDOWN_SIZE 8
 // The longest a language name can be
-#define MAX_LANGUAGE_NAME 20
+#define MAX_LANGUAGE_NAME 40
 
 /*******************************************
  Common Headers

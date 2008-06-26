@@ -233,10 +233,11 @@ int ragel_parser_parse(ParseResult *parse_result, int count,
   parse_buffer = buffer;
   parse_buffer_len = buffer_len;
   int i;
-  for (i = 0; strlen(languages[i].name) != 0; i++)
+  for (i = 0; strlen(languages[i].name) != 0; i++) {
     if (strcmp(languages[i].name, lang) == 0) {
       languages[i].parser(buffer, buffer_len, count, ragel_parser_callback);
       return 1;
     }
+	}
   return 0;
 }
