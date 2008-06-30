@@ -28,6 +28,12 @@ class Ohcount::Detector
 		attr_accessor :contains_pike_or_pmod
 	end
 
+	module ContainsVB
+		# A performance hack -- once we've checked for the presence of *.frx, *.frm and *.vbp files, the result
+		# is stored here to avoid checking twice.
+		attr_accessor :contains_vb
+	end
+
 	# The primary entry point for the detector.
 	# Given a file context containing the file name, content, and an array of
 	# other filenames in the source tree, attempts to detect which
@@ -109,8 +115,10 @@ class Ohcount::Detector
 		'.as'   => "actionscript",
 		'.asm'  => "assembler",
 		'.awk'  => "awk",
-		'.bas'  => "visualbasic",
+		'.b'    => :disambiguate_non_visual_basic,
+		'.bas'  => :disambiguate_basic,
 		'.bat'  => "bat",
+		'.bi'   => :disambiguate_non_visual_basic,
 		'.boo'  => "boo",
 		'.c'    => "c",
 		'.C'    => "cpp",
@@ -125,6 +133,7 @@ class Ohcount::Detector
 		#		'.cob'  => "cobol",
 		'.cs'   => :disambiguate_cs,
 		'.dylan'=> "dylan",
+		'.e'	  => "eiffel",
 		'.ebuild'=> "ebuild",
 		'.eclass'=> "ebuild",
 		'.kdebuild-1'=> "ebuild",
@@ -146,6 +155,7 @@ class Ohcount::Detector
 		'.groovy'=> "groovy",
 		'.h'    => :disambiguate_h_header,
 		'.H'    => "cpp",
+    '.haml' => "haml",
 		'.hpp'  => "cpp",
 		'.h++'  => "cpp",
 		'.hs'   => "haskell",
@@ -165,6 +175,8 @@ class Ohcount::Detector
 		'.m'    => :matlab_or_objective_c,
 		'.mf'   => 'metafont',
 		'.mk'   => 'make',
+		'.ml'   => "ocaml",
+		'.mli'  => "ocaml",
 		'.mm'   => "objective_c",
 		'.mp'   => 'metapost_with_tex',
 		'.mxml' => 'mxml',
@@ -490,6 +502,43 @@ class Ohcount::Detector
     # Might as well be free-form.
     return 'fortranfree'
   end
+
+	# Attempts to tell apart VB, classic BASIC and structured BASIC.
+	# First, checks if it is classic BASIC based on syntax.
+	# If not checks for .vb, .vbp, .frx and .frm files (associated with VB)
+	# in file context
+	#
+	# If these files are absent, assumes structured BASIC
+	#
+	def self.disambiguate_basic(file_context)
+    classic_basic_line = /^\d+\s+\w+.*$/
+    vb_filename = /\.fr[mx]$|\.vb([aps]?)$/
+    buffer = file_context.contents
+		if lines_matching(buffer,classic_basic_line) > 0
+			return 'classic_basic'
+		else
+			unless defined?(file_context.filenames.contains_vb)
+  			file_context.filenames.extend(ContainsVB)
+  			file_context.filenames.contains_vb = file_context.filenames.select { |a| a =~ vb_filename }.any?
+  		end
+  		if file_context.filenames.contains_vb
+  			return 'visualbasic'
+  		else
+  			return 'structured_basic'
+  		end
+		end
+	end
+
+	def self.disambiguate_non_visual_basic(file_context)
+		classic_basic_line = /^\d+\s+\w+.*$/
+    buffer = file_context.contents
+
+		if lines_matching(buffer,classic_basic_line) > 0
+			return 'classic_basic'
+		else
+			return 'structured_basic'
+		end
+	end
 
 	# Attempts to determine the Polyglot for files that do not have a
 	# filename extension.

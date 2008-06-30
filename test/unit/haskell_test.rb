@@ -16,6 +16,10 @@ class Ohcount::HaskellTest < Ohcount::Test
         def test_comprehensive_with_carriage_returns
                 verify_parse("haskell2.hs")
         end
+				
+				def test_comprehensive_with_nested_comments
+                verify_parse("haskell3.hs")
+        end
 end
 
                 

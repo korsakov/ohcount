@@ -1,73 +1,71 @@
-// visual_basic.rl written by Mitchell Foral. mitchell<att>caladbolg<dott>net.
-
 /************************* Required for every parser *************************/
-#ifndef RAGEL_VISUAL_BASIC_PARSER
-#define RAGEL_VISUAL_BASIC_PARSER
+#ifndef RAGEL_EIFFEL_PARSER
+#define RAGEL_EIFFEL_PARSER
 
 #include "ragel_parser_macros.h"
 
 // the name of the language
-const char *VB_LANG = "visualbasic";
+const char *EIFFEL_LANG = "eiffel";
 
 // the languages entities
-const char *vb_entities[] = {
+const char *eiffel_entities[] = {
   "space", "comment", "string", "any"
 };
 
 // constants associated with the entities
 enum {
-  VB_SPACE = 0, VB_COMMENT, VB_STRING, VB_ANY,
+  EIFFEL_SPACE = 0, EIFFEL_COMMENT, EIFFEL_STRING, EIFFEL_ANY
 };
 
 /*****************************************************************************/
 
 %%{
-  machine visual_basic;
+  machine eiffel;
   write data;
   include common "common.rl";
 
   # Line counting machine
 
-  action vb_ccallback {
+  action eiffel_ccallback {
     switch(entity) {
-    case VB_SPACE:
+    case EIFFEL_SPACE:
       ls
       break;
-    case VB_ANY:
+    case EIFFEL_ANY:
       code
       break;
     case INTERNAL_NL:
-      std_internal_newline(VB_LANG)
+      std_internal_newline(EIFFEL_LANG)
       break;
     case NEWLINE:
-      std_newline(VB_LANG)
+      std_newline(EIFFEL_LANG)
     }
   }
 
-  vb_comment = ('\'' | /rem/i) @comment nonnewline*;
+  eiffel_comment = '--' @comment nonnewline*;
 
-  vb_string = '"' @code ([^\r\n\f"\\] | '\\' nonnewline)* '"';
+  eiffel_string = '"' @code [^\r\n\f"]* '"';
 
-  vb_line := |*
-    spaces      ${ entity = VB_SPACE; } => vb_ccallback;
-    vb_comment;
-    vb_string;
-    newline     ${ entity = NEWLINE;  } => vb_ccallback;
-    ^space      ${ entity = VB_ANY;   } => vb_ccallback;
+  eiffel_line := |*
+    spaces      ${ entity = EIFFEL_SPACE; } => eiffel_ccallback;
+    eiffel_comment;
+    eiffel_string;
+    newline     ${ entity = NEWLINE;   } => eiffel_ccallback;
+    ^space      ${ entity = EIFFEL_ANY;   } => eiffel_ccallback;
   *|;
 
   # Entity machine
 
-  action vb_ecallback {
-    callback(VB_LANG, vb_entities[entity], cint(ts), cint(te));
+  action eiffel_ecallback {
+    callback(EIFFEL_LANG, eiffel_entities[entity], cint(ts), cint(te));
   }
 
-  vb_entity := 'TODO:';
+  eiffel_entity := 'TODO:';
 }%%
 
 /************************* Required for every parser *************************/
 
-/* Parses a string buffer with Visual Basic code.
+/* Parses a string buffer with Eiffel code.
  *
  * @param *buffer The string to parse.
  * @param length The length of the string to parse.
@@ -78,17 +76,17 @@ enum {
  *   every line of code, comment, or blank with 'lcode', 'lcomment', and
  *   'lblank' respectively. Otherwise callback is called for each entity found.
  */
-void parse_visual_basic(char *buffer, int length, int count,
+void parse_eiffel(char *buffer, int length, int count,
   void (*callback) (const char *lang, const char *entity, int start, int end)
   ) {
   init
 
   %% write init;
-  cs = (count) ? visual_basic_en_vb_line : visual_basic_en_vb_entity;
+  cs = (count) ? eiffel_en_eiffel_line : eiffel_en_eiffel_entity;
   %% write exec;
 
   // if no newline at EOF; callback contents of last line
-  if (count) { process_last_line(VB_LANG) }
+  if (count) { process_last_line(EIFFEL_LANG) }
 }
 
 #endif

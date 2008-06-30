@@ -44,17 +44,25 @@ enum {
     }
   }
 
+  action haskell_comment_nc_res { nest_count = 0; }
+  action haskell_comment_nc_inc { nest_count++; }
+  action haskell_comment_nc_dec { nest_count--; }
+
   # TODO: |-- is not a comment
   haskell_line_comment = '--' [^>] @{ fhold; } @comment nonnewline*;
-  haskell_block_comment =
-    '{-' @comment (
+  haskell_nested_block_comment =
+    '{-' >haskell_comment_nc_res @comment (
       newline %{ entity = INTERNAL_NL; } %haskell_ccallback
       |
       ws
+			|
+			'{-' @haskell_comment_nc_inc @comment
+			|
+			'-}' @haskell_comment_nc_dec @comment
       |
       (nonnewline - ws) @comment
-    )* :>> '-}';
-  haskell_comment = haskell_line_comment | haskell_block_comment;
+    )* :>> ('-}' when { nest_count == 0 }) @comment;
+  haskell_comment = haskell_line_comment | haskell_nested_block_comment;
 
   haskell_char = '\'' @code ([^\r\n\f'\\] | '\\' nonnewline) '\'';
   haskell_dq_str =
@@ -103,6 +111,8 @@ void parse_haskell(char *buffer, int length, int count,
   void (*callback) (const char *lang, const char *entity, int start, int end)
   ) {
   init
+
+  int nest_count = 0;
 
   %% write init;
   cs = (count) ? haskell_en_haskell_line : haskell_en_haskell_entity;

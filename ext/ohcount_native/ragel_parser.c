@@ -13,6 +13,7 @@
 #include "bat_parser.h"
 #include "boo_parser.h"
 #include "c_parser.h"
+#include "classic_basic_parser.h"
 #include "clearsilver_parser.h"
 #include "clearsilverhtml_parser.h"
 #include "css_parser.h"
@@ -20,12 +21,14 @@
 #include "dcl_parser.h"
 #include "dylan_parser.h"
 #include "ebuild_parser.h"
+#include "eiffel_parser.h"
 #include "erlang_parser.h"
 #include "exheres_parser.h"
 #include "fortranfixed_parser.h"
 #include "fortranfree_parser.h"
 #include "groovy_parser.h"
 #include "haskell_parser.h"
+#include "haml_parser.h"
 #include "html_parser.h"
 #include "java_parser.h"
 #include "javascript_parser.h"
@@ -39,6 +42,7 @@
 #include "metapost_with_tex_parser.h"
 #include "mxml_parser.h"
 #include "objective_c_parser.h"
+#include "ocaml_parser.h"
 #include "pascal_parser.h"
 #include "perl_parser.h"
 #include "phphtml_parser.h"
@@ -50,6 +54,7 @@
 #include "scala_parser.h"
 #include "shell_parser.h"
 #include "smalltalk_parser.h"
+#include "structured_basic_parser.h"
 #include "sql_parser.h"
 #include "tcl_parser.h"
 #include "tex_parser.h"
@@ -81,6 +86,7 @@ struct language languages[] = {
   { "bat", parse_bat },
   { "boo", parse_boo },
   { "c", parse_c },
+	{ "classic_basic", parse_classic_basic },
   { "clearsilver", parse_clearsilver },
   { "clearsilver_template", parse_cshtml },
   { "cpp", parse_cpp },
@@ -90,6 +96,7 @@ struct language languages[] = {
   { "dmd", parse_d },
   { "dylan", parse_dylan },
   { "ebuild", parse_ebuild },
+	{ "eiffel", parse_eiffel },
   { "erlang", parse_erlang },
   { "exheres", parse_exheres },
   { "emacslisp", parse_emacslisp },
@@ -97,6 +104,7 @@ struct language languages[] = {
   { "fortranfree", parse_fortranfree },
   { "groovy", parse_groovy },
   { "haskell", parse_haskell },
+  { "haml", parse_haml },
   { "html", parse_html },
   { "java", parse_java },
   { "javascript", parse_javascript },
@@ -110,6 +118,7 @@ struct language languages[] = {
   { "metapost_with_tex", parse_mptex },
   { "mxml", parse_mxml },
   { "objective_c", parse_objective_c },
+	{ "ocaml", parse_ocaml },
   { "pascal", parse_pascal },
   { "perl", parse_perl },
   { "php", parse_phtml },
@@ -122,6 +131,7 @@ struct language languages[] = {
   { "scheme", parse_scheme },
   { "shell", parse_shell },
   { "smalltalk", parse_smalltalk },
+  { "structured_basic", parse_structured_basic },
   { "sql", parse_sql },
   { "tcl", parse_tcl },
   { "tex", parse_tex },

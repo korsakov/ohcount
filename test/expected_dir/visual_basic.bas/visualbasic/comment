@@ -1,0 +1,17 @@
+'---------------------------------------------------------------------------
+'
+' SOURCE FILE NAME: Demo.frm
+'
+' SAMPLE: Visual Basic Demo with user interface for the sample modules
+'
+' For more information about samples, refer to the README file.
+'
+'---------------------------------------------------------------------------
+'This procedure calls ConnectOLEDB() in the module dbConn to get
+'a connection object.
+'define the error handler
+'  On Error GoTo cmdConnectOLEDB_Error
+'connect to database
+'generate a message of success
+'config status of the buttons
+'show instructions

@@ -26,6 +26,14 @@ class Ohcount::DetectorTest < Ohcount::Test
 		Ohcount::Detector.detect(sfc)
 	end
 
+  # Nonrecursively adds files from the file's directory to the context
+	def do_detect_with_siblings(filename)
+    file_location = File.dirname(__FILE__) + "/../detect_files/" + filename
+    filenames = Dir.entries(File.dirname(__FILE__) + File.dirname("/../detect_files/" + filename)) - [filename]
+    sfc = Ohcount::SimpleFileContext.new(filename, filenames, nil, file_location)
+		Ohcount::Detector.detect(sfc)
+	end
+
 	def test_matlab_or_objective_c
 		assert_equal 'objective_c', do_detect("t1.m")
 		assert_equal 'objective_c', do_detect("t2.m")
@@ -60,6 +68,8 @@ class Ohcount::DetectorTest < Ohcount::Test
 		assert_equal "ebuild", do_detect("foo.eclass")
 		assert_equal "exheres", do_detect("foo.exheres-0")
 		assert_equal "exheres", do_detect("foo.exlib")
+		assert_equal "eiffel", do_detect("eiffel.e")
+		assert_equal "ocaml", do_detect("ocaml.ml")
 	end
 
 	def test_upper_case_extensions
@@ -87,6 +97,13 @@ class Ohcount::DetectorTest < Ohcount::Test
 		assert_equal 'csharp', do_detect("cs1.cs")
 		assert_equal 'clearsilver_template', do_detect("clearsilver_template1.cs")
   end
+
+	def test_basic
+	  assert_equal "structured_basic", do_detect("visual_basic.bas")
+	  assert_equal "visualbasic", do_detect("visual_basic.bas", ["frx1.frx"])
+		assert_equal "classic_basic", do_detect("classic_basic.b")
+		assert_equal "structured_basic", do_detect("structured_basic.b")		
+	end
 
 end
 

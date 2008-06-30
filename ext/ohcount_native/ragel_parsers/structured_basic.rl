@@ -1,73 +1,71 @@
-// visual_basic.rl written by Mitchell Foral. mitchell<att>caladbolg<dott>net.
-
 /************************* Required for every parser *************************/
-#ifndef RAGEL_VISUAL_BASIC_PARSER
-#define RAGEL_VISUAL_BASIC_PARSER
+#ifndef RAGEL_STRUCTURED_BASIC_PARSER
+#define RAGEL_STRUCTURED_BASIC_PARSER
 
 #include "ragel_parser_macros.h"
 
 // the name of the language
-const char *VB_LANG = "visualbasic";
+const char *SB_LANG = "structured_basic";
 
 // the languages entities
-const char *vb_entities[] = {
+const char *sb_entities[] = {
   "space", "comment", "string", "any"
 };
 
 // constants associated with the entities
 enum {
-  VB_SPACE = 0, VB_COMMENT, VB_STRING, VB_ANY,
+  SB_SPACE = 0, SB_COMMENT, SB_STRING, SB_ANY,
 };
 
 /*****************************************************************************/
 
 %%{
-  machine visual_basic;
+  machine structured_basic;
   write data;
   include common "common.rl";
 
   # Line counting machine
 
-  action vb_ccallback {
+  action sb_ccallback {
     switch(entity) {
-    case VB_SPACE:
+    case SB_SPACE:
       ls
       break;
-    case VB_ANY:
+    case SB_ANY:
       code
       break;
     case INTERNAL_NL:
-      std_internal_newline(VB_LANG)
+      std_internal_newline(SB_LANG)
       break;
     case NEWLINE:
-      std_newline(VB_LANG)
+      std_newline(SB_LANG)
     }
   }
 
-  vb_comment = ('\'' | /rem/i) @comment nonnewline*;
+  sb_comment = ('\'' | /rem/i) @comment nonnewline*;
 
-  vb_string = '"' @code ([^\r\n\f"\\] | '\\' nonnewline)* '"';
+  sb_string = '"' @code ([^\r\n\f"\\] | '\\' nonnewline)* '"';
 
-  vb_line := |*
-    spaces      ${ entity = VB_SPACE; } => vb_ccallback;
-    vb_comment;
-    vb_string;
-    newline     ${ entity = NEWLINE;  } => vb_ccallback;
-    ^space      ${ entity = VB_ANY;   } => vb_ccallback;
+  sb_line := |*
+    spaces      ${ entity = SB_SPACE; } => sb_ccallback;
+    sb_comment;
+    sb_string;
+    newline     ${ entity = NEWLINE;  } => sb_ccallback;
+    ^space      ${ entity = SB_ANY;   } => sb_ccallback;
   *|;
 
   # Entity machine
 
-  action vb_ecallback {
-    callback(VB_LANG, vb_entities[entity], cint(ts), cint(te));
+  action sb_ecallback {
+    callback(SB_LANG, sb_entities[entity], cint(ts), cint(te));
   }
 
-  vb_entity := 'TODO:';
+  sb_entity := 'TODO:';
 }%%
 
 /************************* Required for every parser *************************/
 
-/* Parses a string buffer with Visual Basic code.
+/* Parses a string buffer with Structured BASIC code.
  *
  * @param *buffer The string to parse.
  * @param length The length of the string to parse.
@@ -78,17 +76,17 @@ enum {
  *   every line of code, comment, or blank with 'lcode', 'lcomment', and
  *   'lblank' respectively. Otherwise callback is called for each entity found.
  */
-void parse_visual_basic(char *buffer, int length, int count,
+void parse_structured_basic(char *buffer, int length, int count,
   void (*callback) (const char *lang, const char *entity, int start, int end)
   ) {
   init
 
   %% write init;
-  cs = (count) ? visual_basic_en_vb_line : visual_basic_en_vb_entity;
+  cs = (count) ? structured_basic_en_sb_line : structured_basic_en_sb_entity;
   %% write exec;
 
   // if no newline at EOF; callback contents of last line
-  if (count) { process_last_line(VB_LANG) }
+  if (count) { process_last_line(SB_LANG) }
 }
 
 #endif
