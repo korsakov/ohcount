@@ -517,14 +517,14 @@ class Ohcount::Detector
 			return 'classic_basic'
 		else
 			unless defined?(file_context.filenames.contains_vb)
-  			file_context.filenames.extend(ContainsVB)
-  			file_context.filenames.contains_vb = file_context.filenames.select { |a| a =~ vb_filename }.any?
-  		end
-  		if file_context.filenames.contains_vb
-  			return 'visualbasic'
-  		else
-  			return 'structured_basic'
-  		end
+				file_context.filenames.extend(ContainsVB)
+				file_context.filenames.contains_vb = file_context.filenames.select { |a| a =~ vb_filename }.any?
+			end
+			if file_context.filenames.contains_vb
+				return 'visualbasic'
+			else
+				return 'structured_basic'
+			end
 		end
 	end
 
