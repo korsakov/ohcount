@@ -155,7 +155,6 @@ class Ohcount::Detector
 		'.groovy'=> "groovy",
 		'.h'    => :disambiguate_h_header,
 		'.H'    => "cpp",
-    '.haml' => "haml",
 		'.hpp'  => "cpp",
 		'.h++'  => "cpp",
 		'.hs'   => "haskell",
