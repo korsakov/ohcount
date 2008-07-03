@@ -5,3 +5,4 @@ lib/x86*
 *.swp
 ext/ohcount_native/*_parser.h
 !ext/ohcount_native/ragel_*
+tags

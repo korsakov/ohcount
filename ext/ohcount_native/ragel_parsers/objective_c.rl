@@ -7,7 +7,7 @@
 #include "ragel_parser_macros.h"
 
 // the name of the language
-const char *OBJC_LANG = "objective c";
+const char *OBJC_LANG = "objective_c";
 
 // the languages entities
 const char *objc_entities[] = {
