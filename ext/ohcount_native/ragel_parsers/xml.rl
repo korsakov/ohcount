@@ -58,26 +58,8 @@ enum {
       (nonnewline - ws) @comment
     )* :>> '-->';
 
-  xml_sq_str =
-    '\'' @code (
-      newline %{ entity = INTERNAL_NL; } %xml_ccallback
-      |
-      ws
-      |
-      [^\r\n\f\t '\\] @code
-      |
-      '\\' nonnewline @code
-    )* '\'';
-  xml_dq_str =
-    '"' @code (
-      newline %{ entity = INTERNAL_NL; } %xml_ccallback
-      |
-      ws
-      |
-      [^\r\n\f\t "\\] @code
-      |
-      '\\' nonnewline @code
-    )* '"';
+  xml_sq_str = '\'' ([^\r\n\f'\\] | '\\' nonnewline)* '\'' @code;
+  xml_dq_str = '"' ([^\r\n\f"\\] | '\\' nonnewline)* '"' @code;
   xml_cdata_str =
     '<![CDATA[' @code (
       newline %{ entity = INTERNAL_NL; } %xml_ccallback
