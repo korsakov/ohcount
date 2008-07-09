@@ -89,6 +89,29 @@ class OhcountCommandLine
 		p langs # TODO: pretty print
 	end
 
+  # Licenses
+  def licenses
+		STDOUT.write "Examining #{files.size} file(s)"
+
+		puts
+		puts "File License Info"
+    puts "-----------------"
+
+		files.each do |file|
+			sfc = Ohcount::SimpleFileContext.new(file, files)
+			polyglot = Ohcount::Detector.detect(sfc) || next
+      comments = ''
+      Ohcount::parse(sfc.contents, polyglot) do |language, semantic, line|
+        comments << line if semantic == :comment
+      end
+      licenses = LicenseSniffer.sniff(comments)
+      if licenses.any?
+        license_names = licenses.collect { |l| LicenseSniffer::LicenseMap.instance.map[l].nice_name }.join(",")
+        puts "#{license_names} found in #{file}"
+      end
+    end
+  end
+
 	def raw_entities
 		files.each do |file|
 			sfc = Ohcount::SimpleFileContext.new(file, files)
@@ -133,10 +156,6 @@ Ohloh source code line counter command line tool.
 
    Prints the number of entities found for each language parsed.
 
--re
-
-   Prints raw entity information to the screen (mainly for debugging).
-
 -h, --help                      Display this message
 
 -i, --individual                Count lines of code per file
@@ -144,6 +163,15 @@ Ohloh source code line counter command line tool.
    Count lines in all source code files within the given paths, and
    emit a report of the lines of code, comments, and blanks in each
    language per file.
+
+-l, --license
+
+   Displays detected licensing information contained in each source
+   code file.
+
+-re
+
+   Prints raw entity information to the screen (mainly for debugging).
 
 -s, --summary                   Count lines of code (default)
 
@@ -287,6 +315,8 @@ HELP
 			self.subcommand = :annotate
 		when '-i', '--individual'
 			self.subcommand = :individual
+    when '-l', '--licenses'
+      self.subcommand = :licenses
 		when '-e', '--entities'
 			self.subcommand = :entities
 		when '-re'

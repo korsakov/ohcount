@@ -46,6 +46,7 @@ module Ohcount
 		return {} if dir.nil?
 		langs = {}
 		Dir.foreach(dir) do |l|
+			next unless File.directory?(dir + "/" + l)
 			next if [".", ".."].include?(l)
 			langs[l] ||= {}
 			Dir.foreach(dir + "/" + l) do |s|
