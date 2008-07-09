@@ -1,0 +1,1 @@
+// Jabber Open Source License

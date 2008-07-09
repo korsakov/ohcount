@@ -123,6 +123,10 @@ static VALUE _language_breakdown_blanks(VALUE self) {
 static VALUE _ohcount_parse(VALUE self, VALUE buffer, VALUE polyglot_name_value) {
 	ParseResult pr;
 
+	if (NIL_P(polyglot_name_value)) {
+		rb_raise(rb_eStandardError, "Polyglot name required.");
+	}
+
 	char *polyglot_name = RSTRING(polyglot_name_value)->ptr;
 	if (ragel_parser_parse(&pr, 1, RSTRING(buffer)->ptr, RSTRING(buffer)->len, polyglot_name)) {
 		// create array we'll return all the language_breakdowns in

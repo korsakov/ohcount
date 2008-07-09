@@ -7,7 +7,7 @@ require 'rbconfig'
 include Config
 
 NAME = 'ohcount'
-VERS = '1.0.0'
+VERS = '2.0.0'
 
 EXT_DIR  = "ext/ohcount_native"
 EXT_DL   = "#{EXT_DIR}/ohcount_native.#{CONFIG['DLEXT']}"
