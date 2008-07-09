@@ -1,0 +1,4 @@
+! This is a comment
+! Factor syntax is very simple, it just contains words separated by spaces
+! '!' is a line comment word
+! "whatever" is a string word
