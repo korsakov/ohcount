@@ -60,6 +60,7 @@ class Ohcount::SlocInfo
 			'emacslisp'     => {:nice_name => 'Emacs Lisp'       , :category => 0},
 			'erlang'        => {:nice_name => 'Erlang'           , :category => 0},
 			'exheres'       => {:nice_name => 'Exheres'          , :category => 0},
+			'factor'        => {:nice_name => 'Factor'           , :category => 0},
 			'fortranfixed'  => {:nice_name => 'Fortran (Fixed-format)', :category => 0},
 			'fortranfree'   => {:nice_name => 'Fortran (Free-format)',  :category => 0},
 			'groovy'        => {:nice_name => 'Groovy'           , :category => 0},
