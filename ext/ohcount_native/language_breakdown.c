@@ -62,7 +62,7 @@ char * first_non_blank(char *from, char *to) {
  */
 int language_breakdown_copy_code(LanguageBreakdown *lb, char *from, char *to) {
 	from = first_non_blank(from, to);
-	if (lb->code_cur + (to - from) > lb->code + lb->buffer_size)
+	if (lb->code_cur + (to - from) >= lb->code + lb->buffer_size)
 		return 0; // overflow error
 	strncpy(lb->code_cur, from, to - from);
 	lb->code_cur += to - from;
@@ -81,7 +81,7 @@ int language_breakdown_copy_code(LanguageBreakdown *lb, char *from, char *to) {
  */
 int language_breakdown_copy_comment(LanguageBreakdown *lb, char *from, char *to) {
 	from = first_non_blank(from, to);
-	if (lb->comment_cur + (to - from) > lb->comment + lb->buffer_size)
+	if (lb->comment_cur + (to - from) >= lb->comment + lb->buffer_size)
 		return 0; // overflow error
 	strncpy(lb->comment_cur, from, to - from);
 	lb->comment_cur += to - from;
