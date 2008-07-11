@@ -1,8 +1,10 @@
 ;;; CrapsSim.lsp
 
-;;; The main purpose of this program was to implement a Craps game, using a language that we have just
-;;; learned.  Also, it was written in a functional style with almost no reliance on the assignment
-;;; operation.  Only one local variable called THROW was used.
+"""
+The main purpose of this program was to implement a Craps game, using a language that we have just
+learned.  Also, it was written in a functional style with almost no reliance on the assignment
+operation.  Only one local variable called THROW was used.
+"""
 
 
 ;;; ====================================================================================================== ;;;

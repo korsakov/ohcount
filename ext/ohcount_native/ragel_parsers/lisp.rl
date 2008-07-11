@@ -44,10 +44,26 @@ enum {
     }
   }
 
-  lisp_comment = ';' @comment nonnewline*;
+  lisp_docstring = '"'{3} @comment (
+    newline %{ entity = INTERNAL_NL; } %lisp_ccallback
+    |
+    ws
+    |
+    (nonnewline - ws) @comment
+  )* :>> '"""' @comment;
 
-  lisp_string =
-    '"' @code (
+  lisp_line_comment = ';' @comment nonnewline*;
+
+  lisp_comment = lisp_line_comment | lisp_docstring;
+
+  lisp_empty_string =
+    '"'{2} [^"] @{fhold;} @code;
+
+  lisp_char_string =
+    '"' [^"] '"' @code;
+
+  lisp_regular_string =
+    '"' ([^"]{2}) @code (
       newline %{ entity = INTERNAL_NL; } %lisp_ccallback
       |
       ws
@@ -56,6 +72,8 @@ enum {
       |
       '\\' nonnewline @code
     )* '"';
+
+  lisp_string = lisp_empty_string | lisp_char_string | lisp_regular_string;
 
   lisp_line := |*
     spaces        ${ entity = LISP_SPACE; } => lisp_ccallback;
