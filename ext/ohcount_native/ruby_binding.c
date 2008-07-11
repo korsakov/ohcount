@@ -46,14 +46,14 @@ static VALUE _language_breakdown_initialize(VALUE self, VALUE name, VALUE code, 
 	if (lb->code != NULL) {
 		free(lb->code);
 	}
-	lb->code = (char*)malloc(RSTRING(code)->len);
+	lb->code = (char*)malloc(RSTRING(code)->len + 1);
 	strcpy(lb->code, rb_string_value_ptr(&code));
 
 	/* comment */
 	if (lb->comment != NULL) {
 		free(lb->comment);
 	}
-	lb->comment = (char*)malloc(RSTRING(comment)->len);
+	lb->comment = (char*)malloc(RSTRING(comment)->len + 1);
 	strcpy(lb->comment, rb_string_value_ptr(&comment));
 
 	/* blanks */
