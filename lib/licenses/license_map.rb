@@ -123,6 +123,11 @@ module LicenseSniffer
 			/GNU GENERAL PUBLIC LICENSE.{0,100}Version 3/im,
 			/((at your option) any later version)|(GENERAL PUBLIC LICENSE.*GENERAL PUBLIC LICENSE)/i),
 
+			SoftwareLicense.new(:lgpl3,
+			"http://www.gnu.org/licenses/lgpl-3.0.html",
+			"GNU Lesser General Public License 3.0",
+			/((\blgpl\b)|(\bgnu\s*(library|lesser)\s*(general\s*)?(public\s*)?license\b)|(\b(lesser|library)\s*gpl\b)).{0,20}\b3(\.0)?\b/i ),
+
 			SoftwareLicense.new(:gpl,
 			"http://www.opensource.org/licenses/gpl-license.php",
 			"GNU General Public License (GPL)",
@@ -131,7 +136,7 @@ module LicenseSniffer
 			SoftwareLicense.new(:lgpl,
 			"http://www.opensource.org/licenses/lgpl-license.php",
 			"GNU Library or \"Lesser\" GPL (LGPL)",
-			/(\blgpl\b)|(\bgnu\s*library\s*public\s*license\b)|(\bgnu\s*lesser\s*public\s*license\b)|(\bgnu\s*lesser\s*general\s*public\s*license\b)|(\bgnu\s*library\s*general\s*public\s*license\b|(\b(lesser|library)\s*gpl\b))/i ),
+			/(\blgpl\b)|(\bgnu\s*(library|lesser)\s*(general\s*)?(public\s*)?license\b)|(\b(lesser|library)\s*gpl\b)/i ),
 
 			SoftwareLicense.new(:historical,
 			"http://www.opensource.org/licenses/historical.php",
