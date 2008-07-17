@@ -111,7 +111,7 @@ enum {
 
   perl_line_comment_entity = '#' nonnewline*;
   perl_block_comment_entity =
-    ('=' when starts_line) alpha+ any* :>> ('=cut' when starts_line);
+    ('=' when starts_line) alpha+ any* :>> (('=' when starts_line) 'cut');
   perl_comment_entity = perl_line_comment_entity | perl_block_comment_entity;
 
   perl_entity := |*
