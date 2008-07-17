@@ -23,7 +23,7 @@ RDOC_OPTS = ['--quiet', '--title', 'Ohcount Reference', '--main', 'README', '--i
 
 PKG_FILES = %w(README COPYING Rakefile lib/ohcount.rb) +
 	Dir.glob("ext/ohcount_native/*.{h,c,rb}") +
-	Dir.glob("lib/ohcount/*.rb") +
+	Dir.glob("lib/**/*.rb") +
 	Dir.glob("test/*") +
 	Dir.glob("test/**/*") +
 	Dir.glob("bin/*")
@@ -34,14 +34,14 @@ SPEC =
 		s.version = VERS
 		s.platform = Gem::Platform::RUBY
 		s.has_rdoc = true
-		s.rdoc_options += RDOC_OPTS
+		s.rdoc_options = RDOC_OPTS
 		s.summary = "The Ohloh source code line counter"
 		s.description = s.summary
 		s.author = "Ohloh Corporation"
 		s.email = "info@ohloh.net"
-		s.homepage = "http://www.ohloh.net"
+		s.homepage = "http://labs.ohloh.net/ohcount"
 		s.files = PKG_FILES
-		s.require_paths = ["lib", ARCH_DIR]
+		s.require_paths <<  'lib'
 		s.extensions << 'ext/ohcount_native/extconf.rb'
 		s.bindir = 'bin'
 		s.executables = ['ohcount']
