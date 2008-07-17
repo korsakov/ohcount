@@ -91,7 +91,7 @@ enum {
     callback(HASKELL_LANG, haskell_entities[entity], cint(ts), cint(te));
   }
 
-  haskell_line_comment_entity = '--' [^>] nonnewline*;
+  haskell_line_comment_entity = '--' [^>] @{ fhold; } nonnewline*;
   haskell_block_comment_entity = '{-' >haskell_comment_nc_res (
     '{-' @haskell_comment_nc_inc
     |
@@ -103,8 +103,8 @@ enum {
     haskell_line_comment_entity | haskell_block_comment_entity;
 
   haskell_entity := |*
-    space+                       ${ entity = HASKELL_SPACE;   } => haskell_ecallback;
-    haskell_block_comment_entity ${ entity = HASKELL_COMMENT; } => haskell_ecallback;
+    space+                 ${ entity = HASKELL_SPACE;   } => haskell_ecallback;
+    haskell_comment_entity ${ entity = HASKELL_COMMENT; } => haskell_ecallback;
     # TODO:
     ^space;
   *|;
