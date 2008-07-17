@@ -73,7 +73,16 @@ enum {
     callback(ASM_LANG, asm_entities[entity], cint(ts), cint(te));
   }
 
-  asm_entity := 'TODO:';
+  asm_line_comment_entity = ('//' | ';' | '!') nonnewline*;
+  asm_block_comment_entity = '/*' any* :>> '*/';
+  asm_comment_entity = asm_line_comment_entity | asm_block_comment_entity;
+
+  asm_entity := |*
+    space+             ${ entity = ASM_SPACE;   } => asm_ecallback;
+    asm_comment_entity ${ entity = ASM_COMMENT; } => asm_ecallback;
+    # TODO:
+    ^space;
+  *|;
 }%%
 
 /************************* Required for every parser *************************/

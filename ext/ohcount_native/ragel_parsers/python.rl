@@ -94,7 +94,20 @@ enum {
     callback(PYTHON_LANG, python_entities[entity], cint(ts), cint(te));
   }
 
-  python_entity := 'TODO:';
+  python_line_comment_entity = ('#' | '//') nonnewline*;
+  python_block_comment_entity = '/*' any* :>> '*/';
+  python_sq_doc_str_entity = '\'\'\'' any* :>> '\'\'\'';
+  python_dq_doc_str_entity = '"""' any* :>> '"""';
+  python_comment_entity = python_line_comment_entity |
+    python_block_comment_entity | python_sq_doc_str_entity |
+    python_dq_doc_str_entity;
+
+  python_entity := |*
+    space+                ${ entity = PYTHON_SPACE;   } => python_ecallback;
+    python_comment_entity ${ entity = PYTHON_COMMENT; } => python_ecallback;
+    # TODO:
+    ^space;
+  *|;
 }%%
 
 /************************* Required for every parser *************************/

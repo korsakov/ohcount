@@ -82,7 +82,14 @@ enum {
     callback(MPTEX_LANG, mptex_entities[entity], cint(ts), cint(te));
   }
 
-  mptex_entity := 'TODO:';
+  mptex_comment_entity = '%' nonnewline*;
+
+  mptex_entity := |*
+    space+               ${ entity = MPTEX_SPACE;   } => mptex_ecallback;
+    mptex_comment_entity ${ entity = MPTEX_COMMENT; } => mptex_ecallback;
+    # TODO:
+    ^space;
+  *|;
 }%%
 
 /************************* Required for every parser *************************/

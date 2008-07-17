@@ -64,7 +64,14 @@ enum {
     callback(FORTRANFIXED_LANG, ffixed_entities[entity], cint(ts), cint(te));
   }
 
-  ffixed_entity := 'TODO:';
+  ffixed_comment_entity = 'C' nonnewline*;
+
+  ffixed_entity := |*
+    space+                ${ entity = FFIXED_SPACE;   } => ffixed_ecallback;
+    ffixed_comment_entity ${ entity = FFIXED_COMMENT; } => ffixed_ecallback;
+    # TODO:
+    ^space;
+  *|;
 }%%
 
 /* Parses a string buffer with Fortran Fixedform code.

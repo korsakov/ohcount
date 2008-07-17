@@ -81,7 +81,16 @@ enum {
     callback(SQL_LANG, sql_entities[entity], cint(ts), cint(te));
   }
 
-  sql_entity := 'TODO:';
+  sql_line_comment_entity = ('--' | '#' | '//') nonnewline*;
+  sql_block_comment_entity = '/*' any* :>> '*/';
+  sql_comment_entity = sql_line_comment_entity | sql_block_comment_entity;
+
+  sql_entity := |*
+    space+             ${ entity = SQL_SPACE;   } => sql_ecallback;
+    sql_comment_entity ${ entity = SQL_COMMENT; } => sql_ecallback;
+    # TODO:
+    ^space;
+  *|;
 }%%
 
 /************************* Required for every parser *************************/

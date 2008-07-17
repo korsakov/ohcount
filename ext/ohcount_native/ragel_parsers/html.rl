@@ -112,7 +112,14 @@ enum {
     callback(HTML_LANG, html_entities[entity], cint(ts), cint(te));
   }
 
-  html_entity := 'TODO:';
+  html_comment_entity = '<!--' any* :>> '-->';
+
+  html_entity := |*
+    space+              ${ entity = HTML_SPACE;   } => html_ecallback;
+    html_comment_entity ${ entity = HTML_COMMENT; } => html_ecallback;
+    # TODO:
+    ^space;
+  *|;
 }%%
 
 /************************* Required for every parser *************************/

@@ -71,7 +71,14 @@ enum {
     callback(LISP_LANG, lisp_entities[entity], cint(ts), cint(te));
   }
 
-  lisp_entity := 'TODO:';
+  lisp_comment_entity = ';' nonnewline*;
+
+  lisp_entity := |*
+    space+              ${ entity = LISP_SPACE;   } => lisp_ecallback;
+    lisp_comment_entity ${ entity = LISP_COMMENT; } => lisp_ecallback;
+    # TODO:
+    ^space;
+  *|;
 }%%
 
 /* Parses a string buffer with Lisp code.

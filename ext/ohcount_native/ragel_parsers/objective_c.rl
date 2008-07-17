@@ -80,7 +80,16 @@ enum {
     callback(OBJC_LANG, objc_entities[entity], cint(ts), cint(te));
   }
 
-  objc_entity := 'TODO:';
+  objc_line_comment_entity = '//' (escaped_newline | nonnewline)*;
+  objc_block_comment_entity = '/*' any* :>> '*/';
+  objc_comment_entity = objc_line_comment_entity | objc_block_comment_entity;
+
+  objc_entity := |*
+    space+              ${ entity = OBJC_SPACE;   } => objc_ecallback;
+    objc_comment_entity ${ entity = OBJC_COMMENT; } => objc_ecallback;
+    # TODO:
+    ^space;
+  *|;
 }%%
 
 /************************* Required for every parser *************************/

@@ -95,7 +95,16 @@ enum {
     callback(JS_LANG, js_entities[entity], cint(ts), cint(te));
   }
 
-  js_entity := 'TODO:';
+  js_line_comment_entity = '//' nonnewline*;
+  js_block_comment_entity = '/*' any* :>> '*/';
+  js_comment_entity = js_line_comment_entity | js_block_comment_entity;
+
+  js_entity := |*
+    space+            ${ entity = JS_SPACE;   } => js_ecallback;
+    js_comment_entity ${ entity = JS_COMMENT; } => js_ecallback;
+    # TODO:
+    ^space;
+  *|;
 }%%
 
 /* Parses a string buffer with Javascript code.

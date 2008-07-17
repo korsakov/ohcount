@@ -155,7 +155,14 @@ enum {
     callback(RHTML_LANG, rhtml_entities[entity], cint(ts), cint(te));
   }
 
-  rhtml_entity := 'TODO:';
+  rhtml_comment_entity = '<!--' any* :>> '-->';
+
+  rhtml_entity := |*
+    space+               ${ entity = RHTML_SPACE;   } => rhtml_ecallback;
+    rhtml_comment_entity ${ entity = RHTML_COMMENT; } => rhtml_ecallback;
+    # TODO:
+    ^space;
+  *|;
 }%%
 
 /************************* Required for every parser *************************/

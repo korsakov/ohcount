@@ -84,7 +84,14 @@ enum {
     callback(XSLT_LANG, xslt_entities[entity], cint(ts), cint(te));
   }
 
-  xslt_entity := 'TODO:';
+  xslt_comment_entity = '<!--' any* :>> '-->';
+
+  xslt_entity := |*
+    space+              ${ entity = XSLT_SPACE;   } => xslt_ecallback;
+    xslt_comment_entity ${ entity = XSLT_COMMENT; } => xslt_ecallback;
+    # TODO:
+    ^space;
+  *|;
 }%%
 
 /************************* Required for every parser *************************/

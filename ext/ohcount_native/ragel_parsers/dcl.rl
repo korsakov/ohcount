@@ -64,7 +64,14 @@ enum {
     callback(DCL_LANG, dcl_entities[entity], cint(ts), cint(te));
   }
 
-  dcl_entity := 'TODO:';
+  dcl_comment_entity = '!' nonnewline*;
+
+  dcl_entity := |*
+    space+             ${ entity = DCL_SPACE;   } => dcl_ecallback;
+    dcl_comment_entity ${ entity = DCL_COMMENT; } => dcl_ecallback;
+    # TODO:
+    ^space;
+  *|;
 }%%
 
 /************************* Required for every parser *************************/

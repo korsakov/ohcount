@@ -59,7 +59,14 @@ enum {
     callback(BAT_LANG, bat_entities[entity], cint(ts), cint(te));
   }
 
-  bat_entity := 'TODO:';
+  bat_comment_entity = /rem/i nonnewline*;
+
+  bat_entity := |*
+    space+             ${ entity = BAT_SPACE;   } => bat_ecallback;
+    bat_comment_entity ${ entity = BAT_COMMENT; } => bat_ecallback;
+    # TODO:
+    ^space;
+  *|;
 }%%
 
 /************************* Required for every parser *************************/

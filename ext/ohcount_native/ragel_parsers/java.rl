@@ -75,7 +75,16 @@ enum {
     callback(JAVA_LANG, java_entities[entity], cint(ts), cint(te));
   }
 
-  java_entity := 'TODO:';
+  java_line_comment_entity = '//' nonnewline*;
+  java_block_comment_entity = '/*' any* :>> '*/';
+  java_comment_entity = java_line_comment_entity | java_block_comment_entity;
+
+  java_entity := |*
+    space+              ${ entity = JAVA_SPACE;   } => java_ecallback;
+    java_comment_entity ${ entity = JAVA_COMMENT; } => java_ecallback;
+    # TODO:
+    ^space;
+  *|;
 }%%
 
 /************************* Required for every parser *************************/

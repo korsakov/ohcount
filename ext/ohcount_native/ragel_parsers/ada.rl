@@ -62,7 +62,14 @@ enum {
     callback(ADA_LANG, ada_entities[entity], cint(ts), cint(te));
   }
 
-  ada_entity := 'TODO:';
+  ada_comment_entity = '--' nonnewline*;
+
+  ada_entity := |*
+    space+             ${ entity = ADA_SPACE;   } => ada_ecallback;
+    ada_comment_entity ${ entity = ADA_COMMENT; } => ada_ecallback;
+    # TODO:
+    ^space;
+  *|;
 }%%
 
 /************************* Required for every parser *************************/

@@ -83,7 +83,14 @@ enum {
     callback(SHELL_LANG, shell_entities[entity], cint(ts), cint(te));
   }
 
-  shell_entity := 'TODO:';
+  shell_comment_entity = '#' nonnewline*;
+
+  shell_entity := |*
+    space+               ${ entity = SHELL_SPACE;   } => shell_ecallback;
+    shell_comment_entity ${ entity = SHELL_COMMENT; } => shell_ecallback;
+    # TODO:
+    ^space;
+  *|;
 }%%
 
 /************************* Required for every parser *************************/

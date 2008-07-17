@@ -79,7 +79,20 @@ enum {
     callback(REXX_LANG, rexx_entities[entity], cint(ts), cint(te));
   }
 
-  rexx_entity := 'TODO:';
+  rexx_comment_entity = '/*' >rexx_comment_nc_res (
+    '/*' @rexx_comment_nc_inc
+    |
+    '*/' @rexx_comment_nc_dec
+    |
+    any
+  )* :>> ('*/' when { nest_count == 0 });
+
+  rexx_entity := |*
+    space+              ${ entity = REXX_SPACE;   } => rexx_ecallback;
+    rexx_comment_entity ${ entity = REXX_COMMENT; } => rexx_ecallback;
+    # TODO:
+    ^space;
+  *|;
 }%%
 
 /************************* Required for every parser *************************/

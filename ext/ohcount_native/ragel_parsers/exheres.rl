@@ -64,7 +64,14 @@ enum {
     callback(EXHERES_LANG, exheres_entities[entity], cint(ts), cint(te));
   }
 
-  exheres_entity := 'TODO:';
+  exheres_comment_entity = '#' nonnewline*;
+
+  exheres_entity := |*
+    space+                 ${ entity = EXHERES_SPACE;   } => exheres_ecallback;
+    exheres_comment_entity ${ entity = EXHERES_COMMENT; } => exheres_ecallback;
+    # TODO:
+    ^space;
+  *|;
 }%%
 
 /************************* Required for every parser *************************/

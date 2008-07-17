@@ -98,7 +98,17 @@ enum {
     callback(GROOVY_LANG, groovy_entities[entity], cint(ts), cint(te));
   }
 
-  groovy_entity := 'TODO:';
+  groovy_line_comment_entity = '//' (escaped_newline | nonnewline)*;
+  groovy_block_comment_entity = '/*' any* :>> '*/';
+  groovy_comment_entity =
+    groovy_line_comment_entity | groovy_block_comment_entity;
+
+  groovy_entity := |*
+    space+                ${ entity = GROOVY_SPACE;   } => groovy_ecallback;
+    groovy_comment_entity ${ entity = GROOVY_COMMENT; } => groovy_ecallback;
+    # TODO:
+    ^space;
+  *|;
 }%%
 
 /* Parses a string buffer with Groovy code.

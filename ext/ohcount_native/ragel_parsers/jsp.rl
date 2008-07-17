@@ -155,7 +155,14 @@ enum {
     callback(JSP_LANG, jsp_entities[entity], cint(ts), cint(te));
   }
 
-  jsp_entity := 'TODO:';
+  jsp_comment_entity = '<!--' any* :>> '-->';
+
+  jsp_entity := |*
+    space+             ${ entity = JSP_SPACE;   } => jsp_ecallback;
+    jsp_comment_entity ${ entity = JSP_COMMENT; } => jsp_ecallback;
+    # TODO:
+    ^space;
+  *|;
 }%%
 
 /************************* Required for every parser *************************/

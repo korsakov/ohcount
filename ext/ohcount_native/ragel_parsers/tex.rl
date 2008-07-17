@@ -59,7 +59,14 @@ enum {
     callback(TEX_LANG, tex_entities[entity], cint(ts), cint(te));
   }
 
-  tex_entity := 'TODO:';
+  tex_comment_entity = '%' nonnewline*;
+
+  tex_entity := |*
+    space+             ${ entity = TEX_SPACE;   } => tex_ecallback;
+    tex_comment_entity ${ entity = TEX_COMMENT; } => tex_ecallback;
+    # TODO:
+    ^space;
+  *|;
 }%%
 
 /************************* Required for every parser *************************/

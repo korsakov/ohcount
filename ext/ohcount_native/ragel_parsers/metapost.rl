@@ -62,7 +62,14 @@ enum {
     callback(METAPOST_LANG, metapost_entities[entity], cint(ts), cint(te));
   }
 
-  metapost_entity := 'TODO:';
+  metapost_comment_entity = '%' nonnewline*;
+
+  metapost_entity := |*
+    space+                  ${ entity = METAPOST_SPACE;   } => metapost_ecallback;
+    metapost_comment_entity ${ entity = METAPOST_COMMENT; } => metapost_ecallback;
+    # TODO:
+    ^space;
+  *|;
 }%%
 
 /************************* Required for every parser *************************/

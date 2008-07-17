@@ -155,7 +155,14 @@ enum {
     callback(CSHTML_LANG, cshtml_entities[entity], cint(ts), cint(te));
   }
 
-  cshtml_entity := 'TODO:';
+  cshtml_comment_entity = '<!--' any* :>> '-->';
+
+  cshtml_entity := |*
+    space+                ${ entity = CSHTML_SPACE;   } => cshtml_ecallback;
+    cshtml_comment_entity ${ entity = CSHTML_COMMENT; } => cshtml_ecallback;
+    # TODO:
+    ^space;
+  *|;
 }%%
 
 /************************* Required for every parser *************************/

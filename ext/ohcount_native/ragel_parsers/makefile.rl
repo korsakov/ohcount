@@ -64,7 +64,14 @@ enum {
     callback(MAKE_LANG, make_entities[entity], cint(ts), cint(te));
   }
 
-  make_entity := 'TODO:';
+  make_comment_entity = '#' nonnewline*;
+
+  make_entity := |*
+    space+              ${ entity = MAKE_SPACE;   } => make_ecallback;
+    make_comment_entity ${ entity = MAKE_COMMENT; } => make_ecallback;
+    # TODO:
+    ^space;
+  *|;
 }%%
 
 /************************* Required for every parser *************************/

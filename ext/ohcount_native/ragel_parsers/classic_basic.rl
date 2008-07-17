@@ -60,7 +60,14 @@ enum {
     callback(CB_LANG, cb_entities[entity], cint(ts), cint(te));
   }
 
-  cb_entity := 'TODO:';
+  cb_comment_entity = ("'" | /rem/i ws+) nonnewline*;
+
+  cb_entity := |*
+    space+            ${ entity = CB_SPACE;   } => cb_ecallback;
+    cb_comment_entity ${ entity = CB_COMMENT; } => cb_ecallback;
+    # TODO:
+    ^space;
+  *|;
 }%%
 
 /************************* Required for every parser *************************/

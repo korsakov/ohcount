@@ -78,7 +78,14 @@ enum {
     callback(FORTRANFREE_LANG, ffree_entities[entity], cint(ts), cint(te));
   }
 
-  ffree_entity := 'TODO:';
+  ffree_comment_entity = '!' nonnewline*;
+
+  ffree_entity := |*
+    space+               ${ entity = FFREE_SPACE;   } => ffree_ecallback;
+    ffree_comment_entity ${ entity = FFREE_COMMENT; } => ffree_ecallback;
+    # TODO:
+    ^space;
+  *|;
 }%%
 
 /* Parses a string buffer with Fortran Freeform code.

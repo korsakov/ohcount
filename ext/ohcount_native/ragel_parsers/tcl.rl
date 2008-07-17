@@ -78,7 +78,14 @@ enum {
     callback(TCL_LANG, tcl_entities[entity], cint(ts), cint(te));
   }
 
-  tcl_entity := 'TODO:';
+  tcl_comment_entity = '#' (escaped_newline | nonnewline)*;
+
+  tcl_entity := |*
+    space+             ${ entity = TCL_SPACE;   } => tcl_ecallback;
+    tcl_comment_entity ${ entity = TCL_COMMENT; } => tcl_ecallback;
+    # TODO:
+    ^space;
+  *|;
 }%%
 
 /************************* Required for every parser *************************/

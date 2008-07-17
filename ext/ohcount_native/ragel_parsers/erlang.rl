@@ -64,7 +64,14 @@ enum {
     callback(ERLANG_LANG, erlang_entities[entity], cint(ts), cint(te));
   }
 
-  erlang_entity := 'TODO:';
+  erlang_comment_entity = '%' nonnewline*;
+
+  erlang_entity := |*
+    space+                ${ entity = ERLANG_SPACE;   } => erlang_ecallback;
+    erlang_comment_entity ${ entity = ERLANG_COMMENT; } => erlang_ecallback;
+    # TODO:
+    ^space;
+  *|;
 }%%
 
 /************************* Required for every parser *************************/

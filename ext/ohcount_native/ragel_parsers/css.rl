@@ -91,7 +91,14 @@ enum {
     callback(CSS_LANG, css_entities[entity], cint(ts), cint(te));
   }
 
-  css_entity := 'TODO:';
+  css_comment_entity = '/*' any* :>> '*/';
+
+  css_entity := |*
+    space+             ${ entity = CSS_SPACE;   } => css_ecallback;
+    css_comment_entity ${ entity = CSS_COMMENT; } => css_ecallback;
+    # TODO:
+    ^space;
+  *|;
 }%%
 
 /************************* Required for every parser *************************/
