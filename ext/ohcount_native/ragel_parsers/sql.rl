@@ -82,8 +82,10 @@ enum {
   }
 
   sql_line_comment_entity = ('--' | '#' | '//') nonnewline*;
-  sql_block_comment_entity = '/*' any* :>> '*/';
-  sql_comment_entity = sql_line_comment_entity | sql_block_comment_entity;
+  sql_c_block_comment_entity = '/*' any* :>> '*/';
+  sql_block_comment_entity = '{' any* :>> '}';
+  sql_comment_entity = sql_line_comment_entity | sql_c_block_comment_entity |
+    sql_block_comment_entity;
 
   sql_entity := |*
     space+             ${ entity = SQL_SPACE;   } => sql_ecallback;
