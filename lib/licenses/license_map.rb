@@ -30,7 +30,7 @@ module LicenseSniffer
 			SoftwareLicense.new(:apache_2,
 			"http://www.opensource.org/licenses/apache2.0.php",
 			"Apache License, 2.0",
-			/(\bApache\s*Software\s*License[\s,]*2)|(\bapache\s*license[\s,]*2)/i ),
+			/\bapache\s+(software\s+)?license,?\s+(version\s+)?2/i ),
 
 			SoftwareLicense.new(:apple_open_source,
 			"http://www.opensource.org/licenses/apsl-2.0.php",
