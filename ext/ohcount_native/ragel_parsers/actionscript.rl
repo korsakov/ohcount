@@ -80,7 +80,7 @@ enum {
     callback(AS_LANG, as_entities[entity], cint(ts), cint(te));
   }
 
-  as_line_comment_entity = '//' nonnewline^0;
+  as_line_comment_entity = '//' nonnewline*;
   as_block_comment_entity = '/*' any* :>> '*/';
   as_comment_entity = as_line_comment_entity | as_block_comment_entity;
 
