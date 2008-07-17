@@ -10,4 +10,9 @@ class Ohcount::GroovyTest < Ohcount::Test
 		verify_parse("groovy1.groovy")
 	end
 
+	def test_comment_entities
+		assert_equal('//comment', entities_array(" //comment", 'groovy', :comment).first)
+		assert_equal('/*comment*/', entities_array(" /*comment*/", 'groovy', :comment).first)
+	end
+
 end

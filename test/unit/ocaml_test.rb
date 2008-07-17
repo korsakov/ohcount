@@ -9,4 +9,9 @@ class Ohcount::OcamlTest < Ohcount::Test
 	def test_comprehensive
 		verify_parse("ocaml.ml")
 	end
+
+	def test_comment_entities
+		assert_equal('(*comment*)', entities_array(" (*comment*)", 'ocaml', :comment).first)
+	end
+
 end

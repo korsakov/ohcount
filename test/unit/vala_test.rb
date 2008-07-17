@@ -10,4 +10,9 @@ class Ohcount::ValaTest < Ohcount::Test
 	def test_comprehensive
 		verify_parse("vala1.vala")
 	end
+
+	def test_comment_entities
+		assert_equal('//comment', entities_array(" //comment", 'vala', :comment).first)
+		assert_equal('/*comment*/', entities_array(" /*comment*/", 'vala', :comment).first)
+	end
 end

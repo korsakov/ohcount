@@ -15,4 +15,8 @@ class Ohcount::AwkTest < Ohcount::Test
 	def test_comprehensive
 		verify_parse("awk1.awk")
 	end
+
+	def test_comment_entities
+		assert_equal('#comment', entities_array(" #comment", 'awk', :comment).first)
+	end
 end

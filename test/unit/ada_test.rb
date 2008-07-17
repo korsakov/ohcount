@@ -13,4 +13,8 @@ class Ohcount::AdaTest < Ohcount::Test
 	def test_comprehensive_adb
 		verify_parse("ada1.adb")
 	end
+
+	def test_comment_entities
+		assert_equal('--comment', entities_array(' --comment', 'ada', :comment).first)
+	end
 end

@@ -9,4 +9,8 @@ class Ohcount::TclTest < Ohcount::Test
 	def test_comprehensive
 		verify_parse("tcl1.tcl")
 	end
+
+	def test_comment_entities
+		assert_equal('#comment', entities_array(" #comment", 'tcl', :comment).first)
+	end
 end

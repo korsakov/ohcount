@@ -10,4 +10,9 @@ class Ohcount::SmalltalkTest < Ohcount::Test
 	def test_comprehensive
 		verify_parse("smalltalk1.st")
 	end
+
+	def test_comment_entities
+		assert_equal('"comment"', entities_array(" \"comment\"", 'smalltalk', :comment).first)
+	end
+
 end

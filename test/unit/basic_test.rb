@@ -19,4 +19,8 @@ class Ohcount::BasicTest < Ohcount::Test
 		verify_parse("classic_basic.bas")
 	end
 
+	def test_comment_entities
+		assert_equal('REM comment', entities_array(" REM comment", 'structured_basic', :comment).first)
+		assert_equal('\'comment', entities_array(" 'comment", 'classic_basic', :comment).first)
+	end
 end

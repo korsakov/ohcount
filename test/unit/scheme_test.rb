@@ -10,4 +10,9 @@ class Ohcount::SchemeTest < Ohcount::Test
 	def test_comprehensive
 		verify_parse("scheme.scm")
 	end
+
+	def test_comment_entities
+		assert_equal(';comment', entities_array(" ;comment", 'scheme', :comment).first)
+	end
+
 end

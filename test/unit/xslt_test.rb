@@ -9,4 +9,8 @@ class Ohcount::XsltTest < Ohcount::Test
 	def test_comprehensive
 		verify_parse("example.xsl")
 	end
+
+	def test_comment_entities
+		assert_equal('<!--comment-->', entities_array(" <!--comment-->", 'xslt', :comment).first)
+	end
 end

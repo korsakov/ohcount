@@ -20,4 +20,11 @@ class Ohcount::MatlabTest < Ohcount::Test
 	def test_comprehensive
 		verify_parse("matlab1.m", 'matlab')
 	end
+
+	def test_comment_entities
+		assert_equal('%comment', entities_array(" %comment", 'matlab', :comment).first)
+		assert_equal('#comment', entities_array(" #comment", 'matlab', :comment).first)
+		assert_equal('%{comment%}', entities_array(" %{comment%}", 'matlab', :comment).first)
+	end
+
 end

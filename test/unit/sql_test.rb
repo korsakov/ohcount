@@ -21,4 +21,12 @@ class Ohcount::SqlTest < Ohcount::Test
 		verify_parse("sql1.sql")
 	end
 
+	def test_comment_entities
+		assert_equal('--comment', entities_array(" --comment", 'sql', :comment).first)
+		assert_equal('#comment', entities_array(" #comment", 'sql', :comment).first)
+		assert_equal('//comment', entities_array(" //comment", 'sql', :comment).first)
+		assert_equal('/*comment*/', entities_array(" /*comment*/", 'sql', :comment).first)
+		assert_equal('{comment}', entities_array(" {comment}", 'sql', :comment).first)
+	end
+
 end

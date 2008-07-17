@@ -13,4 +13,10 @@ class Ohcount::JavascriptTest < Ohcount::Test
 	def test_comp2
 		verify_parse("js2.js")
 	end
+
+	def test_comment_entities
+		assert_equal('//comment', entities_array(" //comment", 'javascript', :comment).first)
+		assert_equal('/*comment*/', entities_array(" /*comment*/", 'javascript', :comment).first)
+	end
+
 end

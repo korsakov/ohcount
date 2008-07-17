@@ -7,4 +7,8 @@ class Ohcount::ClearsilverTest < Ohcount::Test
 		assert_equal lb, Ohcount::parse(" #comment", "clearsilver")
 	end
 
+	def test_comment_entities
+		assert_equal('#comment', entities_array(" #comment", 'clearsilver', :comment).first)
+	end
+
 end

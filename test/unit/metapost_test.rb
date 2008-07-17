@@ -9,4 +9,8 @@ class Ohcount::MetaPostTest < Ohcount::Test
 	def test_comprehensive
 		verify_parse("metapost.mp")
 	end
+
+	def test_comment_entities
+		assert_equal('%comment', entities_array(" %comment", 'metapost', :comment).first)
+	end
 end

@@ -10,4 +10,9 @@ class Ohcount::RexxTest < Ohcount::Test
 	def test_comprehensive
 		verify_parse("rexx1.rex")
 	end
+
+	def test_comment_entities
+		assert_equal('/*comment*/', entities_array(" /*comment*/", 'rexx', :comment).first)
+	end
+
 end

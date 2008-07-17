@@ -25,4 +25,8 @@ class Ohcount::DclTest < Ohcount::Test
 	def test_comprehensive
 		verify_parse("dcl.com")
 	end
+
+	def test_comment_entities
+		assert_equal('!comment', entities_array(" !comment", 'dcl', :comment).first)
+	end
 end

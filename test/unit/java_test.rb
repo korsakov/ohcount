@@ -13,4 +13,9 @@ class Ohcount::JavaTest < Ohcount::Test
 	def test_comprehensive_with_carriage_returns
 		verify_parse("java2.java")
 	end
+
+	def test_comment_entities
+		assert_equal('//comment', entities_array(" //comment", 'java', :comment).first)
+		assert_equal('/*comment*/', entities_array(" /*comment*/", 'java', :comment).first)
+	end
 end
