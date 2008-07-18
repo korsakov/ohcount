@@ -17,4 +17,9 @@ class Ohcount::PerlTest < Ohcount::Test
 	def test_comprehensive
 		verify_parse("perl_module.pm")
 	end
+
+	def test_comment_entities
+		assert_equal('#comment', entities_array(" #comment", 'perl', :comment).first)
+		assert_equal("=head1\ncomment\n=cut", entities_array("=head1\ncomment\n=cut", 'perl', :comment).first)
+	end
 end

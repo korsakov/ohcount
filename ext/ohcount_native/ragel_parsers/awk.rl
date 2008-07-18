@@ -64,7 +64,14 @@ enum {
     callback(AWK_LANG, awk_entities[entity], cint(ts), cint(te));
   }
 
-  awk_entity := 'TODO:';
+  awk_comment_entity = '#' nonnewline*;
+
+  awk_entity := |*
+    space+             ${ entity = AWK_SPACE;   } => awk_ecallback;
+    awk_comment_entity ${ entity = AWK_COMMENT; } => awk_ecallback;
+    # TODO:
+    ^space;
+  *|;
 }%%
 
 /************************* Required for every parser *************************/

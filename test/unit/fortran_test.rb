@@ -7,4 +7,9 @@ class Ohcount::FortranTest < Ohcount::Test
 		verify_parse("fortranfree.f")
 	end
 
+	def test_comment_entities
+		assert_equal('!comment', entities_array(" !comment", 'fortranfree', :comment).first)
+		assert_equal('C comment', entities_array("C comment", 'fortranfixed', :comment).first)
+	end
+
 end

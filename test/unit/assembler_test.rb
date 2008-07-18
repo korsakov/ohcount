@@ -13,4 +13,9 @@ class Ohcount::AssemblerTest < Ohcount::Test
 	def test_comprehensive_2
 		verify_parse("assembler2.S")
 	end
+
+	def test_comment_entities
+		assert_equal(['//comment', '; comment', '!comment'],
+			entities_array(" //comment\n; comment\n\t!comment", 'assembler', :comment))
+	end
 end

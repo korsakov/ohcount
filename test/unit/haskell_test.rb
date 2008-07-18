@@ -16,11 +16,13 @@ class Ohcount::HaskellTest < Ohcount::Test
         def test_comprehensive_with_carriage_returns
                 verify_parse("haskell2.hs")
         end
-				
+
 				def test_comprehensive_with_nested_comments
                 verify_parse("haskell3.hs")
         end
+
+        def test_comment_entities
+                assert_equal('--comment', entities_array(" --comment", 'haskell', :comment).first)
+                assert_equal('{-comment-}', entities_array(" {-comment-}", 'haskell', :comment).first)
+        end
 end
-
-                
-

@@ -34,4 +34,10 @@ class Ohcount::DTest < Ohcount::Test
 		verify_parse("d1.d")
 	end
 
+	def test_comment_entities
+		assert_equal('//comment', entities_array(" //comment", 'dmd', :comment).first)
+		assert_equal('/*comment*/', entities_array(" /*comment*/", 'dmd', :comment).first)
+		assert_equal('/+comment+/', entities_array(" /+comment+/", 'dmd', :comment).first)
+	end
+
 end

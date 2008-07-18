@@ -120,11 +120,28 @@ enum {
 
   # Entity machine
 
-  action c_ecallback {
+  action d_ecallback {
     callback(D_LANG, d_entities[entity], cint(ts), cint(te));
   }
 
-  d_entity := 'TODO:';
+  d_line_comment_entity = '//' (escaped_newline | nonnewline)*;
+  d_block_comment_entity = '/*' any* :>> '*/';
+  d_nested_comment_entity = '/+' >d_comment_nc_res (
+    '/+' @d_comment_nc_inc
+    |
+    '+/' @d_comment_nc_dec
+    |
+    any
+  )* :>> ('+/' when { nest_count == 0 });
+  d_comment_entity = d_line_comment_entity | d_block_comment_entity |
+    d_nested_comment_entity;
+
+  d_entity := |*
+    space+           ${ entity = D_SPACE;   } => d_ecallback;
+    d_comment_entity ${ entity = D_COMMENT; } => d_ecallback;
+    # TODO:
+    ^space;
+  *|;
 }%%
 
 /************************* Required for every parser *************************/

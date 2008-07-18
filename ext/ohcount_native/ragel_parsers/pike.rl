@@ -73,7 +73,16 @@ enum {
     callback(PIKE_LANG, pike_entities[entity], cint(ts), cint(te));
   }
 
-  pike_entity := 'TODO:';
+  pike_line_comment_entity = '//' nonnewline*;
+  pike_block_comment_entity = '/*' any* :>> '*/';
+  pike_comment_entity = pike_line_comment_entity | pike_block_comment_entity;
+
+  pike_entity := |*
+    space+              ${ entity = PIKE_SPACE;   } => pike_ecallback;
+    pike_comment_entity ${ entity = PIKE_COMMENT; } => pike_ecallback;
+    # TODO:
+    ^space;
+  *|;
 }%%
 
 /************************* Required for every parser *************************/

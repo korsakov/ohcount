@@ -109,7 +109,17 @@ enum {
     callback(PERL_LANG, perl_entities[entity], cint(ts), cint(te));
   }
 
-  perl_entity := 'TODO:';
+  perl_line_comment_entity = '#' nonnewline*;
+  perl_block_comment_entity =
+    ('=' when starts_line) alpha+ any* :>> (('=' when starts_line) 'cut');
+  perl_comment_entity = perl_line_comment_entity | perl_block_comment_entity;
+
+  perl_entity := |*
+    space+              ${ entity = PERL_SPACE;   } => perl_ecallback;
+    perl_comment_entity ${ entity = PERL_COMMENT; } => perl_ecallback;
+    # TODO:
+    ^space;
+  *|;
 }%%
 
 /************************* Required for every parser *************************/

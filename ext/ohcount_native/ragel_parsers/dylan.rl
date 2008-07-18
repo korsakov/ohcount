@@ -73,7 +73,16 @@ enum {
     callback(DYLAN_LANG, dylan_entities[entity], cint(ts), cint(te));
   }
 
-  dylan_entity := 'TODO:';
+  dylan_line_comment_entity = '//' nonnewline*;
+  dylan_block_comment_entity = '/*' any* :>> '*/';
+  dylan_comment_entity = dylan_line_comment_entity | dylan_block_comment_entity;
+
+  dylan_entity := |*
+    space+               ${ entity = DYLAN_SPACE;   } => dylan_ecallback;
+    dylan_comment_entity ${ entity = DYLAN_COMMENT; } => dylan_ecallback;
+    # TODO:
+    ^space;
+  *|;
 }%%
 
 /************************* Required for every parser *************************/

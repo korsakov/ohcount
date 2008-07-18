@@ -64,7 +64,14 @@ enum {
     callback(VHDL_LANG, vhdl_entities[entity], cint(ts), cint(te));
   }
 
-  vhdl_entity := 'TODO:';
+  vhdl_comment_entity = '--' nonnewline*;
+
+  vhdl_entity := |*
+    space+ ${ entity = VHDL_SPACE; } => vhdl_ecallback;
+    vhdl_comment_entity ${ entity = VHDL_COMMENT; } => vhdl_ecallback;
+    # TODO:
+    ^space;
+  *|;
 }%%
 
 /************************* Required for every parser *************************/

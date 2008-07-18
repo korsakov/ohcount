@@ -19,4 +19,9 @@ class Ohcount::PythonTest < Ohcount::Test
 	def test_comprehensive
 		verify_parse("py1.py")
 	end
+
+	def test_comment_entities
+		assert_equal('#comment', entities_array(" #comment", 'python', :comment).first)
+		assert_equal('"""comment"""', entities_array(" \"\"\"comment\"\"\"", 'python', :comment).first)
+	end
 end

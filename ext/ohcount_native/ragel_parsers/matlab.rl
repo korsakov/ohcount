@@ -74,7 +74,17 @@ enum {
     callback(MATLAB_LANG, matlab_entities[entity], cint(ts), cint(te));
   }
 
-  matlab_entity := 'TODO:';
+  matlab_line_comment_entity = ('%' [^{] @{ fhold; } | '#') nonnewline*;
+  matlab_block_comment_entity = '%{' any* :>> '%}';
+  matlab_comment_entity =
+    matlab_line_comment_entity | matlab_block_comment_entity;
+
+  matlab_entity := |*
+    space+                ${ entity = MATLAB_SPACE;   } => matlab_ecallback;
+    matlab_comment_entity ${ entity = MATLAB_COMMENT; } => matlab_ecallback;
+    # TODO:
+    ^space;
+  *|;
 }%%
 
 /************************* Required for every parser *************************/

@@ -69,7 +69,14 @@ enum {
     callback(SMALLTALK_LANG, smalltalk_entities[entity], cint(ts), cint(te));
   }
 
-  smalltalk_entity := 'TODO:';
+  smalltalk_comment_entity = '"' any* :>> '"';
+
+  smalltalk_entity := |*
+    space+                   ${ entity = SMALLTALK_SPACE;   } => smalltalk_ecallback;
+    smalltalk_comment_entity ${ entity = SMALLTALK_COMMENT; } => smalltalk_ecallback;
+    # TODO:
+    ^space;
+  *|;
 }%%
 
 /************************* Required for every parser *************************/

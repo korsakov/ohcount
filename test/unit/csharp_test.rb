@@ -10,4 +10,10 @@ class Ohcount::CSharpTest < Ohcount::Test
 	def test_comprehensive
 		verify_parse("cs1.cs")
 	end
+
+	def test_comment_entities
+		assert_equal('//comment', entities_array(" //comment", 'csharp', :comment).first)
+		assert_equal('/*comment*/', entities_array(" /*comment*/", 'csharp', :comment).first)
+	end
+
 end

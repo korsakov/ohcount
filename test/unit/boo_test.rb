@@ -29,4 +29,9 @@ class Ohcount::BooTest < Ohcount::Test
 	def test_comprehensive
 		verify_parse("boo1.boo")
 	end
+
+	def test_comment_entities
+		assert_equal('#comment', entities_array(" #comment", 'boo', :comment).first)
+		assert_equal('//comment', entities_array(" //comment", 'boo', :comment).first)
+	end
 end

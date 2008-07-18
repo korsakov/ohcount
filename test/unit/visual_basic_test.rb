@@ -9,4 +9,9 @@ class Ohcount::VisualBasicTest < Ohcount::Test
 	def test_comprehensive
 		verify_parse("frx1.frx")
 	end
+
+	def test_comment_entities
+		assert_equal('\'comment', entities_array(" 'comment", 'visualbasic', :comment).first)
+		assert_equal('Rem comment', entities_array(" Rem comment", 'visualbasic', :comment).first)
+	end
 end

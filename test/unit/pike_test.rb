@@ -18,4 +18,9 @@ class Ohcount::PikeTest < Ohcount::Test
 	def test_comprehensive_pmod
 		verify_parse("pike2.pmod")
 	end
+
+	def test_comment_entities
+		assert_equal('//comment', entities_array(" //comment", 'pike', :comment).first)
+		assert_equal('/*comment*/', entities_array(" /*comment*/", 'pike', :comment).first)
+	end
 end

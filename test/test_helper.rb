@@ -11,10 +11,10 @@ require TEST_DIR + '/../lib/ohcount'
 # ==== Manual Testing
 #
 # To manually test a parser, rebuild ohcount and run it against your test file:
-# 
+#
 #   rake
 #   bin/ohcount --annotate test/src_dir/my_file.ext
-# 
+#
 # The +annotate+ option will emit your test file to the console, and each line will be
 # labeled as code, comment, or blank.
 #
@@ -136,6 +136,14 @@ class Ohcount::Test < Test::Unit::TestCase
 
 		# compare
 		assert_equal src_file_lines, (code_lines + comment_lines + blanks), "wc -l of output (code, comment, blanks) doesn't match the 'wc -l' of original"
+	end
+
+	def entities_array(src_string, polyglot, *entities)
+		arr = Array.new
+		Ohcount::parse_entities(src_string, polyglot) do |lang, entity, s, e|
+			arr << src_string[s...e] if lang == polyglot.to_sym && entities.include?(entity)
+		end
+		arr
 	end
 end
 

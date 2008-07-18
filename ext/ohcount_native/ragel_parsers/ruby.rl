@@ -141,7 +141,17 @@ enum {
     callback(RUBY_LANG, ruby_entities[entity], cint(ts), cint(te));
   }
 
-  ruby_entity := 'TODO:';
+  ruby_line_comment_entity = '#' nonnewline*;
+  ruby_block_comment_entity = ('=' when starts_line) 'begin'
+    any* :>> (('=' when starts_line) 'end');
+  ruby_comment_entity = ruby_line_comment_entity | ruby_block_comment_entity;
+
+  ruby_entity := |*
+    space+              ${ entity = RUBY_SPACE;   } => ruby_ecallback;
+    ruby_comment_entity ${ entity = RUBY_COMMENT; } => ruby_ecallback;
+    # TODO:
+    ^space;
+  *|;
 }%%
 
 /************************* Required for every parser *************************/

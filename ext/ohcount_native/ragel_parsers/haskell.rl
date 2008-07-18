@@ -91,7 +91,23 @@ enum {
     callback(HASKELL_LANG, haskell_entities[entity], cint(ts), cint(te));
   }
 
-  haskell_entity := 'TODO:';
+  haskell_line_comment_entity = '--' [^>] @{ fhold; } nonnewline*;
+  haskell_block_comment_entity = '{-' >haskell_comment_nc_res (
+    '{-' @haskell_comment_nc_inc
+    |
+    '-}' @haskell_comment_nc_dec
+    |
+    any
+  )* :>> ('-}' when { nest_count == 0 });
+  haskell_comment_entity =
+    haskell_line_comment_entity | haskell_block_comment_entity;
+
+  haskell_entity := |*
+    space+                 ${ entity = HASKELL_SPACE;   } => haskell_ecallback;
+    haskell_comment_entity ${ entity = HASKELL_COMMENT; } => haskell_ecallback;
+    # TODO:
+    ^space;
+  *|;
 }%%
 
 /************************* Required for every parser *************************/

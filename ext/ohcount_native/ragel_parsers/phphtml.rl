@@ -155,7 +155,14 @@ enum {
     callback(PHTML_LANG, phtml_entities[entity], cint(ts), cint(te));
   }
 
-  phtml_entity := 'TODO:';
+  phtml_comment_entity = '<!--' any* :>> '-->';
+
+  phtml_entity := |*
+    space+               ${ entity = PHTML_SPACE;   } => phtml_ecallback;
+    phtml_comment_entity ${ entity = PHTML_COMMENT; } => phtml_ecallback;
+    # TODO:
+    ^space;
+  *|;
 }%%
 
 /************************* Required for every parser *************************/

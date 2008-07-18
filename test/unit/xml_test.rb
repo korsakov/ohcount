@@ -9,4 +9,8 @@ class Ohcount::XmlTest < Ohcount::Test
 	def test_comprehensive
 		verify_parse("xml1.xml")
 	end
+
+	def test_comment_entities
+		assert_equal('<!--comment-->', entities_array(" <!--comment-->", 'xml', :comment).first)
+	end
 end

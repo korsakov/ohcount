@@ -60,7 +60,14 @@ enum {
     callback(EIFFEL_LANG, eiffel_entities[entity], cint(ts), cint(te));
   }
 
-  eiffel_entity := 'TODO:';
+  eiffel_comment_entity = '--' nonnewline*;
+
+  eiffel_entity := |*
+    space+                ${ entity = EIFFEL_SPACE;   } => eiffel_ecallback;
+    eiffel_comment_entity ${ entity = EIFFEL_COMMENT; } => eiffel_ecallback;
+    # TODO:
+    ^space;
+  *|;
 }%%
 
 /************************* Required for every parser *************************/

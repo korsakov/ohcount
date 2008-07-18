@@ -9,4 +9,8 @@ class Ohcount::MetaFontTest < Ohcount::Test
 	def test_comprehensive
 		verify_parse("metafont.mf")
 	end
+
+	def test_comment_entities
+		assert_equal('%comment', entities_array(" %comment", 'metafont', :comment).first)
+	end
 end

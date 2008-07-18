@@ -92,7 +92,16 @@ enum {
     callback(PHP_LANG, php_entities[entity], cint(ts), cint(te));
   }
 
-  php_entity := 'TODO:';
+  php_line_comment_entity = ('#' | '//') nonnewline*;
+  php_block_comment_entity = '/*' any* :>> '*/';
+  php_comment_entity = php_line_comment_entity | php_block_comment_entity;
+
+  php_entity := |*
+    space+             ${ entity = PHP_SPACE;   } => php_ecallback;
+    php_comment_entity ${ entity = PHP_COMMENT; } => php_ecallback;
+    # TODO:
+    ^space;
+  *|;
 }%%
 
 /************************* Required for every parser *************************/

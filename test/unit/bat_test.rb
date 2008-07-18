@@ -9,4 +9,8 @@ class Ohcount::BatTest < Ohcount::Test
 	def test_comprehensive
 		verify_parse("bat1.bat")
 	end
+
+	def test_comment_entities
+		assert_equal('rem comment', entities_array(" rem comment", 'bat', :comment).first)
+	end
 end

@@ -89,7 +89,18 @@ enum {
     callback(PASCAL_LANG, pascal_entities[entity], cint(ts), cint(te));
   }
 
-  pascal_entity := 'TODO:';
+  pascal_line_comment_entity = '//' nonnewline*;
+  pascal_old_block_comment_entity = '(*' any* :>> '*)';
+  pascal_turbo_block_comment_entity = '{' any* :>> '}';
+  pascal_comment_entity = pascal_line_comment_entity |
+    pascal_old_block_comment_entity | pascal_turbo_block_comment_entity;
+
+  pascal_entity := |*
+    space+                ${ entity = PASCAL_SPACE;   } => pascal_ecallback;
+    pascal_comment_entity ${ entity = PASCAL_COMMENT; } => pascal_ecallback;
+    # TODO:
+    ^space;
+  *|;
 }%%
 
 /************************* Required for every parser *************************/

@@ -73,7 +73,16 @@ enum {
     callback(SCALA_LANG, scala_entities[entity], cint(ts), cint(te));
   }
 
-  scala_entity := 'TODO:';
+  scala_line_comment_entity = '//' nonnewline*;
+  scala_block_comment_entity = '/*' any* :>> '*/';
+  scala_comment_entity = scala_line_comment_entity | scala_block_comment_entity;
+
+  scala_entity := |*
+    space+               ${ entity = SCALA_SPACE;   } => scala_ecallback;
+    scala_comment_entity ${ entity = SCALA_COMMENT; } => scala_ecallback;
+    # TODO:
+    ^space;
+  *|;
 }%%
 
 /************************* Required for every parser *************************/

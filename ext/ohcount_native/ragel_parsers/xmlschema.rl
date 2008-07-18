@@ -84,7 +84,15 @@ enum {
     callback(XMLSCHEMA_LANG, xmlschema_entities[entity], cint(ts), cint(te));
   }
 
-  xmlschema_entity := 'TODO:';
+  xmlschema_comment_entity = '<!--' any* :>> '-->';
+
+  xmlschema_entity := |*
+    space+                   ${ entity = XMLSCHEMA_SPACE;   } => xmlschema_ecallback;
+    xmlschema_comment_entity ${ entity = XMLSCHEMA_COMMENT; } => xmlschema_ecallback;
+    # TODO:
+    ^space;
+  *|;
+
 }%%
 
 /************************* Required for every parser *************************/

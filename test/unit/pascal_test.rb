@@ -10,4 +10,10 @@ class Ohcount::PascalTest < Ohcount::Test
 		verify_parse("pascal1.pas")
 		verify_parse("pascal2.pp")
 	end
+
+	def test_comment_entities
+		assert_equal('//comment', entities_array(" //comment", 'pascal', :comment).first)
+		assert_equal('(*comment*)', entities_array(" (*comment*)", 'pascal', :comment).first)
+		assert_equal('{comment}', entities_array(" {comment}", 'pascal', :comment).first)
+	end
 end

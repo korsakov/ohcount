@@ -9,4 +9,8 @@ class Ohcount::ShellTest < Ohcount::Test
 	def test_comprehensive
 		verify_parse("sh1.sh")
 	end
+
+	def test_comment_entities
+		assert_equal('#comment', entities_array(" #comment", 'shell', :comment).first)
+	end
 end

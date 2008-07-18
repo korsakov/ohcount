@@ -27,4 +27,9 @@ class Ohcount::CTest < Ohcount::Test
 		verify_parse("c2.h.in")
 	end
 
+	def test_comment_entities
+		assert_equal('//comment', entities_array(" //comment", 'c', :comment).first)
+		assert_equal('/*comment*/', entities_array(" /*comment*/", 'c', :comment).first)
+	end
+
 end

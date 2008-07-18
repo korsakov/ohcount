@@ -101,8 +101,8 @@ class OhcountCommandLine
 			sfc = Ohcount::SimpleFileContext.new(file, files)
 			polyglot = Ohcount::Detector.detect(sfc) || next
       comments = ''
-      Ohcount::parse(sfc.contents, polyglot) do |language, semantic, line|
-        comments << line if semantic == :comment
+      Ohcount::parse_entities(sfc.contents, polyglot) do |language, entity, s, e|
+        comments << sfc.contents[s...e] if entity == :comment # e is non-inclusive, so use ...
       end
       licenses = LicenseSniffer.sniff(comments)
       if licenses.any?

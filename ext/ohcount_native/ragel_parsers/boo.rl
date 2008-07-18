@@ -92,7 +92,22 @@ enum {
     callback(BOO_LANG, boo_entities[entity], cint(ts), cint(te));
   }
 
-  boo_entity := 'TODO:';
+  boo_line_comment_entity = ('#' | '//') nonnewline*;
+  boo_block_comment_entity = '/*' >boo_comment_nc_res (
+    '/*' @boo_comment_nc_inc
+    |
+    '*/' @boo_comment_nc_dec
+    |
+    any
+  )* :>> ('*/' when { nest_count == 0 });
+  boo_comment_entity = boo_line_comment_entity | boo_block_comment_entity;
+
+  boo_entity := |*
+    space+             ${ entity = BOO_SPACE;   } => boo_ecallback;
+    boo_comment_entity ${ entity = BOO_COMMENT; } => boo_ecallback;
+    # TODO:
+    ^space;
+  *|;
 }%%
 
 /************************* Required for every parser *************************/

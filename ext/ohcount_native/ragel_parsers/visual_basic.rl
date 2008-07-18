@@ -62,7 +62,14 @@ enum {
     callback(VB_LANG, vb_entities[entity], cint(ts), cint(te));
   }
 
-  vb_entity := 'TODO:';
+  vb_comment_entity = ('\'' | /rem/i) nonnewline*;
+
+  vb_entity := |*
+    space+            ${ entity = VB_SPACE;   } => vb_ecallback;
+    vb_comment_entity ${ entity = VB_COMMENT; } => vb_ecallback;
+    # TODO:
+    ^space;
+  *|;
 }%%
 
 /************************* Required for every parser *************************/

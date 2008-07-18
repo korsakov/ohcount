@@ -30,4 +30,9 @@ class Ohcount::LispTest < Ohcount::Test
 	def test_comprehensive
 		verify_parse("lsp1.lsp")
 	end
+
+	def test_comment_entities
+		assert_equal(';comment', entities_array(" ;comment", 'lisp', :comment).first)
+	end
+
 end

@@ -41,12 +41,12 @@ enum {
       std_newline(OCAML_LANG)
     }
   }
-	
+
   action ocaml_comment_nc_res { nest_count = 0; }
   action ocaml_comment_nc_inc { nest_count++; }
   action ocaml_comment_nc_dec { nest_count--; }
 
-  ocaml_nested_block_comment = 
+  ocaml_nested_block_comment =
 		'(*' >ocaml_comment_nc_res @comment (
 			newline %{ entity = INTERNAL_NL; } %ocaml_ccallback
 			|
@@ -77,7 +77,20 @@ enum {
     callback(OCAML_LANG, ocaml_entities[entity], cint(ts), cint(te));
   }
 
-  ocaml_entity := 'TODO:';
+  ocaml_comment_entity = '(*' >ocaml_comment_nc_res (
+    '(*' @ocaml_comment_nc_inc
+    |
+    '*)' @ocaml_comment_nc_dec
+    |
+    any
+  )* :>> ('*)' when { nest_count == 0 });
+
+  ocaml_entity := |*
+    space+               ${ entity = OCAML_SPACE;   } => ocaml_ecallback;
+    ocaml_comment_entity ${ entity = OCAML_COMMENT; } => ocaml_ecallback;
+    # TODO:
+    ^space;
+  *|;
 }%%
 
 /************************* Required for every parser *************************/

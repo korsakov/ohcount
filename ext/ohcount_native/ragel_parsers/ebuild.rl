@@ -64,7 +64,14 @@ enum {
     callback(EBUILD_LANG, ebuild_entities[entity], cint(ts), cint(te));
   }
 
-  ebuild_entity := 'TODO:';
+  ebuild_comment_entity = '#' nonnewline*;
+
+  ebuild_entity := |*
+    space+                ${ entity = EBUILD_SPACE;   } => ebuild_ecallback;
+    ebuild_comment_entity ${ entity = EBUILD_COMMENT; } => ebuild_ecallback;
+    # TODO:
+    ^space;
+  *|;
 }%%
 
 /************************* Required for every parser *************************/

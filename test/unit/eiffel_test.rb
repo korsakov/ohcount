@@ -9,4 +9,9 @@ class Ohcount::EiffelTest < Ohcount::Test
 	def test_comprehensive
 		verify_parse("eiffel.e")
 	end
+
+	def test_comment_entities
+		assert_equal('--comment', entities_array(" --comment", 'eiffel', :comment).first)
+	end
+
 end

@@ -130,7 +130,14 @@ enum {
     callback(MXML_LANG, mxml_entities[entity], cint(ts), cint(te));
   }
 
-  mxml_entity := 'TODO:';
+  mxml_comment_entity = '<!--' any* :>> '-->';
+
+  mxml_entity := |*
+    space+              ${ entity = MXML_SPACE;   } => mxml_ecallback;
+    mxml_comment_entity ${ entity = MXML_COMMENT; } => mxml_ecallback;
+    # TODO:
+    ^space;
+  *|;
 }%%
 
 /************************* Required for every parser *************************/

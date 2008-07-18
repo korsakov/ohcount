@@ -62,7 +62,14 @@ enum {
     callback(METAFONT_LANG, metafont_entities[entity], cint(ts), cint(te));
   }
 
-  metafont_entity := 'TODO:';
+  metafont_comment_entity = '%' nonnewline*;
+
+  metafont_entity := |*
+    space+                  ${ entity = METAFONT_SPACE;   } => metafont_ecallback;
+    metafont_comment_entity ${ entity = METAFONT_COMMENT; } => metafont_ecallback;
+    # TODO:
+    ^space;
+  *|;
 }%%
 
 /************************* Required for every parser *************************/
