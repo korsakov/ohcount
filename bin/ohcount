@@ -92,20 +92,7 @@ class OhcountCommandLine
   # Licenses
   def licenses
 		files.each do |file|
-			sfc = Ohcount::SimpleFileContext.new(file, files)
-			polyglot = Ohcount::Detector.detect(sfc) || next
-      comments = ''
-      Ohcount::parse_entities(sfc.contents, polyglot) do |language, entity, s, e|
-        if entity == :comment
-          text = sfc.contents[s...e] # e is non-inclusive, so use ...
-          text.split(/[\r\n\f]+/).each do |line|
-            line.scan(/^[\s[:punct:]]*(.*)$/).each do |ctext|
-              comments << ' ' + ctext[0]
-            end
-          end
-        end
-      end
-      licenses = LicenseSniffer.sniff(comments)
+			licenses = LicenseSniffer.licenses_from_source_code(file, files)
       if licenses.any?
         symbols = licenses.collect { |l| LicenseSniffer::LicenseMap.instance.map[l].symbol }.join(",")
         puts "#{symbols}\t#{file}"

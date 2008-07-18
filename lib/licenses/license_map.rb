@@ -346,7 +346,8 @@ module LicenseSniffer
 			# gpl3 is more specific than gpl, so only include gpl3.  Be careful -- we don't want to miss cases that are conflicts
 			@license_overrides = {
 				:gpl => [ :gpl3, :gpl3_or_later],
-				:gpl3 => [ :gpl3_or_later]
+				:gpl3 => [ :gpl3_or_later],
+				:bsd_ish => [:bsd_2clause_ish]
 			}
 		end
 	end
