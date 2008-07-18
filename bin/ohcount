@@ -1,11 +1,11 @@
 #!/usr/bin/env ruby
 begin
-	# First assume we are installed as a gem
-	require 'rubygems'
+	# First, try to load our files from the source tree
+	$: << "#{File.dirname(__FILE__)}/../lib"
 	require 'ohcount'
 rescue LoadError
-	# Failing that, try to load our files from the source tree
-	$: << "#{File.dirname(__FILE__)}/../lib"
+	# Failing that, try to load from a gem
+	require 'rubygems'
 	require 'ohcount'
 end
 
