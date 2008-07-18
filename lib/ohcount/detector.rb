@@ -141,6 +141,7 @@ class Ohcount::Detector
 		'.exheres-0' => "exheres",
 		'.exlib' => "exheres",
 		'.f'    => :disambiguate_fortran,
+		'.factor' => "factor",
 		'.ftn'  => :disambiguate_fortran,
 		'.f77'  => :disambiguate_fortran,
 		'.f90'  => :disambiguate_fortran,

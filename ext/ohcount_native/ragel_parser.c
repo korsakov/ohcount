@@ -24,6 +24,7 @@
 #include "eiffel_parser.h"
 #include "erlang_parser.h"
 #include "exheres_parser.h"
+#include "factor_parser.h"
 #include "fortranfixed_parser.h"
 #include "fortranfree_parser.h"
 #include "groovy_parser.h"
@@ -99,6 +100,7 @@ struct language languages[] = {
   { "erlang", parse_erlang },
   { "exheres", parse_exheres },
   { "emacslisp", parse_emacslisp },
+  { "factor", parse_factor },
   { "fortranfixed", parse_fortranfixed },
   { "fortranfree", parse_fortranfree },
   { "groovy", parse_groovy },
