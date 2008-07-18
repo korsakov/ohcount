@@ -155,9 +155,47 @@ enum {
     callback(PHTML_LANG, phtml_entities[entity], cint(ts), cint(te));
   }
 
+  phtml_css_entry_entity = '<' /style/i [^>]+ :>> 'text/css' [^>]+ '>';
+  phtml_css_outry_entity = '</' /style/i ws_or_inl* '>';
+  phtml_css_entity := |*
+    phtml_css_outry_entity @{ fret; };
+    # unmodified CSS patterns
+    space+             ${ entity = CSS_SPACE;   } => css_ecallback;
+    css_comment_entity ${ entity = CSS_COMMENT; } => css_ecallback;
+    # TODO:
+    ^space;
+  *|;
+
+  phtml_js_entry_entity = '<' /script/i [^>]+ :>> 'text/javascript' [^>]+ '>';
+  phtml_js_outry_entity = '</' /script/i ws_or_inl* '>';
+  phtml_js_entity := |*
+    phtml_js_outry_entity @{ fret; };
+    # unmodified Javascript patterns
+    space+            ${ entity = JS_SPACE;   } => js_ecallback;
+    js_comment_entity ${ entity = JS_COMMENT; } => js_ecallback;
+    # TODO:
+    ^space;
+  *|;
+
+  phtml_php_entry_entity = '<?' 'php'?;
+  phtml_php_outry_entity = '?>';
+  phtml_php_entity := |*
+    phtml_php_outry_entity @{ fret; };
+    # unmodified PHP patterns
+    space+             ${ entity = PHP_SPACE;   } => php_ecallback;
+    php_comment_entity ${ entity = PHP_COMMENT; } => php_ecallback;
+    # TODO:
+    ^space;
+  *|;
+
   phtml_comment_entity = '<!--' any* :>> '-->';
 
   phtml_entity := |*
+    # TODO: phtml_ecallback for phtml_*_{entry,outry}_entity
+    phtml_css_entry_entity => { fcall phtml_css_entity; };
+    phtml_js_entry_entity  => { fcall phtml_js_entity;  };
+    phtml_php_entry_entity => { fcall phtml_php_entity; };
+    # standard PHML patterns
     space+               ${ entity = PHTML_SPACE;   } => phtml_ecallback;
     phtml_comment_entity ${ entity = PHTML_COMMENT; } => phtml_ecallback;
     # TODO:
