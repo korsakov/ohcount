@@ -155,9 +155,47 @@ enum {
     callback(RHTML_LANG, rhtml_entities[entity], cint(ts), cint(te));
   }
 
+  rhtml_css_entry_entity = '<' /style/i [^>]+ :>> 'text/css' [^>]+ '>';
+  rhtml_css_outry_entity = '</' /style/i ws_or_inl* '>';
+  rhtml_css_entity := |*
+    rhtml_css_outry_entity @{ fret; };
+    # unmodified CSS patterns
+    space+             ${ entity = CSS_SPACE;   } => css_ecallback;
+    css_comment_entity ${ entity = CSS_COMMENT; } => css_ecallback;
+    # TODO:
+    ^space;
+  *|;
+
+  rhtml_js_entry_entity = '<' /script/i [^>]+ :>> 'text/javascript' [^>]+ '>';
+  rhtml_js_outry_entity = '</' /script/i ws_or_inl* '>';
+  rhtml_js_entity := |*
+    rhtml_js_outry_entity @{ fret; };
+    # unmodified Javascript patterns
+    space+            ${ entity = JS_SPACE;   } => js_ecallback;
+    js_comment_entity ${ entity = JS_COMMENT; } => js_ecallback;
+    # TODO:
+    ^space;
+  *|;
+
+  rhtml_ruby_entry_entity = '<%';
+  rhtml_ruby_outry_entity = '%>';
+  rhtml_ruby_entity := |*
+    rhtml_ruby_outry_entity @{ fret; };
+    # unmodified Ruby patterns
+    space+              ${ entity = RUBY_SPACE;   } => ruby_ecallback;
+    ruby_comment_entity ${ entity = RUBY_COMMENT; } => ruby_ecallback;
+    # TODO:
+    ^space;
+  *|;
+
   rhtml_comment_entity = '<!--' any* :>> '-->';
 
   rhtml_entity := |*
+    # TODO: rhtml_ecallback for rhtml_*_{entry,outry}_entity
+    rhtml_css_entry_entity  => { fcall rhtml_css_entity;  };
+    rhtml_js_entry_entity   => { fcall rhtml_js_entity;   };
+    rhtml_ruby_entry_entity => { fcall rhtml_ruby_entity; };
+    # standard RHTML patterns
     space+               ${ entity = RHTML_SPACE;   } => rhtml_ecallback;
     rhtml_comment_entity ${ entity = RHTML_COMMENT; } => rhtml_ecallback;
     # TODO:

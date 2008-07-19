@@ -155,9 +155,47 @@ enum {
     callback(JSP_LANG, jsp_entities[entity], cint(ts), cint(te));
   }
 
+  jsp_css_entry_entity = '<' /style/i [^>]+ :>> 'text/css' [^>]+ '>';
+  jsp_css_outry_entity = '</' /style/i ws_or_inl* '>';
+  jsp_css_entity := |*
+    jsp_css_outry_entity @{ fret; };
+    # unmodified CSS patterns
+    space+             ${ entity = CSS_SPACE;   } => css_ecallback;
+    css_comment_entity ${ entity = CSS_COMMENT; } => css_ecallback;
+    # TODO:
+    ^space;
+  *|;
+
+  jsp_js_entry_entity = '<' /script/i [^>]+ :>> 'text/javascript' [^>]+ '>';
+  jsp_js_outry_entity = '</' /script/i ws_or_inl* '>';
+  jsp_js_entity := |*
+    jsp_js_outry_entity @{ fret; };
+    # unmodified Javascript patterns
+    space+            ${ entity = JS_SPACE;   } => js_ecallback;
+    js_comment_entity ${ entity = JS_COMMENT; } => js_ecallback;
+    # TODO:
+    ^space;
+  *|;
+
+  jsp_java_entry_entity = '<%';
+  jsp_java_outry_entity = '%>';
+  jsp_java_entity := |*
+    jsp_java_outry_entity @{ fret; };
+    # unmodified Java patterns
+    space+              ${ entity = JAVA_SPACE;   } => java_ecallback;
+    java_comment_entity ${ entity = JAVA_COMMENT; } => java_ecallback;
+    # TODO:
+    ^space;
+  *|;
+
   jsp_comment_entity = '<!--' any* :>> '-->';
 
   jsp_entity := |*
+    # TODO: jsp_ecallback for jsp_*_{entry,outry}_entity
+    jsp_css_entry_entity  => { fcall jsp_css_entity;  };
+    jsp_js_entry_entity   => { fcall jsp_js_entity;   };
+    jsp_java_entry_entity => { fcall jsp_java_entity; };
+    # standard JSP patterns
     space+             ${ entity = JSP_SPACE;   } => jsp_ecallback;
     jsp_comment_entity ${ entity = JSP_COMMENT; } => jsp_ecallback;
     # TODO:

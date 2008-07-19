@@ -82,9 +82,23 @@ enum {
     callback(MPTEX_LANG, mptex_entities[entity], cint(ts), cint(te));
   }
 
+  mptex_tex_entry_entity = 'verbatimtex' | 'btex';
+  mptex_tex_outry_entity = 'etex';
+  mptex_tex_entity := |*
+    mptex_tex_outry_entity @{ fret; };
+    # unmodified Tex patterns
+    space+             ${ entity = TEX_SPACE;   } => tex_ecallback;
+    tex_comment_entity ${ entity = TEX_COMMENT; } => tex_ecallback;
+    # TODO:
+    ^space;
+  *|;
+
   mptex_comment_entity = '%' nonnewline*;
 
   mptex_entity := |*
+    # TODO: mptex_ecallback for mptex_*_{entry,outry}_entity
+    mptex_tex_entry_entity => { fcall mptex_tex_entity; };
+    # standard mptex patterns
     space+               ${ entity = MPTEX_SPACE;   } => mptex_ecallback;
     mptex_comment_entity ${ entity = MPTEX_COMMENT; } => mptex_ecallback;
     # TODO:
