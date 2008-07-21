@@ -11,4 +11,10 @@ class Ohcount::ClearsilverTemplateTest < Ohcount::Test
 	def test_comprehensive
 		verify_parse("clearsilver_template1.cs")
 	end
+
+	def test_comment_entities
+		assert_equal('<!--comment-->', entities_array(" <!--comment-->", 'clearsilver_template', :comment).first)
+		assert_equal('#comment', entities_array("<?cs\n#comment\n?>", 'clearsilver_template', :comment).first)
+	end
+
 end
