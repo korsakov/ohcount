@@ -209,6 +209,7 @@ class Ohcount::Detector
 		'.sh'   => "shell",
 		'.sql'  => "sql",
 		'.st'   => "smalltalk",
+    '.str'  => "stratego",
 		'.tcl'  => "tcl",
 		'.tpl'  => "html",
 		'.vala' => "vala",

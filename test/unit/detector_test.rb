@@ -70,6 +70,7 @@ class Ohcount::DetectorTest < Ohcount::Test
 		assert_equal "exheres", do_detect("foo.exlib")
 		assert_equal "eiffel", do_detect("eiffel.e")
 		assert_equal "ocaml", do_detect("ocaml.ml")
+		assert_equal "stratego", do_detect("stratego.str")
 	end
 
 	def test_upper_case_extensions
