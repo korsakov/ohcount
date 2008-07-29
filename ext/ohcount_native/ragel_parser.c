@@ -54,6 +54,7 @@
 #include "scala_parser.h"
 #include "shell_parser.h"
 #include "smalltalk_parser.h"
+#include "stratego_parser.h"
 #include "structured_basic_parser.h"
 #include "sql_parser.h"
 #include "tcl_parser.h"
@@ -131,6 +132,7 @@ struct language languages[] = {
   { "scheme", parse_scheme },
   { "shell", parse_shell },
   { "smalltalk", parse_smalltalk },
+  { "stratego", parse_stratego },
   { "structured_basic", parse_structured_basic },
   { "sql", parse_sql },
   { "tcl", parse_tcl },
