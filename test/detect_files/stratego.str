@@ -1,0 +1,23 @@
+/** 
+ * Sample code from Stratego XT Manual
+ */
+
+rules
+  InlineF :
+    |[ let f(xs) = e in e'[f(es)] ]| ->
+    |[ let f(xs) = e in e'[e[es/xs]] ]|
+
+  InlineV :
+    |[ let x = e in e'[x] ]| -> |[ let x = e in e'[e] ]|
+
+  Dead :
+    |[ let x = e in e' ]| -> |[ e' ]|
+    where <not(in)> (x,e')
+
+  Extract(f,xs) :
+    |[ e ]| -> |[ let f(xs) = e in f(xs) ]|
+
+  Hoist :
+    |[ let x = e1 in let f(xs) = e2 in e3 ]| ->
+    |[ let f(xs) = e2 in let x = e1 in e3 ]|
+    where <not(in)> (x, <free-vars> e2)

@@ -87,6 +87,7 @@ class Ohcount::SlocInfo
 			'scala'         => {:nice_name => 'Scala'            , :category => 0},
 			'shell'         => {:nice_name => 'shell script'     , :category => 0},
 			'smalltalk'     => {:nice_name => 'Smalltalk'        , :category => 0},
+      'stratego'      => {:nice_name => 'Stratego'         , :category => 0},
 			'structured_basic'   => {:nice_name => 'Structured Basic'     , :category => 0},
 			'sql'           => {:nice_name => 'SQL'              , :category => 0},
 			'tcl'           => {:nice_name => 'Tcl'              , :category => 0},
