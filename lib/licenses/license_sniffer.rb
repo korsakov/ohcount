@@ -65,9 +65,8 @@ module LicenseSniffer
       if entity == :comment
         text = sfc.contents[s...e] # e is non-inclusive, so use ...
         text.split(/[\r\n\f]+/).each do |line|
-					# Strip leading punctuation. Also strip trailing punctuation
-					# if it is padded with leading white space.
-          comments << ' ' + $1 if line =~ /^[\s[:punct:]]*(.*?)(\s+[\s[:punct:]]*)*$/
+					# Strip leading punctuation.
+          comments << ' ' + $1 if line =~ /^[\s[:punct:]]*(.*?)$/
         end
       end
     end
