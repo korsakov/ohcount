@@ -115,7 +115,7 @@ module LicenseSniffer
 			SoftwareLicense.new(:gpl3_or_later,
 			"http://www.gnu.org/licenses/gpl-3.0.html",
 			"GNU General Public License 3.0",
-			/GNU GENERAL PUBLIC LICENSE.{0,100}Version 3.{0,50}later version/im),
+			/\b(GNU GENERAL PUBLIC LICENSE|GPL).{0,100}(Version)? 3.{0,50}later/im),
 
 			SoftwareLicense.new(:gpl3,
 			"http://www.gnu.org/licenses/gpl-3.0.html",
