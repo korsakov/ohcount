@@ -1,3 +1,5 @@
+// haml.rl written by Fedor Korsakov. spiritusobscurus at gmail dot com
+
 /************************* Required for every parser *************************/
 #ifndef RAGEL_HAML_PARSER
 #define RAGEL_HAML_PARSER
@@ -51,14 +53,23 @@ enum {
 	action haml_indent_level_inc { current_indent_level++; }
 	action haml_indent_level_res { current_indent_level = 0; }
   action haml_indent_level_set { prior_indent_level = current_indent_level; }
+  action curly_inc { curly_level++; }
+  action curly_dec { curly_level--; }
+  action square_inc { square_level++; }
+  action square_dec { square_level--; }
 
 	haml_indent = ([ ]{2}) @haml_indent_level_inc;
   haml_indent_init = ([ ]{2} >haml_indent_level_res @haml_indent_level_inc)? haml_indent*;
   haml_eol = newline >haml_indent_level_res;
-  haml_special_char = [/\.];
+  haml_special_char = [/\.%];
   haml_ruby_evaluator = ("=" | "-" | "==" | "&=" | "!=");
   haml_comment_delimiter = ("-#" | "/");
 
+  #idea needs development
+  haml_xhtml_tag_modifier =
+    (( '{' >curly_inc ) | ( '[' >square_inc ));
+
+  haml_xhtml_tag = "%" (nonnewline-ws)+ - haml_ruby_evaluator;
 
   haml_block_line_transition =
     haml_eol %{ entity = INTERNAL_NL;} %haml_ccallback
@@ -82,20 +93,21 @@ enum {
     (nonnewline - ws - haml_special_char - haml_ruby_evaluator - haml_comment_delimiter)
     @code nonnewline*;
 
-  haml_ruby_block_entry = 
-    haml_indent* haml_ruby_evaluator @haml_indent_level_set @code @haml_indent_level_res
-    @{printf("\n%s\n%d\n%s\n", "reached entry", prior_indent_level, ts);};
+  haml_ruby_entry = 
+    ([ ]{2})*
+    haml_xhtml_tag{,1}
+    haml_ruby_evaluator ws @code;
+    #@haml_ccallback @{printf("\n%s\t%d\t%s\n", "reached entry", prior_indent_level, ts);};
 
-  haml_ruby_block_outry = 
-    ( nonnewline when starts_line ) @{fhold;}
-    ( haml_indent when {current_indent_level < prior_indent_level})*
-    (nonnewline - ws - haml_ruby_evaluator) @{fhold;}
-    @check_blank_outry
-    @haml_indent_level_res
-    @{printf("\n%s\n%d\n%s\n", "reached outry", current_indent_level, ts);};
+  haml_ruby_outry =
+    newline %{ entity = INTERNAL_NL;} %haml_ccallback
+    any @{fhold;};
+    #@haml_indent_level_res;
+    #@code;
+    #@{printf("\n%s\t%d\t%s\n", "reached outry", current_indent_level, ts);};
 
   haml_ruby_line := |*
-    haml_ruby_block_outry @{ p = ts; fret; };
+    haml_ruby_outry @{ p = ts; fret; };
     spaces        ${ entity = RUBY_SPACE; } => ruby_ccallback;
     ruby_comment;
     ruby_string;
@@ -104,7 +116,7 @@ enum {
   *|;
 
   haml_line := |*
-    haml_ruby_block_entry @{entity = CHECK_BLANK_ENTRY; } @haml_ccallback @{saw(HAML_LANG)} => {fcall haml_ruby_line; };
+    haml_ruby_entry @{entity = CHECK_BLANK_ENTRY; } @{saw(RUBY_LANG)} => {fcall haml_ruby_line; };
     spaces          ${ entity = HAML_SPACE; } => haml_ccallback;
     haml_comment;
     haml_string;

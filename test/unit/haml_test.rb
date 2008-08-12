@@ -10,7 +10,7 @@ class Ohcount::HamlTest < Ohcount::Test
 		lb2 = [Ohcount::LanguageBreakdown.new("haml", "%code", "", 0)]
 		assert_equal lb2, Ohcount::parse("  %code", "haml")
 	end
-  
+
 	def test_comprehensive
 		verify_parse("haml.haml")
 	end
