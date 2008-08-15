@@ -11,12 +11,14 @@ const char *HAML_LANG = "haml";
 
 // the languages entities
 const char *haml_entities[] = {
-  "space", "comment", "string", "any"
+  "space", "comment", "string", "element", "element_class",
+  "element_id", "evaluator", "any"
 };
 
 // constants associated with the entities
 enum {
-  HAML_SPACE = 0, HAML_COMMENT, HAML_STRING, HAML_ANY
+  HAML_SPACE = 0, HAML_COMMENT, HAML_STRING, HAML_ELEMENT, HAML_ELEMENT_CLASS,
+  HAML_ELEMENT_ID, HAML_EVALUATOR, HAML_ANY
 };
 
 /*****************************************************************************/
@@ -53,23 +55,43 @@ enum {
 	action haml_indent_level_inc { current_indent_level++; }
 	action haml_indent_level_res { current_indent_level = 0; }
   action haml_indent_level_set { prior_indent_level = current_indent_level; }
-  action curly_inc { curly_level++; }
-  action curly_dec { curly_level--; }
-  action square_inc { square_level++; }
-  action square_dec { square_level--; }
+  action bracket_inc { bracket_level++; }
+  action bracket_dec { bracket_level--; }
+  action bracket_level_res { bracket_level = 0; }
 
 	haml_indent = ([ ]{2}) @haml_indent_level_inc;
   haml_indent_init = ([ ]{2} >haml_indent_level_res @haml_indent_level_inc)? haml_indent*;
   haml_eol = newline >haml_indent_level_res;
-  haml_special_char = [/\.%];
-  haml_ruby_evaluator = ("=" | "-" | "==" | "&=" | "!=");
+  haml_special_char = [\.%#];
+  haml_ruby_evaluator = "==" | ([&!]? "=") | "-"  | "~";
   haml_comment_delimiter = ("-#" | "/");
 
-  #idea needs development
   haml_xhtml_tag_modifier =
-    (( '{' >curly_inc ) | ( '[' >square_inc ));
+    ('{' >bracket_level_res @code (
+      newline %{ entity = INTERNAL_NL; } %haml_ccallback
+      |
+      ws
+      |
+      (nonnewline - ws - [{}]) @code
+      |
+      '{' @bracket_inc
+      |
+      '}' @bracket_dec
+    )* :>> ('}' when { bracket_level == 0 }) @code)
+    |
+    ('[' >bracket_level_res @code (
+      newline %{ entity = INTERNAL_NL; } %haml_ccallback
+      |
+      ws
+      |
+      '[' @bracket_inc
+      |
+      ']' @bracket_dec
+      |
+      (nonnewline - ws - '[' - ']') @code
+    )* :>> (']' when { bracket_level == 0 }) @code);
 
-  haml_xhtml_tag = "%" (nonnewline-ws)+ - haml_ruby_evaluator;
+  haml_xhtml_tag = "%" ((nonnewline-ws-'['-'{')+ - haml_ruby_evaluator) haml_xhtml_tag_modifier? '//'?;
 
   haml_block_line_transition =
     haml_eol %{ entity = INTERNAL_NL;} %haml_ccallback
@@ -90,21 +112,23 @@ enum {
 
   haml_string = 
     haml_indent* 
-    (nonnewline - ws - haml_special_char - haml_ruby_evaluator - haml_comment_delimiter)
-    @code nonnewline*;
+    (nonnewline
+      - haml_comment_delimiter
+      - haml_ruby_evaluator
+      - "."
+      - "#"
+      - "%"
+      - [ ]) @code
+    (nonnewline @code | ("|" @code newline %{ entity = INTERNAL_NL;}))*;
 
   haml_ruby_entry = 
     ([ ]{2})*
     haml_xhtml_tag{,1}
     haml_ruby_evaluator ws @code;
-    #@haml_ccallback @{printf("\n%s\t%d\t%s\n", "reached entry", prior_indent_level, ts);};
 
   haml_ruby_outry =
     newline %{ entity = INTERNAL_NL;} %haml_ccallback
     any @{fhold;};
-    #@haml_indent_level_res;
-    #@code;
-    #@{printf("\n%s\t%d\t%s\n", "reached outry", current_indent_level, ts);};
 
   haml_ruby_line := |*
     haml_ruby_outry @{ p = ts; fret; };
@@ -129,8 +153,33 @@ enum {
   action haml_ecallback {
     callback(HAML_LANG, haml_entities[entity], cint(ts), cint(te));
   }
+  
+  haml_element_entity = '%' alnum+;
+  haml_element_class_entity = '.' alnum+;
+  haml_element_id_entity = '#' alnum+;
+  
+  haml_string_entity = (nonnewline
+      - haml_comment_delimiter
+      - haml_ruby_evaluator
+      - "."
+      - "#"
+      - "%"
+      - [ ])
+    (nonnewline | ("|" newline))*;
 
-  haml_entity := 'TODO:';
+  haml_evaluator_entity = haml_ruby_evaluator;
+
+  # TODO: modifier and comment entity machines
+
+  haml_entity := |*
+    space+                     ${ entity = HAML_SPACE;          }  => haml_ecallback;
+    haml_element_entity        ${ entity = HAML_ELEMENT;        }  => haml_ecallback;
+    haml_element_class_entity  ${ entity = HAML_ELEMENT_CLASS;  }  => haml_ecallback;
+    haml_element_id_entity     ${ entity = HAML_ELEMENT_ID;     }  => haml_ecallback;
+    haml_evaluator_entity      ${ entity = HAML_EVALUATOR;      }  => haml_ecallback;
+    haml_string_entity         ${ entity = HAML_STRING;         }  => haml_ecallback;
+    ^space                     ${ entity = HAML_ANY;            }  => haml_ecallback;
+  *|;
 }%%
 
 /************************* Required for every parser *************************/
@@ -153,6 +202,7 @@ void parse_haml(char *buffer, int length, int count,
 
   int prior_indent_level = 0;
   int current_indent_level = 0;
+  int bracket_level = 0;
   
   %% write init;
   cs = (count) ? haml_en_haml_line : haml_en_haml_entity;

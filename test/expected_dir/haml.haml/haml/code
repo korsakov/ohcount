@@ -1,4 +1,7 @@
-.somecode
-block string 1
-not in the comment block
-.somecode not in block
+%p
+%p
+%p
+%p
+\- not script!
+%p
+%br/

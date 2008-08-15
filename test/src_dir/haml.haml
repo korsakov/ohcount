@@ -1,11 +1,20 @@
-.somecode
-block string 1
-  / comment block 2.1
-    comment block 2.2
+%p
+%p= "stuff"
+/ oneliner!
+%p
+/
+  %p this won't render
+  %p it is a comment!
+%p= "stuff"
+%p
+  - code
+%p= "stuff"
+%p
 
-
-    comment block 2.3
-      comment block 2.4
-    comment block 2.5
-not in the comment block
-.somecode not in block
+\- not script!
+-# silent comment
+%p
+-#
+  silent
+  comment
+%br/

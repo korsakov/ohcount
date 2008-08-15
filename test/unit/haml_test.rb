@@ -11,6 +11,12 @@ class Ohcount::HamlTest < Ohcount::Test
 		assert_equal lb2, Ohcount::parse("  %code", "haml")
 	end
 
+	def test_element_entities
+		assert_equal("%element", entities_array(" %element", 'haml', :element).first)
+		assert_equal(".class", entities_array(" .class", 'haml', :element_class).first)
+		assert_equal("#id", entities_array(" #id", 'haml', :element_id).first)
+	end
+
 	def test_comprehensive
 		verify_parse("haml.haml")
 	end
