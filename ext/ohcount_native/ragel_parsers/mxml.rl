@@ -130,9 +130,35 @@ enum {
     callback(MXML_LANG, mxml_entities[entity], cint(ts), cint(te));
   }
 
+  mxml_css_entry_entity = '<mx:Style>';
+  mxml_css_outry_entity = '</mx:Style>';
+  mxml_css_entity := |*
+    mxml_css_outry_entity @{ fret; };
+    # unmodified CSS patterns
+    space+             ${ entity = CSS_SPACE;   } => css_ecallback;
+    css_comment_entity ${ entity = CSS_COMMENT; } => css_ecallback;
+    # TODO:
+    ^space;
+  *|;
+
+  mxml_as_entry_entity = '<mx:Script>';
+  mxml_as_outry_entity = '</mx:Script>';
+  mxml_as_entity := |*
+    mxml_as_outry_entity @{ fret; };
+    # unmodified Actionscript patterns
+    space+            ${ entity = AS_SPACE;   } => as_ecallback;
+    as_comment_entity ${ entity = AS_COMMENT; } => as_ecallback;
+    # TODO:
+    ^space;
+  *|;
+
   mxml_comment_entity = '<!--' any* :>> '-->';
 
   mxml_entity := |*
+    # TODO: mxml_ecallback for mxml_*_{entry,outry}_entity
+    mxml_css_entry_entity => { fcall mxml_css_entity; };
+    mxml_as_entry_entity  => { fcall mxml_as_entity;  };
+    # standard MXML patterns
     space+              ${ entity = MXML_SPACE;   } => mxml_ecallback;
     mxml_comment_entity ${ entity = MXML_COMMENT; } => mxml_ecallback;
     # TODO:

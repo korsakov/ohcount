@@ -10,4 +10,11 @@ class Ohcount::JspTest < Ohcount::Test
 	def test_comprehensive
 		verify_parse("jsp1.jsp")
 	end
+
+	def test_comment_entities
+		assert_equal('<!--comment-->', entities_array(" <!--comment-->", 'jsp', :comment).first)
+		assert_equal('/*comment*/', entities_array("<style type='text/css'>\n/*comment*/\n</style>", 'jsp', :comment).first)
+		assert_equal('//comment', entities_array("<%\n//comment\n%>", 'jsp', :comment).first)
+		assert_equal('/*comment*/', entities_array("<%\n/*comment*/\n%>", 'jsp', :comment).first)
+	end
 end

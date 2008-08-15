@@ -141,7 +141,7 @@ class Ohcount::Test < Test::Unit::TestCase
 	def entities_array(src_string, polyglot, *entities)
 		arr = Array.new
 		Ohcount::parse_entities(src_string, polyglot) do |lang, entity, s, e|
-			arr << src_string[s...e] if lang == polyglot.to_sym && entities.include?(entity)
+			arr << src_string[s...e] if entities.include?(entity)
 		end
 		arr
 	end

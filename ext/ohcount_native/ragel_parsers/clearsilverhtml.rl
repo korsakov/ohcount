@@ -155,9 +155,47 @@ enum {
     callback(CSHTML_LANG, cshtml_entities[entity], cint(ts), cint(te));
   }
 
+  cshtml_css_entry_entity = '<' /style/i [^>]+ :>> 'text/css' [^>]+ '>';
+  cshtml_css_outry_entity = '</' /style/i ws_or_inl* '>';
+  cshtml_css_entity := |*
+    cshtml_css_outry_entity @{ fret; };
+    # unmodified CSS patterns
+    space+             ${ entity = CSS_SPACE;   } => css_ecallback;
+    css_comment_entity ${ entity = CSS_COMMENT; } => css_ecallback;
+    # TODO:
+    ^space;
+  *|;
+
+  cshtml_js_entry_entity = '<' /script/i [^>]+ :>> 'text/javascript' [^>]+ '>';
+  cshtml_js_outry_entity = '</' /script/i ws_or_inl* '>';
+  cshtml_js_entity := |*
+    cshtml_js_outry_entity @{ fret; };
+    # unmodified Javascript patterns
+    space+            ${ entity = JS_SPACE;   } => js_ecallback;
+    js_comment_entity ${ entity = JS_COMMENT; } => js_ecallback;
+    # TODO:
+    ^space;
+  *|;
+
+  cshtml_cs_entry_entity = '<?cs';
+  cshtml_cs_outry_entity = '?>';
+  cshtml_cs_entity := |*
+    cshtml_cs_outry_entity @{ fret; };
+    # unmodified CS patterns
+    space+            ${ entity = CS_SPACE;   } => cs_ecallback;
+    cs_comment_entity ${ entity = CS_COMMENT; } => cs_ecallback;
+    # TODO:
+    ^space;
+  *|;
+
   cshtml_comment_entity = '<!--' any* :>> '-->';
 
   cshtml_entity := |*
+    # TODO: cshtml_ecallback for cshtml_*_{entry,outry}_entity
+    cshtml_css_entry_entity => { fcall cshtml_css_entity; };
+    cshtml_js_entry_entity  => { fcall cshtml_js_entity;  };
+    cshtml_cs_entry_entity  => { fcall cshtml_cs_entity;  };
+    # standard CSHTML patterns
     space+                ${ entity = CSHTML_SPACE;   } => cshtml_ecallback;
     cshtml_comment_entity ${ entity = CSHTML_COMMENT; } => cshtml_ecallback;
     # TODO:

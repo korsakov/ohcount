@@ -61,8 +61,15 @@ module LicenseSniffer
     polyglot = Ohcount::Detector.detect(sfc)
     return [] unless polyglot
     comments = ''
-    Ohcount::parse(sfc.contents, polyglot) do |language, semantic, line|
-      comments << line if semantic == :comment
+    Ohcount::parse_entities(sfc.contents, polyglot) do |language, entity, s, e|
+      if entity == :comment
+        text = sfc.contents[s...e] # e is non-inclusive, so use ...
+        text.split(/[\r\n\f]+/).each do |line|
+					# Strip leading punctuation. Also strip trailing punctuation
+					# if it is padded with leading white space.
+          comments << ' ' + $1 if line =~ /^[\s[:punct:]]*(.*?)(\s+[\s[:punct:]]*)*$/
+        end
+      end
     end
     sniff(comments)
   end

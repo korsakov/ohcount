@@ -112,9 +112,35 @@ enum {
     callback(HTML_LANG, html_entities[entity], cint(ts), cint(te));
   }
 
+  html_css_entry_entity = '<' /style/i [^>]+ :>> 'text/css' [^>]+ '>';
+  html_css_outry_entity = '</' /style/i ws_or_inl* '>';
+  html_css_entity := |*
+    html_css_outry_entity @{ fret; };
+    # unmodified CSS patterns
+    space+             ${ entity = CSS_SPACE;   } => css_ecallback;
+    css_comment_entity ${ entity = CSS_COMMENT; } => css_ecallback;
+    # TODO:
+    ^space;
+  *|;
+
+  html_js_entry_entity = '<' /script/i [^>]+ :>> 'text/javascript' [^>]+ '>';
+  html_js_outry_entity = '</' /script/i ws_or_inl* '>';
+  html_js_entity := |*
+    html_js_outry_entity @{ fret; };
+    # unmodified Javascript patterns
+    space+            ${ entity = JS_SPACE;   } => js_ecallback;
+    js_comment_entity ${ entity = JS_COMMENT; } => js_ecallback;
+    # TODO:
+    ^space;
+  *|;
+
   html_comment_entity = '<!--' any* :>> '-->';
 
   html_entity := |*
+    # TODO: html_ecallback for html_*_{entry,outry}_entity
+    html_css_entry_entity => { fcall html_css_entity; };
+    html_js_entry_entity  => { fcall html_js_entity;  };
+    # standard HTML patterns
     space+              ${ entity = HTML_SPACE;   } => html_ecallback;
     html_comment_entity ${ entity = HTML_COMMENT; } => html_ecallback;
     # TODO:

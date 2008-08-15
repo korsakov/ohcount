@@ -12,5 +12,6 @@ class Ohcount::MetaPostTest < Ohcount::Test
 
 	def test_comment_entities
 		assert_equal('%comment', entities_array(" %comment", 'metapost', :comment).first)
+		assert_equal('%comment', entities_array("verbatim\n%comment\netex", 'metapost', :comment).first)
 	end
 end

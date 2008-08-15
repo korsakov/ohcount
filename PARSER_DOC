@@ -271,7 +271,7 @@ void parse_c(char *buffer, int length, int count,
 
       Entry pattern actions should be:
         [lang]_[elang]_entry @{ entity = CHECK_BLANK_ENTRY; } @[lang]_callback
-          @{ saw([lang]_LANG)} => { fcall [lang]_[elang]_line; };
+          @{ saw([elang]_LANG)} => { fcall [lang]_[elang]_line; };
       What this does is checks for a blank entry, and if it is, counts the line
       as a line of parent language code. If it is not, the macro will not do
       anything. The machine then transitions into the child language.
