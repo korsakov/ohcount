@@ -64,6 +64,7 @@ class Ohcount::SlocInfo
 			'fortranfixed'  => {:nice_name => 'Fortran (Fixed-format)', :category => 0},
 			'fortranfree'   => {:nice_name => 'Fortran (Free-format)',  :category => 0},
 			'groovy'        => {:nice_name => 'Groovy'           , :category => 0},
+      'haml'          => {:nice_name => 'Haml'             , :category => 1},
 			'html'          => {:nice_name => 'HTML'             , :category => 1},
 			'java'          => {:nice_name => 'Java'             , :category => 0},
 			'javascript'    => {:nice_name => 'JavaScript'       , :category => 0},

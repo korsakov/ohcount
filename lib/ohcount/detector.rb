@@ -155,6 +155,7 @@ class Ohcount::Detector
 		'.frx'  => "visualbasic",
 		'.groovy'=> "groovy",
 		'.h'    => :disambiguate_h_header,
+    '.haml' => 'haml',
 		'.H'    => "cpp",
 		'.hpp'  => "cpp",
 		'.h++'  => "cpp",
