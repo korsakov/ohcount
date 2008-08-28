@@ -92,7 +92,8 @@ class OhcountCommandLine
   # Licenses
   def licenses
 		files.each do |file|
-			licenses = LicenseSniffer.licenses_from_source_code(file, files)
+			sfc = Ohcount::SimpleFileContext.new(file, files)
+			licenses = LicenseSniffer.parse(sfc.contents, Ohcount::Detector.detect(sfc))
       if licenses.any?
         symbols = licenses.collect { |l| LicenseSniffer::LicenseMap.instance.map[l].symbol }.join(",")
         puts "#{symbols}\t#{file}"

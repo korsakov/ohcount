@@ -1,0 +1,15 @@
+c	comment	/* c2.h.in. */
+c	blank	
+c	code	#ifndef C2_H
+c	code	#define C2_H
+c	blank	
+c	comment	/* Define to 1 if you have the <inttypes.h> header file. */
+c	code	#undef HAVE_INTTYPES_H
+c	blank	
+c	comment	/* Define to 1 if you have the `m' library (-lm). */
+c	code	#undef HAVE_LIBM
+c	blank	
+c	comment	/* Define to 1 if you have the ANSI C header files. */
+c	code	#undef STDC_HEADERS
+c	blank	
+c	code	#endif

@@ -50,20 +50,12 @@ module LicenseSniffer
 		ranges.collect { |r| r[0] }.compact.uniq
 	end
 
-	def self.sniff_file(filename)
-		File.open(filename) do |io|
-			return sniff(io.read)
-		end
-	end
-
-  def self.licenses_from_source_code(file, files = [])
-    sfc = Ohcount::SimpleFileContext.new(file, files)
-    polyglot = Ohcount::Detector.detect(sfc)
-    return [] unless polyglot
+  def self.parse(buffer, polyglot)
+		return [] unless polyglot
     comments = ''
-    Ohcount::parse_entities(sfc.contents, polyglot) do |language, entity, s, e|
+    Ohcount::parse_entities(buffer, polyglot) do |language, entity, s, e|
       if entity == :comment
-        text = sfc.contents[s...e] # e is non-inclusive, so use ...
+        text = buffer[s...e] # e is non-inclusive, so use ...
         text.split(/[\r\n\f]+/).each do |line|
 					# Strip leading punctuation.
           comments << ' ' + $1 if line =~ /^[\s[:punct:]]*(.*?)$/
@@ -72,5 +64,4 @@ module LicenseSniffer
     end
     sniff(comments)
   end
-
 end

@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class Ohcount::LicensesSnifferTest < Ohcount::Test
 
-  # To make test creation easy & straighforward, we use a 
+  # To make test creation easy & straighforward, we use a
   # file-based convention, as follows:
   #
   # test/src_licenses/<license_name>_t1.c   <-- a 'C' file
@@ -23,7 +23,9 @@ class Ohcount::LicensesSnifferTest < Ohcount::Test
       filename = src_dir + "/" + f
       next if File.directory?(filename)
       next if f[0..0] == "."
-      detected_licenses = LicenseSniffer.licenses_from_source_code(filename)
+
+			sfc = SimpleFileContext.new(filename)
+      detected_licenses = LicenseSniffer.parse(sfc.contents, Detector.detect(sfc))
 
       # expected_licenses
       begin
@@ -43,4 +45,3 @@ class Ohcount::LicensesSnifferTest < Ohcount::Test
   end
 
 end
-

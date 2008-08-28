@@ -1,5 +1,0 @@
-class Foo:
-def __init__(self, bar):
-print(bar)
-def string(self):
-print('This is a string')

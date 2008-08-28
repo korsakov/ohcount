@@ -1,0 +1,20 @@
+haml	code	%p
+ruby	code	%p= "stuff"
+haml	comment	/ oneliner!
+haml	code	%p
+haml	comment	/
+haml	comment	  %p this won't render
+haml	comment	  %p it is a comment!
+ruby	code	%p= "stuff"
+haml	code	%p
+ruby	code	  - code
+ruby	code	%p= "stuff"
+haml	code	%p
+haml	blank	
+haml	code	\- not script!
+haml	comment	-# silent comment
+haml	code	%p
+haml	comment	-#
+haml	comment	  silent
+haml	comment	  comment
+haml	code	%br/

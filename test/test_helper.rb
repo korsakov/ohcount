@@ -26,15 +26,11 @@ class Ohcount::Test < Test::Unit::TestCase
 	end
 
 	def src_dir
-		TEST_DIR + "/src_dir"
-	end
-
-	def scratch_dir
-		TEST_DIR + "/scratch_dir"
+		File.expand_path(File.join(TEST_DIR, "src_dir"))
 	end
 
 	def expected_dir
-		TEST_DIR + "/expected_dir"
+		File.expand_path(File.join(TEST_DIR, "expected_dir"))
 	end
 
 	# verify_parse runs a full test against a specified file. Detector is used to determine
@@ -42,100 +38,46 @@ class Ohcount::Test < Test::Unit::TestCase
 	#
 	# The file to be parsed must be in directory <tt>test/src_dir</tt>.
 	#
-	# The expected results must be stored on disk in directory <tt>test/expected_dir</tt>. The format
-	# of the expected results on disk is a bit cumbersome. To create new test case, you must:
+	# The expected results must be stored in directory <tt>test/expected_dir</tt>, and
+	# must be in the format produced by <tt>bin/ohcount --annotate</tt>. That is, each line
+	# of the expected file should be prefixed with the tab-delimited language and semantic.
+	#
+	# To create a new test case:
 	#
 	# 1. Create a new source code file in <tt>test/src_dir</tt>.
-	#    For example, <tt>test/src_dir/my_file.ext</tt>
+	#    For example, <tt>test/src_dir/my_file.ext</tt>.
 	#
-	# 2. Next, create a new directory in <tt>test/expected_dir</tt> with
-	#    the same name as your test source code file. For example,
-	#    <tt>test/expected_dir/my_file.ext/</tt>
+	# 2. Copy your source file to the <tt>test/expected_dir</tt> directory.
+	#    Use a text editor to insert the language and semantic at the front of each line.
+	#    These must be tab-delimited from the rest of the line.
 	#
-	# 3. Within this directory, create directories for each language used in the test source code
-	#    file. For example, <tt>test/expected_dir/my_file.ext/my_language/</tt>
+	# If you've cheated and written your code before your test, then you can simply
+	# use ohcount itself to create this file:
 	#
-	# 4. In this language subdirectory, create three files called +code+, +comment+, and +blanks+.
-	#    The +code+ file should contain all of the lines from <tt>my_file.ext</tt> which are code lines.
-	#    The +comment+ file should contain all comment lines.
-	#    The +blanks+ file is a bit different: it should contain a single line with an integer
-	#    which is the count of blank lines in the original file.
+	#     <tt>bin/ohcount --annotate src_dir/my_file.ext > expected_dir/myfile.ext</tt>
+	#
+	# Be sure to carefully confirm this result or your test will be meaningless!
 	#
 	# There are numerous examples in the test directories to help you out.
-	#
-	def verify_parse(src_filename, filenames = [])
-		# re-make the output directory
-		Dir.mkdir scratch_dir unless File.exists? scratch_dir
-		output_dir = scratch_dir + "/#{ File.basename(src_filename) }"
-		FileUtils.rm_r(output_dir) if FileTest.directory?(output_dir)
-		Dir.mkdir output_dir
-
-		complete_src_filename = src_dir + "/#{ src_filename }"
-    sfc = Ohcount::SimpleFileContext.new(complete_src_filename, filenames)
+	def verify_parse(file, filenames=[])
+		sfc = Ohcount::SimpleFileContext.new(File.join(src_dir, file), filenames)
 		polyglot = Ohcount::Detector.detect(sfc)
-
-		# parse
-		buffer = File.new(complete_src_filename).read
-		Ohcount::Parser.parse_to_dir(:dir => output_dir,
-																:buffer => buffer,
-																:polyglot => polyglot)
-
-		# now compare
-		answer_dir = expected_dir + "/#{ File.basename(src_filename) }"
-		compare_dir(answer_dir, output_dir)
-
-		# just to be sure, lets compare the total number of lines from the source file and the processed breakdown
-		compare_line_count(complete_src_filename, output_dir)
-	end
-
-
-	def compare_dir(expected, actual)
-		# make sure entries are identical
-		expected_entries = expected.entries.collect { |e| e[expected.size..-1] }
-		actual_entries = actual.entries.collect { |a| a[actual.size..-1] }
-		assert_equal expected_entries, actual_entries
-
-		Dir.foreach(expected) do |entry|
-			next if [".", "..", ".svn"].include?(entry)
-			case File.ftype(expected+ "/" + entry)
-			when 'file'
-				File.open(expected + "/" + entry) do |e|
-					File.open(actual + "/" + entry) do |a|
-						assert_equal e.read, a.read, "file #{actual + "/" + entry} differs from expected"
-					end
-				end
-			when 'directory'
-				compare_dir(expected + "/" + entry, actual + "/" + entry)
-			else
-				assert false, "weird ftype"
+		buffer = ''
+		if polyglot
+			Ohcount::parse(sfc.contents, polyglot) do |language, semantic, line|
+				buffer << "#{language}\t#{semantic}\t#{line}"
 			end
 		end
-	end
+		expected = File.read(File.join(expected_dir, file))
 
+		# Uncomment the following lines if you need to see a diff explaining why your test is failing
+		#	if expected != buffer
+		#		File.open("/tmp/ohcount","w") { |f| f.write buffer }
+		#		puts `diff #{File.join(expected_dir, file)} /tmp/ohcount`
+		#	end
 
-	def compare_line_count(src_file, scratch_dir)
-		code_lines = comment_lines = blanks = 0
-
-		Find.find(scratch_dir) do |path|
-			if FileTest.file?(path)
-				`wc -l #{ path }` =~ /^\s*(\d*)\b/
-				case File.basename(path)
-				when 'code'
-					code_lines += $1.to_i
-				when 'comment'
-					comment_lines += $1.to_i
-				when 'blanks'
-					blanks += File.new(path).read.to_i
-				end
-			end
-		end
-
-		# src file lines
-		`wc -l #{ src_file }` =~ /^\s*(\d*)\b/
-		src_file_lines = $1.to_i
-
-		# compare
-		assert_equal src_file_lines, (code_lines + comment_lines + blanks), "wc -l of output (code, comment, blanks) doesn't match the 'wc -l' of original"
+		puts buffer if expected != buffer
+		assert expected == buffer, "Parse result of #{File.join(src_dir, file)} did not match expected #{File.join(expected_dir, file)}."
 	end
 
 	def entities_array(src_string, polyglot, *entities)

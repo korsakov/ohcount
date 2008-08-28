@@ -1,0 +1,25 @@
+stratego	comment	/** 
+stratego	comment	 * Sample code from Stratego XT Manual
+stratego	comment	 */
+stratego	blank	
+stratego	code	rules
+stratego	code	  InlineF :
+stratego	code	    |[ let f(xs) = e in e'[f(es)] ]| ->
+stratego	code	    |[ let f(xs) = e in e'[e[es/xs]] ]|
+stratego	blank	
+stratego	code	  InlineV :
+stratego	code	    |[ let x = e in e'[x] ]| -> |[ let x = e in e'[e] ]|
+stratego	blank	
+stratego	code	  Dead :
+stratego	code	    |[ let x = e in e' ]| -> |[ e' ]|
+stratego	code	    where <not(in)> (x,e')
+stratego	blank	
+stratego	code	  Extract(f,xs) :
+stratego	code	    |[ e ]| -> |[ let f(xs) = e in f(xs) ]|
+stratego	blank	
+stratego	code	  Hoist :
+stratego	code	    |[ let x = e1 in let f(xs) = e2 in e3 ]| ->
+stratego	code	    |[ let f(xs) = e2 in let x = e1 in e3 ]|
+stratego	code	    where <not(in)> (x, <free-vars> e2)
+stratego	blank	
+stratego	comment	// better watch those apostrophes!

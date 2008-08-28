@@ -13,7 +13,7 @@ class Ohcount::BasicTest < Ohcount::Test
 
 	def test_comprehensive
 		verify_parse("classic_basic.b")
-		verify_parse("visual_basic.bas", "frx1.frx")
+		verify_parse("visual_basic.bas", ["frx1.frx"])
 		verify_parse("structured_basic.b")
 		verify_parse("structured_basic.bas")
 		verify_parse("classic_basic.bas")
