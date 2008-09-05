@@ -199,6 +199,7 @@ class Ohcount::Detector
 		'.pmc'  => "c",
 		'.pmod' => "pike",
 		'.py'   => "python",
+		'.R'    => "r",
 		'.rhtml'=> "rhtml",
 		'.rb'   => "ruby",
 		'.rex'  => "rexx",

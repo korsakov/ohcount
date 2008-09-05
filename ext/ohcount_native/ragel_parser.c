@@ -49,6 +49,7 @@
 #include "phphtml_parser.h"
 #include "pike_parser.h"
 #include "python_parser.h"
+#include "R_parser.h"
 #include "rexx_parser.h"
 #include "ruby_parser.h"
 #include "rhtml_parser.h"
@@ -127,6 +128,7 @@ struct language languages[] = {
   { "php", parse_phtml },
   { "pike", parse_pike },
   { "python", parse_python },
+  { "r", parse_r },
   { "rexx", parse_rexx },
   { "rhtml", parse_rhtml },
   { "ruby", parse_ruby },
