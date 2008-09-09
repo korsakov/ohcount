@@ -7,7 +7,7 @@
 #include "ragel_parser_macros.h"
 
 // the name of the language
-const char *R_LANG = "R";
+const char *R_LANG = "r";
 
 // the languages entities
 const char *r_entities[] = {

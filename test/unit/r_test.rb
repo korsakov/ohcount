@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../test_helper'
 class Ohcount::RTest < Ohcount::Test
 
 	def test_line_comment_1
-		lb = [Ohcount::LanguageBreakdown.new("R", "", "#comment", 0)]
+		lb = [Ohcount::LanguageBreakdown.new("r", "", "#comment", 0)]
 		assert_equal lb, Ohcount::parse(" #comment", "r")
 	end
 
