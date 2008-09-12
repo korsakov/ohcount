@@ -22,6 +22,11 @@ module LicenseSniffer
 			"Adaptive Public License",
 			/\bAdaptive\s*Public\s*License\b/i ),
 
+			SoftwareLicense.new(:affero,
+			"http://www.affero.org/oagpl.html",
+			"GNU Affero General Public License",
+			/\bGNU\s+Affero\s+General\s+Public\s+License\b/i ),
+
 			SoftwareLicense.new(:apache,
 			"http://www.opensource.org/licenses/apachepl.php",
 			"Apache Software License",
