@@ -25,13 +25,13 @@ class Ohcount::LicensesSnifferTest < Ohcount::Test
       next if f[0..0] == "."
 
 			sfc = SimpleFileContext.new(filename)
-      detected_licenses = LicenseSniffer.parse(sfc.contents, Detector.detect(sfc))
+      detected_licenses = LicenseSniffer.parse(sfc.contents, Detector.detect(sfc)).sort { |a,b| a.to_s <=> b.to_s }
 
       # expected_licenses
       begin
         f =~ /^([^\.]*)/
         expected_filename = $1
-        expected_licenses = File.new(expected_dir + "/" + expected_filename).read.split.collect { |l| l.intern }
+        expected_licenses = File.new(expected_dir + "/" + expected_filename).read.split.sort.collect { |l| l.intern }
       rescue
         case $!
         when Errno::ENOENT
