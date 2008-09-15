@@ -12,10 +12,8 @@ class Ohcount::PerlTest < Ohcount::Test
 
 	def test_comprehensive
 		verify_parse("perl1.pl")
-	end
-
-	def test_comprehensive
 		verify_parse("perl_module.pm")
+		verify_parse("perl_pod_to_eof.pl") # Verifies ticket #267
 	end
 
 	def test_comment_entities

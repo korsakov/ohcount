@@ -54,7 +54,7 @@ enum {
       ws
       |
       ^space @comment
-    )*;
+    )* %/commit;
   perl_comment = perl_line_comment | perl_block_comment;
 
   perl_sq_str =
