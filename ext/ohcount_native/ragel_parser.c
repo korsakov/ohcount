@@ -30,6 +30,7 @@
 #include "groovy_parser.h"
 #include "haml_parser.h"
 #include "haskell_parser.h"
+#include "haxe_parser.h"
 #include "html_parser.h"
 #include "java_parser.h"
 #include "javascript_parser.h"
@@ -109,6 +110,7 @@ struct language languages[] = {
   { "groovy", parse_groovy },
   { "haskell", parse_haskell },
   { "haml", parse_haml },
+  { "haxe", parse_haxe },
   { "html", parse_html },
   { "java", parse_java },
   { "javascript", parse_javascript },

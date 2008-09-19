@@ -155,6 +155,7 @@ class Ohcount::Detector
 		'.hpp'  => "cpp",
 		'.h++'  => "cpp",
 		'.hs'   => "haskell",
+		'.hx'   => "haxe",
 		'.hxx'  => "cpp",
 		'.hh'   => "cpp",
 		'.hrl'  => "erlang",

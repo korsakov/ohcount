@@ -66,6 +66,7 @@ class Ohcount::SlocInfo
 			'groovy'        => {:nice_name => 'Groovy'           , :category => 0},
       'haml'          => {:nice_name => 'Haml'             , :category => 1},
 			'html'          => {:nice_name => 'HTML'             , :category => 1},
+			'hx'            => {:nice_name => 'haXe'             , :category => 0},
 			'java'          => {:nice_name => 'Java'             , :category => 0},
 			'javascript'    => {:nice_name => 'JavaScript'       , :category => 0},
 			'lisp'          => {:nice_name => 'Lisp'             , :category => 0},
