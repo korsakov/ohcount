@@ -216,6 +216,17 @@ HELP
 		printf("  %s\n", file)
 	end
 
+	def memoryleak
+		puts "Parsing one file repeatedly. Watch your RAM vanish...."
+		sfc = Ohcount::SimpleFileContext.new(files.first, files)
+		while true
+			polyglot = Ohcount::Detector.detect(sfc)
+			if polyglot
+				Ohcount::parse(sfc.contents, polyglot) {}
+			end
+		end
+	end
+
 
 	def summary
 		STDOUT.write "Examining #{files.size} file(s)"
@@ -306,6 +317,8 @@ HELP
 			self.subcommand = :individual
     when '-l', '--licenses'
       self.subcommand = :licenses
+    when '-m', '--memoryleak'
+      self.subcommand = :memoryleak
 		when '-e', '--entities'
 			self.subcommand = :entities
 		when '-re'
