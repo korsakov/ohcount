@@ -131,7 +131,7 @@ module LicenseSniffer
 			SoftwareLicense.new(:lgpl3,
 			"http://www.gnu.org/licenses/lgpl-3.0.html",
 			"GNU Lesser General Public License 3.0",
-			/((\blgpl\b)|(\bgnu\s*(library|lesser)\s*(general\s*)?(public\s*)?license\b)|(\b(lesser|library)\s*gpl\b)).{0,20}\b3(\.0)?\b/i ),
+			/((\blgpl\b)|(\bgnu\s*(library|lesser)\s*(general\s*)?(public\s*)?license\b)|(\b(lesser|library)\s*gpl\b)).{0,10}(\bas published by the free software foundation\b)?.{0,10}(\bversion\b)?.{0,10}\b3(\.0)?\b/i ),
 
 			SoftwareLicense.new(:gpl,
 			"http://www.opensource.org/licenses/gpl-license.php",
