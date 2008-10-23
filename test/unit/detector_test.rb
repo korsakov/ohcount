@@ -86,6 +86,10 @@ class Ohcount::DetectorTest < Ohcount::Test
     assert_equal "shell", do_detect("bash_script", [])
     assert_equal "perl", do_detect("perl_w", [])
     assert_equal "dmd", do_detect("d_script", [])
+
+    assert_equal "tcl", do_detect("tcl_script", [])
+    assert_equal "python", do_detect("python.data", [])
+    assert_equal "python", do_detect("python2.data", [])
   end
 
 	def test_by_filename
