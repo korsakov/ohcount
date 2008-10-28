@@ -21,17 +21,15 @@ include Ohcount
 class Ohcount::DetectorTest < Ohcount::Test
 
 	def do_detect(filename, filenames = [])
-    file_location = File.dirname(__FILE__) + "/../detect_files/" + filename
-    sfc = Ohcount::SimpleFileContext.new(filename, filenames, nil, file_location)
-		Ohcount::Detector.detect(sfc)
+		filepath = File.dirname(__FILE__) + "/../detect_files/" + filename
+		SourceFile.new(filepath, {:filenames => filenames}).polyglot
 	end
 
   # Nonrecursively adds files from the file's directory to the context
 	def do_detect_with_siblings(filename)
-    file_location = File.dirname(__FILE__) + "/../detect_files/" + filename
+    filepath = File.dirname(__FILE__) + "/../detect_files/" + filename
     filenames = Dir.entries(File.dirname(__FILE__) + File.dirname("/../detect_files/" + filename)) - [filename]
-    sfc = Ohcount::SimpleFileContext.new(filename, filenames, nil, file_location)
-		Ohcount::Detector.detect(sfc)
+		SourceFile.new(filepath, {:filenames => filename}).detect
 	end
 
 	def test_matlab_or_objective_c
@@ -45,7 +43,6 @@ class Ohcount::DetectorTest < Ohcount::Test
 	end
 
 	def test_detect_polyglot
-		assert_equal "c", do_detect("foo.c")
 		assert_equal "c", do_detect("foo.c")
 		assert_equal "c", do_detect("uses_no_cpp.h")
 		assert_equal "cpp", do_detect("uses_cpp_headers.h")

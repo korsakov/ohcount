@@ -60,11 +60,10 @@ class Ohcount::Test < Test::Unit::TestCase
 	#
 	# There are numerous examples in the test directories to help you out.
 	def verify_parse(file, filenames=[])
-		sfc = Ohcount::SimpleFileContext.new(File.join(src_dir, file), filenames)
-		polyglot = Ohcount::Detector.detect(sfc)
+		source = Ohcount::SourceFile.new(File.join(src_dir, file), :filenames => filenames)
 		buffer = ''
-		if polyglot
-			Ohcount::parse(sfc.contents, polyglot) do |language, semantic, line|
+		if source.polyglot
+			Ohcount::parse(source.contents, source.polyglot) do |language, semantic, line|
 				buffer << "#{language}\t#{semantic}\t#{line}"
 			end
 		end

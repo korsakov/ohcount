@@ -50,18 +50,4 @@ module LicenseSniffer
 		ranges.collect { |r| r[0] }.compact.uniq
 	end
 
-  def self.parse(buffer, polyglot)
-		return [] unless polyglot
-    comments = ''
-    Ohcount::parse_entities(buffer, polyglot) do |language, entity, s, e|
-      if entity == :comment
-        text = buffer[s...e] # e is non-inclusive, so use ...
-        text.split(/[\r\n\f]+/).each do |line|
-					# Strip leading punctuation.
-          comments << ' ' + $1 if line =~ /^[\s[:punct:]]*(.*?)$/
-        end
-      end
-    end
-    sniff(comments)
-  end
 end

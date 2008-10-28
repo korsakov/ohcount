@@ -51,12 +51,9 @@ class OhcountCommandLine
 
 	def annotate
 		files.each do |file|
-			sfc = Ohcount::SimpleFileContext.new(file, files)
-			polyglot = Ohcount::Detector.detect(sfc)
-			if polyglot
-				Ohcount::parse(sfc.contents, polyglot) do |language, semantic, line|
-					puts "#{language}\t#{semantic}\t#{line}"
-				end
+			s = Ohcount::SourceFile.new(file, :filenames => files)
+			s.parse do |language, semantic, line|
+				puts "#{language}\t#{semantic}\t#{line}"
 			end
 		end
 	end
@@ -64,51 +61,25 @@ class OhcountCommandLine
 	# Find all source code files
 	def detect
 		files.each do |file|
-			sfc = Ohcount::SimpleFileContext.new(file, files)
-			polyglot = Ohcount::Detector.detect(sfc)
-			puts "#{polyglot}\t#{file}" if polyglot
+			s = Ohcount::SourceFile.new(file, :filenames => files)
+			puts "#{s.polyglot}\t#{file}" if s.polyglot
 		end
-	end
-
-	# Entities
-	def entities
-		langs = Hash.new
-		files.each do |file|
-			sfc = Ohcount::SimpleFileContext.new(file, files)
-			polyglot = Ohcount::Detector.detect(sfc)
-			if polyglot
-				Ohcount::parse_entities(sfc.contents, polyglot) do |language, entity, s, e|
-					unless langs.include? language
-						langs[language] = Hash.new
-						langs[language].default = 0
-					end
-					langs[language][entity] += 1
-				end
-			end
-		end
-		p langs # TODO: pretty print
 	end
 
   # Licenses
   def licenses
 		files.each do |file|
-			sfc = Ohcount::SimpleFileContext.new(file, files)
-			licenses = LicenseSniffer.parse(sfc.contents, Ohcount::Detector.detect(sfc))
-      if licenses.any?
-        symbols = licenses.collect { |l| LicenseSniffer::LicenseMap.instance.map[l].symbol }.join(",")
-        puts "#{symbols}\t#{file}"
-      end
+			s = Ohcount::SourceFile.new(file, :filenames => files)
+      next unless s.licenses.any?
+			symbols = licenses.collect { |l| LicenseSniffer::LicenseMap.instance.map[l].symbol }.join(",")
+			puts "#{symbols}\t#{file}"
     end
   end
 
 	def raw_entities
 		files.each do |file|
-			sfc = Ohcount::SimpleFileContext.new(file, files)
-			polyglot = Ohcount::Detector.detect(sfc)
-			if polyglot
-				Ohcount::parse_entities(sfc.contents, polyglot) do |language, entity, s, e|
-					puts "#{language}\t#{entity}\t#{s}\t#{e}"
-				end
+			Ohcount::SourceFile.new(file, :filenames => files).raw_entities do |language, entity, s, e|
+				puts "#{language}\t#{entity}\t#{s}\t#{e}"
 			end
 		end
 	end
@@ -123,7 +94,6 @@ Ohloh source code line counter command line tool.
 [option] can be one of the following:
    -a, --annotate
    -d, --detect
-   -e, --entities
 	 -re
    -h, --help
    -s, --summary
@@ -140,10 +110,6 @@ Ohloh source code line counter command line tool.
    Recursively find all source code files within the given paths.
    For each source code file found, the file name will be emitted to
    stdout prefixed with a tab-delimited language name.
-
--e, --entities
-
-   Prints the number of entities found for each language parsed.
 
 -h, --help                      Display this message
 
@@ -186,10 +152,9 @@ HELP
 		files.each do |file|
 			counts = {}
 			languages_found=[]
-			sfc = Ohcount::SimpleFileContext.new(file, files)
-			polyglot = Ohcount::Detector.detect(sfc)
-			if polyglot
-				Ohcount::parse(sfc.contents, polyglot) do |language_name, semantic, line|
+			s = Ohcount::SourceFile.new(file, :filenames => files)
+			if s.source_code?
+				s.parse do |language_name, semantic, line|
 					counts[language_name] ||={:code => 0, :comment => 0, :blank => 0}
 					counts[language_name][semantic] += 1
 					languages_found << language_name unless languages_found.include?(language_name)
@@ -218,12 +183,9 @@ HELP
 
 	def memoryleak
 		puts "Parsing one file repeatedly. Watch your RAM vanish...."
-		sfc = Ohcount::SimpleFileContext.new(files.first, files)
+		s = Ohcount::SourceCode.new(files.first, :filenames => files)
 		while true
-			polyglot = Ohcount::Detector.detect(sfc)
-			if polyglot
-				Ohcount::parse(sfc.contents, polyglot) {}
-			end
+			s.parse {}
 		end
 	end
 
@@ -237,14 +199,10 @@ HELP
 
 		files.each do |file|
 			languages_found = []
-			sfc = Ohcount::SimpleFileContext.new(file, files)
-			polyglot = Ohcount::Detector.detect(sfc)
-			if polyglot
-				Ohcount::parse(sfc.contents, polyglot) do |language_name, semantic, line|
-					counts[language_name] ||= {:code => 0, :comment => 0, :blank => 0}
-					counts[language_name][semantic] += 1
-					languages_found << language_name unless languages_found.include?(language_name)
-				end
+			Ohcount::SourceFile.new(file, :filenames => files).parse do |language_name, semantic, line|
+				counts[language_name] ||= {:code => 0, :comment => 0, :blank => 0}
+				counts[language_name][semantic] += 1
+				languages_found << language_name unless languages_found.include?(language_name)
 			end
 
 			# Keep a running total of the number of files that include a specific language

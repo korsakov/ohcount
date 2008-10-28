@@ -24,8 +24,9 @@ class Ohcount::LicensesSnifferTest < Ohcount::Test
       next if File.directory?(filename)
       next if f[0..0] == "."
 
-			sfc = SimpleFileContext.new(filename)
-      detected_licenses = LicenseSniffer.parse(sfc.contents, Detector.detect(sfc)).sort { |a,b| a.to_s <=> b.to_s }
+			detected_licenses = Ohcount::SourceFile.new(filename).licenses
+			# sort them
+      detected_licenses = detected_licenses.sort { |a,b| a.to_s <=> b.to_s }
 
       # expected_licenses
       begin
