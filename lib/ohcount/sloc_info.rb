@@ -46,6 +46,7 @@ class Ohcount::SlocInfo
 			'automake'      => {:nice_name => 'Automake'         , :category => 2},
 			'awk'           => {:nice_name => 'AWK'              , :category => 0},
 			'bat'           => {:nice_name => 'DOS batch script' , :category => 0},
+			'bmx'           => {:nice_name => 'BlitzMax'         , :category => 0},
 			'boo'           => {:nice_name => 'Boo'              , :category => 0},
 			'c'             => {:nice_name => 'C'                , :category => 0},
 			'classic_basic'   => {:nice_name => 'Classic Basic'     , :category => 0},

@@ -119,6 +119,7 @@ class Ohcount::Detector
 		'.bas'  => :disambiguate_basic,
 		'.bat'  => "bat",
 		'.bi'   => :disambiguate_non_visual_basic,
+		'.bmx'  => "blitzmax",
 		'.boo'  => "boo",
 		'.c'    => "c",
 		'.C'    => "cpp",

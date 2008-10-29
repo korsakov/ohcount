@@ -11,6 +11,7 @@
 #include "automake_parser.h"
 #include "awk_parser.h"
 #include "bat_parser.h"
+#include "blitzmax_parser.h"
 #include "boo_parser.h"
 #include "c_parser.h"
 #include "classic_basic_parser.h"
@@ -88,6 +89,7 @@ struct language languages[] = {
   { "automake", parse_automake },
   { "awk", parse_awk },
   { "bat", parse_bat },
+  { "blitzmax", parse_blitzmax },
   { "boo", parse_boo },
   { "c", parse_c },
 	{ "classic_basic", parse_classic_basic },
