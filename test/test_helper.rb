@@ -2,7 +2,9 @@ require 'test/unit'
 require 'fileutils'
 require 'find'
 
-TEST_DIR = File.dirname(__FILE__)
+unless defined?(TEST_DIR)
+	TEST_DIR = File.dirname(__FILE__)
+end
 require TEST_DIR + '/../lib/ohcount'
 
 # Ohcount::Test is a base class which includes several helper methods for parser testing.

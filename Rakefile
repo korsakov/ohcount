@@ -100,7 +100,7 @@ end
 
 Rake::TestTask.new :ohcount_unit_tests => ARCH_DL do |t|
 	# puts File.dirname(__FILE__) + '/test/unit/*_test.rb'
-	t.test_files = FileList[File.dirname(__FILE__) + '/test/unit/*_test.rb']
+	t.test_files = FileList[File.dirname(__FILE__) + '/test/unit/**/*_test.rb']
 	# t.verbose = true
 end
 

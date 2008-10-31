@@ -4,3 +4,4 @@ lib/i[3-9]86*
 lib/x86*
 *.swp
 tags
+.DS_Store

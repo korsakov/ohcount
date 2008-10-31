@@ -76,6 +76,15 @@ class OhcountCommandLine
     end
   end
 
+  # Gestalt
+	def gestalt
+		g = Ohcount::Gestalt::Base.new(:files => files)
+		puts "processing #{files.size} files... (this could take a while)"
+		g.process!
+		platforms = g.platforms.any? ? g.platforms.collect { |p| p.to_s }.join(", ") : 'None'
+		puts "Platforms detected: #{ platforms }"
+	end
+
 	def raw_entities
 		files.each do |file|
 			Ohcount::SourceFile.new(file, :filenames => files).raw_entities do |language, entity, s, e|
@@ -112,6 +121,11 @@ Ohloh source code line counter command line tool.
    stdout prefixed with a tab-delimited language name.
 
 -h, --help                      Display this message
+
+-g, --gestalt                   Project Properties
+
+   Inspects project contents to determine what platform(s) the project
+   runs on, as well as any detected tools/IDEs used to develop it.
 
 -i, --individual                Count lines of code per file
 
@@ -271,6 +285,8 @@ HELP
 			self.subcommand = :detect
 		when '-a', '--annotate'
 			self.subcommand = :annotate
+		when '-g', '--gestalt'
+			self.subcommand = :gestalt
 		when '-i', '--individual'
 			self.subcommand = :individual
     when '-l', '--licenses'
@@ -294,7 +310,7 @@ HELP
 	end
 
 	def run!
-		self.subcommand ||= :summary
+		self.subcommand ||= :gestalt
 		if self.respond_to?(self.subcommand)
 			self.send(self.subcommand)
 		else
