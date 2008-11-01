@@ -73,6 +73,9 @@ class Ohcount::DetectorTest < Ohcount::Test
 		assert_equal "ocaml", do_detect("ocaml.ml")
 		assert_equal "stratego", do_detect("stratego.str")
 		assert_equal "r",do_detect("foo.R")
+		assert_equal "glsl", do_detect("foo.glsl")
+		assert_equal "glsl", do_detect("foo_glsl.vert")
+		assert_equal "glsl", do_detect("foo_glsl.frag")
 	end
 
 	def test_upper_case_extensions

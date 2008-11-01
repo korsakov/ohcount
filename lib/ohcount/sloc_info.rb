@@ -64,6 +64,7 @@ class Ohcount::SlocInfo
 			'factor'        => {:nice_name => 'Factor'           , :category => 0},
 			'fortranfixed'  => {:nice_name => 'Fortran (Fixed-format)', :category => 0},
 			'fortranfree'   => {:nice_name => 'Fortran (Free-format)',  :category => 0},
+			'glsl'          => {:nice_name => 'OpenGL Shading Language', :category => 0},
 			'groovy'        => {:nice_name => 'Groovy'           , :category => 0},
       'haml'          => {:nice_name => 'Haml'             , :category => 1},
 			'haxe'          => {:nice_name => 'HaXe'             , :category => 0},
