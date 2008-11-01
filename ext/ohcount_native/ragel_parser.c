@@ -27,6 +27,7 @@
 #include "factor_parser.h"
 #include "fortranfixed_parser.h"
 #include "fortranfree_parser.h"
+#include "glsl_parser.h"
 #include "groovy_parser.h"
 #include "haml_parser.h"
 #include "haskell_parser.h"
@@ -107,6 +108,7 @@ struct language languages[] = {
   { "factor", parse_factor },
   { "fortranfixed", parse_fortranfixed },
   { "fortranfree", parse_fortranfree },
+  { "glsl", parse_glsl },
   { "groovy", parse_groovy },
   { "haskell", parse_haskell },
   { "haml", parse_haml },
