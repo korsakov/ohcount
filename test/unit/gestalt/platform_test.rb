@@ -5,33 +5,20 @@ include Ohcount::Gestalt
 
 class PlatformTest < Test::Unit::TestCase
 
-	def test_initialize
-		b = Ohcount::Gestalt::Base.new(:dir => gestalt_file_dir('test_cakephp'))
-		assert_equal [gestalt_file_dir('test_cakephp/foo.php')], b.filenames
-	end
-
 	def test_win32_not_enough
-		b = Ohcount::Gestalt::Base.new(:dir => gestalt_file_dir('test_win32_not_enough'))
-		b.process!
-		assert_equal [], b.platforms
+		assert_platform('test_win32_not_enough')
 	end
 
 	def test_win32_enough
-		b = Ohcount::Gestalt::Base.new(:dir => gestalt_file_dir('test_win32_enough'))
-		b.process!
-		assert_equal [Win32], b.platforms
+		assert_platform('test_win32_enough', Win32)
 	end
 
 	def test_linux_1
-		b = Ohcount::Gestalt::Base.new(:dir => gestalt_file_dir('test_linux_1'))
-		b.process!
-		assert_equal [POSIX, Linux], b.platforms
+		assert_platform('test_linux_1', POSIX, Linux)
 	end
 
 	def test_ruby_just_enough
-		b = Ohcount::Gestalt::Base.new(:dir => gestalt_file_dir('test_ruby_just_enough'))
-		b.process!
-		assert_equal [Ruby], b.platforms
+		assert_platform('test_ruby_just_enough', Ruby)
 	end
 
 	def test_ruby_not_enough
@@ -45,12 +32,12 @@ class PlatformTest < Test::Unit::TestCase
 	protected
 
 	def assert_platform(path, *platforms)
-		b = Ohcount::Gestalt::Base.new(:dir => gestalt_file_dir(path))
-		b.process!
-		assert_equal platforms, b.platforms
+		sfl = SourceFileList.new(:path => test_dir(path))
+		sfl.analyze(:gestalt)
+		assert_equal platforms, sfl.gestalt_facts.platforms
 	end
 
-	def gestalt_file_dir(path = '')
-		File.expand_path(File.dirname(__FILE__) + "/../../gestalt_files/" + path)
+	def test_dir(d)
+		File.expand_path(File.dirname(__FILE__) + "/../../gestalt_files/#{ d }")
 	end
 end

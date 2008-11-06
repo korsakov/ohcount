@@ -23,7 +23,9 @@ require "lib/ohcount/gestalt_facts"
 require "lib/ohcount/source_file_list"
 
 require "lib/licenses/license_sniffer"
-require "lib/gestalt/base"
+
+require "lib/gestalt/library"
+require "lib/gestalt/platform"
 
 # require the dynamic rules
 require 'rules/libraries'
