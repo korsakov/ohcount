@@ -70,6 +70,8 @@ module Ohcount
 		end
 
 		def parse(&block)
+			@language_breakdowns = []
+			return unless polyglot
 			@language_breakdowns = Ohcount::parse(contents, polyglot, &block)
 		end
 

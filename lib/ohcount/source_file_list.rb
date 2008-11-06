@@ -62,7 +62,10 @@ module Ohcount
 			@language_facts = LanguageFacts.new if do_languages
 			@gestalt_facts  = GestaltFacts.new  if do_gestalt
 
-			each_source_file do |source_file|
+			self.each do |file|
+				# we process each file - even if its not a source_code - for
+				# library rules sake - they sometimes want 'jar' files or something
+				source_file = SourceFile.new(file, :filename => self)
 				@language_facts.process(source_file) if do_languages
 				@gestalt_facts.process(source_file) if do_gestalt
 				yield source_file if block_given?
