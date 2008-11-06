@@ -28,6 +28,10 @@ module Ohcount
 				rules << CKeywordRule.new(keywords)
 			end
 
+			def self.php_keywords(*keywords)
+				rules << PHPKeywordRule.new(keywords)
+			end
+
 			def to_sym
 				self.class.to_sym
 			end

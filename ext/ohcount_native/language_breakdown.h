@@ -14,11 +14,13 @@ typedef struct {
 	char *comment;
 	char *comment_cur;
 	int blank_count;
+	int code_count;
+	int comment_count;
 	int buffer_size;
 } LanguageBreakdown;
 
 void language_breakdown_initialize(LanguageBreakdown *lb, char *name, int buffer_size);
-int language_breakdown_copy_code(LanguageBreakdown *lb, char *from, char *to);
-int language_breakdown_copy_comment(LanguageBreakdown *lb, char *from, char *to);
+int language_breakdown_append_code_line(LanguageBreakdown *lb, char *from, char *to);
+int language_breakdown_append_comment_line(LanguageBreakdown *lb, char *from, char *to);
 
 void language_breakdown_free(LanguageBreakdown *lb);

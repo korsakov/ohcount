@@ -13,12 +13,11 @@ class SourceFileTest < Ohcount::Test
 		assert_equal contents, f.contents
 	end
 
-	def test_languages
+	def test_language_breakdowns
 		contents = "x = 5"
 		f = SourceFile.new("foo.rb", :contents => contents)
-		assert_equal [:ruby], f.languages
-		assert_equal({:code => contents}, f.ruby)
-		assert_equal contents, f.ruby.code
+		assert_equal 'ruby', f.language_breakdowns[0].name
+		assert_equal contents, f.language_breakdowns('ruby').code
 	end
 
 	def test_parse

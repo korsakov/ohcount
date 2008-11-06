@@ -27,8 +27,8 @@ module Ohcount
 						@lib_counts[l] ||= 0
 						@lib_counts[l] += 1
 					end
-					s.languages.each do |l|
-						@language_counts[l] = s.send(l).code.to_s.split.size
+					s.language_breakdowns.each do |lb|
+						@language_counts[lb.name.intern] = lb.code_count
 					end
 				end
 

@@ -18,15 +18,23 @@ class OhcountCommandLine
 		self.paths = args
 	end
 
+	def source_file_list
+		@source_file_list ||= Ohcount::SourceFileList.new(:paths => paths)
+	end
+
 	def paths
-		@paths || []
+		@paths.empty? ? ['.'] : @paths
 	end
 
 	def paths=(p)
 		@paths=p
-		@files = nil # If we change the search paths, clear the cache filenames
+		# If we change the search paths, clear the cached filenames
+		@files = @source_file_list = nil
 	end
 
+	#
+	# TO DEPRECATE BEGIN
+	#
 	def files
 		return @files if @files
 
@@ -48,10 +56,12 @@ class OhcountCommandLine
 			array << path
 		end
 	end
+	#
+	# TO DEPRECATE END
+	#
 
 	def annotate
-		files.each do |file|
-			s = Ohcount::SourceFile.new(file, :filenames => files)
+		source_file_list.each_source_file do |s|
 			s.parse do |language, semantic, line|
 				puts "#{language}\t#{semantic}\t#{line}"
 			end
@@ -60,34 +70,47 @@ class OhcountCommandLine
 
 	# Find all source code files
 	def detect
-		files.each do |file|
-			s = Ohcount::SourceFile.new(file, :filenames => files)
-			puts "#{s.polyglot}\t#{file}" if s.polyglot
+		source_file_list.each_source_file do |s|
+			puts "#{s.polyglot}\t#{s.filename}" if s.polyglot
 		end
 	end
 
   # Licenses
   def licenses
-		files.each do |file|
-			s = Ohcount::SourceFile.new(file, :filenames => files)
+		source_file_list.each_source_file do |s|
       next unless s.licenses.any?
-			symbols = licenses.collect { |l| LicenseSniffer::LicenseMap.instance.map[l].symbol }.join(",")
-			puts "#{symbols}\t#{file}"
-    end
+			symbols = s.licenses.collect { |l| LicenseSniffer::LicenseMap.instance.map[l].symbol }.join(",")
+			puts "#{symbols}\t#{s.filename}"
+		end
   end
 
-  # Gestalt
-	def gestalt
-		g = Ohcount::Gestalt::Base.new(:files => files)
-		puts "processing #{files.size} files... (this could take a while)"
-		g.process!
-		platforms = g.platforms.any? ? g.platforms.collect { |p| p.to_s }.join(", ") : 'None'
+	def analyze_with_progress(what)
+		count = 0
+		source_file_list.analyze(what) do |s|
+			if count % 100 == 0
+				STDOUT.write('.')
+				STDOUT.flush
+			end
+			count+=1
+		end
+		puts "\n"
+	end
+
+	def write_platforms
+		platforms = source_file_list.gestalt_facts.platforms
+		platforms = platforms.any? ? platforms.collect { |p| p.to_s }.join(", ") : 'None'
 		puts "Platforms detected: #{ platforms }"
 	end
 
+  # Gestalt
+	def gestalt
+		analyze_with_progress(:gestalt)
+		write_platforms
+	end
+
 	def raw_entities
-		files.each do |file|
-			Ohcount::SourceFile.new(file, :filenames => files).raw_entities do |language, entity, s, e|
+		source_file_list.each_source_file do |s|
+			s.raw_entities do |language, entity, s, e|
 				puts "#{language}\t#{entity}\t#{s}\t#{e}"
 			end
 		end
@@ -163,20 +186,9 @@ HELP
 		puts "Language             Code    Comment  Comment %      Blank      Total  File"
 		puts "--------------  ---------  ---------  ---------  ---------  ---------  -----------------------------------------------"
 
-		files.each do |file|
-			counts = {}
-			languages_found=[]
-			s = Ohcount::SourceFile.new(file, :filenames => files)
-			if s.source_code?
-				s.parse do |language_name, semantic, line|
-					counts[language_name] ||={:code => 0, :comment => 0, :blank => 0}
-					counts[language_name][semantic] += 1
-					languages_found << language_name unless languages_found.include?(language_name)
-				end
-			end
-
-			counts.keys.sort{ |a,b| counts[b][:code] <=> counts[a][:code] }.each do |key|
-				write_individual_row(file, key, counts[key][:code],counts[key][:comment],counts[key][:blank])
+		source_file_list.analyze(:language) do |s|
+			s.language_breakdowns.sort {|l1,l2| l2.name <=> l1.name}.each do |lb|
+				write_individual_row(s.filename, lb.name, lb.code_count, lb.comment_count, lb.blanks)
 			end
 		end
 	end
@@ -203,34 +215,10 @@ HELP
 		end
 	end
 
-
 	def summary
-		STDOUT.write "Examining #{files.size} file(s)"
+		STDOUT.write "Examining #{source_file_list.size} file(s)"
 
-		counts = {}
-		any_language_file_count = 0
-		progress = 0
-
-		files.each do |file|
-			languages_found = []
-			Ohcount::SourceFile.new(file, :filenames => files).parse do |language_name, semantic, line|
-				counts[language_name] ||= {:code => 0, :comment => 0, :blank => 0}
-				counts[language_name][semantic] += 1
-				languages_found << language_name unless languages_found.include?(language_name)
-			end
-
-			# Keep a running total of the number of files that include a specific language
-			languages_found.each { |l| counts[l][:files] = (counts[l][:files] || 0) + 1 }
-
-			# Keep a running total of the number of files that include any language
-			any_language_file_count += 1 if languages_found.any?
-
-			progress += 1
-			if (progress % 100 == 0)
-				STDOUT.write('.')
-				STDOUT.flush
-			end
-		end
+		analyze_with_progress(:*)
 
 		puts
 		puts "Ohloh Line Count Summary".center(76)
@@ -239,15 +227,20 @@ HELP
 		puts "Language        Files       Code    Comment  Comment %      Blank      Total"
 		puts "--------------  -----  ---------  ---------  ---------  ---------  ---------"
 
-		counts.keys.sort{ |a,b| counts[b][:code] <=> counts[a][:code] }.each do |key|
-			write_summary_row(key, counts[key][:files], counts[key][:code], counts[key][:comment], counts[key][:blank])
+		language_facts = source_file_list.language_facts
+		language_facts.fact_map.values.sort { |a,b| b.code <=> a.code}.each do |lf|
+			write_summary_row(lf.language, lf.filecount, lf.code, lf.comments, lf.blanks)
 		end
 
 		puts "--------------  -----  ---------  ---------  ---------  ---------  ---------"
-		write_summary_row('Total', any_language_file_count,
-											counts.values.inject(0) { |sum, v| sum + v[:code] },
-											counts.values.inject(0) { |sum, v| sum + v[:comment] },
-											counts.values.inject(0) { |sum, v| sum + v[:blank] })
+		write_summary_row('Total', language_facts.filecount,
+											language_facts.code,
+											language_facts.comments,
+											language_facts.blanks)
+
+
+		puts
+		write_platforms
 	end
 
 	def write_summary_row(name, file_count, code, comment, blank)

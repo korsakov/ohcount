@@ -12,5 +12,13 @@ module Ohcount
 			c_keywords 'WM_PAINT', 'ReleaseDC', 'WndProc'
 		end
 
+		class CakePhpCore < Library
+			php_keywords "CAKE_CORE_INCLUDE_PATH"
+		end
+
+		class BSDLib < Library
+			c_keywords 'FTS_PHYSICAL'
+		end
+
 	end
 end

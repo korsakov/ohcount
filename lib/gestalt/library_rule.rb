@@ -21,7 +21,8 @@ module Ohcount
 
 			def trigger?(source_file)
 				return false unless ['c','cpp'].include?(source_file.polyglot)
-				regexp.match(source_file.c.code) || regexp.match(source_file.cpp.code)
+				regexp.match(source_file.language_breakdowns('c').code) ||
+					regexp.match(source_file.language_breakdowns('cpp').code)
 			end
 
 			def regexp
@@ -44,16 +45,11 @@ module Ohcount
 			end
 		end
 
-		class CKeywordRule < LibraryRule
+		class KeywordLibraryRule
 			attr_reader :keywords
 
 			def initialize(*keywords)
 				@keywords = keywords
-			end
-
-			def trigger?(source_file)
-				return false unless ['c','cpp'].include?(source_file.polyglot)
-				regexp.match(source_file.c.code) || regexp.match(source_file.cpp.code)
 			end
 
 			def regexp
@@ -62,5 +58,20 @@ module Ohcount
 				end
 			end
 		end
+
+		class CKeywordRule < KeywordLibraryRule
+			def trigger?(source_file)
+				return false unless ['c','cpp'].include?(source_file.polyglot)
+				regexp.match(source_file.language_breakdowns('c').code) ||
+					regexp.match(source_file.language_breakdowns('cpp').code)
+			end
+		end
+
+		class PHPKeywordRule < KeywordLibraryRule
+			def trigger?(source_file)
+				regexp.match(source_file.language_breakdowns('php').code)
+			end
+		end
+	
 	end
 end

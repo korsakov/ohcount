@@ -23,40 +23,76 @@ module Ohcount
 				def inherited(other) children << other and super end
 				def descendants() children.inject([]){|d,c| d.push(c, *c.descendants)} end
 			end
+
 		end
 
-		# Will trigger if any sub-trigger does
-		class OrTrigger
+		class PTrigger
+		end
+
+		class LogicalTrigger < PTrigger
 			attr_reader :triggers
 
 			def initialize(*triggers)
 				@triggers = triggers
 			end
 
+			def new_trigger(t_class, *args)
+				# since we might be nesting logical triggers, we must do remove
+				# any 'grandchildren triggers' from our list, since we are giving
+				args.each do |a|
+					next unless a.is_a?(PTrigger)
+					@triggers.delete(a)
+				end
+				t = t_class.new(*args)
+				triggers << t
+				t
+			end
+
+			def t_or(*args)
+				new_trigger OrTrigger, *args
+			end
+
+			def t_and(*args)
+				new_trigger AndTrigger, *args
+			end
+
+			def trigger_libs(*args)
+				new_trigger LibsTrigger, *args
+			end
+
+			def trigger_platform(*args)
+				new_trigger PlatformTrigger, *args
+			end
+
+			def trigger_language(*args)
+				new_trigger LanguageTrigger, *args
+			end
+		end
+
+		# Will trigger if any sub-trigger does
+		class OrTrigger < LogicalTrigger
 			def triggered?(g_attr)
 				triggers.each do |t|
 					return t if t.triggered?(g_attr)
 				end
 				nil
 			end
+		end
 
-			def trigger_libs(*args)
-				triggers << LibsTrigger.new(*args)
-			end
-
-			def trigger_platform(platform)
-				triggers << PlatformTrigger.new(platform)
-			end
-
-			def trigger_language(language, options = {})
-				triggers << LanguageTrigger.new(language, options)
+		# Will trigger if all sub-triggers do
+		class AndTrigger < LogicalTrigger
+			def triggered?(g)
+				triggers.each do |t|
+					return nil unless t.triggered?(g)
+				end
+				self
 			end
 		end
 
 		# will trigger if any libs were detected
 		# options:
 		#   :count => minimum number of detections (default 1)
-		class LibsTrigger
+		class LibsTrigger < PTrigger
 			attr_reader :lib_symbols
 			attr_reader :count
 
@@ -77,7 +113,7 @@ module Ohcount
 			end
 		end
 
-		class PlatformTrigger
+		class PlatformTrigger < PTrigger
 			attr_reader :platform
 
 			def initialize(platform)
@@ -89,7 +125,7 @@ module Ohcount
 			end
 		end
 
-		class LanguageTrigger
+		class LanguageTrigger < PTrigger
 			attr_reader :language
 			attr_reader :min_percent
 
@@ -106,8 +142,4 @@ module Ohcount
 		end
 	end
 end
-
-# require the dynamic rules
-require OHCOUNT_ROOT + '/rules/libraries'
-require OHCOUNT_ROOT + '/rules/platforms'
 

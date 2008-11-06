@@ -21,20 +21,29 @@ static VALUE _language_breakdown_allocate(VALUE klass) {
 	_my_buffer_size	= 100;
 	LanguageBreakdown *language_breakdown = (LanguageBreakdown *) malloc(sizeof(LanguageBreakdown));
 	language_breakdown_initialize(language_breakdown, "", _my_buffer_size);
-
-	/* bs initializers */
-	strcpy(language_breakdown->name, "");
-	strcpy(language_breakdown->code, "");
-	strcpy(language_breakdown->comment, "");
 	return Data_Wrap_Struct(klass, 0, _language_breakdown_free, language_breakdown);
 }
 
-static VALUE _language_breakdown_initialize(VALUE self, VALUE name, VALUE code, VALUE comment, VALUE blanks) {
+/*
+ * Initializes a LanguageBreakdown.
+ *
+ * call-seq:
+ *   new<em>(language_name, code_string, comment_string, blank_counts)</em>
+ *
+ */
+static VALUE _language_breakdown_initialize(int argc, VALUE* argv, VALUE self) {
+	VALUE name;
+	VALUE code;
+	VALUE comment;
+	VALUE blanks;
+
+ 	rb_scan_args(argc, argv, "13", &name, &code, &comment, &blanks);
+
 	/* validation */
-	Check_Type(name, T_STRING);
-	Check_Type(code, T_STRING);
-	Check_Type(comment, T_STRING);
-	Check_Type(blanks, T_FIXNUM);
+	Check_Type(name,    T_STRING);
+	if (!NIL_P(code))    { Check_Type(code,    T_STRING); }
+	if (!NIL_P(comment)) { Check_Type(comment, T_STRING); }
+	if (!NIL_P(blanks))  { Check_Type(blanks,  T_FIXNUM); }
 
 	LanguageBreakdown *lb;
 	Data_Get_Struct (self, LanguageBreakdown, lb);
@@ -43,52 +52,102 @@ static VALUE _language_breakdown_initialize(VALUE self, VALUE name, VALUE code, 
 	strncpy(lb->name, rb_string_value_ptr(&name), MAX_LANGUAGE_NAME);
 
 	/* code */
-	if (lb->code != NULL) {
-		free(lb->code);
+	if (!NIL_P(code)) {
+		if (lb->code != NULL) {
+			free(lb->code);
+		}
+		lb->code = (char*)malloc(RSTRING(code)->len + 1);
+		strcpy(lb->code, rb_string_value_ptr(&code));
 	}
-	lb->code = (char*)malloc(RSTRING(code)->len + 1);
-	strcpy(lb->code, rb_string_value_ptr(&code));
 
 	/* comment */
-	if (lb->comment != NULL) {
-		free(lb->comment);
+	if (!NIL_P(comment)) {
+		if (lb->comment != NULL) {
+			free(lb->comment);
+		}
+		lb->comment = (char*)malloc(RSTRING(comment)->len + 1);
+		strcpy(lb->comment, rb_string_value_ptr(&comment));
 	}
-	lb->comment = (char*)malloc(RSTRING(comment)->len + 1);
-	strcpy(lb->comment, rb_string_value_ptr(&comment));
 
 	/* blanks */
-	lb->blank_count = NUM2INT(blanks);
-
+	if (!NIL_P(blanks)) {
+		lb->blank_count = NUM2INT(blanks);
+	}
 	return self;
 }
 
+/*
+ * Returns the language name of this LanguageBreakdown.
+ *
+ * Example:
+ *   puts lb.name
+ *
+ *   # would output
+ *   Ruby # assuming the lb language was Ruby
+ */
 static VALUE _language_breakdown_name(VALUE self) {
 	LanguageBreakdown *lb;
 	Data_Get_Struct (self, LanguageBreakdown, lb);
 	return rb_str_new2(lb->name);
 }
 
+/*
+ * Returns a string containing only the code portion
+ * of the file. For example, if the file contained the
+ * following Ruby code:
+ *
+ *   # a comment
+ *   i = 5
+ *
+ * After parsing, the code portion would contain:
+ *
+ *   i = 5
+ */
 static VALUE _language_breakdown_code(VALUE self) {
 	LanguageBreakdown *lb;
 	Data_Get_Struct (self, LanguageBreakdown, lb);
 	return rb_str_new2(lb->code);
 }
 
+/*
+ * Returns a string containing only the commented lines.
+ */
 static VALUE _language_breakdown_comment(VALUE self) {
 	LanguageBreakdown *lb;
 	Data_Get_Struct (self, LanguageBreakdown, lb);
 	return rb_str_new2(lb->comment);
 }
 
+/*
+ * Returns the count of blanks
+ */
 static VALUE _language_breakdown_blanks(VALUE self) {
 	LanguageBreakdown *lb;
 	Data_Get_Struct (self, LanguageBreakdown, lb);
-	return INT2NUM(lb->blank_count);
+	return INT2FIX(lb->blank_count);
 }
 
+/*
+ * Returns the count of lines of code
+ */
+static VALUE _language_breakdown_code_count(VALUE self) {
+	LanguageBreakdown *lb;
+	Data_Get_Struct (self, LanguageBreakdown, lb);
+	return INT2FIX(lb->code_count);
+}
 
 /*
- * Ohcount::parse is the main entry point to Ohcount.
+ * Returns the count of lines of comment
+ */
+static VALUE _language_breakdown_comment_count(VALUE self) {
+	LanguageBreakdown *lb;
+	Data_Get_Struct (self, LanguageBreakdown, lb);
+	return INT2FIX(lb->comment_count);
+}
+
+/*
+ * Ohcount::parse is the Ohcount's workhorse function. It's wrapped by the
+ * SourceFile object - which provides a cleaner and easier API.
  *
  * It takes two parameters: a string buffer, and a string Monoglot or Polyglot name.
  * The buffer will be parsed using the specified glot.
@@ -139,6 +198,8 @@ static VALUE _ohcount_parse(VALUE self, VALUE buffer, VALUE polyglot_name_value)
 			strcpy(lb->name,src_lb->name);
 			lb->code = src_lb->code;
 			lb->comment = src_lb->comment;
+			lb->code_count = src_lb->code_count;
+			lb->comment_count = src_lb->comment_count;
 			lb->blank_count = src_lb->blank_count;
 			rb_ary_store(ary, i_pr, Data_Wrap_Struct(rb_class_language_breakdown, 0, _language_breakdown_free, lb));
 		}
@@ -150,7 +211,10 @@ static VALUE _ohcount_parse(VALUE self, VALUE buffer, VALUE polyglot_name_value)
 }
 
 
-/**
+/*
+ * Document-class: Ohcount
+ * Document-method: parse_entities
+ *
  * Parses a source file's entities (if available).
  * An entity is each comment, string, number, keyword, etc. that occurs in a
  * source file.
@@ -192,13 +256,21 @@ void Init_ohcount_native () {
 	rb_define_module_function(rb_module_ohcount, "parse", _ohcount_parse, 2);
 	rb_define_module_function(rb_module_ohcount, "parse_entities", _ohcount_parse_entities, 2);
 
-	// define language_breakdown
+ /*
+	* When a file containing source code is parsed, it stores the results in a
+	* collection of LanguageBreakdowns - one per coding language found in the
+	* file. For example, a parsed html file might contain three
+	* LanguageBreakdowns: one for html, one for javascript and another for css.
+	*
+	*/
 	rb_class_language_breakdown = rb_define_class_under( rb_module_ohcount, "LanguageBreakdown", rb_cObject);
 	rb_define_alloc_func (rb_class_language_breakdown, _language_breakdown_allocate);
-	rb_define_method (rb_class_language_breakdown, "initialize", _language_breakdown_initialize, 4);
+	rb_define_method (rb_class_language_breakdown, "initialize", _language_breakdown_initialize, -1);
 	rb_define_method (rb_class_language_breakdown, "name", _language_breakdown_name, 0);
 	rb_define_method (rb_class_language_breakdown, "code", _language_breakdown_code, 0);
 	rb_define_method (rb_class_language_breakdown, "comment", _language_breakdown_comment, 0);
 	rb_define_method (rb_class_language_breakdown, "blanks", _language_breakdown_blanks, 0);
+	rb_define_method (rb_class_language_breakdown, "code_count", _language_breakdown_code_count, 0);
+	rb_define_method (rb_class_language_breakdown, "comment_count", _language_breakdown_comment_count, 0);
 }
 

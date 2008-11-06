@@ -56,7 +56,7 @@ module Ohcount
 		end
 
 		def polyglot
-			@polyglot ||= Ohcount::Detector::Base.detect(self)
+			@polyglot ||= Ohcount::Detector.detect(self)
 		end
 
 		def basename
@@ -69,27 +69,21 @@ module Ohcount
 			!!polyglot
 		end
 
-		def parse
-			# dont reparse for nothing
-			return if parsed? && !block_given?
-
-			@languages = {}
-			return unless polyglot
-			Ohcount::parse(contents, polyglot) do |language, semantic, line|
-				@languages[language] ||= HashWithDotAccess.new
-				@languages[language][semantic] ||= ''
-				@languages[language][semantic] << line
-				yield(language, semantic, line) if block_given?
-			end
+		def parse(&block)
+			@language_breakdowns = Ohcount::parse(contents, polyglot, &block)
 		end
 
 		def parsed?
-			!(@languages.nil?)
+			!(@language_breakdowns.nil?)
 		end
 
-		def languages
-			parse unless @languages
-			@languages.keys
+		def language_breakdowns(language = nil)
+			parse unless parsed?
+			if language
+				return @language_breakdowns.find { |lb| lb.name == language.to_s } ||
+					LanguageBreakdown.new(language.to_s)
+			end
+			@language_breakdowns
 		end
 
 		def licenses
@@ -109,17 +103,5 @@ module Ohcount
 			Ohcount::parse_entities(contents, polyglot, &block)
 		end
 
-		# we support sourcefile.ruby
-		def method_missing(method, *args)
-			parse	
-			return @languages[method] || HashWithDotAccess.new
-		end
-
-	end
-end
-
-class HashWithDotAccess < Hash
-	def method_missing(method, *args)
-		self[method] if args.empty?
 	end
 end

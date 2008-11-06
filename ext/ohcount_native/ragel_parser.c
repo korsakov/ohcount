@@ -219,10 +219,10 @@ void ragel_parse_yield_entity(const char *lang, const char *entity, int s, int e
 void ragel_parser_callback(const char *lang, const char *entity, int s, int e) {
   LanguageBreakdown *lb = get_language_breakdown((char *) lang);
   if (strcmp(entity, "lcode") == 0) {
-    if (language_breakdown_copy_code(lb, parse_buffer + s, parse_buffer + e))
+    if (language_breakdown_append_code_line(lb, parse_buffer + s, parse_buffer + e))
       ragel_parse_yield_line(lang, entity, s, e);
   } else if (strcmp(entity, "lcomment") == 0) {
-    if (language_breakdown_copy_comment(lb, parse_buffer + s, parse_buffer + e))
+    if (language_breakdown_append_comment_line(lb, parse_buffer + s, parse_buffer + e))
       ragel_parse_yield_line(lang, entity, s, e);
   } else if (strcmp(entity, "lblank") == 0) {
     lb->blank_count++;
