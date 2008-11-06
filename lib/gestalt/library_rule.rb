@@ -41,7 +41,15 @@ module Ohcount
 			end
 
 			def trigger?(source_file)
+				# string_matches
 				filenames.include?(source_file.basename)
+			end
+
+			def regex
+				#@regexp ||= begin
+				#	filenames.collect		
+				#	Regexp.new("(" + keywords.join("|") + ")")
+				#end
 			end
 		end
 

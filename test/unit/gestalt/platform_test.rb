@@ -29,6 +29,10 @@ class PlatformTest < Test::Unit::TestCase
 		assert_platform('cakephp', CakePHP)
 	end
 
+	def test_spring_framework
+		assert_platform('spring_framework', Java)
+	end
+
 	def test_rails
 		assert_platform('rails', Ruby, Rails)
 	end

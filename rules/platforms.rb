@@ -1,5 +1,4 @@
 # platforms
-
 include Ohcount::Gestalt
 
 class POSIX < Platform
@@ -26,9 +25,24 @@ class Rails < Platform
 			 )
 end
 
+class Java < Platform
+	trigger_language :java, :min_percent => 20
+end
+
 class CakePHP < Platform
 	t_and(
 				trigger_language(:php, :min_percent => 15),
 				trigger_libs(:cake_php_core)
+			 )
+end
+
+class Java < Platform
+	trigger_language :java, :min_percent => 15
+end
+
+class SpringFramework < Platform
+	t_and(
+				trigger_platform(Java),
+				trigger_libs(:spring_library)
 			 )
 end

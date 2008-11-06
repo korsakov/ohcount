@@ -71,7 +71,7 @@ class OhcountCommandLine
 	# Find all source code files
 	def detect
 		source_file_list.each_source_file do |s|
-			puts "#{s.polyglot}\t#{s.filename}" if s.polyglot
+			puts "#{s.polyglot}\t#{s.filename}"
 		end
 	end
 

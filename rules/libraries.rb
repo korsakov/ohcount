@@ -24,5 +24,9 @@ module Ohcount
 			c_keywords 'FTS_PHYSICAL'
 		end
 
+		class SpringLibrary < Library
+			files 'spring.jar'
+		end
+
 	end
 end
