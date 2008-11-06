@@ -19,6 +19,13 @@ class Ruby < Platform
 	trigger_language :ruby, :min_percent => 15
 end
 
+class Rails < Platform
+	t_and(
+				trigger_libs(:rails_core),
+				trigger_platform(Ruby)
+			 )
+end
+
 class CakePHP < Platform
 	t_and(
 				trigger_language(:php, :min_percent => 15),

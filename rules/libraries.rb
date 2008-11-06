@@ -16,6 +16,10 @@ module Ohcount
 			php_keywords "CAKE_CORE_INCLUDE_PATH"
 		end
 
+		class RailsCore < Library
+			ruby_keywords "RAILS_ROOT"
+		end
+
 		class BSDLib < Library
 			c_keywords 'FTS_PHYSICAL'
 		end

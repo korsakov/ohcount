@@ -28,12 +28,16 @@ module Ohcount
 				rules << CKeywordRule.new(keywords)
 			end
 
-			def self.php_keywords(*keywords)
-				rules << PHPKeywordRule.new(keywords)
-			end
-
 			def to_sym
 				self.class.to_sym
+			end
+
+			def self.method_missing(m,*args)
+				if /(.*)_keywords$/ =~ m.to_s
+					language = $1
+					return rules << KeywordLibraryRule.new(language,args)
+				end
+				super
 			end
 
 			# when tallying up libraries, its easier to

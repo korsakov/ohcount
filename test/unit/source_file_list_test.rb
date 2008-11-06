@@ -9,7 +9,7 @@ class SourceFileListTest < Ohcount::Test
 #	end
 
 	def test_language_facts
-		sfl = SourceFileList.new(:path => test_dir('test_win32_enough'))
+		sfl = SourceFileList.new(:path => test_dir('win32_enough'))
 		sfl.analyze(:language)
 		assert_equal 2, sfl.language_facts.filecount
 		assert_equal 2, sfl.language_facts.c.code
@@ -18,7 +18,7 @@ class SourceFileListTest < Ohcount::Test
 	end
 
 	def test_gestalt_facts
-		sfl = SourceFileList.new(:path => test_dir('test_win32_enough'))
+		sfl = SourceFileList.new(:path => test_dir('win32_enough'))
 		sfl.analyze(:gestalt)
 		assert_equal [Win32], sfl.gestalt_facts.platforms
 	end

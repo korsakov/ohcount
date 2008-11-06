@@ -46,10 +46,16 @@ module Ohcount
 		end
 
 		class KeywordLibraryRule
-			attr_reader :keywords
+			attr_reader :keywords, :language
 
-			def initialize(*keywords)
+			def initialize(language, *keywords)
+				@language = language
 				@keywords = keywords
+			end
+
+			def trigger?(source_file)
+				return unless source_file.language_breakdowns(language)
+				regexp.match(source_file.language_breakdowns(language).code)
 			end
 
 			def regexp
@@ -60,6 +66,11 @@ module Ohcount
 		end
 
 		class CKeywordRule < KeywordLibraryRule
+
+			def initialize(*keywords)
+				super('c',*keywords)
+			end
+
 			def trigger?(source_file)
 				return false unless ['c','cpp'].include?(source_file.polyglot)
 				regexp.match(source_file.language_breakdowns('c').code) ||
@@ -67,11 +78,5 @@ module Ohcount
 			end
 		end
 
-		class PHPKeywordRule < KeywordLibraryRule
-			def trigger?(source_file)
-				regexp.match(source_file.language_breakdowns('php').code)
-			end
-		end
-	
 	end
 end

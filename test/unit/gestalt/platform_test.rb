@@ -6,27 +6,31 @@ include Ohcount::Gestalt
 class PlatformTest < Test::Unit::TestCase
 
 	def test_win32_not_enough
-		assert_platform('test_win32_not_enough')
+		assert_platform('win32_not_enough')
 	end
 
 	def test_win32_enough
-		assert_platform('test_win32_enough', Win32)
+		assert_platform('win32_enough', Win32)
 	end
 
 	def test_linux_1
-		assert_platform('test_linux_1', POSIX, Linux)
+		assert_platform('linux_1', POSIX, Linux)
 	end
 
 	def test_ruby_just_enough
-		assert_platform('test_ruby_just_enough', Ruby)
+		assert_platform('ruby_just_enough', Ruby)
 	end
 
 	def test_ruby_not_enough
-		assert_platform('test_ruby_not_enough')
+		assert_platform('ruby_not_enough')
 	end
 
 	def test_cakephp
-		assert_platform('test_cakephp', CakePHP)
+		assert_platform('cakephp', CakePHP)
+	end
+
+	def test_rails
+		assert_platform('rails', Ruby, Rails)
 	end
 
 	protected
