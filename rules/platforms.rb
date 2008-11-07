@@ -2,8 +2,8 @@
 include Ohcount::Gestalt
 
 class POSIX < Platform
-	# gnu_lib
-	c_headers 'pthread.h', 'xstrtol.h', 'xreadlink.h', 'fatal-signal.h', 'diacrit.h'
+	# gnu_lib && generic
+	c_headers 'pthread.h', 'xstrtol.h', 'xreadlink.h', 'fatal-signal.h', 'diacrit.h', 'syslog.h', 'sys/stat.h'
 
 	# autoconf means m4 (unix macro processor)
 	language :autoconf
@@ -60,6 +60,10 @@ class PHP < Platform
 	language :php, :min_percent => 15
 end
 
+class WxWidgets < Platform
+	c_headers 'wx/window.h'
+end
+
 class CakePHP < Platform
 	_and(
 				platform(PHP),
@@ -69,6 +73,18 @@ end
 
 class KDE < Platform
 	c_headers 'KDEInit.h', 'kdeversion.h'
+end
+
+class SQL < Platform
+	language :sql
+end
+
+class MySQL < Platform
+	php_keywords('mysql_connect')
+end
+
+class PostgreSQL < Platform
+	php_keywords('pg_connect')
 end
 
 class EclipsePlatform < Platform

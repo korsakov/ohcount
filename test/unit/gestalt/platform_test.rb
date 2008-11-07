@@ -5,6 +5,10 @@ include Ohcount::Gestalt
 
 class PlatformTest < Test::Unit::TestCase
 
+	def test_wx_widgets
+		assert_platform('wx_widgets', WxWidgets)
+	end
+
 	def test_eclipse_platform
 		assert_platform('eclipse_platform', Java, EclipsePlatform)
 	end
