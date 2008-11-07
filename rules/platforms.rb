@@ -45,7 +45,7 @@ class SpringFramework < Platform
 end
 
 class XWindows < Platform
-	c_headers 'Xlib.h', 'X11\/xpm.h'
+	c_headers 'Xlib.h', 'X11\/xpm.h', 'X11/Xlib.h'
 end
 
 class Mac < Platform
@@ -65,4 +65,8 @@ end
 
 class KDE < Platform
 	c_headers 'KDEInit.h', 'kdeversion.h'
+end
+
+class EclipsePlatform < Platform
+	java_import 'org.eclipse.'
 end

@@ -5,6 +5,10 @@ include Ohcount::Gestalt
 
 class PlatformTest < Test::Unit::TestCase
 
+	def test_eclipse_platform
+		assert_platform('eclipse_platform', Java, EclipsePlatform)
+	end
+
 	def test_cakephp
 		assert_platform('cakephp', CakePHP)
 	end
