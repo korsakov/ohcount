@@ -5,6 +5,10 @@ include Ohcount::Gestalt
 
 class PlatformTest < Test::Unit::TestCase
 
+	def test_eclipse_platform
+		assert_platform('eclipse_platform', Java, EclipsePlatform)
+	end
+
 	def test_win32_not_enough
 		assert_platform('win32_not_enough')
 	end
@@ -51,6 +55,14 @@ class PlatformTest < Test::Unit::TestCase
 
 	def test_posix
 		assert_platform('posix', POSIX)
+	end
+
+	def test_x_windows
+		assert_platform('xwindows', XWindows)
+	end
+
+	def test_kde
+		assert_platform('kde', KDE)
 	end
 
 	protected

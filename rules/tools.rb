@@ -1,6 +1,8 @@
 # Tools
+include Ohcount::Gestalt
+
 class VisualStudio < Tool
-	c_headers 'pthread.h', 'xstrtol.h', 'xreadlink.h', 'fatal-signal.h', 'diacrit.h'
+	trigger_libs :visual_studio_files
 end
 
 class Eclipse < Tool

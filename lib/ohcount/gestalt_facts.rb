@@ -2,18 +2,18 @@ module Ohcount
 
 	# Represents language statistics for a collection of files
 	class GestaltFacts
-		attr_accessor :platforms, :lib_counts, :language_counts
+		attr_accessor :platforms, :file_rules, :language_counts
 
 		def initialize
 			@platforms = []
-			@lib_counts = {}
+			@file_rules = {}
 			@language_counts = {}
 		end
 
 		def process(source_file)
-			Library.detect_libraries(source_file).collect { |library| library.to_sym }.each do |l|
-				@lib_counts[l] ||= 0
-				@lib_counts[l] += 1
+			FileRule.rules_triggered_by(source_file).each do |r|
+				@file_rules[r] ||= 0
+				@file_rules[r] += 1
 			end
 			source_file.language_breakdowns.each do |lb|
 				@language_counts[lb.name.intern] ||= 0
