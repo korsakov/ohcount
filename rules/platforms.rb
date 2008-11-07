@@ -66,3 +66,7 @@ end
 class KDE < Platform
 	c_headers 'KDEInit.h', 'kdeversion.h'
 end
+
+class MSDos < Platform
+	c_keywords '__MSDOS__', 'MSDOS', :min => 2
+end
