@@ -58,3 +58,7 @@ end
 class Mac < Platform
 	trigger_libs(:apple_events, :plist)
 end
+
+class KDE < Platform
+	trigger_libs(:k_d_e_headers)
+end

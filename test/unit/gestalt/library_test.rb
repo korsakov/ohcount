@@ -51,6 +51,14 @@ class LibraryTest < Test::Unit::TestCase
 		assert_detected_lib(s, XWindowsLib, CHeaderRule)
 	end
 
+	def test_kde
+		s = SourceFile.new("foo.c", :filenames => [], :contents => <<-INLINE_C
+											 #include <kdeversion.h>
+											 INLINE_C
+											)
+		assert_detected_lib(s, KDEHeaders, CHeaderRule)
+	end
+
 
 	protected
 
