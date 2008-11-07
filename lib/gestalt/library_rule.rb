@@ -41,15 +41,14 @@ module Ohcount
 			end
 
 			def trigger?(source_file)
-				# string_matches
-				filenames.include?(source_file.basename)
+				regex.match(source_file.filename)
 			end
 
 			def regex
-				#@regexp ||= begin
-				#	filenames.collect		
-				#	Regexp.new("(" + keywords.join("|") + ")")
-				#end
+				@regex ||= begin
+					r = filenames.collect { |f| "(" + f + ")"}.join("|")
+					Regexp.new(r)
+				end
 			end
 		end
 

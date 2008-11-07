@@ -303,7 +303,7 @@ HELP
 	end
 
 	def run!
-		self.subcommand ||= :gestalt
+		self.subcommand ||= :summary
 		if self.respond_to?(self.subcommand)
 			self.send(self.subcommand)
 		else

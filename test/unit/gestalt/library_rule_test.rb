@@ -27,6 +27,14 @@ class LibraryRuleTest < Test::Unit::TestCase
 		s = Ohcount::SourceFile.new('header.h')
 		assert r.trigger?(s)
 	end
+
+	def test_file_rule_advanced
+		r = Ohcount::Gestalt::FileRule.new(['f[ab]o', 'foo'])
+		assert r.trigger?(Ohcount::SourceFile.new('fao'))
+		assert r.trigger?(Ohcount::SourceFile.new('fbo'))
+		assert r.trigger?(Ohcount::SourceFile.new('foo'))
+		assert !r.trigger?(Ohcount::SourceFile.new('fco'))
+	end
 end
 
 
