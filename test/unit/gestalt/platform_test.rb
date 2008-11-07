@@ -13,10 +13,6 @@ class PlatformTest < Test::Unit::TestCase
 #		assert_platform('win32_enough', Win32)
 #	end
 #
-#	def test_linux_1
-#		assert_platform('linux_1', POSIX, Linux)
-#	end
-#
 #	def test_ruby_just_enough
 #		assert_platform('ruby_just_enough', Ruby)
 #	end
@@ -39,6 +35,10 @@ class PlatformTest < Test::Unit::TestCase
 
 	def test_mac
 		assert_platform('mac', Mac)
+	end
+
+	def test_posix
+		assert_platform('posix', POSIX)
 	end
 
 	protected
