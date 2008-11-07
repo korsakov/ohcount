@@ -53,6 +53,10 @@ class PlatformTest < Test::Unit::TestCase
 		assert_platform('xwindows', XWindows)
 	end
 
+	def test_kde
+		assert_platform('kde', KDE)
+	end
+
 	protected
 
 	def assert_platform(path, *platforms)

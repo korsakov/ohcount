@@ -48,5 +48,9 @@ module Ohcount
 		class XWindowsLib < Library
 			c_headers 'Xlib.h', 'X11\/xpm.h'
 		end
+
+		class KDEHeaders < Library
+			c_headers 'KDEInit.h', 'kdeversion.h'
+		end
 	end
 end
