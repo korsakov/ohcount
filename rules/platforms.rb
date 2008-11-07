@@ -2,59 +2,63 @@
 include Ohcount::Gestalt
 
 class POSIX < Platform
-	trigger_libs :gnu_lib
-	trigger_language :autoconf
+	# gnu_lib
+	c_headers 'pthread.h', 'xstrtol.h', 'xreadlink.h', 'fatal-signal.h', 'diacrit.h'
+	
+	# autoconf means m4 (unix macro processor)
+	language :autoconf
 end
 
 class Win32 < Platform
-	trigger_libs :windows_constants, :count => 2
+	c_headers 'windows.h'
+	c_keywords 'WM_PAINT', 'ReleaseDC', 'WndProc', :min => 2
 end
-
+ 
 class Ruby < Platform
-	trigger_language :ruby, :min_percent => 15
+	language :ruby, :min_percent => 15
 end
 
 class Rails < Platform
-	t_and(
-				trigger_libs(:rails_core),
-				trigger_platform(Ruby)
-			 )
+	_and(
+			 platform(Ruby),
+			 ruby_keywords("RAILS_ROOT")
+			)
 end
-
+ 
 class Java < Platform
-	trigger_language :java, :min_percent => 20
+	language :java, :min_percent => 15
 end
-
-class CakePHP < Platform
-	t_and(
-				trigger_language(:php, :min_percent => 15),
-				trigger_libs(:cake_php_core)
-			 )
-end
-
-class Java < Platform
-	trigger_language :java, :min_percent => 15
-end
-
+ 
 class Javascript < Platform
-	trigger_language :javascript, :min_percent => 20
+	language :javascript, :min_percent => 20
 end
 
 class JQuery < Platform
-	trigger_libs :j_query_library
+	filenames 'jquery-\d.\d.\d.min.js'
 end
-
+ 
 class SpringFramework < Platform
-	t_and(
-				trigger_platform(Java),
-				trigger_libs(:spring_library)
-			 )
+	_and(
+			 platform(Java),
+			 filenames('spring\.jar$')
+			)
 end
-
+ 
 class XWindows < Platform
-	trigger_libs :x_windows_lib
+	c_headers 'Xlib.h', 'X11\/xpm.h'
+end
+ 
+class Mac < Platform
+	# apple events
+	c_keywords 'AppleEvent', 'AEBuildAppleEvent'
+
+	# plist is a mac thing, right?
+	filenames '\.plist'
 end
 
-class Mac < Platform
-	trigger_libs(:apple_events, :plist)
+class CakePHP < Platform
+	_and(
+				language(:php, :min_percent => 15),
+				php_keywords('CAKE_CORE_INCLUDE_PATH')
+			 )
 end

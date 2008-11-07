@@ -5,6 +5,10 @@ include Ohcount::Gestalt
 
 class PlatformTest < Test::Unit::TestCase
 
+	def test_cakephp
+		assert_platform('cakephp', CakePHP)
+	end
+
 	def test_win32_not_enough
 		assert_platform('win32_not_enough')
 	end
@@ -19,10 +23,6 @@ class PlatformTest < Test::Unit::TestCase
 
 	def test_ruby_not_enough
 		assert_platform('ruby_not_enough')
-	end
-
-	def test_cakephp
-		assert_platform('cakephp', CakePHP)
 	end
 
 	def test_spring_framework
