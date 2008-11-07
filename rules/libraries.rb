@@ -25,8 +25,11 @@ module Ohcount
 		end
 
 		class SpringLibrary < Library
-			files 'spring.jar'
+			files 'spring\.jar'
 		end
 
+		class JQueryLibrary < Library
+			files 'jquery-\d.\d.\d.min.js'
+		end
 	end
 end

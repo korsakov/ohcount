@@ -40,9 +40,18 @@ class Java < Platform
 	trigger_language :java, :min_percent => 15
 end
 
+class Javascript < Platform
+	trigger_language :javascript, :min_percent => 20
+end
+
+class JQuery < Platform
+	trigger_libs :j_query_library
+end
+
 class SpringFramework < Platform
 	t_and(
 				trigger_platform(Java),
 				trigger_libs(:spring_library)
 			 )
 end
+

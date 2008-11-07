@@ -56,7 +56,18 @@ module Ohcount
 		end
 
 		def polyglot
-			@polyglot ||= Ohcount::Detector.detect(self)
+			@polyglot ||= begin
+				if file?
+					Ohcount::Detector.detect(self)
+				else
+					nil
+				end
+			end
+		end
+
+		# returns true iff we represent a file (could be a dir)
+		def file?
+			File.file?(@file_location) || @contents
 		end
 
 		def basename

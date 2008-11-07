@@ -32,6 +32,10 @@ class Ohcount::DetectorTest < Ohcount::Test
 		SourceFile.new(filepath, {:filenames => filename}).detect
 	end
 
+	def test_smalltalk
+		assert_equal "smalltalk", do_detect("example.st")
+	end
+
 	def test_matlab_or_objective_c
 		assert_equal 'objective_c', do_detect("t1.m")
 		assert_equal 'objective_c', do_detect("t2.m")
