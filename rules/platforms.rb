@@ -46,3 +46,7 @@ class SpringFramework < Platform
 				trigger_libs(:spring_library)
 			 )
 end
+
+class Mac < Platform
+	trigger_libs(:apple_events)
+end

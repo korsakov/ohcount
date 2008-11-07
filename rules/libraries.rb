@@ -28,5 +28,8 @@ module Ohcount
 			files 'spring.jar'
 		end
 
+		class AppleEvents < Library
+			c_keywords 'AppleEvent', 'AEBuildAppleEvent'
+		end
 	end
 end

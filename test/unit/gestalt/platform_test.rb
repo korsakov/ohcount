@@ -37,6 +37,10 @@ class PlatformTest < Test::Unit::TestCase
 		assert_platform('rails', Ruby, Rails)
 	end
 
+	def test_mac
+		assert_platform('mac', Mac)
+	end
+
 	protected
 
 	def assert_platform(path, *platforms)
