@@ -31,5 +31,9 @@ module Ohcount
 		class JQueryLibrary < Library
 			files 'jquery-\d.\d.\d.min.js'
 		end
+
+		class AppleEvents < Library
+			c_keywords 'AppleEvent', 'AEBuildAppleEvent'
+		end
 	end
 end

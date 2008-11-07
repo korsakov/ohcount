@@ -10,10 +10,6 @@ class Win32 < Platform
 	trigger_libs :windows_constants, :count => 2
 end
 
-class Linux < Platform
-	trigger_platform POSIX
-end
-
 class Ruby < Platform
 	trigger_language :ruby, :min_percent => 15
 end
@@ -55,3 +51,6 @@ class SpringFramework < Platform
 			 )
 end
 
+class Mac < Platform
+	trigger_libs(:apple_events)
+end

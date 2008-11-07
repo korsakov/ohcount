@@ -34,6 +34,15 @@ class LibraryTest < Test::Unit::TestCase
 		assert_detected_lib(s, WindowsConstants, CKeywordRule)
 	end
 
+	def test_apple_events
+		s = SourceFile.new("foo.c", :filenames => [], :contents => <<-INLINE_C
+											 // fake apple event file
+											 AppleEvent tAppleEvent;
+											 INLINE_C
+											)
+		assert_detected_lib(s, AppleEvents, CKeywordRule)
+	end
+
 	protected
 
 	def assert_detected_lib(source_file, lib, triggered_rule)
