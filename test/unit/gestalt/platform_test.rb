@@ -22,7 +22,7 @@ class PlatformTest < Test::Unit::TestCase
 	end
 
 	def test_cakephp
-		assert_platform('cakephp', CakePHP)
+		assert_platform('cakephp', PHP, CakePHP)
 	end
 
 	def test_spring_framework
@@ -35,6 +35,10 @@ class PlatformTest < Test::Unit::TestCase
 
 	def test_jquery
 		assert_platform('jquery', Javascript, JQuery)
+	end
+
+	def test_php
+		assert_platform('php', PHP)
 	end
 
 	def test_mac

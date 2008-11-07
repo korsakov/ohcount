@@ -25,9 +25,13 @@ class Java < Platform
 	trigger_language :java, :min_percent => 20
 end
 
+class PHP < Platform
+	trigger_language :php, :min_percent => 15
+end
+
 class CakePHP < Platform
 	t_and(
-				trigger_language(:php, :min_percent => 15),
+				trigger_platform(PHP),
 				trigger_libs(:cake_php_core)
 			 )
 end
