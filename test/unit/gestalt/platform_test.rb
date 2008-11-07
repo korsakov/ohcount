@@ -69,6 +69,10 @@ class PlatformTest < Test::Unit::TestCase
 		assert_platform('kde', KDE)
 	end
 
+	def test_msdos
+		assert_platform('msdos', MSDos)
+	end
+
 	protected
 
 	def assert_platform(path, *platforms)

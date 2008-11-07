@@ -87,6 +87,10 @@ class PostgreSQL < Platform
 	php_keywords('pg_connect')
 end
 
+class MSDos < Platform
+	c_keywords '__MSDOS__', 'MSDOS', :min => 2
+end
+
 class EclipsePlatform < Platform
 	java_import 'org.eclipse.'
 end
