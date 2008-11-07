@@ -3,6 +3,10 @@
 module Ohcount
 	module Gestalt
 
+		class VisualStudioFiles < Library
+			files '\.vcproj$', '\.vsproj$', '\.vbproj$', '\.vpb$', '\.sln$'
+		end
+
 		class GnuLib < Library
 			c_headers 'pthread.h', 'xstrtol.h', 'xreadlink.h', 'fatal-signal.h', 'diacrit.h'
 		end
