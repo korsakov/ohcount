@@ -51,6 +51,10 @@ class SpringFramework < Platform
 			 )
 end
 
+class XWindows < Platform
+	trigger_libs :x_windows_lib
+end
+
 class Mac < Platform
-	trigger_libs(:apple_events)
+	trigger_libs(:apple_events, :plist)
 end

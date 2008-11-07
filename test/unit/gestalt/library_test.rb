@@ -43,6 +43,15 @@ class LibraryTest < Test::Unit::TestCase
 		assert_detected_lib(s, AppleEvents, CKeywordRule)
 	end
 
+	def test_xwindows
+		s = SourceFile.new("foo.c", :filenames => [], :contents => <<-INLINE_C
+											 #include <X11/xpm.h>
+											 INLINE_C
+											)
+		assert_detected_lib(s, XWindowsLib, CHeaderRule)
+	end
+
+
 	protected
 
 	def assert_detected_lib(source_file, lib, triggered_rule)

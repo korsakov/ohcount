@@ -39,5 +39,14 @@ module Ohcount
 		class AppleEvents < Library
 			c_keywords 'AppleEvent', 'AEBuildAppleEvent'
 		end
+
+		# Mac preference settings
+		class Plist < Library
+			files '\.plist'
+		end
+
+		class XWindowsLib < Library
+			c_headers 'Xlib.h', 'X11\/xpm.h'
+		end
 	end
 end
