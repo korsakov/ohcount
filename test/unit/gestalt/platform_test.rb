@@ -49,6 +49,10 @@ class PlatformTest < Test::Unit::TestCase
 		assert_platform('posix', POSIX)
 	end
 
+	def test_x_windows
+		assert_platform('xwindows', XWindows)
+	end
+
 	protected
 
 	def assert_platform(path, *platforms)
