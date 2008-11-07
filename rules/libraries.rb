@@ -35,5 +35,9 @@ module Ohcount
 		class AppleEvents < Library
 			c_keywords 'AppleEvent', 'AEBuildAppleEvent'
 		end
+
+		class Plist < Library
+			files '\.plist'
+		end
 	end
 end

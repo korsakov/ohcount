@@ -52,5 +52,5 @@ class SpringFramework < Platform
 end
 
 class Mac < Platform
-	trigger_libs(:apple_events)
+	trigger_libs(:apple_events, :plist)
 end

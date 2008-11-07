@@ -41,6 +41,10 @@ class PlatformTest < Test::Unit::TestCase
 		assert_platform('mac', Mac)
 	end
 
+	def test_plist
+		assert_platform('plist', Mac)
+	end
+
 	def test_posix
 		assert_platform('posix', POSIX)
 	end
