@@ -45,7 +45,7 @@ class SpringFramework < Platform
 end
 
 class XWindows < Platform
-	c_headers 'Xlib.h', 'X11\/xpm.h'
+	c_headers 'Xlib.h', 'X11\/xpm.h', 'X11/Xlib.h'
 end
 
 class Mac < Platform
@@ -56,9 +56,13 @@ class Mac < Platform
 	filenames '\.plist'
 end
 
+class PHP < Platform
+	language :php, :min_percent => 15
+end
+
 class CakePHP < Platform
 	_and(
-				language(:php, :min_percent => 15),
+				platform(PHP),
 				php_keywords('CAKE_CORE_INCLUDE_PATH')
 			 )
 end
@@ -69,4 +73,8 @@ end
 
 class MSDos < Platform
 	c_keywords '__MSDOS__', 'MSDOS', :min => 2
+end
+
+class EclipsePlatform < Platform
+	java_import 'org.eclipse.'
 end

@@ -5,8 +5,8 @@ include Ohcount::Gestalt
 
 class PlatformTest < Test::Unit::TestCase
 
-	def test_cakephp
-		assert_platform('cakephp', CakePHP)
+	def test_eclipse_platform
+		assert_platform('eclipse_platform', Java, EclipsePlatform)
 	end
 
 	def test_win32_not_enough
@@ -25,6 +25,10 @@ class PlatformTest < Test::Unit::TestCase
 		assert_platform('ruby_not_enough')
 	end
 
+	def test_cakephp
+		assert_platform('cakephp', PHP, CakePHP)
+	end
+
 	def test_spring_framework
 		assert_platform('spring_framework', Java, SpringFramework)
 	end
@@ -35,6 +39,10 @@ class PlatformTest < Test::Unit::TestCase
 
 	def test_jquery
 		assert_platform('jquery', Javascript, JQuery)
+	end
+
+	def test_php
+		assert_platform('php', PHP)
 	end
 
 	def test_mac

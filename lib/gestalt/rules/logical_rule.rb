@@ -48,6 +48,10 @@ module Ohcount
 				new_rule CKeywordRule, *args
 			end
 
+			def java_import(*args)
+				new_rule JavaImportRule, *args
+			end
+
 			def method_missing(m,*args)
 				if /(.*)_keywords$/ =~ m.to_s
 					language = $1

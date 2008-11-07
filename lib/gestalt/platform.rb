@@ -9,6 +9,7 @@ require 'lib/gestalt/rules/c_header_rule'
 require 'lib/gestalt/rules/keyword_rule'
 require 'lib/gestalt/rules/c_keyword_rule'
 require 'lib/gestalt/rules/platform_rule'
+require 'lib/gestalt/rules/java_import_rule'
 
 module Ohcount
 	module Gestalt
