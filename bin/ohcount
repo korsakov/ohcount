@@ -15,11 +15,23 @@ class OhcountCommandLine
 	def initialize(args=[])
 		args = args.clone # Because shift is destructive
 		set_option(args.shift) while args.first =~ /^-/
-		self.paths = args
+		assign_paths_and_files(args)
+	end
+
+	def assign_paths_and_files(args)
+		@files = []
+		@paths = []
+		args.each do |file_or_path|
+			if File.directory?(file_or_path) 
+				paths << file_or_path
+			else
+				files << file_or_path
+			end
+		end
 	end
 
 	def source_file_list
-		@source_file_list ||= Ohcount::SourceFileList.new(:paths => paths)
+		@source_file_list ||= Ohcount::SourceFileList.new(:paths => @paths, :files => @files)
 	end
 
 	def paths
