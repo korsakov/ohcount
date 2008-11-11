@@ -22,26 +22,17 @@ class OhcountCommandLine
 		@files = []
 		@paths = []
 		args.each do |file_or_path|
-			if File.directory?(file_or_path) 
-				paths << file_or_path
+			if File.directory?(file_or_path)
+				@paths << file_or_path
 			else
-				files << file_or_path
+				@files << file_or_path
 			end
 		end
+		@paths = ['.'] if @files.empty? && @paths.empty?
 	end
 
 	def source_file_list
 		@source_file_list ||= Ohcount::SourceFileList.new(:paths => @paths, :files => @files)
-	end
-
-	def paths
-		@paths.empty? ? ['.'] : @paths
-	end
-
-	def paths=(p)
-		@paths=p
-		# If we change the search paths, clear the cached filenames
-		@files = @source_file_list = nil
 	end
 
 	#
