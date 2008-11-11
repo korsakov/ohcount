@@ -35,34 +35,6 @@ class OhcountCommandLine
 		@source_file_list ||= Ohcount::SourceFileList.new(:paths => @paths, :files => @files)
 	end
 
-	#
-	# TO DEPRECATE BEGIN
-	#
-	def files
-		return @files if @files
-
-		@files = []
-		(self.paths.any? ? self.paths : ['.']).each { | p | self.find_files_recursively @files, p }
-
-		exit 1 unless @files.any?
-		@files
-	end
-
-	def find_files_recursively array, path
-		s = File.lstat(path)
-		if s.directory?
-			Dir.foreach(path) do | d |
-				File.basename(d) =~ /^\./ and next
-				find_files_recursively array, File.join(path, d)
-			end
-		elsif s.file?
-			array << path
-		end
-	end
-	#
-	# TO DEPRECATE END
-	#
-
 	def annotate
 		source_file_list.each_source_file do |s|
 			s.parse do |language, semantic, line|
