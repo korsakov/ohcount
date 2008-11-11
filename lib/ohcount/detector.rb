@@ -216,6 +216,7 @@ module Ohcount #:nodoc:
 			'.vhd'        => "vhdl",
 			'.vhdl'       => "vhdl",
 			'.vim'        => "vim",
+			'.xaml'       => "xaml",
 			'.xml'        => "xml",
 			'.xs'         => "c",
 			'.xsd'        => "xmlschema",

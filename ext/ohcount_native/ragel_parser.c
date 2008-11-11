@@ -65,6 +65,7 @@
 #include "vhdl_parser.h"
 #include "vim_parser.h"
 #include "visual_basic_parser.h"
+#include "xaml_parser.h"
 #include "xml_parser.h"
 #include "xslt_parser.h"
 #include "xmlschema_parser.h"
@@ -147,6 +148,7 @@ struct language languages[] = {
   { "vhdl", parse_vhdl },
   { "vim", parse_vim },
   { "visualbasic", parse_visual_basic },
+  { "xaml", parse_xaml },
   { "xml", parse_xml },
   { "xslt", parse_xslt },
   { "xmlschema", parse_xmlschema },
