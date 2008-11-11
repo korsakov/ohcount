@@ -99,16 +99,20 @@ class OhcountCommandLine
 		puts "\n"
 	end
 
-	def write_platforms
+	def write_gestalt
 		platforms = source_file_list.gestalt_facts.platforms
 		platforms = platforms.any? ? platforms.collect { |p| p.to_s }.join(", ") : 'None'
 		puts "Platforms detected: #{ platforms }"
+
+		tools = source_file_list.gestalt_facts.tools
+		tools = tools.any? ? tools.collect { |p| p.to_s }.join(", ") : 'None'
+		puts "Tools detected: #{ tools }"
 	end
 
   # Gestalt
 	def gestalt
 		analyze_with_progress(:gestalt)
-		write_platforms
+		write_gestalt
 	end
 
 	def raw_entities
@@ -243,7 +247,7 @@ HELP
 
 
 		puts
-		write_platforms
+		write_gestalt
 	end
 
 	def write_summary_row(name, file_count, code, comment, blank)
