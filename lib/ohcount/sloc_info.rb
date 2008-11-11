@@ -98,6 +98,7 @@ class Ohcount::SlocInfo
 			'vhdl'          => {:nice_name => 'VHDL'             , :category => 0},
 			'visualbasic'   => {:nice_name => 'Visual Basic'     , :category => 0},
 			'vim'           => {:nice_name => 'Vim Script'       , :category => 0},
+			'xaml'          => {:nice_name => 'XAML'             , :category => 1},
 			'xml'           => {:nice_name => 'XML'              , :category => 1},
 			'xmlschema'     => {:nice_name => 'XML Schema'       , :category => 1},
 			'xslt'          => {:nice_name => 'XSL Transformation',:category => 0},
