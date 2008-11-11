@@ -13,6 +13,10 @@ class ToolTest < Test::Unit::TestCase
 		assert_tool('eclipse', Eclipse)
 	end
 
+	def test_netbeans
+		assert_tool('netbeans', NetBeans)
+	end
+
 	protected
 	def assert_tool(path, *tools)
 		sfl = SourceFileList.new(:path => test_dir(path))

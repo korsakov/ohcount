@@ -8,3 +8,8 @@ end
 class Eclipse < Tool
 	filenames '\.(project|classpath)$'
 end
+
+class NetBeans < Tool
+	filenames '\bnbplatform\b'
+	filenames '\.nbm$'
+end
