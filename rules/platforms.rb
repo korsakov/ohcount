@@ -1,108 +1,112 @@
 # platforms
-include Ohcount::Gestalt
 
-class POSIX < Platform
-	# gnu_lib && generic
-	c_headers 'pthread.h', 'xstrtol.h', 'xreadlink.h', 'fatal-signal.h', 'diacrit.h', 'syslog.h', 'sys/stat.h'
+module Ohcount
+  module Gestalt
 
-	# autoconf means m4 (unix macro processor)
-	language :autoconf
-end
+    class POSIX < Platform
+      # gnu_lib && generic
+      c_headers 'pthread.h', 'xstrtol.h', 'xreadlink.h', 'fatal-signal.h', 'diacrit.h', 'syslog.h', 'sys/stat.h'
 
-class Win32 < Platform
-	c_headers 'windows.h'
-	c_keywords 'WM_PAINT', 'ReleaseDC', 'WndProc', :min => 2
-end
+      # autoconf means m4 (unix macro processor)
+      language :autoconf
+    end
 
-class WPF < Platform
-	filenames '\.xaml$'
-end
+    class Win32 < Platform
+      c_headers 'windows.h'
+      c_keywords 'WM_PAINT', 'ReleaseDC', 'WndProc', :min => 2
+    end
 
-class Dot_NET < Platform
-	language :csharp, :min_percent => 10
-end
+    class WPF < Platform
+      filenames '\.xaml$'
+    end
 
-class ASP_NET < Platform
-	filenames('\.(aspx|ascx|ashx|asax|axd)$')
-end
+    class Dot_NET < Platform
+      language :csharp, :min_percent => 10
+    end
 
-class Ruby < Platform
-	language :ruby, :min_percent => 15
-end
+    class ASP_NET < Platform
+      filenames('\.(aspx|ascx|ashx|asax|axd)$')
+    end
 
-class Rails < Platform
-	_and(
-			 platform(Ruby),
-			 ruby_keywords("RAILS_ROOT")
-			)
-end
+    class Ruby < Platform
+      language :ruby, :min_percent => 15
+    end
 
-class Java < Platform
-	language :java, :min_percent => 15
-end
+    class Rails < Platform
+      _and(
+           platform(Ruby),
+           ruby_keywords("RAILS_ROOT")
+          )
+    end
 
-class Javascript < Platform
-	language :javascript, :min_percent => 20
-end
+    class Java < Platform
+      language :java, :min_percent => 15
+    end
 
-class JQuery < Platform
-	filenames 'jquery-\d.\d.\d.min.js'
-end
+    class Javascript < Platform
+      language :javascript, :min_percent => 20
+    end
 
-class SpringFramework < Platform
-	_and(
-			 platform(Java),
-			 filenames('spring\.jar$')
-			)
-end
+    class JQuery < Platform
+      filenames 'jquery-\d.\d.\d.min.js'
+    end
 
-class XWindows < Platform
-	c_headers 'Xlib.h', 'X11\/xpm.h', 'X11/Xlib.h'
-end
+    class SpringFramework < Platform
+      _and(
+           platform(Java),
+           filenames('spring\.jar$')
+          )
+    end
 
-class Mac < Platform
-	# apple events
-	c_keywords 'AppleEvent', 'AEBuildAppleEvent'
+    class XWindows < Platform
+      c_headers 'Xlib.h', 'X11\/xpm.h', 'X11/Xlib.h'
+    end
 
-	# plist is a mac thing, right?
-	filenames '\.plist'
-end
+    class Mac < Platform
+      # apple events
+      c_keywords 'AppleEvent', 'AEBuildAppleEvent'
 
-class PHP < Platform
-	language :php, :min_percent => 15
-end
+      # plist is a mac thing, right?
+      filenames '\.plist'
+    end
 
-class WxWidgets < Platform
-	c_headers 'wx/window.h'
-end
+    class PHP < Platform
+      language :php, :min_percent => 15
+    end
 
-class CakePHP < Platform
-	_and(
-				platform(PHP),
-				php_keywords('CAKE_CORE_INCLUDE_PATH')
-			 )
-end
+    class WxWidgets < Platform
+      c_headers 'wx/window.h'
+    end
 
-class KDE < Platform
-	c_headers 'KDEInit.h', 'kdeversion.h'
-end
+    class CakePHP < Platform
+      _and(
+            platform(PHP),
+            php_keywords('CAKE_CORE_INCLUDE_PATH')
+           )
+    end
 
-class SQL < Platform
-	language :sql
-end
+    class KDE < Platform
+      c_headers 'KDEInit.h', 'kdeversion.h'
+    end
 
-class MySQL < Platform
-	php_keywords('mysql_connect')
-end
+    class SQL < Platform
+      language :sql
+    end
 
-class PostgreSQL < Platform
-	php_keywords('pg_connect')
-end
+    class MySQL < Platform
+      php_keywords('mysql_connect')
+    end
 
-class MSDos < Platform
-	c_keywords '__MSDOS__', 'MSDOS', :min => 2
-end
+    class PostgreSQL < Platform
+      php_keywords('pg_connect')
+    end
 
-class EclipsePlatform < Platform
-	java_import 'org.eclipse.'
+    class MSDos < Platform
+      c_keywords '__MSDOS__', 'MSDOS', :min => 2
+    end
+
+    class EclipsePlatform < Platform
+      java_import 'org.eclipse.'
+    end
+  end
 end
