@@ -29,7 +29,7 @@ module Ohcount
 		end
 
 		def files_from_paths(paths=[])
-			paths.collect { |p| files_from_path(p) }.flatten
+			paths.collect { |p| files_from_path(File.expand_path(p)) }.flatten
 		end
 
 		def files_from_path(path)
