@@ -1,5 +1,4 @@
 require 'fileutils'
-require 'tmpdir'
 
 # A utility class to manage the creation and automatic cleanup of temporary directories.
 class ScratchDir
@@ -21,17 +20,10 @@ class ScratchDir
 	#   end # Scratch directory is deleted here
 	#
 	def initialize
-		until @path
-			@path = File.join(Dir.tmpdir, Time.now.utc.strftime("ohloh_%Y%H%m%S#{rand(900) + 100}"))
-			begin
-				Dir.mkdir(@path)
-			rescue Errno::EEXIST
-				@path = nil
-			end
-		end
+		@path = `mktemp -d /tmp/ohcount_XXXXX`.strip
 		if block_given?
 			begin
-				yield @path
+				return yield @path
 			ensure
 				FileUtils.rm_rf(@path)
 			end
@@ -44,8 +36,8 @@ if $0 == __FILE__
 
 	ScratchDir.new do |d|
 		path = d
-		STDOUT.puts "Created scratch direcory #{d}"
-		File.open(File.join(d, "test"), "w") do |io|
+		filename = File.join(d,"test")
+		File.open(filename, "w") do |io|
 			io.write "test"
 		end
 	end

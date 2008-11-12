@@ -1,3 +1,5 @@
+require 'tempfile'
+
 module Ohcount
 
 	# SourceFile abstracts a source code file and allows easy querying of ohcount-related
@@ -46,7 +48,7 @@ module Ohcount
 			@filename      = filename
 			@filenames     = options[:filenames] || []
 			@contents      = options[:contents]
-			@file_location = options[:file_location] || @filename
+			@file_location = options[:file_location]
 		end
 
 		def contents
@@ -67,7 +69,9 @@ module Ohcount
 
 		# returns true iff we represent a file (could be a dir)
 		def file?
-			File.file?(@file_location) || @contents
+			File.exist?(@filename) && File.file?(@filename) ||
+				@file_location && File.exist?(@file_location) && File.file?(@file_location) ||
+				@contents
 		end
 
 		def basename
@@ -97,6 +101,36 @@ module Ohcount
 					LanguageBreakdown.new(language.to_s)
 			end
 			@language_breakdowns
+		end
+
+		def clone_and_rename(new_name)
+			attributes = {
+				:filenames     => filenames,
+				:contents      => contents,
+				:file_location => file_location || filename
+			}
+			Ohcount::SourceFile.new(new_name, attributes)
+		end
+
+		# will yield with the current directory set in a way that the filename
+		# exists and contains the actual file contents.
+		#
+		# This is useful to call when a file must absolutely be referenced on disk.
+		def realize_file
+			raise ArgumentError.new('Missing block?') unless block_given?
+
+			if File.exist?(@filename)
+				yield @filename
+			elsif @file_location && File.basename(@file_location) == basename
+				yield @file_location
+			else
+				# must recreate a directory and stuff
+				ScratchDir.new do |d|
+					realized_filename = File.join(d,basename)
+					File.open(realized_filename, "w") { |io| io.write(contents) }
+					return yield realized_filename
+				end
+			end
 		end
 
 		def licenses

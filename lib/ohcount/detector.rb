@@ -254,12 +254,12 @@ module Ohcount #:nodoc:
 		# This is done with a weighted heuristic that
 		# scans the *.m file contents for keywords,
 		# and also checks for the presence of matching *.h files.
-		def self.matlab_or_objective_c(file_context)
-			buffer = file_context.contents
+		def self.matlab_or_objective_c(source_file)
+			buffer = source_file.contents
 
 			# if there are .h files in same directory, this probably isn't matlab
 			h_headers = 0.0
-			h_headers = -0.5 if file_context.filenames.select { |a| a =~ /\.h$/ }.any?
+			h_headers = -0.5 if source_file.filenames.select { |a| a =~ /\.h$/ }.any?
 
 			# if the contents contain 'function (' on a single line - very likely to be matlab
 			# if the contents contain lines starting with '%', its probably matlab comments
@@ -281,22 +281,22 @@ module Ohcount #:nodoc:
 		# scans the *.h file contents for Objective-C keywords,
 		# C++ keywords and C++ headers, and also checks for the
 		# presence of matching *.m files.
-		def self.disambiguate_h_header(file_context)
-			buffer = file_context.contents
+		def self.disambiguate_h_header(source_file)
+			buffer = source_file.contents
 
 			# could it be realistically be objective_c ? are there any .m files at all?
 			# Speed hack - remember our findings in case we get the same filenames over and over
-			unless defined?(file_context.filenames.contains_m)
-				file_context.filenames.extend(ContainsM)
-				file_context.filenames.contains_m = file_context.filenames.select { |a| a =~ /\.m$/ }.any?
-				file_context.filenames.contains_pike_or_pmod = file_context.filenames.select { |a| a =~ /\.p(ike|mod)$/ }.any?
+			unless defined?(source_file.filenames.contains_m)
+				source_file.filenames.extend(ContainsM)
+				source_file.filenames.contains_m = source_file.filenames.select { |a| a =~ /\.m$/ }.any?
+				source_file.filenames.contains_pike_or_pmod = source_file.filenames.select { |a| a =~ /\.p(ike|mod)$/ }.any?
 			end
 
-			if file_context.filenames.contains_m
+			if source_file.filenames.contains_m
 				# if the dir contains a matching *.m file, likely objective_c
-				if file_context.filename =~ /\.h$/
-					m_counterpart = file_context.filename.gsub(/\.h$/, ".m")
-					return 'objective_c' if file_context.filenames.include?(m_counterpart)
+				if source_file.filename =~ /\.h$/
+					m_counterpart = source_file.filename.gsub(/\.h$/, ".m")
+					return 'objective_c' if source_file.filenames.include?(m_counterpart)
 				end
 
 				# ok - it just might be objective_c, let's check contents for objective_c signatures
@@ -305,7 +305,7 @@ module Ohcount #:nodoc:
 				return 'objective_c' if objective_c > 1
 			end
 
-			if file_context.filenames.contains_pike_or_pmod
+			if source_file.filenames.contains_pike_or_pmod
 				# The string "pike" and a selection of common Pike keywords.
 				pike_signatures = /([Pp][Ii][Kk][Ee])|(string )|(mapping)|(multiset)|(import )|(inherit )|(predef)/
 				pike = lines_matching(buffer, pike_signatures)
@@ -464,35 +464,31 @@ module Ohcount #:nodoc:
 		# For *.in files, checks the prior extension.
 		# Typically used for template files (eg Makefile.in, auto.c.in, etc).
 		def self.disambiguate_in(source_file)
-			# if the filename has an extension prior to the .in
-			if source_file.filename =~ /\..*\.in$/
-				undecorated_filename = source_file.filename.gsub(/\.in$/, "")
-				undecorated_source = Ohcount::SourceFile.new(undecorated_filename,
-																	:filenames => source_file.filenames,
-																	:contents =>  source_file.contents,
-																	:file_location =>  source_file.file_location)
-				return detect(undecorated_source)
-			end
-			nil
+			# only if the filename has an extension prior to the .in
+			return nil unless source_file.filename =~ /\..*\.in$/
+
+			undecorated_filename = source_file.filename.gsub(/\.in$/, "")
+			undecorated_source = source_file.clone_and_rename(undecorated_filename)
+			detect(undecorated_source)
 		end
 
 		# For *.inc files, checks for a PHP class.
-		def self.disambiguate_inc(file_context)
-			buffer = file_context.contents
+		def self.disambiguate_inc(source_file)
+			buffer = source_file.contents
 			return nil if binary_buffer?(buffer)
 			return 'php' if php_instruction?(buffer)
 			nil
 		end
 
 		# For files with extention *.cs, differentiates C# from Clearsilver.
-		def self.disambiguate_cs(file_context)
-			buffer = file_context.contents
-			return 'clearsilver_template' if lines_matching(file_context.contents, /\<\?cs/) > 0
+		def self.disambiguate_cs(source_file)
+			buffer = source_file.contents
+			return 'clearsilver_template' if lines_matching(source_file.contents, /\<\?cs/) > 0
 			return 'csharp'
 		end
 
-		def self.disambiguate_fortran(file_context)
-			buffer = file_context.contents
+		def self.disambiguate_fortran(source_file)
+			buffer = source_file.contents
 
 			definitely_not_f77 = /^ [^0-9 ]{5}/
 			return 'fortranfixed' if lines_matching(buffer, definitely_not_f77) > 0
@@ -509,8 +505,8 @@ module Ohcount #:nodoc:
 		end
 
 		# A *.aspx file may be scripted with either C# or VB.NET.
-		def self.disambiguate_aspx(file_context)
-			if file_context.contents.match(/<%@\s*Page[^>]+Language="VB"[^>]+%>/i)
+		def self.disambiguate_aspx(source_file)
+			if source_file.contents.match(/<%@\s*Page[^>]+Language="VB"[^>]+%>/i)
 				'vb_aspx'
 			else
 				'cs_aspx'
@@ -524,18 +520,18 @@ module Ohcount #:nodoc:
 		#
 		# If these files are absent, assumes structured BASIC
 		#
-		def self.disambiguate_basic(file_context)
+		def self.disambiguate_basic(source_file)
 			classic_basic_line = /^\d+\s+\w+.*$/
 			vb_filename = /\.fr[mx]$|\.vb([aps]?)$/
-			buffer = file_context.contents
+			buffer = source_file.contents
 			if lines_matching(buffer,classic_basic_line) > 0
 				return 'classic_basic'
 			else
-				unless defined?(file_context.filenames.contains_vb)
-					file_context.filenames.extend(ContainsVB)
-					file_context.filenames.contains_vb = file_context.filenames.select { |a| a =~ vb_filename }.any?
+				unless defined?(source_file.filenames.contains_vb)
+					source_file.filenames.extend(ContainsVB)
+					source_file.filenames.contains_vb = source_file.filenames.select { |a| a =~ vb_filename }.any?
 				end
-				if file_context.filenames.contains_vb
+				if source_file.filenames.contains_vb
 					return 'visualbasic'
 				else
 					return 'structured_basic'
@@ -543,9 +539,9 @@ module Ohcount #:nodoc:
 			end
 		end
 
-		def self.disambiguate_non_visual_basic(file_context)
+		def self.disambiguate_non_visual_basic(source_file)
 			classic_basic_line = /^\d+\s+\w+.*$/
-			buffer = file_context.contents
+			buffer = source_file.contents
 
 			if lines_matching(buffer,classic_basic_line) > 0
 				return 'classic_basic'
@@ -554,18 +550,17 @@ module Ohcount #:nodoc:
 			end
 		end
 
-		# Attempts to determine the Polyglot for files that do not have a
-		# filename extension.
+		# Attempts to determine the Polyglot for files that do not have a filename
+		# extension.
 		#
 		# Relies on the bash +file+ command line tool as its primary method.
 		#
-		# There must be a file at <tt>file_context.file_location</tt> for +file+
-		# to operate on.
+		# There must be a file at <tt>source_file.file_location</tt> for +file+ to
+		# operate on.
 		#
-		def self.disambiguate_nil(file_context)
-			file_location = file_context.file_location
-			output = `file -b '#{ file_location }'`
-			case output
+		def self.disambiguate_nil(source_file)
+			file_output = source_file.realize_file { |f| `file -b '#{ f }'` }
+			case file_output
 			when /([\w\/]+)(?: -[\w_]+)* script text/, /script text executable for ([\w\/]+)/
 				script = $1
 				if script =~ /\/(\w*)$/

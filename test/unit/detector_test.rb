@@ -20,6 +20,17 @@ include Ohcount
 #
 class Ohcount::DetectorTest < Ohcount::Test
 
+	def test_with_source_file_without_backing_file
+		contents = <<INLINE
+#!/usr/local/bin/ruby
+require File.dirname(__FILE__) + '/../config/boot'
+require 'commands/generate'
+INLINE
+
+		source_file = SourceFile.new("generate", :contents => contents)
+		assert_equal 'ruby', source_file.polyglot
+	end
+
 	def do_detect(filename, filenames = [])
 		filepath = File.dirname(__FILE__) + "/../detect_files/" + filename
 		SourceFile.new(filepath, {:filenames => filenames}).polyglot
@@ -41,7 +52,7 @@ class Ohcount::DetectorTest < Ohcount::Test
 		assert_equal 'objective_c', do_detect("t2.m")
 	end
 
-	def text_fortran_fixedfree
+	def test_fortran_fixedfree
 		assert_equal 'fortranfixed', do_detect("fortranfixed.f")
 		assert_equal 'fortranfree', do_detect("fortranfree.f")
 	end
