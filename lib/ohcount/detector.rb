@@ -123,6 +123,7 @@ module Ohcount #:nodoc:
 			'.bat'        => "bat",
 			'.bi'         => :disambiguate_non_visual_basic,
 			'.boo'        => "boo",
+			'.bmx'        => "blitzmax",
 			'.c'          => "c",
 			'.C'          => "cpp",
 			'.cc'         => "cpp",
