@@ -1,5 +1,3 @@
-require 'tempfile'
-
 module Ohcount
 
 	# SourceFile abstracts a source code file and allows easy querying of ohcount-related
@@ -124,11 +122,12 @@ module Ohcount
 			elsif @file_location && File.basename(@file_location) == basename
 				yield @file_location
 			else
+
 				# must recreate a directory and stuff
 				ScratchDir.new do |d|
 					realized_filename = File.join(d,basename)
 					File.open(realized_filename, "w") { |io| io.write(contents) }
-					return yield realized_filename
+					return yield(realized_filename)
 				end
 			end
 		end
