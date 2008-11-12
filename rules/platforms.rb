@@ -14,6 +14,18 @@ class Win32 < Platform
 	c_keywords 'WM_PAINT', 'ReleaseDC', 'WndProc', :min => 2
 end
 
+class WPF < Platform
+	filenames '\.xaml$'
+end
+
+class Dot_NET < Platform
+	language :csharp, :min_percent => 10
+end
+
+class ASP_NET < Platform
+	filenames('\.(aspx|ascx|ashx|asax|axd)$')
+end
+
 class Ruby < Platform
 	language :ruby, :min_percent => 15
 end

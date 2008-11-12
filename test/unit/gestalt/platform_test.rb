@@ -21,6 +21,14 @@ class PlatformTest < Test::Unit::TestCase
 		assert_platform('win32_enough', Win32)
 	end
 
+	def test_wpf
+		assert_platform('wpf', WPF)
+	end
+
+	def test_asp_net
+		assert_platform('asp_net', ASP_NET)
+	end
+
 	def test_ruby_just_enough
 		assert_platform('ruby_just_enough', Ruby)
 	end

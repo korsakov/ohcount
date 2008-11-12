@@ -16,6 +16,7 @@
 #include "classic_basic_parser.h"
 #include "clearsilver_parser.h"
 #include "clearsilverhtml_parser.h"
+#include "cs_aspx_parser.h"
 #include "css_parser.h"
 #include "d_parser.h"
 #include "dcl_parser.h"
@@ -62,6 +63,7 @@
 #include "sql_parser.h"
 #include "tcl_parser.h"
 #include "tex_parser.h"
+#include "vb_aspx_parser.h"
 #include "vhdl_parser.h"
 #include "vim_parser.h"
 #include "visual_basic_parser.h"
@@ -95,6 +97,7 @@ struct language languages[] = {
   { "clearsilver", parse_clearsilver },
   { "clearsilver_template", parse_cshtml },
   { "cpp", parse_cpp },
+  { "cs_aspx", parse_cs_aspx },
   { "csharp", parse_csharp },
   { "css", parse_css },
   { "dcl", parse_dcl },
@@ -145,6 +148,7 @@ struct language languages[] = {
   { "tcl", parse_tcl },
   { "tex", parse_tex },
   { "vala", parse_vala },
+	{ "vb_aspx", parse_vb_aspx },
   { "vhdl", parse_vhdl },
   { "vim", parse_vim },
   { "visualbasic", parse_visual_basic },

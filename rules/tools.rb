@@ -2,5 +2,14 @@
 include Ohcount::Gestalt
 
 class VisualStudio < Tool
-	filenames '\.vpj'
+	filenames '\.(sln|vcproj|vsproj|csproj|vbproj|vbp)$'
+end
+
+class Eclipse < Tool
+	filenames '\.(project|classpath)$'
+end
+
+class NetBeans < Tool
+	filenames '\bnbplatform\b'
+	filenames '\.nbm$'
 end

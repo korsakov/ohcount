@@ -114,6 +114,8 @@ module Ohcount #:nodoc:
 			'.adb'        => "ada",
 			'.ads'        => "ada",
 			'.as'         => "actionscript",
+			'.ascx'       => :disambiguate_aspx,
+			'.aspx'       => :disambiguate_aspx,
 			'.asm'        => "assembler",
 			'.awk'        => "awk",
 			'.b'          => :disambiguate_non_visual_basic,
@@ -506,9 +508,18 @@ module Ohcount #:nodoc:
 			return 'fortranfree'
 		end
 
+		# A *.aspx file may be scripted with either C# or VB.NET.
+		def self.disambiguate_aspx(file_context)
+			if file_context.contents.match(/<%@\s*Page[^>]+Language="VB"[^>]+%>/i)
+				'vb_aspx'
+			else
+				'cs_aspx'
+			end
+		end
+
 		# Attempts to tell apart VB, classic BASIC and structured BASIC.
 		# First, checks if it is classic BASIC based on syntax.
-		# If not checks for .vb, .vbp, .frx and .frm files (associated with VB)
+		# If not checks for .vb, .bp, .frx and .frm files (associated with VB)
 		# in file context
 		#
 		# If these files are absent, assumes structured BASIC
