@@ -570,6 +570,11 @@ module Ohcount #:nodoc:
 		# to operate on.
 		#
 		def self.disambiguate_nil(file_context)
+			script = self.disambiguate_using_emacs_mode(file_context)
+			if script
+				return script
+			end
+
 			file_location = file_context.file_location
 			output = `file -b '#{ file_location }'`
 			case output
@@ -586,10 +591,39 @@ module Ohcount #:nodoc:
 					return "shell"
 				end
 			end
-
 			# dang... no dice
 			nil
 		end
 
+		def self.disambiguate_using_emacs_mode(file_context)
+			begin
+				File.open(file_context.file_location) do |f|
+					mode = nil
+					first_line = f.readline
+					if first_line =~ /^#!/
+						# read next line too
+						first_line += f.readline
+					end
+					case first_line
+					when /-\*-.*\bmode\s*:\s*([^\s;]+).*-\*-/i
+						mode = $1
+					when /-\*-\s*(\S+)\s*-\*-/
+						mode = $1
+					end
+					if mode
+						remap = {
+						'c++' => 'cpp',
+						'caml' => 'ocaml',
+						}
+						script = remap[mode] || mode
+
+						known_languages = EXTENSION_MAP.values
+						return script.downcase if known_languages.include?(script.downcase)
+					end
+				end
+			rescue
+				nil
+			end
+		end
 	end
 end
