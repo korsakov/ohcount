@@ -122,6 +122,7 @@ module Ohcount #:nodoc:
 			'.bas'        => :disambiguate_basic,
 			'.bat'        => "bat",
 			'.bi'         => :disambiguate_non_visual_basic,
+			'.bmx'        => "blitzmax",
 			'.boo'        => "boo",
 			'.c'          => "c",
 			'.C'          => "cpp",
@@ -148,7 +149,9 @@ module Ohcount #:nodoc:
 			'.f90'        => :disambiguate_fortran,
 			'.f95'        => :disambiguate_fortran,
 			'.f03'        => :disambiguate_fortran,
+			'.frag'       => "glsl",
 			'.frx'        => "visualbasic",
+			'.glsl'       => "glsl",
 			'.groovy'     => "groovy",
 			'.h'          => :disambiguate_h_header,
 			'.haml'       => 'haml',
@@ -205,6 +208,9 @@ module Ohcount #:nodoc:
 			'.sc'         => "scheme",
 			'.scala'      => "scala",
 			'.scm'        => "scheme",
+			'.sps'        => "scheme",
+			'.sls'        => "scheme",
+			'.ss'         => "scheme",
 			'.sh'         => "shell",
 			'.sql'        => "sql",
 			'.st'         => "smalltalk",
@@ -215,6 +221,7 @@ module Ohcount #:nodoc:
 			'.vb'         => "visualbasic",
 			'.vba'        => "visualbasic",
 			'.vbs'        => "visualbasic",
+			'.vert'       => "glsl",
 			'.vhd'        => "vhdl",
 			'.vhdl'       => "vhdl",
 			'.vim'        => "vim",
@@ -559,6 +566,9 @@ module Ohcount #:nodoc:
 		# operate on.
 		#
 		def self.disambiguate_nil(source_file)
+			script = disambiguate_using_emacs_mode(source_file)
+			return script if script
+
 			file_output = source_file.realize_file { |f| `file -b '#{ f }'` }
 			case file_output
 			when /([\w\/]+)(?: -[\w_]+)* script text/, /script text executable for ([\w\/]+)/
@@ -574,10 +584,43 @@ module Ohcount #:nodoc:
 					return "shell"
 				end
 			end
-
 			# dang... no dice
 			nil
 		end
 
+		def self.disambiguate_using_emacs_mode(source_file)
+			begin
+				mode = nil
+
+				# find the first line
+				if source_file.contents =~ /^#!/
+					# fetch 2 lines
+					source_file.contents =~ /^(.*\n.*)\n/
+				else
+					# first line only
+					source_file.contents =~ /^(.*)\n/
+				end
+				head = $1
+
+				mode = case head
+							 when /-\*-.*\bmode\s*:\s*([^\s;]+).*-\*-/i
+								 $1
+							 when /-\*-\s*(\S+)\s*-\*-/
+								 $1
+							 end
+				if mode
+					remap = {
+						'c++' => 'cpp',
+						'caml' => 'ocaml',
+					}
+					script = remap[mode] || mode
+
+					known_languages = EXTENSION_MAP.values
+					return script.downcase if known_languages.include?(script.downcase)
+				end
+			rescue
+				nil
+			end
+		end
 	end
 end

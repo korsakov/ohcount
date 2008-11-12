@@ -84,6 +84,9 @@ INLINE
 		assert_equal "ocaml", do_detect("ocaml.ml")
 		assert_equal "stratego", do_detect("stratego.str")
 		assert_equal "r",do_detect("foo.R")
+		assert_equal "glsl", do_detect("foo.glsl")
+		assert_equal "glsl", do_detect("foo_glsl.vert")
+		assert_equal "glsl", do_detect("foo_glsl.frag")
 	end
 
 	def test_upper_case_extensions
@@ -98,6 +101,10 @@ INLINE
     assert_equal "shell", do_detect("bash_script", [])
     assert_equal "perl", do_detect("perl_w", [])
     assert_equal "dmd", do_detect("d_script", [])
+
+    assert_equal "tcl", do_detect("tcl_script", [])
+    assert_equal "python", do_detect("python.data", [])
+    assert_equal "python", do_detect("python2.data", [])
   end
 
 	def test_by_filename
