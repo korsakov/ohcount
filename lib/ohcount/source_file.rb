@@ -116,5 +116,11 @@ module Ohcount
 			Ohcount::parse_entities(contents, polyglot, &block)
 		end
 
+		# returns the list of languages included in the parsed
+		# language_breakdowns
+		def languages
+			parse unless parsed?
+			@language_breakdowns.collect { |lb| lb.name }
+		end
 	end
 end
