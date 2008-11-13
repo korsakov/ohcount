@@ -21,7 +21,7 @@ module Ohcount
     #   end # Scratch directory is deleted here
     #
     def initialize
-      @path = `mktemp -d /tmp/ohcount_XXXXX`.strip
+      @path = `mktemp -d /tmp/ohcount_XXXXXX`.strip
       if block_given?
         begin
           return yield(@path)
