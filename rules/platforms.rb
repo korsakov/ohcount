@@ -96,6 +96,16 @@ module Ohcount
            )
     end
 
+		class Pear < Platform
+			_and(
+						platform(PHP),
+						_or(
+								filenames('\bpackage\.xml(\.tpl)?$'),
+								xml_keywords('pear.php.net/dtd/package-2.0')
+						)
+			)
+		end
+
     class KDE < Platform
       c_headers 'KDEInit.h', 'kdeversion.h'
     end
