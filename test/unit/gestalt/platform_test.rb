@@ -5,6 +5,10 @@ include Ohcount::Gestalt
 
 class PlatformTest < Test::Unit::TestCase
 
+	def test_zend_framework
+		assert_platform('zend_framework', PHP, ZendFramework)
+	end
+
 	def test_wx_widgets
 		assert_platform('wx_widgets', WxWidgets)
 	end
