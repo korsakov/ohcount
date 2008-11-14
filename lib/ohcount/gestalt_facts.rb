@@ -2,16 +2,17 @@ module Ohcount
 
 	# Represents language statistics for a collection of files
 	class GestaltFacts
-		attr_accessor :platforms, :file_rules, :language_counts
+		attr_accessor :platforms, :tools, :file_rules, :language_counts
 
 		def initialize
 			@platforms = []
+			@tools = []
 			@file_rules = {}
 			@language_counts = {}
 		end
 
 		def process(source_file)
-			FileRule.rules_triggered_by(source_file).each do |r|
+			Gestalt::FileRule.rules_triggered_by(source_file).each do |r|
 				@file_rules[r] ||= 0
 				@file_rules[r] += 1
 			end
@@ -30,12 +31,20 @@ module Ohcount
 				uninfered_platforms.each do |p|
 					platforms << p if p.triggered?(self)
 				end
-				break if prev_platforms == self.platforms
+				prev_tools = self.tools.clone
+				uninfered_tools.each do |t|
+					tools << t if t.triggered?(self)
+				end
+				break if prev_platforms == self.platforms && prev_tools == self.tools
 			end
 		end
 
 		def uninfered_platforms #:nodoc:
-			Platform.descendants - @platforms
+			Gestalt::Platform.descendants - @platforms
+		end
+
+		def uninfered_tools #:nodoc:
+			Gestalt::Tool.descendants - @tools
 		end
 
 		def includes_language?(language, min_percent = 0)

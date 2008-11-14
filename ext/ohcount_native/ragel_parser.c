@@ -11,11 +11,13 @@
 #include "automake_parser.h"
 #include "awk_parser.h"
 #include "bat_parser.h"
+#include "blitzmax_parser.h"
 #include "boo_parser.h"
 #include "c_parser.h"
 #include "classic_basic_parser.h"
 #include "clearsilver_parser.h"
 #include "clearsilverhtml_parser.h"
+#include "cs_aspx_parser.h"
 #include "css_parser.h"
 #include "d_parser.h"
 #include "dcl_parser.h"
@@ -27,6 +29,7 @@
 #include "factor_parser.h"
 #include "fortranfixed_parser.h"
 #include "fortranfree_parser.h"
+#include "glsl_parser.h"
 #include "groovy_parser.h"
 #include "haml_parser.h"
 #include "haskell_parser.h"
@@ -62,9 +65,11 @@
 #include "sql_parser.h"
 #include "tcl_parser.h"
 #include "tex_parser.h"
+#include "vb_aspx_parser.h"
 #include "vhdl_parser.h"
 #include "vim_parser.h"
 #include "visual_basic_parser.h"
+#include "xaml_parser.h"
 #include "xml_parser.h"
 #include "xslt_parser.h"
 #include "xmlschema_parser.h"
@@ -88,12 +93,14 @@ struct language languages[] = {
   { "automake", parse_automake },
   { "awk", parse_awk },
   { "bat", parse_bat },
+  { "blitzmax", parse_blitzmax },
   { "boo", parse_boo },
   { "c", parse_c },
 	{ "classic_basic", parse_classic_basic },
   { "clearsilver", parse_clearsilver },
   { "clearsilver_template", parse_cshtml },
   { "cpp", parse_cpp },
+  { "cs_aspx", parse_cs_aspx },
   { "csharp", parse_csharp },
   { "css", parse_css },
   { "dcl", parse_dcl },
@@ -107,6 +114,7 @@ struct language languages[] = {
   { "factor", parse_factor },
   { "fortranfixed", parse_fortranfixed },
   { "fortranfree", parse_fortranfree },
+  { "glsl", parse_glsl },
   { "groovy", parse_groovy },
   { "haskell", parse_haskell },
   { "haml", parse_haml },
@@ -144,9 +152,11 @@ struct language languages[] = {
   { "tcl", parse_tcl },
   { "tex", parse_tex },
   { "vala", parse_vala },
+	{ "vb_aspx", parse_vb_aspx },
   { "vhdl", parse_vhdl },
   { "vim", parse_vim },
   { "visualbasic", parse_visual_basic },
+  { "xaml", parse_xaml },
   { "xml", parse_xml },
   { "xslt", parse_xslt },
   { "xmlschema", parse_xmlschema },

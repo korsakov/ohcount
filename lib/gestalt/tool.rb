@@ -1,21 +1,8 @@
-require 'lib/gestalt/rules/rule'
-require 'lib/gestalt/rules/logical_rule'
-require 'lib/gestalt/rules/or_rule'
-require 'lib/gestalt/rules/and_rule'
-require 'lib/gestalt/rules/language_rule'
-require 'lib/gestalt/rules/file_rule'
-require 'lib/gestalt/rules/filename_rule'
-require 'lib/gestalt/rules/c_header_rule'
-require 'lib/gestalt/rules/keyword_rule'
-require 'lib/gestalt/rules/c_keyword_rule'
-require 'lib/gestalt/rules/platform_rule'
-require 'lib/gestalt/rules/java_import_rule'
-
 module Ohcount
 	module Gestalt
-		class Platform
+		class Tool
 
-			# platform rules are assumed to be, at the top level,
+			# tool rules are assumed to be, at the top level,
 			# OR-ed. In other words, any one rule will trigger that platform.
 			# That's why we keep a top-level OrRule around.
 			def self.top_level_or

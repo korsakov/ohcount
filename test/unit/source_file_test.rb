@@ -29,5 +29,12 @@ class SourceFileTest < Ohcount::Test
 		end
 		assert_equal contents, ruby_code
 	end
+
+	def test_realize_file
+		s = SourceFile.new('foo.c', :contents => 'i')
+		s.realize_file do |f|
+			assert_equal 'i', File.new(f).read
+		end
+	end
 end
 

@@ -15,50 +15,25 @@ class OhcountCommandLine
 	def initialize(args=[])
 		args = args.clone # Because shift is destructive
 		set_option(args.shift) while args.first =~ /^-/
-		self.paths = args
+		assign_paths_and_files(args)
+	end
+
+	def assign_paths_and_files(args)
+		@files = []
+		@paths = []
+		args.each do |file_or_path|
+			if File.directory?(file_or_path)
+				@paths << file_or_path
+			else
+				@files << file_or_path
+			end
+		end
+		@paths = ['.'] if @files.empty? && @paths.empty?
 	end
 
 	def source_file_list
-		@source_file_list ||= Ohcount::SourceFileList.new(:paths => paths)
+		@source_file_list ||= Ohcount::SourceFileList.new(:paths => @paths, :files => @files)
 	end
-
-	def paths
-		@paths.empty? ? ['.'] : @paths
-	end
-
-	def paths=(p)
-		@paths=p
-		# If we change the search paths, clear the cached filenames
-		@files = @source_file_list = nil
-	end
-
-	#
-	# TO DEPRECATE BEGIN
-	#
-	def files
-		return @files if @files
-
-		@files = []
-		(self.paths.any? ? self.paths : ['.']).each { | p | self.find_files_recursively @files, p }
-
-		exit 1 unless @files.any?
-		@files
-	end
-
-	def find_files_recursively array, path
-		s = File.lstat(path)
-		if s.directory?
-			Dir.foreach(path) do | d |
-				File.basename(d) =~ /^\./ and next
-				find_files_recursively array, File.join(path, d)
-			end
-		elsif s.file?
-			array << path
-		end
-	end
-	#
-	# TO DEPRECATE END
-	#
 
 	def annotate
 		source_file_list.each_source_file do |s|
@@ -96,16 +71,20 @@ class OhcountCommandLine
 		puts "\n"
 	end
 
-	def write_platforms
+	def write_gestalt
 		platforms = source_file_list.gestalt_facts.platforms
 		platforms = platforms.any? ? platforms.collect { |p| p.to_s }.join(", ") : 'None'
 		puts "Platforms detected: #{ platforms }"
+
+		tools = source_file_list.gestalt_facts.tools
+		tools = tools.any? ? tools.collect { |p| p.to_s }.join(", ") : 'None'
+		puts "Tools detected: #{ tools }"
 	end
 
   # Gestalt
 	def gestalt
 		analyze_with_progress(:gestalt)
-		write_platforms
+		write_gestalt
 	end
 
 	def raw_entities
@@ -179,7 +158,7 @@ HELP
 	end
 
 	def individual
-		STDOUT.write "Examining #{files.size} file(s)"
+		STDOUT.write "Examining #{source_file_list.size} file(s)"
 
 		puts
 		puts "Ohloh Line Count".center(76)
@@ -240,7 +219,7 @@ HELP
 
 
 		puts
-		write_platforms
+		write_gestalt
 	end
 
 	def write_summary_row(name, file_count, code, comment, blank)

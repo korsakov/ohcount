@@ -5,6 +5,10 @@ include Ohcount::Gestalt
 
 class PlatformTest < Test::Unit::TestCase
 
+	def test_wx_widgets
+		assert_platform('wx_widgets', WxWidgets)
+	end
+
 	def test_eclipse_platform
 		assert_platform('eclipse_platform', Java, EclipsePlatform)
 	end
@@ -17,6 +21,14 @@ class PlatformTest < Test::Unit::TestCase
 		assert_platform('win32_enough', Win32)
 	end
 
+	def test_wpf
+		assert_platform('wpf', WPF)
+	end
+
+	def test_asp_net
+		assert_platform('asp_net', ASP_NET)
+	end
+
 	def test_ruby_just_enough
 		assert_platform('ruby_just_enough', Ruby)
 	end
@@ -27,6 +39,14 @@ class PlatformTest < Test::Unit::TestCase
 
 	def test_cakephp
 		assert_platform('cakephp', PHP, CakePHP)
+	end
+
+	def test_symfony
+		assert_platform('symfony', PHP, Symfony)
+	end
+
+	def test_pear
+		assert_platform('pear', PHP, Pear)
 	end
 
 	def test_spring_framework

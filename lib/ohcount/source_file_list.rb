@@ -24,14 +24,24 @@ module Ohcount
 					when :files then v
 					else raise(ArgumentError, "Unrecognized option: #{ k }")
 				end
-			end
+			end.flatten.uniq
 			super(files)
 		end
 
-		def files_from_paths(paths)
-			paths.inject([]) do |files, path|
-				glob_path = File.join(path,"**","*")
-				files + Dir.glob(glob_path)
+		def files_from_paths(paths=[])
+			paths.collect { |p| files_from_path(File.expand_path(p)) }.flatten
+		end
+
+		def files_from_path(path)
+			s = File.lstat(path)
+			if s.directory?
+				if File.basename(path) =~ /^\./ # Don't recurse into hidden dirs
+					[]
+				else
+					Dir[File.join(path,"{.,?}*")].collect { |d| files_from_path(d) } # Include hidden files
+				end
+			elsif s.file?
+				path
 			end
 		end
 

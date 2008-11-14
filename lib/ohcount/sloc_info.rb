@@ -8,15 +8,16 @@ class Ohcount::SlocInfo
 	attr_reader :language
 	attr_accessor :code_added, :code_removed, :comments_added, :comments_removed, :blanks_added, :blanks_removed
 
-	def initialize(language)
+	def initialize(language, counts = {})
 		raise ArgumentError.new('language can not be nil') unless language
 		@language = language
-		@code_added       = 0
-		@code_removed     = 0
-		@comments_added   = 0
-		@comments_removed = 0
-		@blanks_added     = 0
-		@blanks_removed   = 0
+
+		@code_added       = counts[:code_added]       || 0
+		@code_removed     = counts[:code_removed]     || 0
+		@comments_added   = counts[:comments_added]   || 0
+		@comments_removed = counts[:comments_removed] || 0
+		@blanks_added     = counts[:blanks_added]     || 0
+		@blanks_removed   = counts[:blanks_removed]   || 0
 	end
 
 	def ==(b)
@@ -29,15 +30,6 @@ class Ohcount::SlocInfo
 		@blanks_removed   == b.blanks_removed
 	end
 
-	def empty?
-		if (@code_added       == 0 && @code_removed     == 0 &&
-			  @comments_added   == 0 && @comments_removed == 0 &&
-			  @blanks_added     == 0 && @blanks_removed   == 0)
-			return true
-		end
-		return false
-	end
-
 	@@lang_map = {
 	    'actionscript'  => {:nice_name => 'ActionScript'     , :category => 0},
 			'ada'           => {:nice_name => 'Ada'              , :category => 0},
@@ -46,6 +38,7 @@ class Ohcount::SlocInfo
 			'automake'      => {:nice_name => 'Automake'         , :category => 2},
 			'awk'           => {:nice_name => 'AWK'              , :category => 0},
 			'bat'           => {:nice_name => 'DOS batch script' , :category => 0},
+			'bmx'           => {:nice_name => 'BlitzMax'         , :category => 0},
 			'boo'           => {:nice_name => 'Boo'              , :category => 0},
 			'c'             => {:nice_name => 'C'                , :category => 0},
 			'classic_basic'   => {:nice_name => 'Classic Basic'     , :category => 0},
@@ -63,6 +56,7 @@ class Ohcount::SlocInfo
 			'factor'        => {:nice_name => 'Factor'           , :category => 0},
 			'fortranfixed'  => {:nice_name => 'Fortran (Fixed-format)', :category => 0},
 			'fortranfree'   => {:nice_name => 'Fortran (Free-format)',  :category => 0},
+			'glsl'          => {:nice_name => 'OpenGL Shading Language', :category => 0},
 			'groovy'        => {:nice_name => 'Groovy'           , :category => 0},
       'haml'          => {:nice_name => 'Haml'             , :category => 1},
 			'haxe'          => {:nice_name => 'HaXe'             , :category => 0},
@@ -98,6 +92,7 @@ class Ohcount::SlocInfo
 			'vhdl'          => {:nice_name => 'VHDL'             , :category => 0},
 			'visualbasic'   => {:nice_name => 'Visual Basic'     , :category => 0},
 			'vim'           => {:nice_name => 'Vim Script'       , :category => 0},
+			'xaml'          => {:nice_name => 'XAML'             , :category => 1},
 			'xml'           => {:nice_name => 'XML'              , :category => 1},
 			'xmlschema'     => {:nice_name => 'XML Schema'       , :category => 1},
 			'xslt'          => {:nice_name => 'XSL Transformation',:category => 0},
@@ -123,6 +118,13 @@ class Ohcount::SlocInfo
 	# still be successfully identified as a C application.
 	def language_category
 		@@lang_map[self.language][:category]
+	end
+
+	# return true if this sloc_info contains no measurable changes
+	def no_changes?
+		@code_added       == 0 && @code_removed     == 0 &&
+		@comments_added   == 0 && @comments_removed == 0 &&
+		@blanks_added     == 0 && @blanks_removed   == 0
 	end
 
 end
