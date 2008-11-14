@@ -97,6 +97,10 @@ class PlatformTest < Test::Unit::TestCase
 		assert_platform('gtk', GTK)
 	end
 
+	def test_drupal
+		assert_platform('drupal', PHP, Drupal)
+	end
+
 	protected
 
 	def assert_platform(path, *platforms)

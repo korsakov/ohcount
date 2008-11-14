@@ -157,6 +157,17 @@ module Ohcount
 			c_keywords 'gtk_init', 'gtk_main', 'gtk_window_new', 'GtkWidget'
 		end
 
+		class Drupal < Platform
+			_and(
+				platform(PHP),
+				_or(
+					php_keywords('drupal_set_message'),
+					php_keywords('drupal_render'),
+					php_keywords('Drupal', :min => 3)
+				)
+			)
+		end
+
 		class MSDos < Platform
 			c_keywords '__MSDOS__', 'MSDOS', :min => 2
     end
