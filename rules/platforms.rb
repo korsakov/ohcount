@@ -78,6 +78,13 @@ module Ohcount
       c_headers 'wx/window.h'
     end
 
+		class Symfony < Platform
+			_and(
+						platform(PHP),
+						php_keywords('sfCore', 'sfConfig')
+					)
+		end
+
     class CakePHP < Platform
       _and(
             platform(PHP),
