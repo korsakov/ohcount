@@ -82,6 +82,13 @@ module Ohcount
       c_headers 'wx/window.h'
     end
 
+		class ZendFramework < Platform
+      _and(
+            platform(PHP),
+            php_keywords('Zend_Controller_Action')
+           )
+		end
+
     class CakePHP < Platform
       _and(
             platform(PHP),
