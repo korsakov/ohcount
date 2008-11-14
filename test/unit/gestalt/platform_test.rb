@@ -45,6 +45,14 @@ class PlatformTest < Test::Unit::TestCase
 		assert_platform('cakephp', PHP, CakePHP)
 	end
 
+	def test_symfony
+		assert_platform('symfony', PHP, Symfony)
+	end
+
+	def test_pear
+		assert_platform('pear', PHP, Pear)
+	end
+
 	def test_spring_framework
 		assert_platform('spring_framework', Java, SpringFramework)
 	end

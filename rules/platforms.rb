@@ -89,12 +89,29 @@ module Ohcount
            )
 		end
 
+		class Symfony < Platform
+			_and(
+						platform(PHP),
+						php_keywords('sfCore', 'sfConfig')
+					)
+		end
+
     class CakePHP < Platform
       _and(
             platform(PHP),
             php_keywords('CAKE_CORE_INCLUDE_PATH')
            )
     end
+
+		class Pear < Platform
+			_and(
+						platform(PHP),
+						_or(
+								filenames('\bpackage\.xml(\.tpl)?$'),
+								xml_keywords('pear.php.net/dtd/package-2.0')
+						)
+			)
+		end
 
     class KDE < Platform
       c_headers 'KDEInit.h', 'kdeversion.h'
