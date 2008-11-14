@@ -24,6 +24,10 @@ module Ohcount
       language :csharp, :min_percent => 10
     end
 
+    class VisualBasic < Platform
+      language :visualbasic, :min_percent => 5
+    end
+
     class ASP_NET < Platform
       filenames('\.(aspx|ascx|ashx|asax|axd)$')
     end

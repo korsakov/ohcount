@@ -151,6 +151,7 @@ module Ohcount #:nodoc:
 			'.f03'        => :disambiguate_fortran,
 			'.frag'       => "glsl",
 			'.frx'        => "visualbasic",
+			'.frm'        => "visualbasic",
 			'.glsl'       => "glsl",
 			'.groovy'     => "groovy",
 			'.h'          => :disambiguate_h_header,

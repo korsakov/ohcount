@@ -158,7 +158,7 @@ HELP
 	end
 
 	def individual
-		STDOUT.write "Examining #{files.size} file(s)"
+		STDOUT.write "Examining #{source_file_list.size} file(s)"
 
 		puts
 		puts "Ohloh Line Count".center(76)
