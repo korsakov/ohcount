@@ -82,6 +82,13 @@ module Ohcount
       c_headers 'wx/window.h'
     end
 
+		class ZendFramework < Platform
+      _and(
+            platform(PHP),
+            php_keywords('Zend_Controller_Action')
+           )
+		end
+
 		class Symfony < Platform
 			_and(
 						platform(PHP),
@@ -103,6 +110,13 @@ module Ohcount
 								filenames('\bpackage\.xml(\.tpl)?$'),
 								xml_keywords('pear.php.net/dtd/package-2.0')
 						)
+			)
+		end
+
+		class Moodle < Platform
+			_and(
+				platform(PHP),
+				php_keywords("moodle")
 			)
 		end
 
