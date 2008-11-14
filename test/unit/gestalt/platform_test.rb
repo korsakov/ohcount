@@ -49,6 +49,10 @@ class PlatformTest < Test::Unit::TestCase
 		assert_platform('pear', PHP, Pear)
 	end
 
+	def test_moodle
+		assert_platform('moodle', PHP, Moodle)
+	end
+
 	def test_spring_framework
 		assert_platform('spring_framework', Java, SpringFramework)
 	end

@@ -106,6 +106,13 @@ module Ohcount
 			)
 		end
 
+		class Moodle < Platform
+			_and(
+				platform(PHP),
+				php_keywords("moodle")
+			)
+		end
+
     class KDE < Platform
       c_headers 'KDEInit.h', 'kdeversion.h'
     end
