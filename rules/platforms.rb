@@ -56,6 +56,10 @@ class Mac < Platform
 	filenames '\.plist'
 end
 
+class Python < Platform
+	language :python, :min_percent => 15
+end
+
 class PHP < Platform
 	language :php, :min_percent => 15
 end
@@ -71,6 +75,10 @@ class KDE < Platform
 	c_headers 'KDEInit.h', 'kdeversion.h'
 end
 
+class GTK < Platform
+	c_keywords 'gtk_init', 'gtk_main', 'gtk_window_new', 'GtkWidget'
+end
+
 class MSDos < Platform
 	c_keywords '__MSDOS__', 'MSDOS', :min => 2
 end
@@ -78,3 +86,4 @@ end
 class EclipsePlatform < Platform
 	java_import 'org.eclipse.'
 end
+

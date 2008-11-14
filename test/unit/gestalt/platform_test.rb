@@ -45,6 +45,10 @@ class PlatformTest < Test::Unit::TestCase
 		assert_platform('php', PHP)
 	end
 
+	def test_python
+		assert_platform('python', Python)
+	end
+
 	def test_mac
 		assert_platform('mac', Mac)
 	end
@@ -67,6 +71,10 @@ class PlatformTest < Test::Unit::TestCase
 
 	def test_msdos
 		assert_platform('msdos', MSDos)
+	end
+
+	def test_gtk
+		assert_platform('gtk', GTK)
 	end
 
 	protected
