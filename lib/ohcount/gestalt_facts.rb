@@ -12,7 +12,7 @@ module Ohcount
 		end
 
 		def process(source_file)
-			FileRule.rules_triggered_by(source_file).each do |r|
+			Gestalt::FileRule.rules_triggered_by(source_file).each do |r|
 				@file_rules[r] ||= 0
 				@file_rules[r] += 1
 			end
@@ -40,11 +40,11 @@ module Ohcount
 		end
 
 		def uninfered_platforms #:nodoc:
-			Platform.descendants - @platforms
+			Gestalt::Platform.descendants - @platforms
 		end
 
 		def uninfered_tools #:nodoc:
-			Tool.descendants - @tools
+			Gestalt::Tool.descendants - @tools
 		end
 
 		def includes_language?(language, min_percent = 0)
