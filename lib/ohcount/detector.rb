@@ -127,6 +127,7 @@ module Ohcount #:nodoc:
 			'.c'          => "c",
 			'.C'          => "cpp",
 			'.cc'         => "cpp",
+			'.ctp'        => "php",
 			'.cpp'        => "cpp",
 			'.css'        => "css",
 			'.c++'        => "cpp",
