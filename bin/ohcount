@@ -73,11 +73,11 @@ class OhcountCommandLine
 
 	def write_gestalt
 		platforms = source_file_list.gestalt_facts.platforms
-		platforms = platforms.any? ? platforms.collect { |p| p.to_s }.join(", ") : 'None'
+		platforms = platforms.any? ? platforms.collect { |p| p.to_s.split('::').last }.join(", ") : 'None'
 		puts "Platforms detected: #{ platforms }"
 
 		tools = source_file_list.gestalt_facts.tools
-		tools = tools.any? ? tools.collect { |p| p.to_s }.join(", ") : 'None'
+		tools = tools.any? ? tools.collect { |p| p.to_s.split('::').last }.join(", ") : 'None'
 		puts "Tools detected: #{ tools }"
 	end
 
