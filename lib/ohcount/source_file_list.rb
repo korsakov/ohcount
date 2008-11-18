@@ -24,7 +24,7 @@ module Ohcount
 					when :files then v
 					else raise(ArgumentError, "Unrecognized option: #{ k }")
 				end
-			end.flatten.uniq
+			end.flatten.uniq.compact
 			super(files)
 		end
 
