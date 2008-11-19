@@ -53,6 +53,8 @@ module Ohcount #:nodoc:
 		#   end
 		#
 		def self.detect(source_file)
+			return nil if binary_filename?(source_file.filename)
+
 			# start with filename and extension
 			polyglot = [
 				lambda { | f | FILENAME_MAP[File.basename(source_file.filename)] },
