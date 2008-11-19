@@ -55,14 +55,15 @@ module Ohcount
 			end
 		end
 
+		# A bit complicated because a nil value can either mean that we haven't checked,
+		# or that we have checked but received a nil result.
 		def polyglot
-			@polyglot ||= begin
-				if file?
-					Ohcount::Detector.detect(self)
-				else
-					nil
-				end
-			end
+			return @polyglot if @polyglot
+			return nil if @is_nil
+
+			@polyglot = Ohcount::Detector.detect(self) if file?
+			@is_nil = !@polyglot
+			@polyglot
 		end
 
 		# returns true iff we represent a file (could be a dir)
