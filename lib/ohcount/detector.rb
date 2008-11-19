@@ -54,6 +54,7 @@ module Ohcount #:nodoc:
 		#
 		def self.detect(source_file)
 			return nil if binary_filename?(source_file.filename)
+			return nil if binary_buffer?(source_file.contents)
 
 			# start with filename and extension
 			polyglot = [
@@ -78,32 +79,36 @@ module Ohcount #:nodoc:
 		# Based solely on the filename, makes a judgment whether a file is a binary format.
 		def self.binary_filename?(filename)
 			ignore = [
-				".svn",
-				".jar",
-				".tar",
-				".gz",
-				".tgz",
-				".zip",
-				".gif",
-				".jpg",
-				".jpeg",
+				".aiff",
+				".au",
+				".avi",
 				".bmp",
+				".doc",
+				".gif",
+				".gz",
+				".jar",
+				".jpeg",
+				".jpg",
+				".m4a",
+				".mov",
+				".mp3",
+				".mpg",
+				".ogg",
+				".pdf",
 				".png",
+				".ppt",
+				".qt",
+				".ra",
+				".svn",
+				".swf",
+				".tar",
+				".tgz",
 				".tif",
 				".tiff",
-				".ogg",
-				".aiff",
 				".wav",
-				".mp3",
-				".au",
-				".ra",
-				".m4a",
-				".pdf",
-				".mpg",
-				".mov",
-				".qt",
-				".avi",
-				".swf"
+				".xls",
+				".xlw",
+				".zip"
 				]
 			ignore.include?(File.extname(filename))
 		end
