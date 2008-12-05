@@ -592,6 +592,8 @@ module Ohcount #:nodoc:
 				when "Bourne-Again"
 					return "shell"
 				end
+			when /XML 1\.0 document text/
+				return 'xml'
 			end
 			# dang... no dice
 			nil

@@ -123,8 +123,11 @@ INLINE
 	  assert_equal "structured_basic", do_detect("visual_basic.bas")
 	  assert_equal "visualbasic", do_detect("visual_basic.bas", ["frx1.frx"])
 		assert_equal "classic_basic", do_detect("classic_basic.b")
-		assert_equal "structured_basic", do_detect("structured_basic.b")		
+		assert_equal "structured_basic", do_detect("structured_basic.b")
 	end
 
+	def test_xml_with_custom_extension
+		assert_equal 'xml', do_detect("xml.custom_ext")
+	end
 end
 
