@@ -71,6 +71,7 @@ class Ohcount::SlocInfo
 			'metapost'      => {:nice_name => 'MetaPost'         , :category => 1},
 			'mxml'          => {:nice_name => 'Flex'             , :category => 1},
 			'objective_c'   => {:nice_name => 'Objective C'      , :category => 0},
+			'objective_j'	=> {:nice_name => 'Objective-J'		 , :category => 0},
 			'ocaml'					=> {:nice_name => 'Objective Caml'   , :category => 0},
 			'pascal'        => {:nice_name => 'Pascal'           , :category => 0},
 			'perl'          => {:nice_name => 'Perl'             , :category => 0},

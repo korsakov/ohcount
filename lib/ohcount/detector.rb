@@ -176,6 +176,7 @@ module Ohcount #:nodoc:
 			'.html'       => "html",
 			'.in'         => :disambiguate_in,
 			'.inc'        => :disambiguate_inc,
+			'.j'          => "objective_j",
 			'.java'       => "java",
 			'.js'         => "javascript",
 			'.jsp'        => "jsp",
