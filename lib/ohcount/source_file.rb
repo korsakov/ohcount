@@ -1,4 +1,5 @@
 module Ohcount
+	require 'diff/lcs'
 
 	# SourceFile abstracts a source code file and allows easy querying of ohcount-related
 	# information.
@@ -151,6 +152,49 @@ module Ohcount
 		def languages
 			parse unless parsed?
 			@language_breakdowns.collect { |lb| lb.name }
+		end
+
+		# returns a collection of sloc_infos containing
+		# the diffs from the this current object to the
+		# new object
+		def diff(new)
+			all_languages = (self.languages + new.languages).uniq
+			all_languages.collect do |language|
+				si = Ohcount::SlocInfo.new(language)
+				lb_old = language_breakdowns(language)
+				lb_new = new.language_breakdowns(language)
+
+				#code
+				si.code_added, si.code_removed = calc_diff(lb_old.code, lb_new.code)
+				si.comments_added, si.comments_removed = calc_diff(lb_old.comment, lb_new.comment)
+				si.blanks_added = lb_new.blanks - lb_old.blanks
+				si.blanks_removed = lb_old.blanks - lb_new.blanks
+
+				# strip negative blank counts
+				si.blanks_added = 0 if si.blanks_added < 0
+				si.blanks_removed = 0 if si.blanks_removed < 0
+
+				si
+			end.reject do |si|
+				# remove meangingless sloc_infos
+				si.no_changes?
+			end
+		end
+
+		# takes 2 strings and returns an array containing the count
+		# of added lines and deleted lines. Example
+		#
+		#   calc_diff("a\nb", "a\nc")      # [1,1] -> one added, one deleted
+		#
+		def calc_diff(a,b)
+			a = a.split("\n")
+			b = b.split("\n")
+			diffs = LCSDiff::Diff::LCS.diff(a,b)
+			LCSDiff::Diff::LCS.diff(a,b).flatten.inject([0,0]) do |m, change|
+				m[0] += 1 if change.adding?
+				m[1] += 1 if change.deleting?
+				m
+			end
 		end
 	end
 end

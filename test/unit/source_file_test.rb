@@ -36,5 +36,63 @@ class SourceFileTest < Ohcount::Test
 			assert_equal 'i', File.new(f).read
 		end
 	end
+
+  def test_calc_diff
+    old = SourceFile.new("foo.c", :contents => 'int i;')
+    new = SourceFile.new("foo.c", :contents => 'int j;')
+
+    c_si = Ohcount::SlocInfo.new('c', :code_added => 1, :code_removed => 1)
+    assert_equal [c_si], old.diff(new)
+  end
+
+  def test_calc_diff_2
+    old = SourceFile.new("foo.html", :contents => <<-INLINE_HTML
+      <html>
+        <script type='text/javascript'>
+          var i = 1;
+        </script>
+        <style type="text/css">
+          new_css_code
+          /* css_comment */
+        </style>
+     </html>
+    INLINE_HTML
+    )
+    new = SourceFile.new("foo.html", :contents => <<-INLINE_HTML
+      <html>
+        <script type='text/javascript'>
+          var i = 2;
+        </script>
+        <style type="text/css">
+          new_css_code
+          /* different css_comment */
+        </style>
+     </html>
+    INLINE_HTML
+    )
+
+    javascript_si = Ohcount::SlocInfo.new('javascript', :code_added => 1, :code_removed => 1)
+    css_si = Ohcount::SlocInfo.new('css', :comments_added => 1, :comments_removed => 1)
+    assert_equal [javascript_si, css_si], old.diff(new)
+  end
+
+  def test_calc_diff_longer
+    old = SourceFile.new("foo.c", :contents => <<-INLINE_C
+      int = 1;
+      int = 2;
+      int = 3;
+      int = 4;
+      INLINE_C
+    )
+    new = SourceFile.new("foo.c", :contents => <<-INLINE_C
+      int = 1;
+      int = 5;
+      int = 6;
+      int = 4;
+      INLINE_C
+    )
+    c_si = Ohcount::SlocInfo.new('c', :code_added => 2, :code_removed => 2)
+    assert_equal [c_si],old.diff(new)
+  end
 end
 

@@ -3,8 +3,9 @@ end
 
 require 'rbconfig'
 
-OHCOUNT_ROOT = File.dirname(__FILE__) + "/.."
+OHCOUNT_ROOT = File.expand_path(File.join(File.dirname(__FILE__), '..'))
 $: << OHCOUNT_ROOT
+$: << File.join(OHCOUNT_ROOT, 'vendor', 'gems', 'diff-lcs-1.1.2', 'lib')
 
 begin
 	require 'ohcount_native'
@@ -29,4 +30,3 @@ require "lib/gestalt/tool"
 # require the dynamic rules
 require 'rules/platforms'
 require 'rules/tools'
-
