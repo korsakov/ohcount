@@ -83,6 +83,7 @@ module Ohcount #:nodoc:
 				".au",
 				".avi",
 				".bmp",
+				".cache",
 				".doc",
 				".gif",
 				".gz",
