@@ -84,9 +84,11 @@ module Ohcount #:nodoc:
 				".avi",
 				".bmp",
 				".cache",
+				".dat",
 				".doc",
 				".gif",
 				".gz",
+				".icns",
 				".jar",
 				".jpeg",
 				".jpg",
@@ -97,9 +99,12 @@ module Ohcount #:nodoc:
 				".ogg",
 				".pdf",
 				".png",
+				".pnt",
 				".ppt",
 				".qt",
 				".ra",
+				".svg",
+				".svgz",
 				".svn",
 				".swf",
 				".tar",
@@ -111,7 +116,7 @@ module Ohcount #:nodoc:
 				".xlw",
 				".zip"
 				]
-			ignore.include?(File.extname(filename))
+			ignore.include?(File.extname(filename).downcase)
 		end
 
 		# If an extension maps to a string, that string must be the name of a glot.
