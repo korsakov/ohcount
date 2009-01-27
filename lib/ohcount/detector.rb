@@ -197,6 +197,7 @@ module Ohcount #:nodoc:
 			'.mm'         => "objective_c",
 			'.mp'         => 'metapost_with_tex',
 			'.mxml'       => 'mxml',
+			'.nix'        => 'nix',
 			'.nse'        => 'lua',
 			'.pas'        => "pascal",
 			'.pp'         => "pascal",

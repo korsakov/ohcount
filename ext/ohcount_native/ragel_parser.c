@@ -46,6 +46,7 @@
 #include "metapost_parser.h"
 #include "metapost_with_tex_parser.h"
 #include "mxml_parser.h"
+#include "nix_parser.h"
 #include "objective_c_parser.h"
 #include "objective_j_parser.h"
 #include "ocaml_parser.h"
@@ -132,6 +133,7 @@ struct language languages[] = {
   { "metapost", parse_metapost },
   { "metapost_with_tex", parse_mptex },
   { "mxml", parse_mxml },
+  { "nix", parse_nix },
   { "objective_c", parse_objective_c },
   { "objective_j", parse_objective_j },
 	{ "ocaml", parse_ocaml },
