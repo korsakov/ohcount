@@ -162,8 +162,8 @@ HELP
 
 		puts
 		puts "Ohloh Line Count".center(76)
-		puts "Language             Code    Comment  Comment %      Blank      Total  File"
-		puts "--------------  ---------  ---------  ---------  ---------  ---------  -----------------------------------------------"
+		puts "Language               Code    Comment  Comment %      Blank      Total  File"
+		puts "----------------  ---------  ---------  ---------  ---------  ---------  -----------------------------------------------"
 
 		source_file_list.analyze(:language) do |s|
 			s.language_breakdowns.sort {|l1,l2| l2.name <=> l1.name}.each do |lb|
@@ -173,7 +173,7 @@ HELP
 	end
 
 	def write_individual_row(file, name, code, comment, blank)
-		printf("%-14s",name)
+		printf("%-16s",name)
 		printf(" %10d",code)
 		printf(" %10d",comment)
 		if comment+code > 0
@@ -203,15 +203,15 @@ HELP
 		puts "Ohloh Line Count Summary".center(76)
 		puts
 
-		puts "Language        Files       Code    Comment  Comment %      Blank      Total"
-		puts "--------------  -----  ---------  ---------  ---------  ---------  ---------"
+		puts "Language          Files       Code    Comment  Comment %      Blank      Total"
+		puts "----------------  -----  ---------  ---------  ---------  ---------  ---------"
 
 		language_facts = source_file_list.language_facts
 		language_facts.fact_map.values.sort { |a,b| b.code <=> a.code}.each do |lf|
 			write_summary_row(lf.language, lf.filecount, lf.code, lf.comments, lf.blanks)
 		end
 
-		puts "--------------  -----  ---------  ---------  ---------  ---------  ---------"
+		puts "----------------  -----  ---------  ---------  ---------  ---------  ---------"
 		write_summary_row('Total', language_facts.filecount,
 											language_facts.code,
 											language_facts.comments,
@@ -223,7 +223,7 @@ HELP
 	end
 
 	def write_summary_row(name, file_count, code, comment, blank)
-		printf("%-14s", name)
+		printf("%-16s", name)
 		printf(" %6d", file_count)
 		printf(" %10d", code)
 		printf(" %10d", comment)
