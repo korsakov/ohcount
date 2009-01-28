@@ -13,6 +13,11 @@ rescue LoadError
 	require "lib/#{Config::CONFIG['arch']}/ohcount_native"
 end
 
+require 'lib/ohcount/loc'
+require 'lib/ohcount/loc_list'
+require 'lib/ohcount/loc_delta'
+require 'lib/ohcount/loc_delta_list'
+
 require "lib/ohcount/scratch_dir"
 require "lib/ohcount/helpers"
 require "lib/ohcount/detector"
