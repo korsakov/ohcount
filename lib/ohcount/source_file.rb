@@ -172,10 +172,7 @@ module Ohcount
 		#   calc_diff("a\nb", "a\nc")      # [1,1] -> one added, one deleted
 		#
 		def calc_diff(a,b)
-			a = a.split("\n")
-			b = b.split("\n")
-			diffs = LCSDiff::Diff::LCS.diff(a,b)
-			LCSDiff::Diff::LCS.diff(a,b).flatten.inject([0,0]) do |m, change|
+			LCSDiff::Diff::LCS.diff(a.split("\n"),b.split("\n")).flatten.inject([0,0]) do |m, change|
 				m[0] += 1 if change.adding?
 				m[1] += 1 if change.deleting?
 				m
