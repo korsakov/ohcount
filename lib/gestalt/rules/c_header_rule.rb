@@ -12,8 +12,8 @@ module Ohcount
 
 			def trigger_file?(source_file)
 				return false unless ['c','cpp'].include?(source_file.polyglot)
-				regexp.match(source_file.language_breakdowns('c').code) ||
-					regexp.match(source_file.language_breakdowns('cpp').code)
+				regexp.match(source_file.language_breakdown('c').code) ||
+					regexp.match(source_file.language_breakdown('cpp').code)
 			end
 
 			def regexp

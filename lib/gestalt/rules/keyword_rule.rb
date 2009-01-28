@@ -12,8 +12,8 @@ module Ohcount
 			end
 
 			def trigger_file?(source_file)
-				return unless source_file.language_breakdowns(language)
-				regexp.match(source_file.language_breakdowns(language).code)
+				return unless source_file.language_breakdown(language)
+				regexp.match(source_file.language_breakdown(language).code)
 			end
 
 			def regexp

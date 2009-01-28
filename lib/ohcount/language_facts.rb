@@ -12,7 +12,7 @@ module Ohcount
 		end
 
 		def process(source_file)
-			return unless source_file.source_code?
+			return unless source_file.polyglot
 			source_file.language_breakdowns.each do |lb|
 				lang = lb.name
 				lang_fact = @fact_map[lang] ||= LanguageFact.new(lang)

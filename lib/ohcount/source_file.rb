@@ -74,29 +74,16 @@ module Ohcount
 			File.basename(filename)
 		end
 
-		# returns TRUE if this source_file is recognized as being
-		# some type of source code
-		def source_code?
-			!!polyglot
-		end
-
 		def parse(&block)
-			@language_breakdowns = []
-			return unless polyglot
-			@language_breakdowns = Ohcount::parse(contents, polyglot, &block)
+			@language_breakdowns = polyglot ? Ohcount::parse(contents, polyglot, &block) : []
 		end
 
-		def parsed?
-			!(@language_breakdowns.nil?)
+		def language_breakdowns
+			@language_breakdowns ||= parse
 		end
 
-		def language_breakdowns(language = nil)
-			parse unless parsed?
-			if language
-				return @language_breakdowns.find { |lb| lb.name == language.to_s } ||
-					LanguageBreakdown.new(language.to_s)
-			end
-			@language_breakdowns
+		def language_breakdown(language)
+			language_breakdowns.find { |lb| lb.name == language.to_s } || LanguageBreakdown.new(language.to_s)
 		end
 
 		def clone_and_rename(new_name)
@@ -143,15 +130,13 @@ module Ohcount
 		end
 
 		def raw_entities(&block)
-			return unless source_code?
-			Ohcount::parse_entities(contents, polyglot, &block)
+			polyglot && Ohcount::parse_entities(contents, polyglot, &block)
 		end
 
 		# returns the list of languages included in the parsed
 		# language_breakdowns
 		def languages
-			parse unless parsed?
-			@language_breakdowns.collect { |lb| lb.name }
+			language_breakdowns.collect { |lb| lb.name }
 		end
 
 		# returns a collection of sloc_infos containing
@@ -161,8 +146,8 @@ module Ohcount
 			all_languages = (self.languages + new.languages).uniq
 			all_languages.collect do |language|
 				si = Ohcount::SlocInfo.new(language)
-				lb_old = language_breakdowns(language)
-				lb_new = new.language_breakdowns(language)
+				lb_old = language_breakdown(language)
+				lb_new = new.language_breakdown(language)
 
 				#code
 				si.code_added, si.code_removed = calc_diff(lb_old.code, lb_new.code)

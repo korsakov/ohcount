@@ -12,7 +12,7 @@ module Ohcount
 
 			def trigger_file?(source_file)
 				return false unless source_file.polyglot == 'java'
-				regexp.match(source_file.language_breakdowns('java').code)
+				regexp.match(source_file.language_breakdown('java').code)
 			end
 
 			def regexp
