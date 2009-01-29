@@ -139,6 +139,17 @@ module Ohcount
 			language_breakdowns.collect { |lb| lb.name }
 		end
 
+		# Returns a LocList reflecting the total lines of code in each language
+		def loc_list
+			language_breakdowns.inject(LocList.new) do |sum, lb|
+				sum + Loc.new(lb.name,
+											:code => lb.code_count, 
+											:comments => lb.comment_count,
+											:blanks => lb.blanks,
+											:filecount => 1)
+			end
+		end
+
 		# Returns a LocDeltaList reflecting the lines changed in all languages
 		# when comparing this source file ("before") to a new version ("after")
 		def diff(after)

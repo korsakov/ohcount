@@ -4,10 +4,10 @@ module Ohcount
 	#
 	#  # find out the number of Ruby lines of code in project 'foo'
 	#  sfl = SourceFileList.new(:dir => '/foo')
-	#  sfl.language_stats(:ruby).code
+	#  sfl.loc_list.loc(:ruby).code
 	#
 	class SourceFileList < Array
-		attr_reader :language_facts, :gestalt_facts
+		attr_reader :loc_list, :gestalt_facts
 
 		# pass an array of filenames you want to process.
 		#
@@ -63,20 +63,20 @@ module Ohcount
 		#  puts sfl.ruby.code.count
 		#
 		#
-		def analyze(what = [])
+		def analyze(what = [:*])
 			what = [what] unless what.is_a?(Array)
 
 			do_gestalt   = what.include?(:gestalt)   || what.include?(:*)
 			do_languages = what.include?(:language)  || what.include?(:*)
 
-			@language_facts = LanguageFacts.new if do_languages
-			@gestalt_facts  = GestaltFacts.new  if do_gestalt
+			@loc_list = LocList.new if do_languages
+			@gestalt_facts = GestaltFacts.new if do_gestalt
 
 			self.each do |file|
 				# we process each file - even if its not a source_code - for
 				# library rules sake - they sometimes want 'jar' files or something
 				source_file = SourceFile.new(file, :filename => self)
-				@language_facts.process(source_file) if do_languages
+				@loc_list += source_file.loc_list if do_languages
 				@gestalt_facts.process(source_file) if do_gestalt
 				yield source_file if block_given?
 			end

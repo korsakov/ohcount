@@ -19,9 +19,20 @@ class LocListTest < Ohcount::Test
 		assert_equal java, list.loc('java')
 	end
 
+	def test_method_missing
+		list = LocList.new
+		c = Loc.new('c', :code => 1, :comments => 2, :blanks => 3)
+		java = Loc.new('java', :code => 10, :comments => 20, :blanks => 30)
+
+		list.locs = [c, java]
+
+		assert_equal c, list.c
+		assert_equal java, list.java
+	end
+
 	def test_first_add
 		list = LocList.new
-		loc = Loc.new('c', :code => 1, :comments => 2, :blanks => 3)
+		loc = Loc.new('c', :code => 1, :comments => 2, :blanks => 3, :filecount => 4)
 		list += loc
 
 		assert_equal [loc], list.locs
@@ -29,15 +40,16 @@ class LocListTest < Ohcount::Test
 		assert_equal 1, list.code
 		assert_equal 2, list.comments
 		assert_equal 3, list.blanks
+		assert_equal 4, list.filecount
 	end
 
 	def test_add_two_languages
 		list = LocList.new
 
-		c = Loc.new('c', :code => 1, :comments => 2, :blanks => 3)
+		c = Loc.new('c', :code => 1, :comments => 2, :blanks => 3, :filecount => 4)
 		list += c
 
-		java = Loc.new('java', :code => 10, :comments => 20, :blanks => 30)
+		java = Loc.new('java', :code => 10, :comments => 20, :blanks => 30, :filecount => 40)
 		list += java
 
 		assert list.locs.include?(c)
@@ -49,6 +61,7 @@ class LocListTest < Ohcount::Test
 		assert_equal 22, list.comments
 		assert_equal 33, list.blanks
 		assert_equal 66, list.total
+		assert_equal 44, list.filecount
 	end
 
 	def test_add_same_language_twice

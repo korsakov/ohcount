@@ -206,16 +206,16 @@ HELP
 		puts "Language          Files       Code    Comment  Comment %      Blank      Total"
 		puts "----------------  -----  ---------  ---------  ---------  ---------  ---------"
 
-		language_facts = source_file_list.language_facts
-		language_facts.fact_map.values.sort { |a,b| b.code <=> a.code}.each do |lf|
-			write_summary_row(lf.language, lf.filecount, lf.code, lf.comments, lf.blanks)
+		source_file_list.loc_list.locs.sort { |a,b| b.code <=> a.code}.each do |loc|
+			write_summary_row(loc.language, loc.filecount, loc.code, loc.comments, loc.blanks)
 		end
 
 		puts "----------------  -----  ---------  ---------  ---------  ---------  ---------"
-		write_summary_row('Total', language_facts.filecount,
-											language_facts.code,
-											language_facts.comments,
-											language_facts.blanks)
+		write_summary_row('Total',
+											source_file_list.loc_list.filecount,
+											source_file_list.loc_list.code,
+											source_file_list.loc_list.comments,
+											source_file_list.loc_list.blanks)
 
 
 		puts

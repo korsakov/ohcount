@@ -8,7 +8,7 @@ module Ohcount
 		end
 
 		def loc(language)
-			@locs.find { |loc| loc.language == language }
+			@locs.find { |loc| loc.language == language.to_s }
 		end
 
 		def languages
@@ -24,6 +24,7 @@ module Ohcount
 			else
 				raise ArgumentError.new
 			end
+			self
 		end
 
 		def add_loc_list(addend)
@@ -57,9 +58,18 @@ module Ohcount
 			@locs.inject(0) { |sum, loc| sum + loc.total }
 		end
 
+		def filecount
+			@locs.inject(0) { |sum, loc| sum + loc.filecount }
+		end
+
 		# Returns a new loc_list excluding all languages with 0 lines
 		def compact
 			LocList.new(@locs.reject { |loc| loc.total == 0 })
+		end
+
+		# Access the individual languages directly
+		def method_missing(m, *args)
+			loc(m.to_s)
 		end
 	end
 end

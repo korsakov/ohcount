@@ -12,25 +12,28 @@ class LocTest < Ohcount::Test
 		assert_equal 0, loc.code
 		assert_equal 0, loc.comments
 		assert_equal 0, loc.blanks
+		assert_equal 0, loc.filecount
 	end
 
 	def test_loc_initializer
-		loc = Loc.new("c", :code => 1, :comments => 2, :blanks => 3)
+		loc = Loc.new("c", :code => 1, :comments => 2, :blanks => 3, :filecount => 4)
 		assert_equal "c", loc.language
 		assert_equal 1, loc.code
 		assert_equal 2, loc.comments
 		assert_equal 3, loc.blanks
 		assert_equal 6, loc.total
+		assert_equal 4, loc.filecount
 	end
 
 	def test_add
-		loc = Loc.new("c", :code => 1, :comments => 2, :blanks => 3)
-		loc += Loc.new("c", :code => 10, :comments => 20, :blanks => 30)
+		loc = Loc.new("c", :code => 1, :comments => 2, :blanks => 3, :filecount => 4)
+		loc += Loc.new("c", :code => 10, :comments => 20, :blanks => 30, :filecount => 40)
 		assert_equal 'c', loc.language
 		assert_equal 11, loc.code
 		assert_equal 22, loc.comments
 		assert_equal 33, loc.blanks
 		assert_equal 66, loc.total
+		assert_equal 44, loc.filecount
 	end
 
 	def test_add_requires_same_language

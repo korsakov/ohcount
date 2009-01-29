@@ -11,10 +11,10 @@ class SourceFileListTest < Ohcount::Test
 	def test_language_facts
 		sfl = SourceFileList.new(:path => test_dir('win32_enough'))
 		sfl.analyze(:language)
-		assert_equal 2, sfl.language_facts.filecount
-		assert_equal 2, sfl.language_facts.c.code
-		assert_equal 2, sfl.language_facts.c.comments
-		assert_equal 2, sfl.language_facts.c.blanks
+		assert_equal 2, sfl.loc_list.filecount
+		assert_equal 2, sfl.loc_list.c.code
+		assert_equal 2, sfl.loc_list.c.comments
+		assert_equal 2, sfl.loc_list.c.blanks
 	end
 
 	def test_gestalt_facts
