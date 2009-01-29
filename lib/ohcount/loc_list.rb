@@ -17,11 +17,18 @@ module Ohcount
 
 		def +(addend)
 			case addend
+			when LocList
+				add_loc_list(addend)
 			when Loc
 				add_loc(addend)
 			else
 				raise ArgumentError.new
 			end
+		end
+
+		def add_loc_list(addend)
+			addend.locs.each { |loc| add_loc(loc) }
+			self
 		end
 
 		def add_loc(addend)

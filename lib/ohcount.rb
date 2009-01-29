@@ -13,6 +13,7 @@ rescue LoadError
 	require "lib/#{Config::CONFIG['arch']}/ohcount_native"
 end
 
+require 'lib/ohcount/language'
 require 'lib/ohcount/loc'
 require 'lib/ohcount/loc_list'
 require 'lib/ohcount/loc_delta'
@@ -22,7 +23,6 @@ require "lib/ohcount/scratch_dir"
 require "lib/ohcount/helpers"
 require "lib/ohcount/detector"
 require "lib/ohcount/language_breakdown"
-require "lib/ohcount/sloc_info"
 require "lib/ohcount/source_file"
 require "lib/ohcount/language_facts"
 require "lib/ohcount/gestalt_facts"

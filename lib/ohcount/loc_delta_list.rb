@@ -74,9 +74,19 @@ module Ohcount
 			@loc_deltas.inject(0) { |sum, delta| sum + delta.net_total }
 		end
 
-		# Returns a new LocDeltaList excluding all languages that have 0 net changes
+		# Returns a new LocDeltaList excluding all languages that have no changes
 		def compact
-			LocDeltaList.new(@loc_deltas.reject{ |delta| delta.net_total == 0 })
+			LocDeltaList.new(@loc_deltas.reject { |delta| !delta.changed? })
+		end
+
+		def ==(b)
+			return false unless b
+			return false unless languages == b.languages
+
+			self.languages.each do |l|
+				return false unless self.loc_delta(l) == b.loc_delta(l)
+			end
+			true
 		end
 
 	end

@@ -1,33 +1,8 @@
-# A generic data object for returning parsing results from Ohcount to Ohloh.
-#
-# This class has the additional job of declaring a "nice" (human readable) name
-# for each language, as well as the category (procedural code vs. markup) for each
-# language. These features should probably live elsewhere, and are currently
-# not covered by unit tests.
-class Ohcount::SlocInfo
-	attr_reader :language
-	attr_accessor :code_added, :code_removed, :comments_added, :comments_removed, :blanks_added, :blanks_removed
+class Ohcount::Language
+	attr_reader :name
 
-	def initialize(language, counts = {})
-		raise ArgumentError.new('language can not be nil') unless language
-		@language = language
-
-		@code_added       = counts[:code_added]       || 0
-		@code_removed     = counts[:code_removed]     || 0
-		@comments_added   = counts[:comments_added]   || 0
-		@comments_removed = counts[:comments_removed] || 0
-		@blanks_added     = counts[:blanks_added]     || 0
-		@blanks_removed   = counts[:blanks_removed]   || 0
-	end
-
-	def ==(b)
-		@language         == b.language &&
-		@code_added       == b.code_added &&
-		@code_removed     == b.code_removed &&
-		@comments_added   == b.comments_added &&
-		@comments_removed == b.comments_removed &&
-		@blanks_added     == b.blanks_added &&
-		@blanks_removed   == b.blanks_removed
+	def initialize(name)
+		raise ArgumentError.new("language name can't be nil") unless name
 	end
 
 	@@lang_map = {
@@ -103,8 +78,8 @@ class Ohcount::SlocInfo
 	}
 
 	# Returns the human readable name for a language.
-	def language_nice_name
-		@@lang_map[self.language][:nice_name]
+	def nice_name
+		@@lang_map[name][:nice_name]
 	end
 
 	# Returns the category (procedural code vs. markup) for a language.
@@ -117,15 +92,7 @@ class Ohcount::SlocInfo
 	# the "primary" language of an application. Using them, a C application
 	# with a lot of supporting HTML documentation or large autoconf file will
 	# still be successfully identified as a C application.
-	def language_category
-		@@lang_map[self.language][:category]
+	def category
+		@@lang_map[name][:category]
 	end
-
-	# return true if this sloc_info contains no measurable changes
-	def no_changes?
-		@code_added       == 0 && @code_removed     == 0 &&
-		@comments_added   == 0 && @comments_removed == 0 &&
-		@blanks_added     == 0 && @blanks_removed   == 0
-	end
-
 end

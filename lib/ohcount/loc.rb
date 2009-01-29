@@ -3,7 +3,9 @@ module Ohcount
 	class Loc
 		attr_accessor :language, :code, :comments, :blanks
 
-		def initialize(params={})
+		def initialize(language, params={})
+			raise ArgumentError.new("language can't be nil") unless language
+			@language = language
 			@code = @comments = @blanks = 0
 			params.each { |k,v| send(k.to_s + '=', v) if respond_to?(k.to_s + '=') }
 		end		

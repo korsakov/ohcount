@@ -10,8 +10,8 @@ class LocDeltaListTest < Ohcount::Test
 
 	def test_loc_selector
 		list = LocDeltaList.new
-		c = LocDelta.new(:language => 'c')
-		java = LocDelta.new(:language => 'java')
+		c = LocDelta.new('c')
+		java = LocDelta.new('java')
 
 		list.loc_deltas = [c, java]
 
@@ -21,7 +21,7 @@ class LocDeltaListTest < Ohcount::Test
 
 	def test_first_add
 		list = LocDeltaList.new
-		loc_delta = LocDelta.new(:language => 'c', :code_added => 1, :code_removed => 10,
+		loc_delta = LocDelta.new('c', :code_added => 1, :code_removed => 10,
 														 :comments_added => 2, :comments_removed => 20, :blanks_added => 3, :blanks_removed => 30)
 		list += loc_delta
 
@@ -37,11 +37,11 @@ class LocDeltaListTest < Ohcount::Test
 	def test_add_two_languages
 		list = LocDeltaList.new
 
-		c = LocDelta.new(:language => 'c', :code_added => 1, :code_removed => 10,
+		c = LocDelta.new('c', :code_added => 1, :code_removed => 10,
 										 :comments_added => 2, :comments_removed => 20, :blanks_added => 3, :blanks_removed => 30)
 		list += c
 
-		java = LocDelta.new(:language => 'java', :code_added => 100, :code_removed => 1000,
+		java = LocDelta.new('java', :code_added => 100, :code_removed => 1000,
 										 :comments_added => 200, :comments_removed => 2000, :blanks_added => 300, :blanks_removed => 3000)
 		list += java
 
@@ -61,11 +61,11 @@ class LocDeltaListTest < Ohcount::Test
 	def test_add_same_language_twice
 		list = LocDeltaList.new
 
-		c1 = LocDelta.new(:language => 'c', :code_added => 1, :code_removed => 10,
+		c1 = LocDelta.new('c', :code_added => 1, :code_removed => 10,
 										 :comments_added => 2, :comments_removed => 20, :blanks_added => 3, :blanks_removed => 30)
 		list += c1
 
-		c2 = LocDelta.new(:language => 'c', :code_added => 100, :code_removed => 1000,
+		c2 = LocDelta.new('c', :code_added => 100, :code_removed => 1000,
 										 :comments_added => 200, :comments_removed => 2000, :blanks_added => 300, :blanks_removed => 3000)
 		list += c2
 
@@ -83,9 +83,9 @@ class LocDeltaListTest < Ohcount::Test
 	def test_net_total
 		list = LocDeltaList.new
 
-		c = LocDelta.new(:language => 'c', :code_added => 1, :code_removed => 10,
+		c = LocDelta.new('c', :code_added => 1, :code_removed => 10,
 										 :comments_added => 2, :comments_removed => 20, :blanks_added => 3, :blanks_removed => 30)
-		java = LocDelta.new(:language => 'java', :code_added => 100, :code_removed => 1000,
+		java = LocDelta.new('java', :code_added => 100, :code_removed => 1000,
 										 :comments_added => 200, :comments_removed => 2000, :blanks_added => 300, :blanks_removed => 3000)
 
 		list.loc_deltas = [c,java]
@@ -99,14 +99,24 @@ class LocDeltaListTest < Ohcount::Test
 	def test_compact
 		list = LocDeltaList.new
 
-		c = LocDelta.new(:language => 'c', :code_added => 1, :code_removed => 10,
+		c = LocDelta.new('c', :code_added => 1, :code_removed => 10,
 										 :comments_added => 2, :comments_removed => 20, :blanks_added => 3, :blanks_removed => 30)
-		java = LocDelta.new(:language => 'java', :code_added => 0, :code_removed => 0,
+		ruby = LocDelta.new('ruby', :code_added => 1, :code_removed => 1,
+										 :comments_added => 0, :comments_removed => 0, :blanks_added => 0, :blanks_removed => 0)
+		java = LocDelta.new('java', :code_added => 0, :code_removed => 0,
 										 :comments_added => 0, :comments_removed => 0, :blanks_added => 0, :blanks_removed => 0)
 
-		list.loc_deltas = [c,java]
+		list.loc_deltas = [c,ruby,java]
 
-		assert_equal [c], list.compact.loc_deltas
+		assert_equal [c,ruby], list.compact.loc_deltas
+	end
+
+	def test_equals
+		c1 = LocDelta.new('c', :code_added => 1, :code_removed => 10,
+										 :comments_added => 2, :comments_removed => 20, :blanks_added => 3, :blanks_removed => 30)
+		c2 = LocDelta.new('c', :code_added => 1, :code_removed => 10,
+										 :comments_added => 2, :comments_removed => 20, :blanks_added => 3, :blanks_removed => 30)
+		assert_equal c1, c2
 	end
 
 end

@@ -139,35 +139,38 @@ module Ohcount
 			language_breakdowns.collect { |lb| lb.name }
 		end
 
-		# returns a collection of sloc_infos containing
-		# the diffs from the this current object to the
-		# new object
-		def diff(new)
-			all_languages = (self.languages + new.languages).uniq
-			all_languages.collect do |language|
-				si = Ohcount::SlocInfo.new(language)
-				lb_old = language_breakdown(language)
-				lb_new = new.language_breakdown(language)
+		# Returns a LocDeltaList reflecting the lines changed in all languages
+		# when comparing this source file ("before") to a new version ("after")
+		def diff(after)
+			all_languages = (self.languages + after.languages).uniq.sort
 
-				#code
-				si.code_added, si.code_removed = calc_diff(lb_old.code, lb_new.code)
-				si.comments_added, si.comments_removed = calc_diff(lb_old.comment, lb_new.comment)
-				si.blanks_added = lb_new.blanks - lb_old.blanks
-				si.blanks_removed = lb_old.blanks - lb_new.blanks
-
-				# strip negative blank counts
-				si.blanks_added = 0 if si.blanks_added < 0
-				si.blanks_removed = 0 if si.blanks_removed < 0
-
-				si
-			end.reject do |si|
-				# remove meangingless sloc_infos
-				si.no_changes?
-			end
+			all_languages.inject(LocDeltaList.new) do |sum, lang|
+				sum + calc_loc_delta(lang, after)
+			end.compact
 		end
 
-		# takes 2 strings and returns an array containing the count
-		# of added lines and deleted lines. Example
+		# Returns a LocDelta reflecting the lines changed in a single language
+		# when comparing this source file ("before") to a new version ("after")
+		def calc_loc_delta(language, after)
+			lb_before = self.language_breakdown(language)
+			lb_after = after.language_breakdown(language)
+
+			delta = LocDelta.new(language)
+
+			delta.code_added, delta.code_removed = calc_diff(lb_before.code, lb_after.code)
+			delta.comments_added, delta.comments_removed = calc_diff(lb_before.comment, lb_after.comment)
+
+			if lb_before.blanks > lb_after.blanks
+				delta.blanks_removed = lb_before.blanks - lb_after.blanks
+			else
+				delta.blanks_added = lb_after.blanks - lb_before.blanks
+			end
+
+			delta
+		end
+
+		# Takes two strings and returns an array containing the count
+		# of added lines and deleted lines. Example:
 		#
 		#   calc_diff("a\nb", "a\nc")      # [1,1] -> one added, one deleted
 		#

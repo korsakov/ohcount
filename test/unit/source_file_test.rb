@@ -37,12 +37,13 @@ class SourceFileTest < Ohcount::Test
 		end
 	end
 
-  def test_calc_diff
+  def test_diff
     old = SourceFile.new("foo.c", :contents => 'int i;')
     new = SourceFile.new("foo.c", :contents => 'int j;')
 
-    c_si = Ohcount::SlocInfo.new('c', :code_added => 1, :code_removed => 1)
-    assert_equal [c_si], old.diff(new)
+    delta = LocDelta.new('c', :code_added => 1, :code_removed => 1)
+    assert_equal delta, old.calc_loc_delta('c', new)
+    assert_equal LocDeltaList.new([delta]), old.diff(new)
   end
 
   def test_calc_diff_2
@@ -70,10 +71,10 @@ class SourceFileTest < Ohcount::Test
      </html>
     INLINE_HTML
     )
-
-    javascript_si = Ohcount::SlocInfo.new('javascript', :code_added => 1, :code_removed => 1)
-    css_si = Ohcount::SlocInfo.new('css', :comments_added => 1, :comments_removed => 1)
-    assert_equal [javascript_si, css_si], old.diff(new)
+		loc_delta_list = old.diff(new)
+		assert_equal ['css', 'javascript'], loc_delta_list.languages
+    assert_equal LocDelta.new('css', :comments_added => 1, :comments_removed => 1), loc_delta_list.loc_delta('css')
+    assert_equal LocDelta.new('javascript', :code_added => 1, :code_removed => 1), loc_delta_list.loc_delta('javascript')
   end
 
   def test_calc_diff_longer
@@ -91,8 +92,7 @@ class SourceFileTest < Ohcount::Test
       int = 4;
       INLINE_C
     )
-    c_si = Ohcount::SlocInfo.new('c', :code_added => 2, :code_removed => 2)
-    assert_equal [c_si],old.diff(new)
+    assert_equal LocDelta.new('c', :code_added => 2, :code_removed => 2), old.diff(new).loc_delta('c')
   end
 end
 
