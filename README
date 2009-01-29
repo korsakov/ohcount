@@ -39,31 +39,31 @@ language detection features from a Ruby application.
 
 == System Requirements
 
-Ohcount is supported on Mac OS X 10.4 and Ubuntu 6.06 LTS. Other Linux
+Ohcount is supported on Mac OS X 10.5 and Ubuntu 6.06 LTS. Other Linux
 environments should also work, but your mileage may vary.
 
 Ohcount does not support Windows.
 
-Ohcount targets Ruby 1.8.6. The build script targets Rake 0.7.3. You will
+Ohcount targets Ruby 1.8.6. The build script targets Rake 0.8.1. You will
 also require a C compiler to build the native extensions.
 
-Ohcount requires Ragel (http://research.cs.queensu.ca/~thurston/ragel/)
-Unfortunately, Ragel 6.2 is not recent enough so you will need the latest
-version in SVN: svn://mambo.cs.queensu.ca/ragel/trunk/.
+Ohcount requires Ragel 6.3 (http://research.cs.queensu.ca/~thurston/ragel/).
+Older version of Ragel are not comptible.
 
 == Download
 
-The source code for ohcount is available as a tarball:
-
-  http://labs.ohloh.net/download/ohcount-1.0.2.tgz
-
-You can also download the source code as a Git repository:
+Ohcount source code is available as a Git repository:
 
   git clone http://git.ohloh.net/git/ohcount.git
 
 == Installation
 
-Ohcount is packaged as a RubyGem. To build and install the gem (you will need
+Once Rake, GCC, and Ragel 6.3 are installed, you can build Ohcount as follows:
+
+  $ rake clean
+  $ rake
+
+Ohcount can optionally be installed as a RubyGem. To build and install the gem (you will need
 root priveleges for the install):
 
   $ rake install
@@ -71,11 +71,6 @@ root priveleges for the install):
 To uninstall the RubyGem:
 
   $ gem uninstall ohcount
-
-If you do not want to install the gem, you can simply build and run it like this:
-
-  $ rake
-  $ bin/ohcount
 
 == First Steps
 
@@ -100,14 +95,14 @@ of the languages used in a source code file. For example:
 
 == Loading ohcount from Ruby
 
+If you have not installed the gem, you'll have to make sure that
+ohcount is on your Ruby load path and then require:
+
+  require 'ohcount'
+
 If you have installed ohcount as a gem, you can load it like this:
 
   require 'rubygems'
-  require 'ohcount'
-
-If you have not installed the gem, you'll have to make sure that
-ohcount is on your ruby load path and then require:
-
   require 'ohcount'
 
 The <tt>bin/ohcount</tt> script shows examples of calling the ohcount
@@ -120,7 +115,7 @@ These are the steps required to add a new language to ohcount:
 * Update Ohcount::Detector to identify files that use the new language.
 * Update Ohcount::DetectorTest to confirm the Detector changes.
 * Follow the detailed instructions in PARSER_DOC.
-* In Ohcount::SlocInfo, provide a "nice name" and category (procedural
+* In Ohcount::Language, provide a "nice name" and category (procedural
   code vs. markup) for the new language.
 * Create a new Ohcount::Test to verify the parser.
 

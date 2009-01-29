@@ -1,17 +1,17 @@
 module Ohcount
 	require 'diff/lcs'
 
-	# SourceFile abstracts a source code file and allows easy querying of ohcount-related
-	# information.
+	# SourceFile represents a single source code file.
 	#
-	# It provides some abstractions to enable ohloh to call it in its own, weird, way.
-	# For example, in simple usage scenarios, the SimpleFileContext can simply point
-	# to an actual file on disk. In more complex scenarios, the context allows the
-	# file contents to be delivered to ohcount from a temp file or in-memory cache.
-	#
+	# It can be a pointer to an actual file on disk, or it may strictly
+	# be an in-memory buffer.
 	class SourceFile
-		# The filename we're dealing with.
+		# Required. The original name of the file, as it appears in the source tree.
 		attr_accessor :filename
+
+		# The location on disk where the file contents can currently be found.
+		# This location does not need to match the original filename.
+		attr_accessor :file_location
 
 		# An array of names of other files in the source tree which
 		# may be helpful when disambiguating the language used by the target file.
@@ -21,28 +21,11 @@ module Ohcount
 		# without it.
 		attr_accessor :filenames
 
-		# The location on disk where the file content can currently be found.
-		# This might not be the same as the original name of the file.
-		# For example, file content might be stored in temporary directory.
-		attr_accessor :file_location
-
-		# At a minimum, you must provide the filename.
+		# If you pass :contents to this initializer, then SourceFile
+		# works in memory and does not need to access the file on disk.
 		#
-		# You may also optionally pass an array of names of other files in the source tree.
-		# This will assist when disambiguating the language used by the source file.
-		# If you do not include this array, language identification may be less accurate.
-		#
-		# The SimpleFileContext must provide access to the file content. You can do this
-		# by one of three means, which will be probed in the following order:
-		#
-		# 1. You may optionally pass the content of the source file as string +cached_contents+.
-		#
-		# 2. You may optionally provide +file_location+ as the name of a file on disk
-		#    which contains the content of this source file.
-		#
-		# 3. If you do neither 1 nor 2, then +filename+ will be assumed to be an actual file on
-		#    disk which can be read.
-		#
+		# If you do not pass the :contents, then SourceFile will first check
+		# :file_location and then :filename (in that order) to get the file contents.
 		def initialize(filename, options = {})
 			@filename      = filename
 			@filenames     = options[:filenames] || []
@@ -63,7 +46,7 @@ module Ohcount
 			@polyglot = Ohcount::Detector.detect(self) if file?
 		end
 
-		# returns true iff we represent a file (could be a dir)
+		# Returns true iff we represent a file and not a directory
 		def file?
 			File.exist?(@filename) && File.file?(@filename) ||
 				@file_location && File.exist?(@file_location) && File.file?(@file_location) ||
@@ -86,10 +69,9 @@ module Ohcount
 			language_breakdowns.find { |lb| lb.name == language.to_s } || LanguageBreakdown.new(language.to_s)
 		end
 
-		# will yield with the current directory set in a way that the filename
-		# exists and contains the actual file contents.
-		#
-		# This is useful to call when a file must absolutely be referenced on disk.
+		# Yields a path to a physical file on disk containing the file contents.
+		# This is useful when a file absolutely must be referenced on disk.
+		# A temporary file will be created if an existing file is not available.
 		def realize_file
 			raise ArgumentError.new('Missing block?') unless block_given?
 
@@ -98,8 +80,7 @@ module Ohcount
 			elsif @file_location && File.basename(@file_location) == basename
 				yield @file_location
 			else
-
-				# must recreate a directory and stuff
+				# No existing copy. Create a temporary file.
 				ScratchDir.new do |d|
 					realized_filename = File.join(d,basename)
 					File.open(realized_filename, "w") { |io| io.write(contents) }
