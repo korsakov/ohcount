@@ -11,7 +11,7 @@ module Ohcount
 	#
 	class SourceFile
 		# The filename we're dealing with.
-		attr_reader :filename
+		attr_accessor :filename
 
 		# An array of names of other files in the source tree which
 		# may be helpful when disambiguating the language used by the target file.
@@ -19,12 +19,12 @@ module Ohcount
 		# determining the language used in a *.h header file.
 		# This array is optional, but language identification may be less accurate
 		# without it.
-		attr_reader :filenames
+		attr_accessor :filenames
 
 		# The location on disk where the file content can currently be found.
 		# This might not be the same as the original name of the file.
 		# For example, file content might be stored in temporary directory.
-		attr_reader :file_location
+		attr_accessor :file_location
 
 		# At a minimum, you must provide the filename.
 		#
@@ -84,15 +84,6 @@ module Ohcount
 
 		def language_breakdown(language)
 			language_breakdowns.find { |lb| lb.name == language.to_s } || LanguageBreakdown.new(language.to_s)
-		end
-
-		def clone_and_rename(new_name)
-			attributes = {
-				:filenames     => filenames,
-				:contents      => contents,
-				:file_location => file_location || filename
-			}
-			Ohcount::SourceFile.new(new_name, attributes)
 		end
 
 		# will yield with the current directory set in a way that the filename

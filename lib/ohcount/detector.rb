@@ -488,10 +488,11 @@ module Ohcount #:nodoc:
 		# Typically used for template files (eg Makefile.in, auto.c.in, etc).
 		def self.disambiguate_in(source_file)
 			# only if the filename has an extension prior to the .in
-			return nil unless source_file.filename =~ /\..*\.in$/
+			return nil unless source_file.filename =~ /(.+\.(.*))\.in$/
 
-			undecorated_filename = source_file.filename.gsub(/\.in$/, "")
-			undecorated_source = source_file.clone_and_rename(undecorated_filename)
+			undecorated_source = source_file.clone
+			undecorated_source.filename = $1
+
 			detect(undecorated_source)
 		end
 
