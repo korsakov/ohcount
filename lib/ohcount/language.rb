@@ -3,9 +3,11 @@ class Ohcount::Language
 
 	def initialize(name)
 		raise ArgumentError.new("language name can't be nil") unless name
+		@name = name
 	end
 
-	@@lang_map = {
+	def lang_map
+		{
 	    'actionscript'  => {:nice_name => 'ActionScript'     , :category => 0},
 			'ada'           => {:nice_name => 'Ada'              , :category => 0},
 			'assembler'     => {:nice_name => 'Assembler'        , :category => 0},
@@ -75,11 +77,12 @@ class Ohcount::Language
 			'dmd'           => {:nice_name => 'D'                , :category => 0},
 			'tex'           => {:nice_name => 'TeX/LaTeX'        , :category => 1},
 			'haskell'       => {:nice_name => 'Haskell'          , :category => 0}
-	}
+		}
+	end
 
 	# Returns the human readable name for a language.
 	def nice_name
-		@@lang_map[name][:nice_name]
+		lang_map[@name][:nice_name]
 	end
 
 	# Returns the category (procedural code vs. markup) for a language.
@@ -93,6 +96,11 @@ class Ohcount::Language
 	# with a lot of supporting HTML documentation or large autoconf file will
 	# still be successfully identified as a C application.
 	def category
-		@@lang_map[name][:category]
+		lang_map[@name][:category]
+	end
+
+	# Access the individual languages directly
+	def self.method_missing(m, *args)
+		Language.new(m.to_s)
 	end
 end
