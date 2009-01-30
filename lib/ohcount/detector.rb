@@ -588,7 +588,7 @@ module Ohcount #:nodoc:
 
 			file_output = source_file.realize_file { |f| `file -b '#{ f }'` }
 			case file_output
-			when /([\w\/]+)(?: -[\w_]+)* script text/, /script text executable for ([\w\/]+)/
+			when /([\w\/]+)(?: -[\w_]+)* script text/, /script text(?: executable)? for ([\w\/]+)/
 				script = $1
 				if script =~ /\/(\w*)$/
 					script = $1
