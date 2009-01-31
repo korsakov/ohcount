@@ -24,11 +24,17 @@ CLEAN.include FileList["#{EXT_DIR}/*.{so,bundle,#{CONFIG['DLEXT']}}"],
 
 RDOC_OPTS = ['--quiet', '--title', 'Ohcount Reference', '--main', 'README', '--inline-source']
 
+Rake::RDocTask.new do |rdoc|
+	rdoc.rdoc_dir = 'doc'
+	rdoc.options += RDOC_OPTS
+	rdoc.rdoc_files.add ['README' ,'COPYING', 'lib/**/*.rb', 'ext/**/*.rb', 'ext/**/*.c', 'test/test_helper.rb', 'test/unit/detector_test.rb']
+end
+
 PKG_FILES = %w(README COPYING Rakefile lib/ohcount.rb) +
 	Dir.glob("#{EXT_DIR}/*.{h,c,rb}") +
+	Dir.glob("#{RAGEL_DIR}/*.h") +
+	Dir.glob("#{RAGEL_DIR}/*.rl") +
 	Dir.glob("lib/**/*.rb") +
-	Dir.glob("test/*") +
-	Dir.glob("test/**/*") +
 	Dir.glob("bin/*")
 
 SPEC =
@@ -38,16 +44,18 @@ SPEC =
 		s.platform = Gem::Platform::RUBY
 		s.has_rdoc = true
 		s.rdoc_options = RDOC_OPTS
+		s.extra_rdoc_files = ['README']
 		s.summary = "The Ohloh source code line counter"
 		s.description = s.summary
 		s.author = "Ohloh Corporation"
 		s.email = "info@ohloh.net"
 		s.homepage = "http://labs.ohloh.net/ohcount"
-		s.files = PKG_FILES
-		s.require_paths <<  'lib'
+		s.files = PKG_FILES.to_a
+		s.require_paths = ['lib']
 		s.extensions << 'ext/ohcount_native/extconf.rb'
 		s.bindir = 'bin'
 		s.executables = ['ohcount']
+		s.add_dependency 'diff-lcs'
 	end
 
 Rake::GemPackageTask.new(SPEC) do |p|
@@ -120,12 +128,6 @@ file "#{EXT_DIR}/Makefile" => "#{EXT_DIR}/extconf.rb" do
 			ruby 'extconf.rb'
 		end
 	end
-end
-
-Rake::RDocTask.new do |rdoc|
-	rdoc.rdoc_dir = 'doc'
-	rdoc.options += RDOC_OPTS
-	rdoc.rdoc_files.add ['README' ,'COPYING', 'lib/**/*.rb', 'ext/**/*.rb', 'ext/**/*.c', 'test/test_helper.rb', 'test/unit/detector_test.rb']
 end
 
 Rake::TestTask.new :ohcount_unit_tests => ARCH_DL do |t|
