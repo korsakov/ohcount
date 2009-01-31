@@ -11,8 +11,9 @@ const char *MPTEX_LANG = "metapost";
 
 // the languages entities
 const char *mptex_entities[] = {
-  "space", "comment", "string", "any",
+  "space", "comment", "string", "any"
 };
+
 
 // constants associated with the entities
 enum {
@@ -21,7 +22,7 @@ enum {
 
 /*****************************************************************************/
 
-#include "tex_parser.h"
+#include "tex.h"
 
 %%{
   machine mptex;

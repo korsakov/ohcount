@@ -21,9 +21,9 @@ enum {
 
 /*****************************************************************************/
 
-#include "css_parser.h"
-#include "javascript_parser.h"
-#include "visual_basic_parser.h"
+#include "css.h"
+#include "javascript.h"
+#include "visual_basic.h"
 
 %%{
   machine vb_aspx;

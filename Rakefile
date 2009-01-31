@@ -14,15 +14,18 @@ EXT_DL   = "#{EXT_DIR}/ohcount_native.#{CONFIG['DLEXT']}"
 ARCH_DIR = "lib/#{::Config::CONFIG['arch']}"
 ARCH_DL  = "#{ARCH_DIR}/ohcount_native.#{CONFIG['DLEXT']}"
 
+RAGEL_DIR = File.join(EXT_DIR, 'ragel_parsers')
+
 CLEAN.include FileList["#{EXT_DIR}/*.{so,bundle,#{CONFIG['DLEXT']}}"],
 						  FileList["#{EXT_DIR}/*.o"],
 						  FileList["#{EXT_DIR}/Makefile"],
-						  (FileList["#{EXT_DIR}/*_parser.h"] - FileList["#{EXT_DIR}/ragel_parser.h"])
+						  FileList["#{RAGEL_DIR}/*.h"]
+						  FileList["#{RAGEL_DIR}/*.tmp"]
 
 RDOC_OPTS = ['--quiet', '--title', 'Ohcount Reference', '--main', 'README', '--inline-source']
 
 PKG_FILES = %w(README COPYING Rakefile lib/ohcount.rb) +
-	Dir.glob("ext/ohcount_native/*.{h,c,rb}") +
+	Dir.glob("#{EXT_DIR}/*.{h,c,rb}") +
 	Dir.glob("lib/**/*.rb") +
 	Dir.glob("test/*") +
 	Dir.glob("test/**/*") +
@@ -61,25 +64,52 @@ file ARCH_DL => EXT_DL do
 	cp EXT_DL, ARCH_DIR
 end
 
-file EXT_DL => FileList["#{EXT_DIR}/Makefile", "#{EXT_DIR}/*.{c,h,rb}"] do
-	cd EXT_DIR do
-		cd 'ragel_parsers' do
-			require 'construct_embedded'
-			rls = FileList['*.rl']
-			rls.exclude('common.rl')
-			rls.each do |rl|
-				h = rl.scan(/^(.+)\.rl$/).flatten.first + '_parser.h'
-				if has_embedded?(rl)
-					construct_language(rl)
-					sh "ragel #{rl + '.tmp'} -o ../#{h}"
-					File.delete(rl + '.tmp')
-				else
-					sh "ragel #{rl} -o ../#{h}"
-				end
-			end
+rule ".h" => ".rl" do |t|
+	if has_embedded_language?(t.source)
+		construct_language(t.source) do |constructed_file|
+			sh "ragel #{constructed_file} -o #{t.name}"
 		end
+	else
+		sh "ragel #{t.source} -o #{t.name}"
+	end
+end
+
+def has_embedded_language?(parser_file)
+  return IO.read(parser_file).include?('#EMBED')
+end
+
+def construct_language(parser_file)
+  parser_text = IO.read(parser_file).gsub(/#EMBED\([\w_]+\)/) do |elang|
+    lang = elang.scan(/^#EMBED\(([\w_]+)\)/)[0][0]
+    eparser_file = File.join(RAGEL_DIR, lang + '.rl')
+    if File.exists?(eparser_file)
+      eparser = IO.read(eparser_file)
+      ragel = eparser.scan(/%%\{(.+?)\}%%/m)[0][0]
+      # eliminate machine definition, writes, and includes
+      ragel.gsub!(/^\s*machine[^;]+;\s+write[^;]+;\s+include[^;]+;\s+/, '')
+      "}%%\n%%{\n#{ragel}"
+    else
+      ''
+    end
+  end
+	tmp = parser_file + '.tmp'
+  File.open(tmp, 'w') { |f| f.write parser_text }
+	yield tmp
+	File.delete(tmp)
+end
+
+file EXT_DL => FileList["#{EXT_DIR}/Makefile", "#{EXT_DIR}/*.{c,h,rb}", "#{RAGEL_DIR}/*.h"] do
+	cd EXT_DIR do
 		sh 'make'
 	end
+end
+
+file "#{EXT_DIR}/ragel_parser.c" => FileList["#{RAGEL_DIR}/*.rl"].gsub(/\.rl/,'.h') do
+	# When any ragel parser changes, we need to rebuild ragel_parser.c.
+	# We force this by deleting the existing object file.
+	# We have no better option than this because C dependencies are controlled by mkmf,
+	# outside of the control of this Rakefile.
+	File.delete(File.join(EXT_DIR, 'ragel_parser.o')) if File.exist?(File.join(EXT_DIR, 'ragel_parser.o'))
 end
 
 file "#{EXT_DIR}/Makefile" => "#{EXT_DIR}/extconf.rb" do

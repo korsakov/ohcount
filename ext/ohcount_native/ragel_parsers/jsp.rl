@@ -23,9 +23,9 @@ enum {
 
 /*****************************************************************************/
 
-#include "css_parser.h"
-#include "javascript_parser.h"
-#include "java_parser.h"
+#include "css.h"
+#include "javascript.h"
+#include "java.h"
 
 %%{
   machine jsp;

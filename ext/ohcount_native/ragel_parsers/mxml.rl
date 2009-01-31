@@ -23,8 +23,8 @@ enum {
 
 /*****************************************************************************/
 
-#include "css_parser.h"
-#include "actionscript_parser.h"
+#include "css.h"
+#include "actionscript.h"
 
 %%{
   machine mxml;

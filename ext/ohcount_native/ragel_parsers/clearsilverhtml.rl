@@ -23,9 +23,9 @@ enum {
 
 /*****************************************************************************/
 
-#include "css_parser.h"
-#include "javascript_parser.h"
-#include "clearsilver_parser.h"
+#include "css.h"
+#include "javascript.h"
+#include "clearsilver.h"
 
 %%{
   machine cshtml;

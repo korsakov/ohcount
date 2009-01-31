@@ -8,7 +8,7 @@ if $*.include?("debug")
 	puts "BUILD_TYPE: DEBUG"
 else
 	puts "BUILD_TYPE: RELEASE"
-	$CFLAGS = "#{$CFLAGS} -g -O2 -Wall -DNDEBUG"
+	$CFLAGS << " -Wall -DNDEBUG"
 end
 
 create_makefile('ohcount_native')
