@@ -17,10 +17,14 @@ module Ohcount
 
 		def +(addend)
 			case addend
-			when LocList
-				add_loc_list(addend)
 			when Loc
 				add_loc(addend)
+			when LocList
+				add_loc_list(addend)
+			when LocDelta
+				add_loc_delta(addend)
+			when LocDeltaList
+				add_loc_delta_list(addend)
 			else
 				raise ArgumentError.new
 			end
@@ -40,6 +44,22 @@ module Ohcount
 				@locs << addend
 			end
 			self
+		end
+
+		def add_loc_delta(addend)
+			l = loc(addend.language)
+			unless l
+				l = Loc.new(addend.language)
+				@locs << l
+			end
+			l.code += addend.code_added - addend.code_removed
+			l.comments += addend.comments_added - addend.comments_removed
+			l.blanks += addend.blanks_added - addend.blanks_removed
+			self
+		end
+
+		def add_loc_delta_list(addend)
+			addend.loc_deltas.each { |d| add_loc_delta(d) }
 		end
 
 		def code

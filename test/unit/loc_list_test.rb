@@ -68,7 +68,7 @@ class LocListTest < Ohcount::Test
 		list = LocList.new
 
 		c1 = Loc.new('c', :code => 1, :comments => 2, :blanks => 3)
-		list += c1 
+		list += c1
 
 		c2 = Loc.new('c', :code => 10, :comments => 20, :blanks => 30)
 		list += c2
@@ -93,6 +93,49 @@ class LocListTest < Ohcount::Test
 		assert_equal 2, sum.loc('java').code
 		assert_equal 3, sum.loc('ruby').code
 		assert_equal 16, sum.code
+	end
+
+	def test_add_loc_delta
+		list = LocList.new
+
+		delta = LocDelta.new('c', :code_added => 1, :code_removed => 0,
+											:comments_added => 2, :comments_removed => 0,
+											:blanks_added => 3, :blanks_removed => 0)
+		list += delta
+
+		assert_equal 1, list.locs.size
+		assert_equal 1, list.loc('c').code
+		assert_equal 2, list.loc('c').comments
+		assert_equal 3, list.loc('c').blanks
+
+		delta = LocDelta.new('c', :code_added => 10, :code_removed => 3,
+											:comments_added => 20, :comments_removed => 6,
+											:blanks_added => 30, :blanks_removed => 9)
+		list += delta
+
+		assert_equal 1, list.locs.size
+		assert_equal 8, list.loc('c').code
+		assert_equal 16, list.loc('c').comments
+		assert_equal 24, list.loc('c').blanks
+	end
+
+	def test_add_loc_delta_list
+		list = LocList.new
+
+		c = LocDelta.new('c', :code_added => 10, :code_removed => 1, :comments_added => 20, :comments_removed => 2)
+		java = LocDelta.new('java', :code_added => 30, :code_removed => 3, :comments_added => 40, :comments_removed => 4)
+
+		delta_list = LocDeltaList.new + c + java
+
+		list += delta_list
+
+		assert_equal 2, list.locs.size
+
+		assert_equal 9, list.loc('c').code
+		assert_equal 18, list.loc('c').comments
+
+		assert_equal 27, list.loc('java').code
+		assert_equal 36, list.loc('java').comments
 	end
 
 	def test_compact
