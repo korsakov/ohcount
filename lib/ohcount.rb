@@ -30,7 +30,6 @@ require "lib/ohcount/gestalt_facts"
 require "lib/licenses/license_sniffer"
 
 require "lib/gestalt/platform"
+require "lib/gestalt/platforms"
 require "lib/gestalt/tool"
-
-require 'rules/platforms'
-require 'rules/tools'
+require "lib/gestalt/tools"

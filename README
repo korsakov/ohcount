@@ -47,26 +47,28 @@ Ohcount does not support Windows.
 Ohcount targets Ruby 1.8.6. The build script targets Rake 0.8.1. You will
 also require a C compiler to build the native extensions.
 
-Ohcount requires Ragel 6.3 (http://research.cs.queensu.ca/~thurston/ragel/).
-Older version of Ragel are not comptible.
-
 == Download
 
 Ohcount source code is available as a Git repository:
 
   git clone http://git.ohloh.net/git/ohcount.git
 
-== Installation
+== Building Ohcount
+
+During the build process, Ohcount requires Ragel version 6.3 or later.
+Older versions of Ragel are not compatible. Visit the Ragel homepage at:
+
+  http://research.cs.queensu.ca/~thurston/ragel/
 
 Once Rake, GCC, and Ragel 6.3 are installed, you can build Ohcount as follows:
 
-  $ rake clean
   $ rake
 
-Ohcount can optionally be installed as a RubyGem. To build and install the gem (you will need
-root priveleges for the install):
+Ohcount can optionally be installed as a RubyGem. To build and install the gem
+(you will need root priveleges for the gem install):
 
-  $ rake install
+  $ rake gem
+  $ gem install pkg/ohcount-2.0.0
 
 To uninstall the RubyGem:
 
@@ -74,8 +76,8 @@ To uninstall the RubyGem:
 
 == First Steps
 
-To measure the lines of code, simply pass filenames or directory names
-to the +ohcount+ script:
+To measure lines of code, simply pass file or directory names to the +ohcount+
+script, located in the +bin+ subdirectory:
 
   $ ohcount helloworld.c
 
@@ -93,7 +95,7 @@ of the languages used in a source code file. For example:
 
   $ ohcount --annotate ./test/src_dir/php1.php
 
-== Loading ohcount from Ruby
+== Loading Ohcount From Ruby
 
 If you have not installed the gem, you'll have to make sure that
 ohcount is on your Ruby load path and then require:
