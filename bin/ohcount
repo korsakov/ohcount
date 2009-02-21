@@ -54,7 +54,7 @@ class OhcountCommandLine
   def licenses
 		source_file_list.each_source_file do |s|
       next unless s.licenses.any?
-			symbols = s.licenses.collect { |l| LicenseSniffer::LicenseMap.instance.map[l].symbol }.join(",")
+			symbols = s.licenses.collect { |l| Ohcount::LicenseSniffer::LicenseMap.instance.map[l].symbol }.join(",")
 			puts "#{symbols}\t#{s.filename}"
 		end
   end
