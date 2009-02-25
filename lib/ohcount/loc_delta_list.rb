@@ -19,6 +19,8 @@ module Ohcount
 			case addend
 			when LocDelta
 				add_loc_delta(addend)
+			when LocDeltaList
+				add_loc_delta_list(addend)
 			else
 				raise ArgumentError.new
 			end
@@ -30,6 +32,13 @@ module Ohcount
 				existing += addend
 			else
 				@loc_deltas << addend
+			end
+			self
+		end
+
+		def add_loc_delta_list(addend)
+			addend.loc_deltas.each do |loc_delta|
+				add_loc_delta(loc_delta)
 			end
 			self
 		end

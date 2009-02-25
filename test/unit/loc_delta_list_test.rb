@@ -80,6 +80,10 @@ class LocDeltaListTest < Ohcount::Test
 		assert_equal 3030, list.blanks_removed
 	end
 
+	def test_add_two_lists
+		assert (LocDeltaList.new + LocDeltaList.new).is_a?(LocDeltaList)
+	end
+
 	def test_net_total
 		list = LocDeltaList.new
 
