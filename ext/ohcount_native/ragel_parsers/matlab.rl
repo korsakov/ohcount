@@ -44,8 +44,8 @@ enum {
     }
   }
 
-  # note: the '#' comment is for GNU Octave
-  matlab_line_comment = ('%' [^{] @{ fhold; } | '#') @comment nonnewline*;
+  # Matlab(TM) comments also may begin with the line-continuing sequence ...
+  matlab_line_comment = (('%' | '...') [^{] @{ fhold; }) @comment nonnewline*;
   matlab_block_comment =
     '%{' @comment (
       newline %{ entity = INTERNAL_NL; } %matlab_ccallback
@@ -56,6 +56,8 @@ enum {
     )* :>> '%}';
   matlab_comment = matlab_line_comment | matlab_block_comment;
 
+  # The detector is not smart enough to detect GNU Octave's double
+  # quotes around strings, so accept it here.
   matlab_sq_str = '\'' @code ([^\r\n\f'\\] | '\\' nonnewline)* '\'';
   matlab_dq_str = '"' @code ([^\r\n\f"\\] | '\\' nonnewline)* '"';
   matlab_string = matlab_sq_str | matlab_dq_str;
@@ -74,7 +76,7 @@ enum {
     callback(MATLAB_LANG, matlab_entities[entity], cint(ts), cint(te));
   }
 
-  matlab_line_comment_entity = ('%' [^{] @{ fhold; } | '#') nonnewline*;
+  matlab_line_comment_entity = (('%' | '...') [^{] @{ fhold; }) nonnewline*;
   matlab_block_comment_entity = '%{' any* :>> '%}';
   matlab_comment_entity =
     matlab_line_comment_entity | matlab_block_comment_entity;

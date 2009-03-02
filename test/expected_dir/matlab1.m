@@ -52,3 +52,5 @@ matlab	comment	% Options=[];
 matlab	comment	% [T,true] = ode45(@logistic,[0,20],Nc,Options,r,K,theta);
 matlab	comment	% subplot(1,2,2)
 matlab	comment	% plot([1:tmax],P,'r.-',T,true,'g.-')
+matlab	blank	
+matlab	comment	 ... This is a seriously old-school comment.

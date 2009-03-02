@@ -7,9 +7,9 @@ class Ohcount::MatlabTest < Ohcount::Test
 		assert_equal lb, Ohcount::parse(" %comment", "matlab")
 	end
 
-	def test_octave_syntax_comment
-		lb = [Ohcount::LanguageBreakdown.new("matlab", "", "#comment", 0)]
-		assert_equal lb, Ohcount::parse(" #comment", "matlab")
+	def test_ancient_syntax_comment
+		lb = [Ohcount::LanguageBreakdown.new("matlab", "", "... comment", 0)]
+		assert_equal lb, Ohcount::parse(" ... comment", "matlab")
 	end
 
 	def test_false_line_comment
@@ -23,7 +23,7 @@ class Ohcount::MatlabTest < Ohcount::Test
 
 	def test_comment_entities
 		assert_equal('%comment', entities_array(" %comment", 'matlab', :comment).first)
-		assert_equal('#comment', entities_array(" #comment", 'matlab', :comment).first)
+		assert_equal('... comment', entities_array(" ... comment", 'matlab', :comment).first)
 		assert_equal('%{comment%}', entities_array(" %{comment%}", 'matlab', :comment).first)
 	end
 
