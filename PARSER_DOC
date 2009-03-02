@@ -19,7 +19,10 @@ Writing a Parser:
   First create your parser in ext/ohcount_native/ragel_parsers/. Its name
   should be the language you are parsing with a '.rl' extension. You will not
   have to manually compile any parsers, as the Rakefile does this automatically
-  for you. Every parser must have the following at the top:
+  for you. However, you do need to add appropriate clauses manually to
+  ext/ohcount_native/ragel_parser.c to find your new parser.
+
+  Every parser must have the following at the top:
 
 /************************* Required for every parser *************************/
 #ifndef RAGEL_C_PARSER
