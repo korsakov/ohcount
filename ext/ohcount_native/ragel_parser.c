@@ -50,6 +50,7 @@
 #include "ragel_parsers/objective_c.h"
 #include "ragel_parsers/objective_j.h"
 #include "ragel_parsers/ocaml.h"
+#include "ragel_parsers/octave.h"
 #include "ragel_parsers/pascal.h"
 #include "ragel_parsers/perl.h"
 #include "ragel_parsers/phphtml.h"
@@ -137,6 +138,7 @@ struct language languages[] = {
   { "objective_c", parse_objective_c },
   { "objective_j", parse_objective_j },
 	{ "ocaml", parse_ocaml },
+  { "octave", parse_octave },
   { "pascal", parse_pascal },
   { "perl", parse_perl },
   { "php", parse_phtml },
