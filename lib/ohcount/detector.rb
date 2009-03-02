@@ -6,11 +6,12 @@ module Ohcount #:nodoc:
 	#
 	# The hash EXTENSION_MAP maps a filename extension to the name of a parser.
 	#
-	# If a filename extension is not enough to determine the correct parser (for
-	# instance, the *.m extension can indicate either a Matlab or Objective-C file),
-	# then the EXTENSION_MAP hash will contain a symbol identifying a Ruby method
-	# which will be invoked. This Ruby method can examine the file
-	# contents and return the name of the correct parser.
+	# If a filename extension is not enough to determine the correct parser
+	# (for instance, the *.m extension can indicate either a Matlab(TM),
+	# Octave, or Objective-C file), then the EXTENSION_MAP hash will contain
+	# a symbol identifying a Ruby method which will be invoked. This Ruby
+	# method can examine the file contents and return the name of the
+	# correct parser.
 	#
 	# Many source files do not have an extension. The method +disambiguate_nil+
 	# is called in these cases. The +file+ command line tool is used to determine
@@ -189,7 +190,7 @@ module Ohcount #:nodoc:
 			'.lua'        => "lua",
 			'.lsp'        => "lisp",
 			'.lisp'       => "lisp",
-			'.m'          => :matlab_or_objective_c,
+			'.m'          => :matlab_octave_or_objective_c,
 			'.mf'         => 'metafont',
 			'.mk'         => 'make',
 			'.ml'         => "ocaml",
@@ -273,30 +274,48 @@ module Ohcount #:nodoc:
 			buffer.inject(0) { |total, line| line =~ re ? total+1 : total }
 		end
 
-		# For *.m files, differentiates Matlab from Objective-C.
+		# For *.m files, differentiates between Matlab(TM), Octave, and Objective-C.
 		#
 		# This is done with a weighted heuristic that
 		# scans the *.m file contents for keywords,
 		# and also checks for the presence of matching *.h files.
-		def self.matlab_or_objective_c(source_file)
+		def self.matlab_octave_or_objective_c(source_file)
 			buffer = source_file.contents
 
-			# if there are .h files in same directory, this probably isn't matlab
+			# if there are .h files in same directory and no C or C++ source files,
+			# this probably isn't Matlab(TM) or Octave.  Both allow compiled extensions
+			# that often live in the same directory, so checking .h alone does not suffice.
+			has_headers = source_file.filenames.select { |a| a =~ /\.h$/ }.any?
+			has_c_cpp = !source_file.filenames.select { |a| a =~ /\.(c|cpp|C|c\+\+|cxx|cc)$/ }.any?
 			h_headers = 0.0
-			h_headers = -0.5 if source_file.filenames.select { |a| a =~ /\.h$/ }.any?
+			h_headers = -0.5 if has_headers && !has_c_cpp
 
-			# if the contents contain 'function (' on a single line - very likely to be matlab
-			# if the contents contain lines starting with '%', its probably matlab comments
-			matlab_signatures = /(^\s*function\s*)|(^\s*%)/
+			# if the contents contain 'function (' on a single line - very likely to be Octave
+			# or Matlab(TM).
+			# if the contents contain lines starting with '%' or '#', they likely are comments
+			# in Octave or Matlab(TM)
+			matlab_signatures = /(^\s*function\s*)|(^\s*%)|(^\s*\#)/
 			matlab_sig_score = 0.1 * lines_matching(buffer, matlab_signatures)
 
-			# if the contents contains '//' or '/*', likely objective_c
-			objective_c_signatures = /(^\s*\/\/\s*)|(^\s*\/\*)|(^[+-])/
+			# if the contents contains '//', '/*', '@interface', or '@implementation', 
+			# likely objective_c
+			objective_c_signatures = /(^\s*\/\/\s*)|(^\s*\/\*)|(^[+-])|(@interface)|(@implementation)/
 			obj_c_sig_score = -0.1 * lines_matching(buffer, objective_c_signatures)
 
 			matlab = h_headers + matlab_sig_score + obj_c_sig_score
 
-			matlab > 0 ? 'matlab' : 'objective_c'
+			if matlab > 0
+				# Octave-specific keywords: endfunction, endwhile, end_try_catch, end_unwind_protect
+				# Also, # is only an Octave comment character.
+				oct_specific_sigs = /(\bend(function|while|_try_catch|unwind_protect))|(^\s*\#)/
+				if lines_matching(buffer, oct_specific_sigs) > 0
+					return 'octave'
+				else
+					return 'matlab'
+				end
+			else
+				return 'objective_c'
+			end
 		end
 
 		# For *.h files, differentiates C, C++ and Objective-C.

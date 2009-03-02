@@ -66,6 +66,7 @@ INLINE
 		assert_equal "ruby", do_detect("foo.rb")
 		assert_equal "make", do_detect("foo.mk")
     assert_equal "matlab", do_detect("foo_matlab.m", ["foo_matlab.m", "bar.m", "README"])
+		assert_equal "octave", do_detect("foo_octave.m", ["foo_octave.m", "foo_matlab.m", "bar.m", "README"])
 		assert_equal "objective_c", do_detect("foo_objective_c.m", ["foo_objective_c.m", "bar.h", "README"])
 		assert_equal "objective_c", do_detect("foo_objective_c.h", ["foo_objective_c.h, different_than_foo.m"])
 		assert_equal "php", do_detect("upper_case_php")

@@ -48,6 +48,7 @@ class Ohcount::Language
 			'metapost'      => {:nice_name => 'MetaPost'         , :category => 1},
 			'mxml'          => {:nice_name => 'Flex'             , :category => 1},
       'nix'           => {:nice_name => 'Nix'              , :category => 0},
+			'octave'        => {:nice_name => 'GNU Octave'       , :category => 0},
 			'objective_c'   => {:nice_name => 'Objective C'      , :category => 0},
 			'objective_j'   => {:nice_name => 'Objective-J'		 , :category => 0},
 			'ocaml'					=> {:nice_name => 'Objective Caml'   , :category => 0},
