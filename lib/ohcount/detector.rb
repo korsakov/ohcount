@@ -231,7 +231,7 @@ module Ohcount #:nodoc:
 			'.ss'         => "scheme",
 			'.sh'         => "shell",
 			'.sql'        => "sql",
-			'.st'         => "smalltalk",
+			'.st'         => :disambiguate_smalltalk,
 			'.str'        => "stratego",
 			'.tcl'        => "tcl",
 			'.tpl'        => "html",
@@ -661,5 +661,16 @@ module Ohcount #:nodoc:
 				nil
 			end
 		end
+
+		# Check if a file looks like it's really smalltalk rather than just
+		# happening to have a ".st" extension.
+		def self.disambiguate_smalltalk(source_file)
+			buffer = source_file.contents
+			if buffer =~ /:=/ && buffer =~ /: *\[/ && buffer =~ /\]\./
+				return 'smalltalk'
+			end
+			nil
+		end
+
 	end
 end

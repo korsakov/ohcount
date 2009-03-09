@@ -45,6 +45,7 @@ INLINE
 
 	def test_smalltalk
 		assert_equal "smalltalk", do_detect("example.st")
+		assert_equal nil, do_detect("english.st")
 	end
 
 	def test_matlab_or_objective_c

@@ -9,6 +9,7 @@ class Ohcount::SmalltalkTest < Ohcount::Test
 
 	def test_comprehensive
 		verify_parse("smalltalk1.st")
+		verify_parse("english.st")
 	end
 
 	def test_comment_entities
