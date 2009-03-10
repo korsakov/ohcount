@@ -95,7 +95,7 @@ module Ohcount
 				parse do |language, semantic, line|
 					next unless semantic == :comment
 					# Strip leading and trailing punctuation/whitespace.
-					comments << ' ' + $1 if line =~ /^[\s[:punct:]]*(.*?)\s*$/
+					comments << ' ' + $1 if line.strip =~ /^[\s[:punct:]]*(.*?)$/
 				end
 				LicenseSniffer.sniff(comments)
 			end
