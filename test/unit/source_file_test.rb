@@ -94,5 +94,29 @@ class SourceFileTest < Ohcount::Test
     )
     assert_equal LocDelta.new('c', :code_added => 2, :code_removed => 2), old.diff(new).loc_delta('c')
   end
-end
 
+	def test_calc_small_diff
+		assert_equal [0,0], SourceFile.new.calc_small_diff("","")
+		assert_equal [0,0], SourceFile.new.calc_small_diff("a","a")
+		assert_equal [0,0], SourceFile.new.calc_small_diff("a\n","a\n")
+		assert_equal [1,0], SourceFile.new.calc_small_diff("","a\n")
+		assert_equal [0,1], SourceFile.new.calc_small_diff("a\n","")
+		assert_equal [1,1], SourceFile.new.calc_small_diff("a\n","b\n")
+		assert_equal [1,1], SourceFile.new.calc_small_diff("a\nb\nc\n","a\nc\nd\n")
+	end
+
+	def test_calc_large_diff
+		assert_equal [0,0], SourceFile.new.calc_large_diff("","")
+		assert_equal [0,0], SourceFile.new.calc_large_diff("a","a")
+		assert_equal [0,0], SourceFile.new.calc_large_diff("a\n","a\n")
+		assert_equal [1,0], SourceFile.new.calc_large_diff("","a\n")
+		assert_equal [0,1], SourceFile.new.calc_large_diff("a\n","")
+		assert_equal [1,1], SourceFile.new.calc_large_diff("a\n","b\n")
+		assert_equal [1,1], SourceFile.new.calc_large_diff("a\nb\nc\n","a\nc\nd\n")
+	end
+
+	def test_calc_diff
+		assert_equal [1,0], SourceFile.new.calc_diff("Hello, World!\n" * 10, "Hello, World!\n" * 11)
+		assert_equal [1,0], SourceFile.new.calc_diff("Hello, World!\n" * 10000, "Hello, World!\n" * 10001)
+	end
+end

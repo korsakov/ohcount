@@ -26,7 +26,7 @@ module Ohcount
 		#
 		# If you do not pass the :contents, then SourceFile will first check
 		# :file_location and then :filename (in that order) to get the file contents.
-		def initialize(filename, options = {})
+		def initialize(filename='', options = {})
 			@filename      = filename
 			@filenames     = options[:filenames] || []
 			@contents      = options[:contents]
@@ -115,7 +115,7 @@ module Ohcount
 		def loc_list
 			language_breakdowns.inject(LocList.new) do |sum, lb|
 				sum + Loc.new(lb.name,
-											:code => lb.code_count, 
+											:code => lb.code_count,
 											:comments => lb.comment_count,
 											:blanks => lb.blanks,
 											:filecount => 1)
@@ -158,11 +158,37 @@ module Ohcount
 		#   calc_diff("a\nb", "a\nc")      # [1,1] -> one added, one deleted
 		#
 		def calc_diff(a,b)
+			# Based on buffer size, choose a diff implementation.
+			# The break-even point seems to be around 100K on my develpment machine.
+			if a.length > 100000 or b.length > 100000
+				calc_large_diff(a,b)
+			else
+				calc_small_diff(a,b)
+			end
+		end
+
+		# As above, for small files
+		def calc_small_diff(a,b)
 			LCSDiff::Diff::LCS.diff(a.split("\n"),b.split("\n")).flatten.inject([0,0]) do |m, change|
 				m[0] += 1 if change.adding?
 				m[1] += 1 if change.deleting?
 				m
 			end
 		end
+
+		# As above, but for very large files
+		def calc_large_diff(a,b)
+			added = removed = 0
+			ScratchDir.new do |dir|
+				File.open(dir + "/a", "w") { |f| f.write a }
+				File.open(dir + "/b", "w") { |f| f.write b }
+				cmd = "diff -d --normal --suppress-common-lines --new-file '#{dir}/a' '#{dir}/b' | grep '^>' | wc -l"
+				added = `#{cmd}`.to_i
+				cmd = "diff -d --normal --suppress-common-lines --new-file '#{dir}/a' '#{dir}/b' | grep '^<' | wc -l"
+				removed = `#{cmd}`.to_i
+			end
+			[added, removed]
+		end
+
 	end
 end
