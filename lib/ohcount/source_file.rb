@@ -182,10 +182,12 @@ module Ohcount
 			ScratchDir.new do |dir|
 				File.open(dir + "/a", "w") { |f| f.write a }
 				File.open(dir + "/b", "w") { |f| f.write b }
-				cmd = "diff -d --normal --suppress-common-lines --new-file '#{dir}/a' '#{dir}/b' | grep '^>' | wc -l"
-				added = `#{cmd}`.to_i
-				cmd = "diff -d --normal --suppress-common-lines --new-file '#{dir}/a' '#{dir}/b' | grep '^<' | wc -l"
-				removed = `#{cmd}`.to_i
+				IO.popen("diff -d --normal --suppress-common-lines --new-file '#{dir}/a' '#{dir}/b'") do |f|
+					f.each do |line|
+						added += 1 if line =~ /^>/
+						removed += 1 if line =~ /^</
+					end
+				end
 			end
 			[added, removed]
 		end
