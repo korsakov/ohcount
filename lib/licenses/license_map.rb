@@ -58,6 +58,21 @@ module Ohcount
       "New BSD license",
       /(\bbsd\s*license\b)|(The Regents of the University of California)/i ),
 
+      SoftwareLicense.new(:cecill,
+      "http://www.cecill.info/licences/Licence_CeCILL_V2-en.html",
+      "CeCILL license",
+      /\bcecill\b/i ),
+
+      SoftwareLicense.new(:cecill_b,
+      "http://www.cecill.info/licences/Licence_CeCILL-B_V1-en.html",
+      "CeCILL-B license",
+      /\bcecill-b\b/i ),
+
+      SoftwareLicense.new(:cecill_c,
+      "http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html",
+      "CeCILL-C license",
+      /\bcecill-c\b/i ),
+
       SoftwareLicense.new(:computer_associates_trusted,
       "http://www.opensource.org/licenses/ca-tosl1.1.php",
       "Computer Associates Trusted Open Source License 1.1",
