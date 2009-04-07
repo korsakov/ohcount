@@ -61,6 +61,7 @@
 #include "ragel_parsers/ruby.h"
 #include "ragel_parsers/rhtml.h"
 #include "ragel_parsers/scala.h"
+#include "ragel_parsers/scilab.h"
 #include "ragel_parsers/shell.h"
 #include "ragel_parsers/smalltalk.h"
 #include "ragel_parsers/stratego.h"
@@ -149,6 +150,7 @@ struct language languages[] = {
   { "rhtml", parse_rhtml },
   { "ruby", parse_ruby },
   { "scala", parse_scala },
+  { "scilab", parse_scilab },
   { "scheme", parse_scheme },
   { "shell", parse_shell },
   { "smalltalk", parse_smalltalk },

@@ -225,6 +225,8 @@ module Ohcount #:nodoc:
 			'.s'          => "assembler",
 			'.sc'         => "scheme",
 			'.scala'      => "scala",
+			'.sci'        => "scilab",
+			'.sce'        => "scilab",
 			'.scm'        => "scheme",
 			'.sps'        => "scheme",
 			'.sls'        => "scheme",
