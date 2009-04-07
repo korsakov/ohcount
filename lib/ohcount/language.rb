@@ -62,6 +62,7 @@ class Ohcount::Language
 			'ruby'          => {:nice_name => 'Ruby'             , :category => 0},
 			'scheme'        => {:nice_name => 'Scheme'           , :category => 0},
 			'scala'         => {:nice_name => 'Scala'            , :category => 0},
+			'scilab'        => {:nice_name => 'Scilab'           , :category => 0},
 			'shell'         => {:nice_name => 'shell script'     , :category => 0},
 			'smalltalk'     => {:nice_name => 'Smalltalk'        , :category => 0},
       'stratego'      => {:nice_name => 'Stratego'         , :category => 0},
