@@ -98,7 +98,7 @@ class PlatformTest < Test::Unit::TestCase
 	end
 
 	def test_msdos
-		assert_platform('msdos', MSDos)
+		assert_platform('msdos', MSDOS)
 	end
 
 	def test_gtk

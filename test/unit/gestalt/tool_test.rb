@@ -10,11 +10,11 @@ class ToolTest < Test::Unit::TestCase
 	end
 
 	def test_eclipse
-		assert_tool('eclipse', Eclipse)
+		assert_tool('eclipse', EclipseIDE)
 	end
 
 	def test_netbeans
-		assert_tool('netbeans', NetBeans)
+		assert_tool('netbeans', NetBeansIDE)
 	end
 
 	protected
