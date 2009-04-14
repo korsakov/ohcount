@@ -60,6 +60,7 @@ class OhcountCommandLine
   end
 
 	def analyze_with_progress(what)
+		STDOUT.write "Examining #{source_file_list.size} file(s)"
 		count = 0
 		source_file_list.analyze(what) do |s|
 			if count % 100 == 0
@@ -186,17 +187,7 @@ HELP
 		printf("  %s\n", file)
 	end
 
-	def memoryleak
-		puts "Parsing one file repeatedly. Watch your RAM vanish...."
-		s = Ohcount::SourceCode.new(files.first, :filenames => files)
-		while true
-			s.parse {}
-		end
-	end
-
 	def summary
-		STDOUT.write "Examining #{source_file_list.size} file(s)"
-
 		analyze_with_progress(:*)
 
 		puts
