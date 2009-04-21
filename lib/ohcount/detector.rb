@@ -300,7 +300,7 @@ module Ohcount #:nodoc:
 			matlab_signatures = /(^\s*function\s*)|(^\s*%)|(^\s*\#)/
 			matlab_sig_score = 0.1 * lines_matching(buffer, matlab_signatures)
 
-			# if the contents contains '//', '/*', '@interface', or '@implementation', 
+			# if the contents contains '//', '/*', '@interface', or '@implementation',
 			# likely objective_c
 			objective_c_signatures = /(^\s*\/\/\s*)|(^\s*\/\*)|(^[+-])|(@interface)|(@implementation)/
 			obj_c_sig_score = -0.1 * lines_matching(buffer, objective_c_signatures)
@@ -623,7 +623,7 @@ module Ohcount #:nodoc:
 				when "Bourne-Again"
 					return "shell"
 				end
-			when /XML( 1\.0)? document text/, /^XML$/
+			when /XML( 1\.0| )? document text/, /^XML$/
 				return 'xml'
 			end
 			# dang... no dice
