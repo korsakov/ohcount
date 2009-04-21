@@ -39,6 +39,7 @@
 #include "ragel_parsers/java.h"
 #include "ragel_parsers/javascript.h"
 #include "ragel_parsers/jsp.h"
+#include "ragel_parsers/limbo.h"
 #include "ragel_parsers/lisp.h"
 #include "ragel_parsers/lua.h"
 #include "ragel_parsers/makefile.h"
@@ -129,6 +130,7 @@ struct language languages[] = {
   { "java", parse_java },
   { "javascript", parse_javascript },
   { "jsp", parse_jsp },
+  { "limbo", parse_limbo },
   { "lisp", parse_lisp },
   { "lua", parse_lua },
   { "make", parse_makefile },

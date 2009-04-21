@@ -48,7 +48,7 @@ INLINE
 		assert_equal nil, do_detect("english.st")
 	end
 
-	def test_matlab_or_objective_c
+	def test_matlab_octave_limbo_or_objective_c
 		assert_equal 'objective_c', do_detect("t1.m")
 		assert_equal 'objective_c', do_detect("t2.m")
 	end
