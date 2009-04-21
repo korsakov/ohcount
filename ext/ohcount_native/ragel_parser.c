@@ -17,6 +17,7 @@
 #include "ragel_parsers/classic_basic.h"
 #include "ragel_parsers/clearsilver.h"
 #include "ragel_parsers/clearsilverhtml.h"
+#include "ragel_parsers/cmake.h"
 #include "ragel_parsers/cs_aspx.h"
 #include "ragel_parsers/css.h"
 #include "ragel_parsers/d.h"
@@ -103,6 +104,7 @@ struct language languages[] = {
 	{ "classic_basic", parse_classic_basic },
   { "clearsilver", parse_clearsilver },
   { "clearsilver_template", parse_cshtml },
+  { "cmake", parse_cmake },
   { "cpp", parse_cpp },
   { "cs_aspx", parse_cs_aspx },
   { "csharp", parse_csharp },
