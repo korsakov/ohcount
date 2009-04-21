@@ -61,6 +61,7 @@ INLINE
 	def test_detect_polyglot
 		assert_equal "c", do_detect("foo.c")
 		assert_equal "c", do_detect("uses_no_cpp.h")
+		assert_equal "cmake", do_detect("foo.cmake")
 		assert_equal "cpp", do_detect("uses_cpp_headers.h")
 		assert_equal "cpp", do_detect("uses_cpp_stdlib_headers.h")
 		assert_equal "cpp", do_detect("uses_cpp_keywords.h")
@@ -114,6 +115,7 @@ INLINE
 		assert_equal "autoconf", do_detect("configure.ac")
 		assert_equal "autoconf", do_detect("configure.in")
 		assert_equal "automake", do_detect("Makefile.am")
+		assert_equal "cmake", do_detect("CMakeLists.txt")
 		assert_equal "make", do_detect("Makefile")
 	end
 
