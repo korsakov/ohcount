@@ -19,6 +19,7 @@ class Ohcount::Language
 			'boo'           => {:nice_name => 'Boo'              , :category => 0},
 			'c'             => {:nice_name => 'C'                , :category => 0},
 			'classic_basic' => {:nice_name => 'Classic Basic'     , :category => 0},
+			'cmake'         => {:nice_name => 'Cmake script'     , :category => 2},
 			'cpp'           => {:nice_name => 'C++'              , :category => 0},
 			'clearsilver'   => {:nice_name => 'ClearSilver'      , :category => 0},
 			'csharp'        => {:nice_name => 'C#'               , :category => 0},

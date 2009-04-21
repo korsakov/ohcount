@@ -141,6 +141,7 @@ module Ohcount #:nodoc:
 			'.c'          => "c",
 			'.C'          => "cpp",
 			'.cc'         => "cpp",
+			'.cmake'      => "cmake",
 			'.ctp'        => "php",
 			'.cpp'        => "cpp",
 			'.css'        => "css",
@@ -261,6 +262,7 @@ module Ohcount #:nodoc:
 		# Map full filenames to glots. The right hand side is a string or symbol as
 		# for EXTENSION_MAP.
 		FILENAME_MAP = {
+			'CMakeLists.txt'=> 'cmake',
 			'Makefile'      => 'make',
 			'GNUmakefile'   => 'make',
 			'makefile'      => 'make',
