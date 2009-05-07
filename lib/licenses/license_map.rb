@@ -365,6 +365,12 @@ module Ohcount
       "BSD-ish (2 clause) License",
       /Copyright\s.{1,60}All rights reserved.{1,40}Redistribution and use in source and binary forms, with or without.{0,20}modification, are permitted provided that the following conditions.{0,20}\sare met.{0,20}\s{1,20}.{0,20}Redistributions of source code must retain the above copyright\s+.*notice, this list of conditions and the following disclaimer.\s+.*Redistributions in binary form must reproduce the above copyright\s+.*notice, this list of conditions and the following disclaimer in the\s+.*documentation and\/or other materials provided with the distribution\.\s+.*HOWEVER CAUSED AND ON ANY.*THEORY OF LIABILITY, WHETHER IN CONTRACT/m,
       /(The Regents of the University of California)|(used to endorse or promote\s+.*products\s+.*prior\s+.*written\s+.*permission\.)/m),
+
+			SoftwareLicense.new(:boost,
+			"http://www.boost.org/LICENSE_1_0.txt",
+			"Boost Software License - Version 1.0 - August 17th, 2003",
+			/\bboost\s*software\s*license\b/i )
+
       ].each do |l|
         @licenses << l
         @map[l.symbol] = l
