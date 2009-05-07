@@ -10,11 +10,15 @@ module Ohcount
 				super(options)
 			end
 
-			def trigger_file?(source_file)
-				return false unless ['c','cpp'].include?(source_file.polyglot)
-				regexp.match(source_file.language_breakdown('c').code) ||
-					regexp.match(source_file.language_breakdown('cpp').code)
-			end
+      def process_source_file(source_file)
+				return unless ['c','cpp'].include?(source_file.polyglot)
+
+        ['c','cpp'].each do |lang|
+          next unless source_file.language_breakdown(lang)
+          md = regexp.match(source_file.language_breakdown(lang).code)
+          @count += (md && md.size).to_i
+        end
+      end
 
 			def regexp
 				@regexp ||= begin

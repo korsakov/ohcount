@@ -192,5 +192,48 @@ module Ohcount
 			[added, removed]
 		end
 
+    # we are in the process of consolidating various code-detected traits into
+    # an extensible attribute called 'gestalt'.
+    def gestalts
+			gestalt_engine = Gestalt::GestaltEngine.new
+      gestalt_engine.process(self)
+      gestalt_engine.calc_gestalts
+      gestalt_engine.gestalts
+    end
+
+#		# returns the jars seen from this source_file
+#		def detected_jars
+#			jars = []
+#      if File.extname(filename) == '.jar'
+#        # hey, we're a jar!
+#        jars << File.basename(filename)
+#      elsif File.basename(filename) == 'build.xml'
+#        # this logic is pretty dubious:
+#        # - many ant files include other files - we don't detect that
+#        # - specific jar dependencies can be listed in a '.properties' file - we don't detect that either
+#        #
+#        # however, might as well try this out anyway - live and learn, aye?
+#				self.parse do |language, semantic, line|
+#          next unless semantic == :code
+#					jars += line.scan(/\b(\w[\w\-_\.]*\.jar)\b/).flatten
+#				end
+#			end
+#			jars
+#		end
+#
+#		# returns the java imports  seen in this source_file
+#		def imports_from_java_file
+#			imports = []
+#			if polyglot == 'java'
+#				parse do |language, semantic, line|
+#					next unless semantic == :code
+#					line.scan(/import\s+(\w\S*);/).each do |match|
+#						imports <<  match[0]
+#					end
+#				end
+#			end
+#			imports
+#		end
+
 	end
 end

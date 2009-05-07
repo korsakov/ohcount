@@ -182,57 +182,13 @@ module Ohcount
 			)
 		end
 
-		class MSDOS < Platform
+		class MSDos < Platform
 			c_keywords '__MSDOS__', 'MSDOS', :min => 2
     end
 
     class EclipsePlatform < Platform
       java_import 'org.eclipse.'
     end
-
-		class ApacheCommons < Platform
-			java_import 'org.apache.commons'
-		end
-
-		class ApacheTomcat < Platform
-			java_import 'org.apache.tomcat'
-		end
-
-		class ApacheGeronimo < Platform
-			java_import 'org.apache.geronimo'
-		end
-
-		class ApacheMaven < Platform
-			java_import 'org.apache.maven'
-			filenames 'pom.xml'
-		end
-
-		class JBoss < Platform
-			java_import 'org.jboss.'
-		end
-
-		class GlassFish < Platform
-			_or(
-				java_import('org.glassfish.'),
-				java_package('org.glassfish.')
-			)
-		end
-
-		class NetBeans < Platform
-			java_import 'org.netbeans.'
-		end
-
-		class SunEnterprise < Platform
-			_or(
-				java_import('com.sun.enterprise'),
-				java_package('com.sun.enterprise')
-			)
-		end
-
-		class GoogleWebToolkit < Platform
-			java_import 'com.google.gwt.'
-		end
-
   end
 end
 

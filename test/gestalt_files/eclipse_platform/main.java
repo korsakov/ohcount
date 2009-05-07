@@ -4,8 +4,6 @@
  package net.ohloh.www;
 
  import java.text.SimpleDateFormat;
- import java.util.Date;
- import java.util.HashMap;
  import java.util.Map;
  import org.eclipse.core.lotsa_stuff;
 

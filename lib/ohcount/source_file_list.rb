@@ -7,7 +7,7 @@ module Ohcount
 	#  sfl.loc_list.loc(:ruby).code
 	#
 	class SourceFileList < Array
-		attr_reader :loc_list, :gestalt_facts
+		attr_reader :loc_list, :java_facts
 
 		# pass an array of filenames you want to process.
 		#
@@ -55,6 +55,7 @@ module Ohcount
 		#
 		# :gestalt:: platform dependencies and tools usage
 		# :languages:: detailed programming languages facts
+		# :java:: java-related dependencies (jars & imports)
 		#
 		# Examples
 		#
@@ -70,19 +71,24 @@ module Ohcount
 			do_languages = what.include?(:language)  || what.include?(:*)
 
 			@loc_list = LocList.new if do_languages
-			@gestalt_facts = GestaltFacts.new if do_gestalt
+			@gestalt_engine = Gestalt::GestaltEngine.new if do_gestalt
 
 			self.each do |file|
 				# we process each file - even if its not a source_code - for
 				# library rules sake - they sometimes want 'jar' files or something
 				source_file = SourceFile.new(file, :filename => self)
 				@loc_list += source_file.loc_list if do_languages
-				@gestalt_facts.process(source_file) if do_gestalt
+				@gestalt_engine.process(source_file) if do_gestalt
 				yield source_file if block_given?
 			end
 
-			@gestalt_facts.post_process if do_gestalt
+      @gestalt_engine.calc_gestalts if do_gestalt
 		end
+
+    def gestalts
+      raise "No gestalts analyzed yet" unless @gestalt_engine
+      @gestalt_engine.gestalts
+    end
 
 		def each_source_file
 			self.each do |file|

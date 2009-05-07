@@ -29,7 +29,9 @@ require "lib/ohcount/gestalt_facts"
 
 require "lib/licenses/license_sniffer"
 
-require "lib/gestalt/platform"
-require "lib/gestalt/platforms"
-require "lib/gestalt/tool"
-require "lib/gestalt/tools"
+# gestalt
+require "lib/gestalt/trigger"
+require "lib/gestalt/definition"
+require "lib/gestalt/base"
+require "lib/gestalt/definitions"
+require "lib/gestalt/gestalt_engine"

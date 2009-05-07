@@ -6,11 +6,11 @@ module Ohcount
       filenames '\.(sln|vcproj|vsproj|csproj|vbproj|vbp)$'
     end
 
-    class EclipseIDE < Tool
+    class Eclipse < Tool
       filenames '\.(project|classpath)$'
     end
 
-    class NetBeansIDE < Tool
+    class NetBeans < Tool
       filenames '\bnbplatform\b'
       filenames '\.nbm$'
     end

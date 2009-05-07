@@ -1,5 +1,15 @@
 module Ohcount
 
+  module Gestalt
+
+    class GestaltFacts
+
+      def self.
+
+    end
+  end
+end
+
 	# Represents language statistics for a collection of files
 	class GestaltFacts
 		attr_accessor :platforms, :tools, :file_rules, :language_counts
@@ -69,3 +79,4 @@ module Ohcount
 
 	end
 end
+

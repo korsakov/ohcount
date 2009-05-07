@@ -119,4 +119,5 @@ class SourceFileTest < Ohcount::Test
 		assert_equal [1,0], SourceFile.new.calc_diff("Hello, World!\n" * 10, "Hello, World!\n" * 11)
 		assert_equal [1,0], SourceFile.new.calc_diff("Hello, World!\n" * 10000, "Hello, World!\n" * 10001)
 	end
+
 end

@@ -60,7 +60,6 @@ class OhcountCommandLine
   end
 
 	def analyze_with_progress(what)
-		STDOUT.write "Examining #{source_file_list.size} file(s)"
 		count = 0
 		source_file_list.analyze(what) do |s|
 			if count % 100 == 0
@@ -73,13 +72,23 @@ class OhcountCommandLine
 	end
 
 	def write_gestalt
-		platforms = source_file_list.gestalt_facts.platforms
-		platforms = platforms.any? ? platforms.collect { |p| p.to_s.split('::').last }.join(", ") : 'None'
-		puts "Platforms detected: #{ platforms }"
+    typed_gestalts = {}
+    source_file_list.gestalts.each do |gestalt|
+      typed_gestalts[gestalt.type] ||= []
+      typed_gestalts[gestalt.type] << gestalt.name
+    end
 
-		tools = source_file_list.gestalt_facts.tools
-		tools = tools.any? ? tools.collect { |p| p.to_s.split('::').last }.join(", ") : 'None'
-		puts "Tools detected: #{ tools }"
+    puts '- Gestalts -------------------------------------------------------------------'
+
+    typed_gestalts.each do |k,v|
+      names = v.join(", ")
+
+      if names.size > 120
+        names = "[#{ v.size } found] #{names[0..120]}..."
+      end
+
+      puts k.to_s.upcase + ": " + names
+    end
 	end
 
   # Gestalt
@@ -187,7 +196,17 @@ HELP
 		printf("  %s\n", file)
 	end
 
+	def memoryleak
+		puts "Parsing one file repeatedly. Watch your RAM vanish...."
+		s = Ohcount::SourceCode.new(files.first, :filenames => files)
+		while true
+			s.parse {}
+		end
+	end
+
 	def summary
+		STDOUT.write "Examining #{source_file_list.size} file(s)"
+
 		analyze_with_progress(:*)
 
 		puts

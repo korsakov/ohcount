@@ -5,10 +5,14 @@ module Ohcount
 				return false unless self.class == other.class
 				return false unless self.instance_variables == other.instance_variables
 				self.instance_variables.each do |v|
-					return false unless self.send(v[1..-1]) == other.send(v[1..-1])
+					return false unless self.instance_eval(v) == other.instance_eval(v)
 				end
 				true
 			end
+
+      def each_rule
+        yield self
+      end
 
 			def to_sym
 				self.class.to_sym
@@ -33,7 +37,7 @@ module Ohcount
 			def self.method_missing(m,*args)
 				if /(.*)_keywords$/ =~ m.to_s
 					language = $1
-					return rules << KeywordLibraryRule.new(language,args)
+					return rules << KeywordRule.new(language,*args)
 				end
 				super
 			end

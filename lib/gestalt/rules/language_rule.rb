@@ -13,8 +13,12 @@ module Ohcount
 				@language = language
 			end
 
-			def triggered?(g)
-				return self if g.includes_language?(language, min_percent)
+			def triggers(gestalt_engine)
+				if gestalt_engine.includes_language?(language, min_percent)
+          [Trigger.new] 
+        else
+          []
+        end
 			end
 
 		end

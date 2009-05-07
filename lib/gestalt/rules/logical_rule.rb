@@ -3,32 +3,37 @@ module Ohcount
 		class LogicalRule < Rule
 			attr_reader :rules
 
-			def initialize(*rules)
+			def initialize(*rules, &block)
 				@rules = rules
+        self.instance_eval(&block) if block
 			end
 
-			def new_rule(r_class, *args)
-				# since we might be nesting logical rules, we must remove
-				# any 'grandchildren rules' from our list, since we are giving
-				args.each do |a|
-					next unless a.is_a?(Rule)
-					@rules.delete(a)
-				end
-				r = r_class.new(*args)
-				@rules << r
-				r
+      def each_rule(&block)
+        @rules.each { |r| r.each_rule(&block) }
+        yield self
+      end
+
+      def clone
+        cloned_rules = @rules.map { |r|
+          r.clone
+        }
+        self.class.new(*cloned_rules)
+      end
+
+			def new_rule(r_class, *args, &block)
+				@rules << r_class.new(*args,&block)
 			end
 
-			def _or(*args)
-				new_rule OrRule, *args
+			def _or(*args, &block)
+				new_rule OrRule, *args, &block
 			end
 
-			def _and(*args)
-				new_rule AndRule, *args
+			def _and(*args, &block)
+				new_rule AndRule, *args, &block
 			end
 
-			def platform(*args)
-				new_rule PlatformRule, *args
+			def gestalt(*args)
+				new_rule GestaltRule, *args
 			end
 
 			def language(*args)
@@ -52,16 +57,21 @@ module Ohcount
 				new_rule JavaImportRule, *args
 			end
 
-			def java_package(*args)
-				new_rule JavaPackageRule, *args
-			end
+      def find_filenames(*args)
+        new_rule FindFilenamesRule, *args
+      end
 
-			def method_missing(m,*args)
-				if /(.*)_keywords$/ =~ m.to_s
+      def find_java_imports(*args)
+        new_rule FindJavaImportsRule, *args
+      end
+
+			def method_missing(m,*args, &block)
+				if m.to_s =~ /^(.*)_keywords$/
 					language = $1
 					new_args = [language] + args
-					return new_rule(KeywordRule, *new_args)
-				end
+					new_rule(KeywordRule, *new_args, &block)
+				  return
+        end
 				super
 			end
 

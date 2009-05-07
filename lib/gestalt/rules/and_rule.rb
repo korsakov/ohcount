@@ -2,11 +2,12 @@ module Ohcount
 	module Gestalt
 		# Will trigger if all sub-rules do
 		class AndRule < LogicalRule
-			def triggered?(g_facts)
+
+			def triggers(gestalt_engine)
 				rules.each do |r|
-					return nil unless r.triggered?(g_facts)
+					return [] if r.triggers(gestalt_engine).empty?
 				end
-				self
+        [Trigger.new]
 			end
 		end
 	end

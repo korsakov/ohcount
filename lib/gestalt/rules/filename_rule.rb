@@ -10,8 +10,8 @@ module Ohcount
 				super(options)
 			end
 
-			def trigger_file?(source_file)
-				regex.match(source_file.filename)
+			def process_source_file(source_file)
+				@count += 1 if regex.match(source_file.filename)
 			end
 
 			def regex

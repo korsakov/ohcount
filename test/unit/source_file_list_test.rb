@@ -3,11 +3,6 @@ include Ohcount
 
 class SourceFileListTest < Ohcount::Test
 
-#	def test_init_with_dir
-#		sfl = SourceFileList.new(:dir => test_dir('test_win32_enough'))
-#		assert_equal 2, sfl.size
-#	end
-
 	def test_language_facts
 		sfl = SourceFileList.new(:path => test_dir('win32_enough'))
 		sfl.analyze(:language)
@@ -15,12 +10,6 @@ class SourceFileListTest < Ohcount::Test
 		assert_equal 2, sfl.loc_list.c.code
 		assert_equal 2, sfl.loc_list.c.comments
 		assert_equal 2, sfl.loc_list.c.blanks
-	end
-
-	def test_gestalt_facts
-		sfl = SourceFileList.new(:path => test_dir('win32_enough'))
-		sfl.analyze(:gestalt)
-		assert_equal [Win32], sfl.gestalt_facts.platforms
 	end
 
 	protected

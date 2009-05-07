@@ -11,9 +11,11 @@ module Ohcount
 				super(options)
 			end
 
-			def trigger_file?(source_file)
+			def process_source_file(source_file)
 				return unless source_file.language_breakdown(language)
-				regexp.match(source_file.language_breakdown(language).code)
+
+        code = source_file.language_breakdown(language).code
+				@count += code.scan(regexp).size
 			end
 
 			def regexp

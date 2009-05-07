@@ -1,25 +1,27 @@
 module Ohcount
 	module Gestalt
-		# Triggers if a c or cpp header is present
+
+		# Triggers if a matching java 'import' statement is present
 		class JavaImportRule < FileRule
-			attr_reader :imports
 
 			def initialize(*args)
 				options = args.pop if args.last.is_a?(Hash)
-				@imports = args
+				@regex = args[0]
 				super(options)
 			end
 
-			def trigger_file?(source_file)
-				return false unless source_file.polyglot == 'java'
-				regexp.match(source_file.language_breakdown('java').code)
+			def process_source_file(source_file)
+				return false unless source_file.language_breakdown('java')
+
+        java_code = source_file.language_breakdown('java').code
+        java_code.scan(import_regexp).each do |match|
+          import = match[0]
+          @count += 1 if import =~ @regex
+        end
 			end
 
-			def regexp
-				@regexp ||= begin
-					imports_term = "(" + imports.join("|") + ")"
-					Regexp.new("import\s+#{ imports_term }")
-				end
+			def import_regexp
+				/\bimport\s+([a-zA-Z][\w\.\*\-]*)/
 			end
 		end
 	end
