@@ -164,6 +164,11 @@ module Ohcount
       "Historical Permission Notice and Disclaimer",
       /\bhistorical\s*permission\s*notice\s*and\s*disclaimer\b/i ),
 
+      SoftwareLicense.new(:i9_license,
+      "http://i9os.googlecode.com/svn/trunk/Documentation/Licenses/i9_License",
+      "i9 License",
+      /\bi9\s*\s*license\b/i  ),
+
       SoftwareLicense.new(:ibm_public,
       "http://www.opensource.org/licenses/ibmpl.php",
       "IBM Public License",
