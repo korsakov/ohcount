@@ -60,6 +60,8 @@ class OhcountCommandLine
   end
 
 	def analyze_with_progress(what)
+		STDOUT.write "Examining #{source_file_list.size} file(s)"
+
 		count = 0
 		source_file_list.analyze(what) do |s|
 			if count % 100 == 0
@@ -72,29 +74,50 @@ class OhcountCommandLine
 	end
 
 	def write_gestalt
-    typed_gestalts = {}
-    source_file_list.gestalts.each do |gestalt|
+		typed_gestalts = {}
+    source_file_list.gestalts.sort.each do |gestalt|
       typed_gestalts[gestalt.type] ||= []
       typed_gestalts[gestalt.type] << gestalt.name
     end
 
-    puts '- Gestalts -------------------------------------------------------------------'
+    puts "- Gestalts -------------------------------------------------------------------"
 
-    typed_gestalts.each do |k,v|
-      names = v.join(", ")
+		if typed_gestalts.any?
+			max_display = 8
+			more = false
 
-      if names.size > 120
-        names = "[#{ v.size } found] #{names[0..120]}..."
-      end
+			typed_gestalts.each do |k,v|
+				names = if v.size > max_display
+									more = true
+									v[0, max_display - 1].join(", ") + " (... #{v.size - max_display + 1} more)"
+								else
+									v.join(", ")
+								end
+				puts titleize(k) + "s: " + names
+			end
 
-      puts k.to_s.upcase + ": " + names
-    end
+			puts "\nRun `#{__FILE__} -g` to see all detected gestalts." if more
+		else
+			puts "None detected."
+		end
+
+		puts
+	end
+
+	def titleize(s)
+		s.to_s.downcase.split("_").map { |i| capitalize(i) }.join(" ")
+	end
+
+	def capitalize(s)
+		s.to_s[0..0].upcase + s.to_s[1..-1]
 	end
 
   # Gestalt
 	def gestalt
-		analyze_with_progress(:gestalt)
-		write_gestalt
+		source_file_list.analyze(:gestalt)
+		source_file_list.gestalts.sort.each do |gestalt|
+			puts "#{gestalt.type}\t#{gestalt.count.to_s.rjust(8)}\t#{gestalt.name}"
+		end
 	end
 
 	def raw_entities
@@ -205,8 +228,6 @@ HELP
 	end
 
 	def summary
-		STDOUT.write "Examining #{source_file_list.size} file(s)"
-
 		analyze_with_progress(:*)
 
 		puts

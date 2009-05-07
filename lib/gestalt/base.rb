@@ -17,9 +17,14 @@ module Ohcount
       end
 
       def <=>(other)
-        me = self.type.to_s + self.name.to_s + self.count.to_s
-        you = other.type.to_s + other.name.to_s + other.count.to_s
-        me <=> you
+				# Sort by type, then descending count, then name
+				if self.type != other.type
+					self.type.to_s <=> other.type.to_s
+				elsif self.count != other.count
+					-(self.count <=> other.count)
+				else
+					self.name.to_s <=> other.name.to_s
+				end	
       end
 
       # will return an array of detected gestalts from a source_file_list
