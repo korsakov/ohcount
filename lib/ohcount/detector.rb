@@ -254,7 +254,8 @@ module Ohcount #:nodoc:
 			'.xml'        => "xml",
 			'.xs'         => "c",
 			'.xsd'        => "xmlschema",
-			'.xsl'        => "xslt"
+			'.xsl'        => "xslt",
+			'.z80'        => "assembler"
 		}
 
 		# Map full filenames to glots. The right hand side is a string or symbol as

@@ -89,6 +89,7 @@ INLINE
 		assert_equal "glsl", do_detect("foo.glsl")
 		assert_equal "glsl", do_detect("foo_glsl.vert")
 		assert_equal "glsl", do_detect("foo_glsl.frag")
+		assert_equal "assembler", do_detect("foo.z80")
 	end
 
 	def test_upper_case_extensions
