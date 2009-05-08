@@ -41,6 +41,7 @@ class Ohcount::Language
 			'html'          => {:nice_name => 'HTML'             , :category => 1},
 			'java'          => {:nice_name => 'Java'             , :category => 0},
 			'javascript'    => {:nice_name => 'JavaScript'       , :category => 0},
+			'limbo'         => {:nice_name => 'Limbo'            , :category => 0},
 			'lisp'          => {:nice_name => 'Lisp'             , :category => 0},
 			'lua'           => {:nice_name => 'Lua'              , :category => 0},
 			'make'          => {:nice_name => 'Make'             , :category => 2},
