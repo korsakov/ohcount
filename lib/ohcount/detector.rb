@@ -132,7 +132,7 @@ module Ohcount #:nodoc:
 			'.aspx'       => :disambiguate_aspx,
 			'.asm'        => "assembler",
 			'.awk'        => "awk",
-			'.b'          => :disambiguate_non_visual_basic,
+			'.b'          => :disambiguate_b,
 			'.bas'        => :disambiguate_basic,
 			'.bat'        => "bat",
 			'.bi'         => :disambiguate_non_visual_basic,
@@ -279,37 +279,41 @@ module Ohcount #:nodoc:
 			buffer.inject(0) { |total, line| line =~ re ? total+1 : total }
 		end
 
-		# For *.m files, differentiates between Matlab(TM), Octave, and Objective-C.
+		# For *.m files, differentiates between Matlab(TM), Octave, Limbo, and Objective-C.
 		#
 		# This is done with a weighted heuristic that
 		# scans the *.m file contents for keywords,
 		# and also checks for the presence of matching *.h files.
 		def self.disambiguate_m(source_file)
 
-			# A positive number means it's probably Octave/Matlab.
-			# A negative number means it's probably Objective-C.
-			total = 0
+			# '//', '/*', '@interface', or '@implementation' are likely objective_c
+			objective_c_signatures = /(^\s*\/\/\s*)|(^\s*\/\*)|(^[+-])|(@interface)|(@implementation)/
+			objective_c_score = lines_matching(source_file.contents, objective_c_signatures)
 
 			# If there are .h files in same directory and no C or C++ source files,
 			# this probably isn't Matlab(TM) or Octave.  Both allow compiled extensions
 			# that often live in the same directory, so checking .h alone does not suffice.
-			total -= 5 if has_h_headers?(source_file.filenames) && !has_c_files?(source_file.filenames)
+			objective_c_score += 5 if has_h_headers?(source_file.filenames) && !has_c_files?(source_file.filenames)
 
 			# 'function (' is likely to be Octave or Matlab(TM).
 			# Lines starting with '%' or '#' are likely comments in Octave or Matlab(TM).
 			# Note that '#' might begin '#import', so we count it as a comment only if it
 			# is followed by a space.
 			matlab_signatures = /(^\s*function\s*\()|(^\s*%)|(^\s*\#+\s+)/
-			total += lines_matching(source_file.contents, matlab_signatures)
+			matlab_score = lines_matching(source_file.contents, matlab_signatures)
 
-			# '//', '/*', '@interface', or '@implementation' are likely objective_c
-			objective_c_signatures = /(^\s*\/\/\s*)|(^\s*\/\*)|(^[+-])|(@interface)|(@implementation)/
-			total -= lines_matching(source_file.contents, objective_c_signatures)
+			# Lines starting with # are limbo comments
+			# Declarations are of the form:  <name>: <type> (with type commonly module/adt/fn(/con)
+			# Some .m files only have a list of includes.
+			limbo_signatures = /(^[ \t]*#\s)|(:[ \t]+(module|adt|fn ?\(|con[ \t]))|(^include[ \t]+"[^"]+\.m";)/
+			limbo_score = lines_matching(source_file.contents, limbo_signatures)
 
-			if total > 0
-				disambiguate_matlab_octave(source_file)
-			else
+			if limbo_score > objective_c_score && limbo_score > matlab_score
+				'limbo'
+			elsif objective_c_score > matlab_score
 				'objective_c'
+			else
+				disambiguate_matlab_octave(source_file)
 			end
 		end
 
@@ -687,6 +691,18 @@ module Ohcount #:nodoc:
 				return 'smalltalk'
 			end
 			nil
+		end
+
+		def self.disambiguate_b(source_file)
+			# implement and include lines are good indicators, but not always present
+			# return|break|continue statements, or pick & case constructs are good differentiators with basic
+			limbo_b_line = /(implement[ \t])|(include[ \t]+"[^"]*";)|((return|break|continue).*;|(pick|case).*\{)/
+
+			if lines_matching(source_file.contents, limbo_b_line) > 0
+				'limbo'
+			else
+				disambiguate_non_visual_basic(source_file)
+			end
 		end
 
 	end
