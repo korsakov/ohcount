@@ -195,7 +195,7 @@ module Ohcount #:nodoc:
 			'.lsp'        => "lisp",
 			'.ltx'        => 'tex',
 			'.lua'        => "lua",
-			'.m'          => :matlab_octave_or_objective_c,
+			'.m'          => :disambiguate_m,
 			'.mf'         => 'metafont',
 			'.mk'         => 'make',
 			'.ml'         => "ocaml",
@@ -284,43 +284,55 @@ module Ohcount #:nodoc:
 		# This is done with a weighted heuristic that
 		# scans the *.m file contents for keywords,
 		# and also checks for the presence of matching *.h files.
-		def self.matlab_octave_or_objective_c(source_file)
-			buffer = source_file.contents
+		def self.disambiguate_m(source_file)
 
-			# if there are .h files in same directory and no C or C++ source files,
+			# A positive number means it's probably Octave/Matlab.
+			# A negative number means it's probably Objective-C.
+			total = 0
+
+			# If there are .h files in same directory and no C or C++ source files,
 			# this probably isn't Matlab(TM) or Octave.  Both allow compiled extensions
 			# that often live in the same directory, so checking .h alone does not suffice.
-			has_headers = source_file.filenames.select { |a| a =~ /\.h$/ }.any?
-			has_c_cpp = !source_file.filenames.select { |a| a =~ /\.(c|cpp|C|c\+\+|cxx|cc)$/ }.any?
-			h_headers = 0.0
-			h_headers = -0.5 if has_headers && !has_c_cpp
+			total -= 5 if has_h_headers?(source_file.filenames) && !has_c_files?(source_file.filenames)
 
-			# if the contents contain 'function (' on a single line - very likely to be Octave
-			# or Matlab(TM).
-			# if the contents contain lines starting with '%' or '#', they likely are comments
-			# in Octave or Matlab(TM)
-			matlab_signatures = /(^\s*function\s*)|(^\s*%)|(^\s*\#)/
-			matlab_sig_score = 0.1 * lines_matching(buffer, matlab_signatures)
+			# 'function (' is likely to be Octave or Matlab(TM).
+			# Lines starting with '%' or '#' are likely comments in Octave or Matlab(TM).
+			# Note that '#' might begin '#import', so we count it as a comment only if it
+			# is followed by a space.
+			matlab_signatures = /(^\s*function\s*\()|(^\s*%)|(^\s*\#+\s+)/
+			total += lines_matching(source_file.contents, matlab_signatures)
 
-			# if the contents contains '//', '/*', '@interface', or '@implementation',
-			# likely objective_c
+			# '//', '/*', '@interface', or '@implementation' are likely objective_c
 			objective_c_signatures = /(^\s*\/\/\s*)|(^\s*\/\*)|(^[+-])|(@interface)|(@implementation)/
-			obj_c_sig_score = -0.1 * lines_matching(buffer, objective_c_signatures)
+			total -= lines_matching(source_file.contents, objective_c_signatures)
 
-			matlab = h_headers + matlab_sig_score + obj_c_sig_score
-
-			if matlab > 0
-				# Octave-specific keywords: endfunction, endwhile, end_try_catch, end_unwind_protect
-				# Also, # is only an Octave comment character.
-				oct_specific_sigs = /(\bend(function|while|_try_catch|unwind_protect))|(^\s*\#)/
-				if lines_matching(buffer, oct_specific_sigs) > 0
-					return 'octave'
-				else
-					return 'matlab'
-				end
+			if total > 0
+				disambiguate_matlab_octave(source_file)
 			else
-				return 'objective_c'
+				'objective_c'
 			end
+		end
+
+		def self.disambiguate_matlab_octave(source_file)
+			# Octave-specific keywords: endfunction, endwhile, end_try_catch, end_unwind_protect
+			# Also, # is only an Octave comment character.
+			oct_specific_sigs = /(\bend(function|while|_try_catch|unwind_protect))|(^\s*\#)/
+
+			if lines_matching(source_file.contents, oct_specific_sigs) > 0
+				'octave'
+			else
+				'matlab'
+			end
+		end
+
+		def self.has_h_headers?(filenames)
+			filenames.each { |a| return true if a =~ /\.h$/ }
+			false
+		end
+
+		def self.has_c_files?(filenames)
+			filenames.each { |a| return true if a =~ /\.(c|cpp|C|c\+\+|cxx|cc)$/ }
+			false
 		end
 
 		# For *.h files, differentiates C, C++ and Objective-C.

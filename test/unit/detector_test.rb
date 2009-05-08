@@ -48,9 +48,13 @@ INLINE
 		assert_equal nil, do_detect("english.st")
 	end
 
-	def test_matlab_or_objective_c
+	def test_disambiguate_m
 		assert_equal 'objective_c', do_detect("t1.m")
 		assert_equal 'objective_c', do_detect("t2.m")
+		assert_equal 'objective_c', do_detect("TCPSocket.m")
+		assert_equal 'objective_c', do_detect("foo_objective_c.m", ["foo_objective_c.m", "bar.h", "README"])
+    assert_equal 'matlab', do_detect("foo_matlab.m", ["foo_matlab.m", "bar.m", "README"])
+		assert_equal 'octave', do_detect("foo_octave.m", ["foo_octave.m", "foo_matlab.m", "bar.m", "README"])
 	end
 
 	def test_fortran_fixedfree
@@ -67,9 +71,6 @@ INLINE
 		assert_equal "cpp", do_detect("uses_cpp_keywords.h")
 		assert_equal "ruby", do_detect("foo.rb")
 		assert_equal "make", do_detect("foo.mk")
-    assert_equal "matlab", do_detect("foo_matlab.m", ["foo_matlab.m", "bar.m", "README"])
-		assert_equal "octave", do_detect("foo_octave.m", ["foo_octave.m", "foo_matlab.m", "bar.m", "README"])
-		assert_equal "objective_c", do_detect("foo_objective_c.m", ["foo_objective_c.m", "bar.h", "README"])
 		assert_equal "objective_c", do_detect("foo_objective_c.h", ["foo_objective_c.h, different_than_foo.m"])
 		assert_equal "php", do_detect("upper_case_php")
 		assert_equal "smalltalk", do_detect("example.st")
