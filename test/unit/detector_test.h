@@ -1,0 +1,121 @@
+// detector_test.h written by Mitchell Foral. mitchell<att>caladbolg.net.
+// See COPYING for license information.
+
+#include <assert.h>
+#include <stdlib.h>
+#include <string.h>
+
+#include "../../src/detector.h"
+#include "../../src/languages.h"
+#include "../../src/sourcefile.h"
+
+#define ASSERT_DETECT(x, y) { \
+  SourceFile *sf = ohcount_sourcefile_new("../detect_files/" y); \
+  const char *lang = ohcount_detect_language(sf); \
+  assert(lang); \
+  assert(strcmp(x, lang) == 0); \
+  ohcount_sourcefile_free(sf); \
+}
+#define ASSERT_NODETECT(x) { \
+  SourceFile *sf = ohcount_sourcefile_new("../detect_files/" x); \
+  assert(ohcount_detect_language(sf) == NULL); \
+  ohcount_sourcefile_free(sf); \
+}
+
+void test_detector_smalltalk() {
+  ASSERT_DETECT(LANG_SMALLTALK, "example.st");
+  ASSERT_NODETECT("english.st");
+}
+
+void test_detector_disambiguate_m() {
+  ASSERT_DETECT(LANG_OBJECTIVE_C, "t1.m");
+  ASSERT_DETECT(LANG_OBJECTIVE_C, "t2.m");
+  ASSERT_DETECT(LANG_OBJECTIVE_C, "TCPSocket.m");
+  ASSERT_DETECT(LANG_OBJECTIVE_C, "foo_objective_c.m");
+  ASSERT_DETECT(LANG_MATLAB, "foo_matlab.m");
+  ASSERT_DETECT(LANG_OCTAVE, "foo_octave.m");
+}
+
+void test_detector_fortran_fixedfree() {
+  ASSERT_DETECT(LANG_FORTRANFIXED, "fortranfixed.f");
+  ASSERT_DETECT(LANG_FORTRANFREE, "fortranfree.f");
+}
+
+void test_detector_detect_polyglot() {
+  ASSERT_DETECT(LANG_C, "foo.c");
+  ASSERT_DETECT(LANG_C, "uses_no_cpp.h");
+  ASSERT_DETECT(LANG_CPP, "uses_cpp_headers.h");
+  ASSERT_DETECT(LANG_CPP, "uses_cpp_stdlib_headers.h");
+  ASSERT_DETECT(LANG_CPP, "uses_cpp_keywords.h");
+  ASSERT_DETECT(LANG_RUBY, "foo.rb");
+  ASSERT_DETECT(LANG_MAKE, "foo.mk");
+  ASSERT_DETECT(LANG_OBJECTIVE_C, "foo_objective_c.h");
+  ASSERT_DETECT(LANG_PHP, "upper_case_php");
+  ASSERT_DETECT(LANG_SMALLTALK, "example.st");
+  ASSERT_DETECT(LANG_VALA, "foo.vala");
+  ASSERT_DETECT(LANG_TEX, "foo.tex");
+  ASSERT_DETECT(LANG_XSLT, "example.xsl");
+  ASSERT_DETECT(LANG_LISP, "core.lisp");
+  ASSERT_DETECT(LANG_DMD, "foo.d");
+  ASSERT_DETECT(LANG_VIM, "foo.vim");
+  ASSERT_DETECT(LANG_EBUILD, "foo.ebuild");
+  ASSERT_DETECT(LANG_EBUILD, "foo.eclass");
+  ASSERT_DETECT(LANG_EXHERES, "foo.exheres-0");
+  ASSERT_DETECT(LANG_EXHERES, "foo.exlib");
+  ASSERT_DETECT(LANG_EIFFEL, "eiffel.e");
+  ASSERT_DETECT(LANG_OCAML, "ocaml.ml");
+  ASSERT_DETECT(LANG_STRATEGO, "stratego.str");
+  ASSERT_DETECT(LANG_R, "foo.R");
+  ASSERT_DETECT(LANG_GLSL, "foo.glsl");
+  ASSERT_DETECT(LANG_GLSL, "foo_glsl.vert");
+  ASSERT_DETECT(LANG_GLSL, "foo_glsl.frag");
+  ASSERT_DETECT(LANG_ASSEMBLER, "foo.z80");
+  ASSERT_DETECT(LANG_PHP, "php.inc");
+}
+
+void test_detector_upper_case_extensions() {
+  ASSERT_DETECT(LANG_CPP, "foo_upper_case.C");
+  ASSERT_DETECT(LANG_RUBY, "foo_upper_case.RB");
+}
+
+void test_detector_no_extensions() {
+  ASSERT_DETECT(LANG_PYTHON, "py_script");
+  ASSERT_DETECT(LANG_RUBY, "ruby_script");
+  ASSERT_DETECT(LANG_SHELL, "bourne_again_script");
+  ASSERT_DETECT(LANG_SHELL, "bash_script");
+  ASSERT_DETECT(LANG_PERL, "perl_w");
+  ASSERT_DETECT(LANG_DMD, "d_script");
+  ASSERT_DETECT(LANG_TCL, "tcl_script");
+  ASSERT_DETECT(LANG_PYTHON, "python.data");
+  ASSERT_DETECT(LANG_PYTHON, "python2.data");
+}
+
+void test_detector_csharp_or_clearsilver() {
+  ASSERT_DETECT(LANG_CSHARP, "cs1.cs");
+  ASSERT_DETECT(LANG_CLEARSILVER_TEMPLATE, "clearsilver_template1.cs");
+}
+
+void test_detector_basic() {
+  ASSERT_DETECT(LANG_VISUALBASIC, "visual_basic.bas");
+  ASSERT_DETECT(LANG_CLASSIC_BASIC, "classic_basic.b");
+  system("mv ../detect_files/frx1.frx ../detect_files/frx1.frx2");
+  ASSERT_DETECT(LANG_STRUCTURED_BASIC, "visual_basic.bas");
+  ASSERT_DETECT(LANG_STRUCTURED_BASIC, "structured_basic.b");
+  system("mv ../detect_files/frx1.frx2 ../detect_files/frx1.frx");
+}
+
+void test_detector_xml_with_custom_extension() {
+  ASSERT_DETECT(LANG_XML, "xml.custom_ext");
+}
+
+void all_detector_tests() {
+  test_detector_smalltalk();
+  test_detector_disambiguate_m();
+  test_detector_fortran_fixedfree();
+  test_detector_detect_polyglot();
+  test_detector_upper_case_extensions();
+  test_detector_no_extensions();
+  test_detector_csharp_or_clearsilver();
+  test_detector_basic();
+  test_detector_xml_with_custom_extension();
+}
