@@ -46,6 +46,7 @@ build_ohcount()
   build_hash_headers
   build_parser_o
   echo "Building Ohcount"
+  mkdir -p bin/
   sh -c "$cc src/ohcount.c $files -o bin/ohcount -lpcre" || exit 1  
 }
 
