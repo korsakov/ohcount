@@ -1,0 +1,22 @@
+/************************* Required for every parser *************************/
+#ifndef OHCOUNT_C_PARSER_H
+#define OHCOUNT_C_PARSER_H
+
+#include "../parser_macros.h"
+
+// the name of the language
+const char *C_LANG = LANG_C;
+
+// the languages entities
+const char *c_entities[] = {
+  "space", "comment", "string", "number", "preproc",
+  "keyword", "identifier", "operator", "any"
+};
+
+// constants associated with the entities
+enum {
+  C_SPACE = 0, C_COMMENT, C_STRING, C_NUMBER, C_PREPROC,
+  C_KEYWORD, C_IDENTIFIER, C_OPERATOR, C_ANY
+};
+
+/*****************************************************************************/

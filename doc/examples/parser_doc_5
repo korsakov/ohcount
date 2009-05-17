@@ -1,0 +1,14 @@
+action [lang]_ccallback {
+  switch(entity) {
+  when ENTITY1:
+    ...
+    break;
+  when ENTITY2:
+    ...
+    break;
+  ...
+  when ENTITYN:
+    ...
+    break;
+  }
+}

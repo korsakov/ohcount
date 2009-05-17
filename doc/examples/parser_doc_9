@@ -1,0 +1,4 @@
+action [lang]_ecallback {
+  callback([lang]_LANG, [lang]_entities[entity], cint(ts), cint(te),
+           userdata);
+}
