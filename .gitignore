@@ -1,5 +1,4 @@
 pkg
-doc
 lib/i[3-9]86*
 lib/x86*
 *.swp
