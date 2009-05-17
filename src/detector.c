@@ -72,7 +72,8 @@ const char *ohcount_detect_language(SourceFile *sourcefile) {
       p = pe;
     } else break;
   }
-  for (p = line; p < line + strlen(line); p++) *p = tolower(*p);
+  char *eol = line + strlen(line);
+  for (p = line; p < eol; p++) *p = tolower(*p);
   p = strstr(line, "-*-");
   if (p) {
     p += 3;
@@ -99,7 +100,8 @@ const char *ohcount_detect_language(SourceFile *sourcefile) {
   FILE *f = popen(command, "r");
   if (f) {
     fgets(line, sizeof(line), f);
-    for (p = line; p < line + strlen(line); p++) *p = tolower(*p);
+    char *eol = line + strlen(line);
+    for (p = line; p < eol; p++) *p = tolower(*p);
     p = strstr(line, "script text");
     if (p && p == line) { // /^script text(?: executable)? for \w/
       p = strstr(line, "for ");
@@ -150,8 +152,8 @@ const char *disambiguate_aspx(SourceFile *sourcefile) {
       char buf[length];
       strncpy(buf, p, length);
       buf[length] = '\0';
-      for (p = buf; p < buf + strlen(buf); p++)
-        *p = tolower(*p);
+      char *eol = buf + strlen(buf);
+      for (p = buf; p < eol; p++) *p = tolower(*p);
       p = buf;
       while (*p == ' ' || *p == '\t') p++;
       if (strncmp(p, "page", 4) == 0) {
@@ -336,6 +338,7 @@ const char *disambiguate_h(SourceFile *sourcefile) {
     length = (pe - p <= sizeof(line)) ? pe - p : sizeof(line);
     strncpy(line, p, length);
     line[length] = '\0';
+    char *eol = line + strlen(line);
     char *line_end = pe;
 
     // Look for C++ headers.
@@ -351,7 +354,7 @@ const char *disambiguate_h(SourceFile *sourcefile) {
           // Is the header file a C++ header file?
           p++;
           pe = p;
-          while (pe < p + strlen(line) && *pe != '>' && *pe != '"') pe++;
+          while (pe < eol && *pe != '>' && *pe != '"') pe++;
           length = pe - p;
           strncpy(buf, p, length);
           buf[length] = '\0';
@@ -372,7 +375,7 @@ const char *disambiguate_h(SourceFile *sourcefile) {
 
     // Look for C++ keywords.
     p = line;
-    while (p < line + strlen(line) && *p != '\r' && *p != '\n') {
+    while (p < eol) {
       if (islower(*p) && !isalnum(*(p - 1)) && *(p - 1) != '_') {
         pe = p;
         while (islower(*pe)) pe++;
@@ -495,6 +498,7 @@ const char *disambiguate_m(SourceFile *sourcefile) {
     length = (pe - p <= sizeof(line)) ? pe - p : sizeof(line);
     strncpy(line, p, length);
     line[length] = '\0';
+    char *eol = line + strlen(line);
     char *line_end = pe;
 
     // Look for tell-tale lines.
@@ -528,7 +532,7 @@ const char *disambiguate_m(SourceFile *sourcefile) {
       if (*p == ' ' || *p == '\t') {
         while (*p == ' ' || *p == '\t') p++;
         if (*p == '"') {
-          while (*p != '"' && p < line + strlen(line)) p++;
+          while (*p != '"' && p < eol) p++;
           if (*p == '"' && *(p - 2) == '.' && *(p - 1) == 'm')
             limbo_score++;
         }
@@ -537,7 +541,7 @@ const char *disambiguate_m(SourceFile *sourcefile) {
 
     // Look for Octave keywords.
     p = line;
-    while (p < line + strlen(line)) {
+    while (p < eol) {
       if (islower(*p) && !isalnum(*(p - 1))) {
         pe = p;
         while (islower(*pe) || *pe == '_') pe++;
@@ -557,7 +561,7 @@ const char *disambiguate_m(SourceFile *sourcefile) {
 
     // Look for Limbo declarations
     p = line;
-    while (p < line + strlen(line)) {
+    while (p < eol) {
       if (*p == ':' && (*(p + 1) == ' ' || *(p + 1) == '\t')) {
         // /:[ \t]+(module|adt|fn ?\(|con[ \t])/
         p += 2;
@@ -602,12 +606,13 @@ const char *disambiguate_st(SourceFile *sourcefile) {
     length = (pe - p <= sizeof(line)) ? pe - p : sizeof(line);
     strncpy(line, p, length);
     line[length] = '\0';
+    char *eol = line + strlen(line);
     char *line_end = pe;
 
-    for (p = line; p < line + strlen(line); p++) {
+    for (p = line; p < eol; p++) {
       if (*p == ':') {
         p++;
-        while (p < line + strlen(line) && (*p == ' ' || *p == '\t')) p++;
+        while (p < eol && (*p == ' ' || *p == '\t')) p++;
         if (*p == '=')
           found_assignment = 1;
         else if (*p == '[')
