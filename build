@@ -1,0 +1,90 @@
+#!/bin/sh
+# Build script for Ohcount.
+# Written by Mitchell Foral. mitchell<att>caladbolg.net.
+
+# C compiler and flags
+cc="gcc -g -Wall -Wno-pointer-to-int-cast -Wno-parentheses"
+
+# Ohcount source files
+files="src/sourcefile.c \
+       src/detector.c \
+       src/licenses.c \
+       src/parser.o \
+       src/loc.c \
+       src/diff.c \
+       src/parsed_language.c"
+
+success="Build successful; ohcount is in bin/"
+
+# If any src/hash/*.gperf file is newer than the header files (which were
+# presumably generated together), regenerate the headers.
+build_hash_headers()
+{
+  if [[ -z `ls src/hash/` ||
+        ! -z `find src/hash/*.gperf -newer src/hash/parser_hash.h` ]]
+  then
+    echo "Generating hash headers"
+    sh -c "cd src/hash/ && ./generate_headers" || exit 1
+  fi
+}
+
+# If src/parser.o does not exist, or if there are Ragel parsers or parser
+# header files newer than the existing parser.o, recompile parser.o.
+build_parser_o()
+{
+  if [[ ! -f src/parser.o ||
+        ! -z `find src/parsers/*.{h,rl} -newer src/parser.o` ]]
+  then
+    sh -c "cd src/parsers/ && ./compile" || exit 1
+    echo "Building src/parser.c (will take a while)"
+    gcc -c src/parser.c -o src/parser.o || exit 1
+  fi
+}
+
+build_ohcount()
+{
+  build_hash_headers
+  build_parser_o
+  echo "Building Ohcount"
+  sh -c "$cc src/ohcount.c $files -o bin/ohcount -lpcre" || exit 1  
+}
+
+build_test_suite()
+{
+  build_hash_headers
+  build_parser_o
+  echo "Building test suite"
+  sh -c "$cc test/unit/all_tests.c $files -o test/unit/run_tests -lpcre" \
+    || exit 1
+}
+
+run_test_suite()
+{
+  echo "Running test suite"
+  sh -c "cd test/unit/ && ./run_tests"
+}
+
+if [ $# -eq 0 ] || [ $1 == "all" ]
+then
+  build_ohcount
+  build_test_suite
+  run_test_suite
+  echo $success
+elif [ $1 == "ohcount" ]
+then
+  build_ohcount
+  echo $success
+elif [ $1 == "tests" ]
+then
+  build_test_suite
+  run_test_suite
+elif [ $1 == "clean" ]
+then
+  rm bin/ohcount
+  rm test/unit/run_tests
+  rm src/parser.o
+  rm src/parsers/*.h
+  rm src/hash/*.h
+else
+  echo "Usage: build [all|ohcount|tests|clean]"
+fi
