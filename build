@@ -20,7 +20,7 @@ success="Build successful; ohcount is in bin/"
 # presumably generated together), regenerate the headers.
 build_hash_headers()
 {
-  if [[ -z `ls src/hash/` ||
+  if [[ -z `ls src/hash/*.h` ||
         ! -z `find src/hash/*.gperf -newer src/hash/parser_hash.h` ]]
   then
     echo "Generating hash headers"
