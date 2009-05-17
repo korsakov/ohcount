@@ -1,0 +1,13 @@
+%{
+#include "../languages.h"
+%}
+struct FilenameMap { const char *key; const char *value; };
+%%
+CMakeLists.txt, LANG_CMAKE
+GNUmakefile, LANG_MAKE
+Makefile, LANG_MAKE
+Makefile.am, LANG_AUTOMAKE
+configure, LANG_AUTOCONF
+configure.ac, LANG_AUTOCONF
+configure.in, LANG_AUTOCONF
+makefile, LANG_MAKE
