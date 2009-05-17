@@ -8,3 +8,5 @@ src/hash/*_hash.h
 src/parsers/*.h
 src/parser.o
 test/unit/run_tests
+doc/html
+bin/
