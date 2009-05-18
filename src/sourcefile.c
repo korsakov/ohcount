@@ -75,7 +75,10 @@ void ohcount_sourcefile_set_contents(SourceFile *sourcefile,
 
 char *ohcount_sourcefile_get_contents(SourceFile *sourcefile) {
   if (sourcefile->contents == NULL) {
-    FILE *f = fopen(sourcefile->filepath, "r");
+    char *path = sourcefile->filepath;
+    if (sourcefile->diskpath)
+      path = sourcefile->diskpath;
+    FILE *f = fopen(path, "r");
     if (f) {
       fseek(f, 0, SEEK_END);
       int size = ftell(f);
