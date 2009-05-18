@@ -175,6 +175,14 @@ void ohcount_sourcefile_parse(SourceFile *sourcefile) {
   if (sourcefile->parsed_language_list == NULL) {
     sourcefile->parsed_language_list = ohcount_parsed_language_list_new();
     ohcount_parse(sourcefile, 1, parser_callback, sourcefile);
+
+    // Since the SourceFile contents are not 'free'd until the SourceFile itself
+    // is, continually parsing SourceFiles in a SourceFileList will cause an
+    // undesirable build-up of memory until the SourceFileList is 'free'd.
+    // While it is expensive to re-read the contents from the disk, it is
+    // unlikely they will need to be accessed again after parsing.
+    free(sourcefile->contents); // field is guaranteed to exist
+    sourcefile->contents = NULL;
   }
 }
 
