@@ -3,7 +3,7 @@
 # Written by Mitchell Foral. mitchell<att>caladbolg.net.
 
 # C compiler and flags
-cc="gcc -g -Wall -Wno-pointer-to-int-cast -Wno-parentheses"
+cc="gcc -fPIC -g -Wall -Wno-pointer-to-int-cast -Wno-parentheses"
 
 # Ohcount source files
 files="src/sourcefile.c \
@@ -14,13 +14,11 @@ files="src/sourcefile.c \
        src/diff.c \
        src/parsed_language.c"
 
-success="Build successful; ohcount is in bin/"
-
 # If any src/hash/*.gperf file is newer than the header files (which were
 # presumably generated together), regenerate the headers.
 build_hash_headers()
 {
-  if [[ -z `ls src/hash/*.h` ||
+  if [[ -z `ls src/hash/ | grep "_hash.h$"` ||
         ! -z `find src/hash/*.gperf -newer src/hash/parser_hash.h` ]]
   then
     echo "Generating hash headers"
@@ -37,7 +35,19 @@ build_parser_o()
   then
     sh -c "cd src/parsers/ && ./compile" || exit 1
     echo "Building src/parser.c (will take a while)"
-    gcc -c src/parser.c -o src/parser.o || exit 1
+    sh -c "$cc -c src/parser.c -o src/parser.o" || exit 1
+  fi
+}
+
+build_shared()
+{
+  build_hash_headers
+  build_parser_o
+  if [[ ! -f src/libohcount.so ||
+        ! -z `find src/*.{h,c} -newer src/libohcount.so` ]]
+  then
+    echo "Building shared library"
+    sh -c "$cc -shared $files -o src/libohcount.so" || exit 1
   fi
 }
 
@@ -47,7 +57,7 @@ build_ohcount()
   build_parser_o
   echo "Building Ohcount"
   mkdir -p bin/
-  sh -c "$cc src/ohcount.c $files -o bin/ohcount -lpcre" || exit 1  
+  sh -c "$cc src/ohcount.c $files -o bin/ohcount -lpcre" || exit 1
 }
 
 build_test_suite()
@@ -71,21 +81,26 @@ then
   build_test_suite
   run_test_suite
   echo $success
+elif [ $1 == "shared" ]
+then
+  build_shared
+  echo "Build successful; libohcount.so is in src/"
 elif [ $1 == "ohcount" ]
 then
   build_ohcount
-  echo $success
+  echo "Build successful; ohcount is in bin/"
 elif [ $1 == "tests" ]
 then
   build_test_suite
   run_test_suite
 elif [ $1 == "clean" ]
 then
+  rm src/libohcount.so
   rm bin/ohcount
   rm test/unit/run_tests
   rm src/parser.o
   rm src/parsers/*.h
   rm src/hash/*.h
 else
-  echo "Usage: build [all|ohcount|tests|clean]"
+  echo "Usage: build [all|ohcount|shared|tests|clean]"
 fi
