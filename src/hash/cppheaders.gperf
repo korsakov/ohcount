@@ -1,3 +1,7 @@
+%{
+#ifndef OHCOUNT_HASH_CPPHEADERS_HASH_H
+#define OHCOUNT_HASH_CPPHEADERS_HASH_H
+%}
 struct CppHeaderMap { const char *key; int value; };
 %%
 algorithm, 1
@@ -89,3 +93,5 @@ tr1/type_traits, 1
 tr1/unordered_map, 1
 tr1/unordered_set, 1
 tr1/utility, 1
+%%
+#endif

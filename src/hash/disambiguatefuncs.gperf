@@ -1,4 +1,7 @@
 %{
+#ifndef OHCOUNT_HASH_DISAMBIGUATEFUNCS_HASH_H
+#define OHCOUNT_HASH_DISAMBIGUATEFUNCS_HASH_H
+
 #include "../detector.h"
 #include "../sourcefile.h"
 
@@ -25,3 +28,5 @@ in, disambiguate_in
 inc, disambiguate_inc
 m, disambiguate_m
 st, disambiguate_st
+%%
+#endif

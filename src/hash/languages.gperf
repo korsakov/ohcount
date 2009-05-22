@@ -1,4 +1,7 @@
 %{
+#ifndef OHCOUNT_HASH_LANGUAGE_HASH_H
+#define OHCOUNT_HASH_LANGUAGE_HASH_H
+
 #include "../languages.h"
 %}
 struct LanguageMap { const char *key; const char *value; };
@@ -82,3 +85,5 @@ xaml, LANG_XAML
 xml, LANG_XML
 xslt, LANG_XSLT
 xmlschema, LANG_XMLSCHEMA
+%%
+#endif

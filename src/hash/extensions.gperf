@@ -1,5 +1,9 @@
 %{
+#ifndef OHCOUNT_HASH_EXTENSIONS_HASH_H
+#define OHCOUNT_HASH_EXTENSIONS_HASH_H
+
 #include "../languages.h"
+
 #define BINARY NULL
 #define DISAMBIGUATE(x) ("\1" x)
 %}
@@ -174,3 +178,5 @@ xsd, LANG_XMLSCHEMA
 xsl, LANG_XSLT
 z80, LANG_ASSEMBLER
 zip, BINARY
+%%
+#endif
