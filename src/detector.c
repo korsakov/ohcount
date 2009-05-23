@@ -15,7 +15,8 @@
 #include "hash/filename_hash.h"
 #include "hash/language_hash.h"
 
-#define ISAMBIGUOUS(x) (x[0] == '\1')
+#define ISBINARY(x) (x[0] == '\1')
+#define ISAMBIGUOUS(x) (x[0] == '\2')
 #define DISAMBIGUATEWHAT(x) &x[1]
 
 const char *ohcount_detect_language(SourceFile *sourcefile) {
@@ -45,7 +46,7 @@ const char *ohcount_detect_language(SourceFile *sourcefile) {
         ohcount_hash_disambiguate_func_from_id(DISAMBIGUATEWHAT(language),
                                                length);
       if (rd) return rd->value(sourcefile);
-    } else return language;
+    } else return ISBINARY(language) ? NULL : language;
   }
 
   // Attempt to detect based on filename.
