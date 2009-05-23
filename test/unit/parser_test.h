@@ -21,7 +21,7 @@ void test_parser_verify_parse(SourceFile *sf, const char *language,
                               int blanks) {
   ohcount_sourcefile_parse(sf);
   ParsedLanguageList *list = ohcount_sourcefile_get_parsed_language_list(sf);
-  assert(strcmp(list->head->pl->language, language) == 0);
+  assert(strcmp(list->head->pl->name, language) == 0);
   assert(strcmp(list->head->pl->code, code) == 0);
   assert(strcmp(list->head->pl->comments, comments) == 0);
   assert(list->head->pl->blanks_count == blanks);
@@ -35,11 +35,11 @@ void test_parser_verify_parse2(SourceFile *sf, const char *language,
                                int blanks2) {
   ohcount_sourcefile_parse(sf);
   ParsedLanguageList *list = ohcount_sourcefile_get_parsed_language_list(sf);
-  assert(strcmp(list->head->pl->language, language) == 0);
+  assert(strcmp(list->head->pl->name, language) == 0);
   assert(strcmp(list->head->pl->code, code) == 0);
   assert(strcmp(list->head->pl->comments, comments) == 0);
   assert(list->head->pl->blanks_count == blanks);
-  assert(strcmp(list->head->next->pl->language, language2) == 0);
+  assert(strcmp(list->head->next->pl->name, language2) == 0);
   assert(strcmp(list->head->next->pl->code, code2) == 0);
   assert(strcmp(list->head->next->pl->comments, comments2) == 0);
   assert(list->head->next->pl->blanks_count == blanks2);

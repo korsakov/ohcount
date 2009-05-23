@@ -148,7 +148,7 @@ void parser_callback(const char *language, const char *entity, int start,
     // Has this language been detected before?
     ParsedLanguageList *iter = list->head;
     while (iter) {
-      if (strcmp(iter->pl->language, language) == 0)
+      if (strcmp(iter->pl->name, language) == 0)
         break; // yes it has
       iter = iter->next;
     }
@@ -225,7 +225,7 @@ LocList *ohcount_sourcefile_get_loc_list(SourceFile *sourcefile) {
     ParsedLanguageList *iter;
     iter = ohcount_sourcefile_get_parsed_language_list(sourcefile)->head;
     while (iter) {
-      Loc *loc = ohcount_loc_new(iter->pl->language, iter->pl->code_count,
+      Loc *loc = ohcount_loc_new(iter->pl->name, iter->pl->code_count,
                                  iter->pl->comments_count,
                                  iter->pl->blanks_count, 1);
       ohcount_loc_list_add_loc(list, loc);
@@ -244,7 +244,7 @@ LocDeltaList *ohcount_sourcefile_diff(SourceFile *from, SourceFile *to) {
   iter = ohcount_sourcefile_get_parsed_language_list(from)->head;
   while (iter) {
     LocDelta *delta = ohcount_sourcefile_calc_loc_delta(from,
-                                                        iter->pl->language,
+                                                        iter->pl->name,
                                                         to);
     ohcount_loc_delta_list_add_loc_delta(list, delta);
     ohcount_loc_delta_free(delta);
@@ -252,9 +252,9 @@ LocDeltaList *ohcount_sourcefile_diff(SourceFile *from, SourceFile *to) {
   }
   iter = ohcount_sourcefile_get_parsed_language_list(to)->head;
   while (iter) {
-    if (!ohcount_loc_delta_list_get_loc_delta(list, iter->pl->language)) {
+    if (!ohcount_loc_delta_list_get_loc_delta(list, iter->pl->name)) {
       LocDelta *delta = ohcount_sourcefile_calc_loc_delta(from,
-                                                          iter->pl->language,
+                                                          iter->pl->name,
                                                           to);
       ohcount_loc_delta_list_add_loc_delta(list, delta);
       ohcount_loc_delta_free(delta);
@@ -277,7 +277,7 @@ LocDelta *ohcount_sourcefile_calc_loc_delta(SourceFile *from,
   ParsedLanguageList *iter;
   iter = ohcount_sourcefile_get_parsed_language_list(from)->head;
   while (iter) {
-    if (strcmp(language, iter->pl->language) == 0) {
+    if (strcmp(language, iter->pl->name) == 0) {
       from_code = iter->pl->code;
       from_comments = iter->pl->comments;
       from_blanks_count = iter->pl->blanks_count;
@@ -287,7 +287,7 @@ LocDelta *ohcount_sourcefile_calc_loc_delta(SourceFile *from,
   }
   iter = ohcount_sourcefile_get_parsed_language_list(to)->head;
   while (iter) {
-    if (strcmp(language, iter->pl->language) == 0) {
+    if (strcmp(language, iter->pl->name) == 0) {
       to_code = iter->pl->code;
       to_comments = iter->pl->comments;
       to_blanks_count = iter->pl->blanks_count;

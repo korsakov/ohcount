@@ -6,10 +6,10 @@
 
 #include "parsed_language.h"
 
-ParsedLanguage *ohcount_parsed_language_new(const char *language,
+ParsedLanguage *ohcount_parsed_language_new(const char *name,
                                             int buffer_size) {
   ParsedLanguage *pl = malloc(sizeof(ParsedLanguage));
-  pl->language = language;
+  pl->name = name;
   pl->buffer_size = buffer_size;
   pl->code = malloc(buffer_size + 5);
   pl->code_p = pl->code;

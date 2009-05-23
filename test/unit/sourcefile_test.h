@@ -30,7 +30,7 @@ void test_sourcefile_language_breakdowns() {
   SourceFile *sf = ohcount_sourcefile_new("foo.rb");
   ohcount_sourcefile_set_contents(sf, "x = 5");
   ParsedLanguageList *list = ohcount_sourcefile_get_parsed_language_list(sf);
-  assert(strcmp("ruby", list->head->pl->language) == 0);
+  assert(strcmp("ruby", list->head->pl->name) == 0);
   assert(strcmp("x = 5", list->head->pl->code) == 0);
   ohcount_sourcefile_free(sf);
 }

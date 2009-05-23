@@ -178,7 +178,7 @@ typedef struct LocDeltaListItem {
  */
 typedef struct {
   /** The parsed language. */
-  const char *language;
+  const char *name;
 
   /** The size of the code and comments buffers. */
   int buffer_size;
