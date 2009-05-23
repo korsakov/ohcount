@@ -157,6 +157,7 @@ LocDelta *ohcount_sourcefile_calc_loc_delta(SourceFile *from,
 
 /**
  * Sets the given SourceFile's directory contents to the string array given.
+ * The given array is copied and may be 'free'd immediately.
  * @param sourcefile A SourceFile created by ohcount_sourcefile_new().
  * @param filenames String array of filenames. If NULL, the next call to
  *   ohcount_sourcefile_get_filenames will access the SourceFile's directory.
