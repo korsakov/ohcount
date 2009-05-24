@@ -775,84 +775,86 @@ LicenseList *ohcount_detect_license(SourceFile *sourcefile) {
 
   ohcount_sourcefile_parse(sourcefile);
 
-  int potential_licenses_s[license_map_length];
-  int potential_licenses_e[license_map_length];
-
   char *p, *q;
   int i, j, k;
   int ovector[30]; // recommended by PCRE
   ParsedLanguageList *iter;
   iter = ohcount_sourcefile_get_parsed_language_list(sourcefile)->head;
-  while (iter) {
-    char buffer[ohcount_sourcefile_get_contents_size(sourcefile)];
-    p = iter->pl->comments;
-    q = buffer;
-    char *eof = p + strlen(p);
-    while (p < eof) {
-      // Strip leading whitespace and punctuation.
-      while (*p == ' ' || *p == '\t' || ispunct(*p)) p++;
-      // Copy line contents.
-      while (p < eof && *p != '\r' && *p != '\n') *q++ = *p++;
-      // Strip newline characters.
-      while (*p == '\r' || *p == '\n') p++;
-      // Add a trailing space.
-      *q++ = ' ';
-    }
-    *q = '\0';
+  if (iter) {
+    int potential_licenses_s[license_map_length];
+    int potential_licenses_e[license_map_length];
 
-    for (j = 0; j < license_map_length; j++) {
-      potential_licenses_s[j] = -1;
-      potential_licenses_e[j] = -1;
-      if (pcre_exec(license_map[j].regexp, NULL, buffer, q - buffer, 0, 0,
-                    ovector, 30) >= 0) {
-        int m0 = ovector[0], m1 = ovector[1];
-        // Exclude terms that may not exist in the license.
-        if (license_map[j].exclude_re &&
-            pcre_exec(license_map[j].exclude_regexp, NULL, buffer + m0, m1 - m0,
-                      0, 0, ovector, 30) >= 0)
-          continue;
-        potential_licenses_s[j] = m0;
-        potential_licenses_e[j] = m1;
-        for (k = 0; k < j; k++) {
-          // If this matched license is completely contained inside another one,
-          // do not include it.
-          if ((potential_licenses_s[k] < m0 && potential_licenses_e[k] >= m1) ||
-              (potential_licenses_s[k] <= m0 && potential_licenses_e[k] > m1)) {
-            potential_licenses_s[j] = -1;
-            potential_licenses_e[j] = -1;
-          }
-          // If this matched license completely contains another one, do not
-          // include the latter.
-          if ((m0 < potential_licenses_s[k] && m1 >= potential_licenses_e[k]) ||
-              (m0 <= potential_licenses_s[k] && m1 > potential_licenses_e[k])) {
-            potential_licenses_s[k] = -1;
-            potential_licenses_e[k] = -1;
+    while (iter) {
+      char buffer[ohcount_sourcefile_get_contents_size(sourcefile)];
+      p = iter->pl->comments;
+      q = buffer;
+      char *eof = p + strlen(p);
+      while (p < eof) {
+        // Strip leading whitespace and punctuation.
+        while (*p == ' ' || *p == '\t' || ispunct(*p)) p++;
+        // Copy line contents.
+        while (p < eof && *p != '\r' && *p != '\n') *q++ = *p++;
+        // Strip newline characters.
+        while (*p == '\r' || *p == '\n') p++;
+        // Add a trailing space.
+        *q++ = ' ';
+      }
+      *q = '\0';
+
+      for (j = 0; j < license_map_length; j++) {
+        potential_licenses_s[j] = -1;
+        potential_licenses_e[j] = -1;
+        if (pcre_exec(license_map[j].regexp, NULL, buffer, q - buffer, 0, 0,
+                      ovector, 30) >= 0) {
+          int m0 = ovector[0], m1 = ovector[1];
+          // Exclude terms that may not exist in the license.
+          if (license_map[j].exclude_re &&
+              pcre_exec(license_map[j].exclude_regexp, NULL, buffer + m0, m1 - m0,
+                        0, 0, ovector, 30) >= 0)
+            continue;
+          potential_licenses_s[j] = m0;
+          potential_licenses_e[j] = m1;
+          for (k = 0; k < j; k++) {
+            // If this matched license is completely contained inside another one,
+            // do not include it.
+            if ((potential_licenses_s[k] < m0 && potential_licenses_e[k] >= m1) ||
+                (potential_licenses_s[k] <= m0 && potential_licenses_e[k] > m1)) {
+              potential_licenses_s[j] = -1;
+              potential_licenses_e[j] = -1;
+            }
+            // If this matched license completely contains another one, do not
+            // include the latter.
+            if ((m0 < potential_licenses_s[k] && m1 >= potential_licenses_e[k]) ||
+                (m0 <= potential_licenses_s[k] && m1 > potential_licenses_e[k])) {
+              potential_licenses_s[k] = -1;
+              potential_licenses_e[k] = -1;
+            }
           }
         }
       }
+      iter = iter->next;
     }
-    iter = iter->next;
-  }
 
-  // Create the list of licenses from potential licenses.
-  for (i = 0; i < license_map_length; i++) {
-    if (potential_licenses_s[i] > -1) {
-      int overridden = 0;
-      OVERRIDE_LICENSE(LIC_GPL, LIC_GPL3);
-      OVERRIDE_LICENSE(LIC_GPL, LIC_GPL3_OR_LATER);
-      OVERRIDE_LICENSE(LIC_GPL3, LIC_GPL3_OR_LATER);
-      OVERRIDE_LICENSE(LIC_BSD_2CLAUSE_ISH, LIC_BSD_ISH);
-      if (!overridden) {
-        if (list->head == NULL) { // empty list
-          list->head = list;
-          list->tail = list;
-          list->head->lic = &license_map[i];
-          list->next = NULL;
-        } else {
-          LicenseList *item = ohcount_license_list_new();
-          item->lic = &license_map[i];
-          list->tail->next = item;
-          list->tail = item;
+    // Create the list of licenses from potential licenses.
+    for (i = 0; i < license_map_length; i++) {
+      if (potential_licenses_s[i] > -1) {
+        int overridden = 0;
+        OVERRIDE_LICENSE(LIC_GPL, LIC_GPL3);
+        OVERRIDE_LICENSE(LIC_GPL, LIC_GPL3_OR_LATER);
+        OVERRIDE_LICENSE(LIC_GPL3, LIC_GPL3_OR_LATER);
+        OVERRIDE_LICENSE(LIC_BSD_2CLAUSE_ISH, LIC_BSD_ISH);
+        if (!overridden) {
+          if (list->head == NULL) { // empty list
+            list->head = list;
+            list->tail = list;
+            list->head->lic = &license_map[i];
+            list->next = NULL;
+          } else {
+            LicenseList *item = ohcount_license_list_new();
+            item->lic = &license_map[i];
+            list->tail->next = item;
+            list->tail = item;
+          }
         }
       }
     }
