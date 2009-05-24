@@ -51,8 +51,7 @@ int ohcount_sourcefile_get_contents_size(SourceFile *sourcefile);
 
 /**
  * Sets the language of a given SourceFile.
- * The given language is not copied and may not be 'free'd. Use a language
- * defined in src/languages.h.
+ * The given language copied and may be 'free'd immediately.
  * @param sourcefile A SourceFile created by ohcount_sourcefile_new().
  * @param language The language to set the SourceFile to.
  */

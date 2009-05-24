@@ -12,7 +12,8 @@ files="src/sourcefile.c \
        src/parser.o \
        src/loc.c \
        src/diff.c \
-       src/parsed_language.c"
+       src/parsed_language.c \
+       src/hash/language_hash.c"
 
 # If any src/hash/*.gperf file is newer than the header files (which were
 # presumably generated together), regenerate the headers.
@@ -75,6 +76,14 @@ run_test_suite()
   sh -c "cd test/unit/ && ./run_tests"
 }
 
+build_ruby_bindings()
+{
+  echo "Generating Ruby bindings"
+  sh -c "swig -ruby -o ruby/ohcount_wrap.c ruby/ohcount.i" || exit 1
+  sh -c "$cc -shared ruby/ohcount_wrap.c $files -o ruby/ohcount.so \
+    -I/usr/lib/ruby/1.8/x86_64-linux/ -lpcre" || exit 1
+}
+
 if [ $# -eq 0 ] || [ $1 == "all" ]
 then
   build_ohcount
@@ -93,6 +102,10 @@ elif [ $1 == "tests" ]
 then
   build_test_suite
   run_test_suite
+elif [ $1 == "ruby" ]
+then
+  build_ruby_bindings
+  echo "Build successful; ohcount.so is in ruby/"
 elif [ $1 == "clean" ]
 then
   rm src/libohcount.so
@@ -100,7 +113,7 @@ then
   rm test/unit/run_tests
   rm src/parser.o
   rm src/parsers/*.h
-  rm src/hash/*.h
+  rm src/hash/*.c
 else
-  echo "Usage: build [all|ohcount|shared|tests|clean]"
+  echo "Usage: build [all|ohcount|shared|tests|ruby|clean]"
 fi

@@ -4,6 +4,8 @@
 #ifndef OHCOUNT_LANGUAGES_H
 #define OHCOUNT_LANGUAGES_H
 
+#include <string.h>
+
 #define LANG_ACTIONSCRIPT "actionscript"
 #define LANG_ADA "ada"
 #define LANG_ASSEMBLER "assembler"
@@ -84,5 +86,9 @@
 #define LANG_XML "xml"
 #define LANG_XSLT "xslt"
 #define LANG_XMLSCHEMA "xmlschema"
+
+// For gperf.
+struct LanguageMap { const char *key; const char *name; const char *nice_name; int category; };
+struct LanguageMap *ohcount_hash_language_from_name(register const char *str, register unsigned int len);
 
 #endif

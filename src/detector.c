@@ -13,7 +13,6 @@
 #include "hash/disambiguatefunc_hash.h"
 #include "hash/extension_hash.h"
 #include "hash/filename_hash.h"
-#include "hash/language_hash.h"
 
 #define ISBINARY(x) (x[0] == '\1')
 #define ISAMBIGUOUS(x) (x[0] == '\2')
@@ -89,7 +88,7 @@ const char *ohcount_detect_language(SourceFile *sourcefile) {
     strncpy(buf, p, length);
     buf[length] = '\0';
     struct LanguageMap *rl = ohcount_hash_language_from_name(buf, length);
-    if (rl) return rl->value;
+    if (rl) return rl->name;
   }
 
   // Attempt to detect based on Unix 'file' command.
@@ -114,7 +113,7 @@ const char *ohcount_detect_language(SourceFile *sourcefile) {
         strncpy(buf, p, length);
         buf[length] = '\0';
         struct LanguageMap *rl = ohcount_hash_language_from_name(buf, length);
-        if (rl) language = rl->value;
+        if (rl) language = rl->name;
       }
     } else if (p) { // /(\w+)(?: -\w+)* script text/
       do {
@@ -128,7 +127,7 @@ const char *ohcount_detect_language(SourceFile *sourcefile) {
       strncpy(buf, p, length);
       buf[length] = '\0';
       struct LanguageMap *rl = ohcount_hash_language_from_name(buf, length);
-      if (rl) language = rl->value;
+      if (rl) language = rl->name;
     } else if (strstr(line, "xml")) language = LANG_XML;
     fclose(f);
     if (language) return language;
@@ -630,4 +629,23 @@ const char *disambiguate_st(SourceFile *sourcefile) {
   }
 
   return NULL;
+}
+
+int ohcount_is_binary_filename(const char *filename) {
+  char *p = (char *)filename + strlen(filename);
+  while (p > filename && *(p - 1) != '.') p--;
+  if (p > filename) {
+    struct ExtensionMap *re;
+    int length = strlen(p);
+    re = ohcount_hash_language_from_ext(p, length);
+    if (re) return ISBINARY(re->value);
+    // Try the lower-case version of this extension.
+    char lowerext[length];
+    strncpy(lowerext, p, length);
+    lowerext[length] = '\0';
+    for (p = lowerext; p < lowerext + length; p++) *p = tolower(*p);
+    re = ohcount_hash_language_from_ext(lowerext, length);
+    if (re) return ISBINARY(re->value);
+  }
+  return 0;
 }

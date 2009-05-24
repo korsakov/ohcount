@@ -1,6 +1,6 @@
 #!/bin/sh
 
-gperf -L ANSI-C -E -D -K key -H ohcount_hash_language -N ohcount_hash_language_from_name -t languages.gperf > language_hash.h
+gperf -L ANSI-C -E -D -K key -H ohcount_hash_language -N ohcount_hash_language_from_name -t languages.gperf > language_hash.c
 gperf -L ANSI-C -E -D -K key -H ohcount_hash_extension -N ohcount_hash_language_from_ext -t extensions.gperf > extension_hash.h
 gperf -L ANSI-C -E -D -K key -H ohcount_hash_filename -N ohcount_hash_language_from_filename -t filenames.gperf > filename_hash.h
 gperf -L ANSI-C -E -D -K key -H ohcount_hash_disambiguatefunc -N ohcount_hash_disambiguate_func_from_id -t disambiguatefuncs.gperf > disambiguatefunc_hash.h

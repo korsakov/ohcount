@@ -29,4 +29,6 @@
  */
 const char *ohcount_detect_language(SourceFile *sourcefile);
 
+int ohcount_is_binary_filename(const char *filename);
+
 #endif

@@ -8,6 +8,7 @@
 
 #include "detector.h"
 #include "diff.h"
+#include "languages.h"
 #include "licenses.h"
 #include "parser.h"
 
@@ -104,8 +105,12 @@ int ohcount_sourcefile_get_contents_size(SourceFile *sourcefile) {
 
 void ohcount_sourcefile_set_language(SourceFile *sourcefile,
                                      const char *language) {
-  sourcefile->language = language;
-  sourcefile->language_detected = 1;
+  struct LanguageMap *rl =
+    ohcount_hash_language_from_name(language, strlen(language));
+  if (rl) {
+    sourcefile->language = rl->name;
+    sourcefile->language_detected = 1;
+  }
 }
 
 const char *ohcount_sourcefile_get_language(SourceFile *sourcefile) {
@@ -431,6 +436,7 @@ void ohcount_sourcefile_list_add_directory(SourceFileList *list,
         ohcount_sourcefile_list_add_file(list, filepath);
     }
     closedir(d);
+    ohcount_sourcefile_list_add_file(list, directory);
   }
 }
 

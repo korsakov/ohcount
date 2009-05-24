@@ -1,89 +1,84 @@
 %{
-#ifndef OHCOUNT_HASH_LANGUAGE_HASH_H
-#define OHCOUNT_HASH_LANGUAGE_HASH_H
-
 #include "../languages.h"
 %}
-struct LanguageMap { const char *key; const char *value; };
+struct LanguageMap;
 %%
-actionscript, LANG_ACTIONSCRIPT
-ada, LANG_ADA
-assembler, LANG_ASSEMBLER
-autoconf, LANG_AUTOCONF
-automake, LANG_AUTOMAKE
-awk, LANG_AWK
-bat, LANG_BAT
-blitzmax, LANG_BLITZMAX
-boo, LANG_BOO
-c, LANG_C
-classic_basic, LANG_CLASSIC_BASIC
-clearsilver, LANG_CLEARSILVER
-clearsilver_template, LANG_CLEARSILVER_TEMPLATE
-cpp, LANG_CPP
-cs_aspx, LANG_CS_ASPX
-csharp, LANG_CSHARP
-css, LANG_CSS
-dcl, LANG_DCL
-dmd, LANG_DMD
-dylan, LANG_DYLAN
-ebuild, LANG_EBUILD
-eiffel, LANG_EIFFEL
-erlang, LANG_ERLANG
-exheres, LANG_EXHERES
-emacslisp, LANG_EMACSLISP
-factor, LANG_FACTOR
-fortranfixed, LANG_FORTRANFIXED
-fortranfree, LANG_FORTRANFREE
-glsl, LANG_GLSL
-groovy, LANG_GROOVY
-haskell, LANG_HASKELL
-haml, LANG_HAML
-haxe, LANG_HAXE
-html, LANG_HTML
-java, LANG_JAVA
-javascript, LANG_JAVASCRIPT
-jsp, LANG_JSP
-limbo, LANG_LIMBO
-lisp, LANG_LISP
-lua, LANG_LUA
-make, LANG_MAKE
-matlab, LANG_MATLAB
-metafont, LANG_METAFONT
-metapost, LANG_METAPOST
-metapost_with_tex, LANG_METAPOST_WITH_TEX
-mxml, LANG_MXML
-nix, LANG_NIX
-objective_c, LANG_OBJECTIVE_C
-objective_j, LANG_OBJECTIVE_J
-ocaml, LANG_OCAML
-octave, LANG_OCTAVE
-pascal, LANG_PASCAL
-perl, LANG_PERL
-php, LANG_PHP
-pike, LANG_PIKE
-python, LANG_PYTHON
-r, LANG_R
-rexx, LANG_REXX
-rhtml, LANG_RHTML
-ruby, LANG_RUBY
-scala, LANG_SCALA
-scheme, LANG_SCHEME
-scilab, LANG_SCILAB
-shell, LANG_SHELL
-smalltalk, LANG_SMALLTALK
-stratego, LANG_STRATEGO
-structured_basic, LANG_STRUCTURED_BASIC
-sql, LANG_SQL
-tcl, LANG_TCL
-tex, LANG_TEX
-vala, LANG_VALA
-vb_aspx, LANG_VB_ASPX
-vhdl, LANG_VHDL
-vim, LANG_VIM
-visualbasic, LANG_VISUALBASIC
-xaml, LANG_XAML
-xml, LANG_XML
-xslt, LANG_XSLT
-xmlschema, LANG_XMLSCHEMA
-%%
-#endif
+actionscript, LANG_ACTIONSCRIPT, "ActionScript", 0
+ada, LANG_ADA, "Ada", 0
+assembler, LANG_ASSEMBLER, "Assembler", 0
+autoconf, LANG_AUTOCONF, "Autoconf", 2
+automake, LANG_AUTOMAKE, "Automake", 2
+awk, LANG_AWK, "AWK", 0
+bat, LANG_BAT, "DOS batch script", 0
+blitzmax, LANG_BLITZMAX, "BlitzMax", 0
+boo, LANG_BOO, "Boo", 0
+c, LANG_C, "C", 0
+classic_basic, LANG_CLASSIC_BASIC, "Classic Basic", 0
+clearsilver, LANG_CLEARSILVER, "Cmake script", 2
+clearsilver_template, LANG_CLEARSILVER_TEMPLATE, "ClearSilver", 0
+cpp, LANG_CPP, "C++", 0
+cs_aspx, LANG_CS_ASPX, "", 0
+csharp, LANG_CSHARP, "C#", 0
+css, LANG_CSS, "CSS", 1
+dcl, LANG_DCL, "DCL", 0
+dmd, LANG_DMD, "D", 0
+dylan, LANG_DYLAN, "Dylan", 0
+ebuild, LANG_EBUILD, "Ebuild", 0
+eiffel, LANG_EIFFEL, "Eiffel", 0
+emacslisp, LANG_EMACSLISP, "Emacs lisp", 0
+erlang, LANG_ERLANG, "Erlang", 0
+exheres, LANG_EXHERES, "Exheres", 0
+factor, LANG_FACTOR, "Factor", 0
+fortranfixed, LANG_FORTRANFIXED, "Fortan (Fixed-format)", 0
+fortranfree, LANG_FORTRANFREE, "Fortan (Free-format)", 0
+glsl, LANG_GLSL, "OpenGL Shading Language", 0
+groovy, LANG_GROOVY, "Groovy", 0
+haml, LANG_HAML, "Haml", 1
+haskell, LANG_HASKELL, "Haskell", 0
+haxe, LANG_HAXE, "HaXe", 0
+html, LANG_HTML, "HTML", 1
+java, LANG_JAVA, "Java", 0
+javascript, LANG_JAVASCRIPT, "JavaScript", 0
+jsp, LANG_JSP, "", 0
+limbo, LANG_LIMBO, "Limbo", 0
+lisp, LANG_LISP, "Lisp", 0
+lua, LANG_LUA, "Lua", 0
+make, LANG_MAKE, "Make", 2
+matlab, LANG_MATLAB, "Matlab", 0
+metafont, LANG_METAFONT, "MetaFont", 1
+metapost, LANG_METAPOST, "MetaPost", 1
+metapost_with_tex, LANG_METAPOST_WITH_TEX, "", 0
+mxml, LANG_MXML, "Flex", 1
+nix, LANG_NIX, "Nix", 0
+objective_c, LANG_OBJECTIVE_C, "Objective C", 0
+objective_j, LANG_OBJECTIVE_J, "Objective-J", 0
+ocaml, LANG_OCAML, "Objective Caml", 0
+octave, LANG_OCTAVE, "", 0
+pascal, LANG_PASCAL, "Pascal", 0
+perl, LANG_PERL, "Perl", 0
+php, LANG_PHP, "PHP", 0
+pike, LANG_PIKE, "Pike", 0
+python, LANG_PYTHON, "Python", 0
+r, LANG_R, "R", 0
+rexx, LANG_REXX, "rexx", 0
+rhtml, LANG_RHTML, "", 0
+ruby, LANG_RUBY, "Ruby", 0
+scala, LANG_SCALA, "Scala", 0
+scheme, LANG_SCHEME, "Scheme", 0
+scilab, LANG_SCILAB, "Scilab", 0
+shell, LANG_SHELL, "shell script", 0
+smalltalk, LANG_SMALLTALK, "Smalltalk", 0
+stratego, LANG_STRATEGO, "Stratego", 0
+structured_basic, LANG_STRUCTURED_BASIC, "Structured Basic", 0
+sql, LANG_SQL, "SQL", 0
+tcl, LANG_TCL, "TCL", 0
+tex, LANG_TEX, "TeX/LaTeX", 1
+vala, LANG_VALA, "Vala", 0
+vb_aspx, LANG_VB_ASPX, "", 0
+vhdl, LANG_VHDL, "VHDL", 0
+vim, LANG_VIM, "Vim script", 0
+visualbasic, LANG_VISUALBASIC, "Visual Basic", 0
+xaml, LANG_XAML, "XAML", 1
+xml, LANG_XML, "XML", 1
+xslt, LANG_XSLT, "XSL Transformation", 0
+xmlschema, LANG_XMLSCHEMA, "XML Schema", 1
