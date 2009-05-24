@@ -116,6 +116,7 @@ then
   rm src/parsers/*.h
   rm src/hash/*.h
   rm src/hash/*.c
+  rm ruby/ohcount.so
 else
   echo "Usage: build [all|ohcount|shared|tests|ruby|clean]"
 fi
