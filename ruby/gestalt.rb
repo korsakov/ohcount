@@ -38,3 +38,19 @@ module Ohcount
     end
   end
 end
+
+if __FILE__ == $0
+  sourcefile_list = Ohcount::SourceFileList.new()
+  sourcefile_list.add_directory('.') if ARGV.size == 0
+  ARGV.each do |file_or_path|
+    if File.directory?(file_or_path)
+      sourcefile_list.add_directory(file_or_path)
+    else
+      sourcefile_list.add_file(file_or_path)
+    end
+  end
+  sourcefile_list.analyze_gestalt()
+  sourcefile_list.gestalts.sort.each do |gestalt|
+    puts "#{gestalt.type}\t#{gestalt.count.to_s.rjust(8)}\t#{gestalt.name}"
+  end
+end
