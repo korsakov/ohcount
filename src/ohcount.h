@@ -39,7 +39,7 @@
  *   source file.
  * @li Another detector which tries to determine the license(s) the source file
  *   is licensed under.
- * @li A final detector for gestalts.
+ * @li A final detector for gestalts (via the Ruby extension).
  *
  * The command line tool allows you to profile individual files or whole
  * directory trees.
