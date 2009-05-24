@@ -35,14 +35,6 @@ void test_sourcefile_language_breakdowns() {
   ohcount_sourcefile_free(sf);
 }
 
-void test_sourcefile_parse() {
-  // This was a Ruby-specific test case.
-}
-
-void test_sourcefile_realize_file() {
-
-}
-
 void test_sourcefile_diff() {
   SourceFile *old = ohcount_sourcefile_new("foo.c");
   ohcount_sourcefile_set_contents(old, "int i;");
@@ -199,20 +191,13 @@ void test_sourcefile_list_language_facts() {
   ohcount_loc_list_free(list);
 }
 
-void test_sourcefile_list_gestalt_facts() {
-
-}
-
 void all_sourcefile_tests() {
   test_sourcefile_initialize();
   test_sourcefile_language_breakdowns();
-  test_sourcefile_parse();
-  test_sourcefile_realize_file();
   test_sourcefile_diff();
   test_sourcefile_calc_diff2();
   test_sourcefile_diff_longer();
   test_sourcefile_calc_diff();
 
   test_sourcefile_list_language_facts();
-  test_sourcefile_list_gestalt_facts();
 }
