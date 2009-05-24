@@ -73,6 +73,18 @@
  *
  * You may then link or copy 'bin/ohcount' to your system's PATH.
  *
+ * Building the Ruby extension of Ohcount requires:
+ *
+ * @li Ruby - http://ruby-lang.org/
+ * @li Swig - http://swig.org/
+ *
+ * @code
+ * $ ./build ruby
+ * @endcode
+ *
+ * You may then link or copy 'ruby/ohcount.{rb,so}' and 'ruby/gestalt{/,.rb}'
+ * to the appropriate places in your Ruby installation.
+ *
  * @section start First Steps
  *
  * To measure lines of code, simply pass file or directory names to the
