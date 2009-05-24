@@ -113,6 +113,7 @@ then
   rm test/unit/run_tests
   rm src/parser.o
   rm src/parsers/*.h
+  rm src/hash/*.h
   rm src/hash/*.c
 else
   echo "Usage: build [all|ohcount|shared|tests|ruby|clean]"
