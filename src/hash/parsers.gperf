@@ -1,7 +1,4 @@
 %{
-#ifndef OHCOUNT_HASH_PARSERS_HASH_H
-#define OHCOUNT_HASH_PARSERS_HASH_H
-
 #include "../parsers/actionscript.h"
 #include "../parsers/ada.h"
 #include "../parsers/assembler.h"
@@ -160,5 +157,3 @@ xaml, parse_xaml
 xml, parse_xml
 xslt, parse_xslt
 xmlschema, parse_xmlschema
-%%
-#endif

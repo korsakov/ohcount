@@ -1,7 +1,4 @@
 %{
-#ifndef OHCOUNT_HASH_OPTIONS_HASH_H
-#define OHCOUNT_HASH_OPTIONS_HASH_H
-
 #include "../ohcount.h"
 %}
 struct OhcountOption { const char *key; int value; };
@@ -21,5 +18,3 @@ struct OhcountOption { const char *key; int value; };
 -re, COMMAND_RAWENTITIES
 -s, COMMAND_SUMMARY
 --summary, COMMAND_SUMMARY
-%%
-#endif
