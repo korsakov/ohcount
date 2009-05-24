@@ -82,6 +82,7 @@ build_ruby_bindings()
   sh -c "swig -ruby -o ruby/ohcount_wrap.c ruby/ohcount.i" || exit 1
   sh -c "$cc -shared ruby/ohcount_wrap.c $files -o ruby/ohcount.so \
     -I/usr/lib/ruby/1.8/x86_64-linux/ -lpcre" || exit 1
+  sh -c "cd test/unit/gestalt && ruby gestalt_test.rb"
 }
 
 if [ $# -eq 0 ] || [ $1 == "all" ]
