@@ -9,8 +9,6 @@ struct OhcountOption { const char *key; int value; };
 --detect, COMMAND_DETECT
 -h, COMMAND_HELP
 --help, COMMAND_HELP
--g, COMMAND_GESTALT
---gestalt, COMMAND_GESTALT
 -i, COMMAND_INDIVIDUAL
 --individual, COMMAND_INDIVIDUAL
 -l, COMMAND_LICENSES

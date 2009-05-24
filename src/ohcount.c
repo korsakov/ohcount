@@ -76,7 +76,6 @@ void help() {
     "   -a, --annotate\n"
     "   -d, --detect\n"
     "   -h, --help\n"
-    "   -g, --gestalt\n"
     "   -i, --individual\n"
     "   -l, --license\n"
     "   -re\n"
@@ -96,11 +95,6 @@ void help() {
     "   stdout prefixed with a tab-delimited language name.\n"
     "\n"
     "-h, --help                      Display this message\n"
-    "\n"
-    "-g, --gestalt                   Project Properties\n"
-    "\n"
-    "   Inspects project contents to determine what platform(s) the project\n"
-    "   runs on, as well as any detected tools/IDEs used to develop it.\n"
     "\n"
     "-i, --individual                Count lines of code per file\n"
     "\n"
@@ -294,8 +288,6 @@ int main(int argc, char *argv[]) {
     break;
   case COMMAND_HELP:
     help();
-    break;
-  case COMMAND_GESTALT:
     break;
   case COMMAND_INDIVIDUAL:
     individual(list);
