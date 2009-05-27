@@ -25,7 +25,7 @@ SourceFile *ohcount_sourcefile_new(const char *filepath) {
 
   while (p > sourcefile->filepath && *(p - 1) != '.' &&
          *(p - 1) != '/' && *(p - 1) != '\\') p--;
-  sourcefile->ext = p;
+  sourcefile->ext = (*(p - 1) == '.') ? p : sourcefile->filepath + length;
 
   while (p > sourcefile->filepath &&
          *(p - 1) != '/' && *(p - 1) != '\\') p--;
