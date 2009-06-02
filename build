@@ -34,9 +34,9 @@ build_parser_o()
   if [[ ! -f src/parser.o ||
         ! -z `find src/parsers/*.{h,rl} -newer src/parser.o` ]]
   then
-    sh -c "cd src/parsers/ && ./compile" || exit 1
+    bash -c "cd src/parsers/ && bash ./compile" || exit 1
     echo "Building src/parser.c (will take a while)"
-    sh -c "$cc -c src/parser.c -o src/parser.o" || exit 1
+    bash -c "$cc -c src/parser.c -o src/parser.o" || exit 1
   fi
 }
 
