@@ -11,14 +11,15 @@ do
     ragel $file -o "`cut -d '.' -f1 <<< "$file"`.h"
   else
     # embedded language(s)
-    elangs=`grep -o "#EMBED([a-z_]\+)" $file | 
-      sed -e 's/#EMBED(\([a-z_]\+\))/\1/'`
+    elangs=`grep -o "#EMBED([a-z_][a-z_]*)" $file | 
+      sed -e 's/#EMBED(\([a-z_][a-z_]*\))/\1/'`
 
     # embed all languages into this temporary file to be compiled
     parser=${file}.tmp
 
     # grab all lines before #EMBED statements
-    e_line=`grep -n -m 1 "#EMBED([a-z_]\+)" $file | cut -d ':' -f1`
+    e_line=`grep -n -m 1 "#EMBED([a-z_][a-z_]*)" $file | cut -d ':' -f1`
+
     sed -n -e "1,$e_line p" $file > $parser
 
     # embed each language in the temporary file
@@ -39,7 +40,7 @@ do
     done
 
     # grab all lines after #EMBED statements
-    s_line=`grep -n "#EMBED([a-z_]\+)" $file | cut -d ':' -f1 | sort -r |
+    s_line=`grep -n "#EMBED([a-z_][a-z_]*)" $file | cut -d ':' -f1 | sort -r |
       grep -m 1 "^[0-9]\+"`
     sed -n -e "$s_line,$ p" $file >> $parser
 
