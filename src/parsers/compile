@@ -34,14 +34,14 @@ do
       s_line=`expr $s_line + 1`
       e_line=`expr $e_line - 1`
       sed -n "$s_line,$e_line p;" $e_parser |
-        sed -e "s/^[ \t]*machine[^;]\+;//;
-                s/^[ \t]*write[^;]\+;//;
-                s/^[ \t]*include[^;]\+;//;" >> $parser
+        sed -e "s/^[ \t]*machine[^;][^;]*;//;
+                s/^[ \t]*write[^;][^;]*;//;
+                s/^[ \t]*include[^;][^;]*;//;" >> $parser
     done
 
     # grab all lines after #EMBED statements
     s_line=`grep -n "#EMBED([a-z_][a-z_]*)" $file | cut -d ':' -f1 | sort -r |
-      grep -m 1 "^[0-9]\+"`
+      grep -m 1 "^[0-9][0-9]*"`
     sed -n -e "$s_line,$ p" $file >> $parser
 
     ragel $parser -o "`cut -d '.' -f1 <<< "$file"`.h"
