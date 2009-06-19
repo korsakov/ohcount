@@ -109,8 +109,10 @@ module Ohcount
       def language_percents
         @language_percents ||= begin
           total = 0
-          @language_counts.each do |name,code_count|
-            next if Ohcount.ohcount_hash_language_from_name(name.to_s).category == 1
+          @language_counts.each_pair do |name,code_count|
+						language = Ohcount.ohcount_hash_language_from_name(name.to_s)
+						STDOUT.puts "Warning: Couldn't find #{name} in ohcount_hash_language_from_name" if language.nil?
+						next if language.nil? || language.category == 1
             total += code_count
           end
 
