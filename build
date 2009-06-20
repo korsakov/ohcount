@@ -110,7 +110,8 @@ build_ruby_bindings()
   sh -c "$cc $RB_SHARED ruby/ohcount_wrap.c $files -o ruby/$RB_SHARED_NAME \
     -I`ruby -rmkmf -e 'print Config::expand(CONFIG["archdir"])'` \
     -lpcre" || exit 1
-  sh -c "cd test/unit/gestalt && ruby gestalt_test.rb"
+  sh -c "cd test/unit/gestalt && ruby gestalt_test.rb" || exit 1
+  sh -c "cd test/unit/ruby && ruby ruby_test.rb" || exit 1
 }
 
 if [ $# -eq 0 ] || [ $1 == "all" ]
