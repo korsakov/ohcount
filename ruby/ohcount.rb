@@ -67,6 +67,16 @@ module Ohcount
         iter = iter.next
       end
     end
+
+    def size
+      count = 0
+      iter = self.head
+      while (iter)
+        count += 1
+        iter = iter.next
+      end
+      return count
+    end
   end
 
   class Detector

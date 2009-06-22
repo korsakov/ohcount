@@ -14,6 +14,14 @@
   $2 = RSTRING($input)->len;
 };
 
+%typemap(out) char ** {
+  VALUE arr = rb_ary_new();
+  int i;
+  for (i = 0; $1[i] != NULL; i++)
+    rb_ary_push(arr, rb_str_new2($1[i]));
+  $result = arr;
+};
+
 %nodefaultctor SourceFile;
 %immutable;
 %include "../src/languages.h"
@@ -82,8 +90,20 @@
 };
 
 %extend SourceFileList {
-  SourceFileList() {
-    return ohcount_sourcefile_list_new();
+  static VALUE rb_add_directory(VALUE directory, SourceFileList *list) {
+    if (directory && rb_type(directory) == T_STRING)
+      ohcount_sourcefile_list_add_directory(list, STR2CSTR(directory));
+    return Qnil;
+  }
+  SourceFileList(VALUE opt_hash=NULL) {
+    SourceFileList *list = ohcount_sourcefile_list_new();
+    if (opt_hash) {
+      VALUE val;
+      val = rb_hash_aref(opt_hash, ID2SYM(rb_intern("paths")));
+      if (val && rb_type(val) == T_ARRAY)
+        rb_iterate(rb_each, val, SourceFileList_rb_add_directory, (VALUE)list);
+    }
+    return list;
   }
   ~SourceFileList() {
     ohcount_sourcefile_list_free($self);
