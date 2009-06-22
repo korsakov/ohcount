@@ -252,14 +252,15 @@ struct cand {
   int x;
   int y;
   int pred;
-} cand;
+};
 
 struct line {
   int serial;
   int value;
-} *file[2], line;
+};
 
 int len[2];
+struct line *file[2];
 struct line *sfile[2];  // shortened by pruning common prefix and suffix
 int slen[2];
 int pref, suff; // length of prefix and suffix
