@@ -13,7 +13,7 @@ class SourceFileListTest < Test::Unit::TestCase
 			Ohcount::Gestalt::Base.new(:platform, 'Scripting')
 		]
 		sf.analyze # this should work
-		assert_equal gestalts, sf.gestalts # and should produce something similar to the above gestalts list
+		assert_equal gestalts.sort, sf.gestalts.sort # and should produce something similar to the above gestalts list
 	end
 
 	def test_source_file_filenames
