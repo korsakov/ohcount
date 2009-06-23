@@ -36,6 +36,11 @@ module Ohcount
     def gestalts
       @gestalt_engine.gestalts if @gestalt_engine
     end
+
+    def analyze
+      analyze_languages()
+      analyze_gestalt()
+    end
   end
 end
 

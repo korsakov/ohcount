@@ -46,6 +46,10 @@ module Ohcount
       return ret
     end
 
+    def each
+      filenames.each { |f| yield f }
+    end
+
     private
 
     def array_from_list(list, method)

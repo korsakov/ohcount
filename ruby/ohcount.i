@@ -114,6 +114,9 @@
   void add_directory(const char *directory) {
     ohcount_sourcefile_list_add_directory($self, directory);
   }
+  LocList *analyze_languages() {
+    return ohcount_sourcefile_list_analyze_languages($self);
+  }
 }
 
 int ohcount_is_binary_filename(const char *filename);
