@@ -76,7 +76,7 @@ module Ohcount
 		def each
       iter = self.head
       while (iter)
-        yield iter.sf
+        yield iter.sf.filename if iter.sf
         iter = iter.next
       end
 		end
