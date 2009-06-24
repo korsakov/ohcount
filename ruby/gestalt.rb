@@ -37,10 +37,32 @@ module Ohcount
       @gestalt_engine.gestalts if @gestalt_engine
     end
 
-    def analyze
-      analyze_languages()
-      analyze_gestalt()
-    end
+		# call analyze to generate facts from a collection of files (typically a
+		# project directory). Because deducing different facts often requires doing
+		# similar work, this function allows multiple facts to be extracted in one
+		# single pass
+		#
+		# *Fact* *Types*
+		#
+		# :gestalt:: platform dependencies and tools usage
+		# :languages:: detailed programming languages facts
+		# :java:: java-related dependencies (jars & imports)
+		#
+		# Examples
+		#
+		#  sfl = SourceFileList.new(:dir => '/foo/bar')
+		#  sfl.analyze(:languages)
+		#  puts sfl.ruby.code.count
+		#
+		def analyze(what = [:*])
+			what = [what] unless what.is_a?(Array)
+
+			do_gestalt   = what.include?(:gestalt)   || what.include?(:*)
+			do_languages = what.include?(:language)  || what.include?(:*)
+
+			analyze_languages() if do_languages
+			analyze_gestalt() if do_gestalt
+		end
   end
 end
 

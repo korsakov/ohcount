@@ -72,6 +72,15 @@ module Ohcount
       end
     end
 
+		# this should yield each filename, not an sf object
+		def each
+      iter = self.head
+      while (iter)
+        yield iter.sf
+        iter = iter.next
+      end
+		end
+
     def size
       count = 0
       iter = self.head
