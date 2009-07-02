@@ -33,13 +33,20 @@ module Ohcount
       def triggers(gestalt_engine)
         triggers = []
         @trigger_hash.each do |k,v|
-          triggers << Trigger.new(:name => k, :count => v)
+          triggers << Trigger.new(:name => FindJavaImportsRule.truncate_name(k, 3), :count => v)
         end
         triggers
       end
 
 			def import_regexp
-				/\bimport\s+([a-zA-Z][\w\.\*\-]*)/
+				/^\s*import\s+([a-zA-Z][\w\.\*\-]*)\b/
+			end
+
+			# Truncates the java import namespace to a maximum depth.
+			# For instance,
+			#    truncate_name("com.sun.identity.authentication", 3) => "com.sun.identity"
+			def self.truncate_name(s, max_depth)
+				s.to_s.split('.')[0, max_depth].join('.')
 			end
 
 		end

@@ -21,7 +21,7 @@ module Ohcount
 			end
 
 			def import_regexp
-				/\bimport\s+([a-zA-Z][\w\.\*\-]*)/
+				/^\s*import\s+([a-zA-Z][\w\.\*\-]*)\b/
 			end
 		end
 	end

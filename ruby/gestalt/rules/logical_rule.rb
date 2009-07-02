@@ -40,6 +40,14 @@ module Ohcount
 				new_rule LanguageRule, *args
 			end
 
+			def maven_dependency(*args)
+				new_rule MavenRule, *(['dependency'] + args)
+			end
+
+			def maven_plugin(*args)
+				new_rule MavenRule, *(['plugin'] + args)
+			end
+
 			# file rules
 			def c_headers(*args)
 				new_rule CHeaderRule, *args
@@ -55,6 +63,10 @@ module Ohcount
 
 			def java_import(*args)
 				new_rule JavaImportRule, *args
+			end
+
+			def csharp_using(*args)
+				new_rule CSharpUsingRule, *args
 			end
 
       def find_filenames(*args)

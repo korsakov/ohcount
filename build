@@ -22,7 +22,7 @@ else
   LIB_DIR=/opt/local/lib
   # You shouldn't have to change the following.
   CFLAGS=-fno-common
-  WARN="-Wall -Wno-parentheses"
+  WARN="-Wall -Wno-parentheses -O3 -Oz"
   SHARED="-dynamiclib -L$LIB_DIR -lpcre"
   SHARED_NAME=libohcount.dylib
   RB_SHARED="-dynamic -bundle -lruby"
