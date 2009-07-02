@@ -1,5 +1,5 @@
 require 'test/unit'
-require '../../../ruby/gestalt'
+require File.dirname(__FILE__) + '/../../../ruby/gestalt'
 
 class SourceFileListTest < Test::Unit::TestCase
 
@@ -8,12 +8,14 @@ class SourceFileListTest < Test::Unit::TestCase
 		list = Ohcount::SourceFileList.new(:paths => paths)
 		assert list.size > 0
 		# assume: the paths variable points to the directory containing this and other simple ruby test files
-		gestalts = [
-			Ohcount::Gestalt::Base.new(:platform, 'Ruby'),
-			Ohcount::Gestalt::Base.new(:platform, 'Scripting')
-		]
+
+		ruby = Ohcount::Gestalt::Base.new(:platform, 'Ruby')
+		scripting = Ohcount::Gestalt::Base.new(:platform, 'Scripting')
+
 		list.analyze(:gestalt) # this should work
-		assert_equal gestalts.sort, list.gestalts.sort # and should produce something similar to the above gestalts list
+		assert list.gestalts.include?(ruby)
+		assert list.gestalts.include?(scripting)
+
 		list.each do |filename|
 			assert_equal String, filename.class
 		end

@@ -10,7 +10,11 @@ require "gestalt/trigger"
 require "gestalt/definition"
 require "gestalt/base"
 require "gestalt/definitions"
+require "gestalt/dot_net_definitions"
+require "gestalt/java_definitions"
 require "gestalt/gestalt_engine"
+require "gestalt/gestalt_facts"
+
 
 module Ohcount
   class SourceFile
@@ -76,6 +80,7 @@ if __FILE__ == $0
       sourcefile_list.add_file(file_or_path)
     end
   end
+	STDOUT.puts "Examining #{sourcefile_list.size} file(s) for gestalts."
   sourcefile_list.analyze_gestalt()
   sourcefile_list.gestalts.sort.each do |gestalt|
     puts "#{gestalt.type}\t#{gestalt.count.to_s.rjust(8)}\t#{gestalt.name}"

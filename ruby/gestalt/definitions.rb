@@ -30,16 +30,8 @@ module Ohcount
       filenames '\.xaml$'
     end
 
-    define_platform 'Dot_NET' do
-      language :csharp, :min_percent => 10
-    end
-
     define_platform 'VisualBasic' do
       language :visualbasic, :min_percent => 5
-    end
-
-    define_platform 'ASP_NET' do
-      filenames('\.(aspx|ascx|ashx|asax|axd)$')
     end
 
     define_platform 'Ruby' do
@@ -63,13 +55,6 @@ module Ohcount
 
     define_platform 'JQuery' do
       filenames 'jquery-\d.\d.\d.min.js'
-    end
-
-    define_platform 'SpringFramework' do
-      _and do
-        gestalt(:platform,'Java')
-        filenames('spring\.jar$')
-      end
     end
 
     define_platform 'XWindows' do
@@ -201,35 +186,104 @@ module Ohcount
       filenames '\.nbm$'
     end
 
-
-    ########################## Java Jars ###############################
-
-		define_java_jar do
-      find_filenames /([^\\^\/]*\.(jar|JAR))/, :name_from_match => 1
-		end
-
-
-    ######################## Java Imports ##############################
-
-    define_java_import do
-      find_java_imports
-    end
-
-
     ############################ ARM ###################################
 
-    define_platform 'arm' do
-      makefile_keywords '\b-mabi\b','\barmcc\b'
-      assembler_keywords '\bsmlal\b', '\bsmulw\b', '\borrs\b'
-      gestalt(:platform, 'arm_neon')
-    end
+		define_platform 'arm' do
+			c_headers "arm4.h", "arm3.h"
+			c_keywords "arm_int32_t", "arm_start_application", "__arm__"
+			make_keywords '\b-mabi\b','\barmcc\b'
+			java_keywords '\barm-eabi'
+			assembler_keywords '\bsmlal\b', '\bsmulw\b', '\borrs\b'
+			gestalt(:platform, 'arm_neon')
+			java_import /org\.opengroup\.arm/
+		end
 
     ########################## ARM NEON ################################
 
     define_platform 'arm_neon' do
       assembler_keywords '\bvld1.\d\d\b', '\bvld1.\d\d\b','\bvmov\b','\bvmov.u8\b'
-      makefile_keywords '\bneon\b','\bNEON\b'
+      make_keywords '\bneon\b','\bNEON\b'
     end
 
+		############################ ATOM ##################################
+		# Atom is hard to detect, since it implements x86 instruction set
+
+		define_platform 'sse3_atom_flag' do
+			make_keywords 'SSE3_ATOM'
+		end
+
+		define_platform 'xL_flag' do
+			make_keywords 'xL', '\/QxL'
+		end
+
+		define_platform 'atom' do
+			gestalt(:platform, 'sse3_atom_flag')
+			gestalt(:platform, 'xL_flag')
+		end
+
+		####################### INTEL COMPILER #############################
+		define_platform 'intel_compiler' do
+			make_keywords '\bicc\b'
+		end
+
+    ########################### MOBLIN #################################
+
+		define_platform 'clutter' do
+			c_keywords "ClutterActor", '\bclutter_actor_', "ClutterStage", "ClutterBehavior", "clutter_main"
+			perl_keywords "Clutter::Behavior", "Clutter::Actor", "Clutter::Stage"
+			java_keywords "ClutterActor", "ClutterStage", "ClutterShader"
+			ruby_keywords "Clutter::Actor", "Clutter::Stage", "Clutter::Shader", "Clutter::Cairo"
+		end
+
+		define_platform 'moblin' do
+			c_keywords '\"org\.moblin\.', 'MOBLIN_NETBOOK_SYSTEM_TRAY_H', 'org_Moblin_', '\"org\.Moblin\.', "url=\"http://moblin.org\">http://moblin.org</ulink>"
+			make_keywords "org.moblin.", "moblin-netbook"
+			filenames 'moblin-netbook-system-tray.h$'
+		end
+
+		define_platform 'nbtk' do
+			c_keywords '\bnbtk_[a-z]+', '\bNbtk[A-Z][a-z]+'
+			java_keywords '\bnbtk_[a-z]+', '\bNbtk[A-Z][a-z]+'
+			ruby_keywords '\bnbtk_[a-z]+', '\bNbtk[A-Z][a-z]+'
+			filenames 'nbtk\/nbtk.h'
+		end
+
+		define_platform 'moblin_all' do
+			gestalt(:platform, 'clutter')
+			gestalt(:platform, 'moblin')
+			gestalt(:platform, 'nbtk')
+		end
+
+    ########################### ANDROID #################################
+
+		define_platform 'android' do
+			java_import /\bandroid\./
+		end
+
+    ############################ iPhone #################################
+
+		define_platform 'iPhone' do
+			objective_c_keywords '\bUIApplicationMain', '\bUIWindow', '\bUIView', '\bUIResponder'
+		end
+
+    ############################ Maemo #################################
+
+		define_platform 'hildon' do
+			c_keywords '\bHildonFile', '\bhildon_file_', '\bHildonProgram', '\bHildonWindow', '\bhildon_window'
+			c_headers 'hildon/hildon.h'
+			_and do
+				python_keywords '\bimport hildon'
+				python_keywords '\bimport gtk'
+			end
+		end
+		define_platform 'maemo' do
+			gestalt(:platform, 'hildon')
+		end
+
+    ############################ Windows CE ############################
+		define_platform 'windows_ce_incomplete' do
+			csharp_keywords 'Microsoft.WindowsCE', 'Microsoft.WindowsMobile'
+			vb_keywords 'Microsoft.WindowsCE', 'Microsoft.WindowsMobile'
+		end
 	end
 end

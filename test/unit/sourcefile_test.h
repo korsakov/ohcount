@@ -182,6 +182,7 @@ void test_sourcefile_list_language_facts() {
   SourceFileList *sfl = ohcount_sourcefile_list_new();
   ohcount_sourcefile_list_add_directory(sfl, "../gestalt_files/win32_enough/");
   LocList *list = ohcount_sourcefile_list_analyze_languages(sfl);
+  printf("%d", ohcount_loc_list_filecount(list));
   assert(ohcount_loc_list_filecount(list) == 2);
   Loc *loc = ohcount_loc_list_get_loc(list, "c");
   assert(loc->code == 2);

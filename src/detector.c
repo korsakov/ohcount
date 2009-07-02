@@ -506,6 +506,8 @@ const char *disambiguate_m(SourceFile *sourcefile) {
     while (*p == ' ' || *p == '\t') p++;
     if (*p == '%') { // Matlab comment
       matlab_score++;
+		} else if (*p == '#' && strncmp(p, "#import", 7) == 0) { // Objective C
+			objective_c_score++;
     } else if (*p == '#') { // Limbo or Octave comment
       while (*p == '#') p++;
       if (*p == ' ' || *p == '\t') {
@@ -517,7 +519,7 @@ const char *disambiguate_m(SourceFile *sourcefile) {
       objective_c_score++; // Objective C comment
     } else if (*p == '+' || *p == '-') { // Objective C method signature
       objective_c_score++;
-    } else if (*p == '@') { // Objective C method signature
+    } else if (*p == '@' || *p == '#') { // Objective C method signature
       if (strncmp(p, "@implementation", 15) == 0 ||
           strncmp(p, "@interface", 10) == 0)
         objective_c_score++;

@@ -1,0 +1,6 @@
+require 'test/unit'
+require File.dirname(__FILE__) + '/definitions_test'
+require File.dirname(__FILE__) + '/file_rule_test'
+require File.dirname(__FILE__) + '/filename_rule_test'
+require File.dirname(__FILE__) + '/keyword_rule_test'
+require File.dirname(__FILE__) + '/rule_test'
