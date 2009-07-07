@@ -166,7 +166,10 @@ void test_parser_callback(const char *language, const char *entity,
   strncpy(line2 + strlen(language) + strlen(entity) + 2, buffer + start,
           end - start);
   line2[strlen(language) + strlen(entity) + 2 + (end - start)] = '\0';
-  assert(strcmp(line, line2) == 0);
+	if (strcmp(line, line2) != 0) {
+		fprintf(stderr, "lines didn't match:\n1: '%s'\n2: '%s'\n", line, line2);
+		assert(strcmp(line, line2) == 0);
+	}
 }
 
 char *test_parser_filenames[] = { "", 0 };
