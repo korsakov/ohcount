@@ -79,7 +79,8 @@ enum {
       |
       '\\' nonnewline @code
     )* '"';
-  js_string = js_sq_str | js_dq_str;
+  js_regex_str = '/' [^/*] ([^\r\n\f/\\] | '\\' nonnewline)* '/' @code;
+  js_string = js_sq_str | js_dq_str | js_regex_str;
 
   js_line := |*
     spaces     ${ entity = JS_SPACE; } => js_ccallback;
