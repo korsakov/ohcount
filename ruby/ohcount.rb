@@ -3,7 +3,14 @@
 # Ohcount module tweaked for use by Ohloh.
 
 $: << File.expand_path(File.dirname(__FILE__))
-require 'ohcount.so'
+
+begin
+	require 'ohcount.so'
+rescue LoadError
+	require 'rbconfig'
+	include Config
+	require "#{Config::CONFIG['arch']}/ohcount.so"
+end
 
 module Ohcount
   class SourceFile

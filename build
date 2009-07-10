@@ -105,9 +105,11 @@ run_test_suite()
 
 build_ruby_bindings()
 {
-  echo "Generating Ruby bindings"
-  sh -c "swig -ruby -o ruby/ohcount_wrap.c ruby/ohcount.i" || exit 1
-  sh -c "$cc $RB_SHARED ruby/ohcount_wrap.c $files -o ruby/$RB_SHARED_NAME \
+	arch=`ruby -rmkmf -e 'print Config::expand(CONFIG["arch"])'`
+	echo "Generating Ruby bindings for $arch"
+	sh -c "swig -ruby -o ruby/ohcount_wrap.c ruby/ohcount.i" || exit 1
+	mkdir -p ruby/$arch
+  sh -c "$cc $RB_SHARED ruby/ohcount_wrap.c $files -o ruby/$arch/$RB_SHARED_NAME \
     -I`ruby -rmkmf -e 'print Config::expand(CONFIG["archdir"])'` \
     -lpcre" || exit 1
   sh -c "cd test/unit/ruby && ruby ruby_test.rb" || exit 1
