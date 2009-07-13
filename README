@@ -1,0 +1,10 @@
+To build docs, do
+	> cd doc
+	> Doxygen Doxyfile
+
+To read docs, open html/index.html in a browser. First build them, as described above.
+
+To add support for a new language, you'll need to implement both a detector and a parser. Documentation at
+
+* doc/html/detector_doc.html
+* doc/html/parser_doc.html
