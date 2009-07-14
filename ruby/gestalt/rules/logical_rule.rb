@@ -32,6 +32,10 @@ module Ohcount
 				new_rule AndRule, *args, &block
 			end
 
+			def _not(*args, &block)
+				new_rule NotRule, *args, &block
+			end
+
 			def gestalt(*args)
 				new_rule GestaltRule, *args
 			end

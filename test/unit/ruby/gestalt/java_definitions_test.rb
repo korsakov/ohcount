@@ -28,4 +28,48 @@ class JavaDefinitionsTest < Ohcount::Test
 			Base.new(:platform, 'WebSphere')
 		]
   end
+
+	def test_ejb30_by_default
+		sf = SourceFile.new('hello.java', :contents => <<-JAVA
+				@Stateless
+				public class HelloBean { }
+			JAVA
+		)
+		assert_equal [
+			Base.new(:platform, 'Java'),
+			Base.new(:platform, 'EJB3+'),
+			Base.new(:platform, 'EJB3.0')
+		].sort, sf.gestalts.sort
+	end
+
+
+	def test_ejb31_through_annotation
+		sf = SourceFile.new('hello.java', :contents => <<-JAVA
+				@Stateless
+				public class HelloBean {
+					@Asynchronous public Future<int> getHelloValue() {}
+				}
+			JAVA
+		)
+		assert_equal [
+			Base.new(:platform, 'Java'),
+			Base.new(:platform, 'EJB3+'),
+			Base.new(:platform, 'EJB3.1')
+		].sort, sf.gestalts.sort
+	end
+
+	def test_ejb31_through_global_jndi
+		sf = SourceFile.new('hello.java', :contents => <<-JAVA
+			public class PlaceBidClient {
+				context.lookup("java:global/action-bazaar/PlaceBid");
+			}
+			JAVA
+		)
+		assert_equal [
+			Base.new(:platform, 'Java'),
+			Base.new(:platform, 'EJB3+'),
+			Base.new(:platform, 'EJB3.1')
+		].sort, sf.gestalts.sort
+	end
+
 end

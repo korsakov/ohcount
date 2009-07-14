@@ -1,6 +1,0 @@
-require 'test/unit'
-require 'definitions_test'
-require 'file_rule_test'
-require 'filename_rule_test'
-require 'keyword_rule_test'
-require 'rule_test'

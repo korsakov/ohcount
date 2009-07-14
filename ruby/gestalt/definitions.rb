@@ -213,7 +213,7 @@ module Ohcount
 		end
 
 		define_platform 'xL_flag' do
-			make_keywords 'xL', '\/QxL'
+			make_keywords '\bxL\b', '\/QxL\b'
 		end
 
 		define_platform 'atom' do
@@ -221,9 +221,13 @@ module Ohcount
 			gestalt(:platform, 'xL_flag')
 		end
 
-		####################### INTEL COMPILER #############################
+		########################## COMPILER ################################
 		define_platform 'intel_compiler' do
 			make_keywords '\bicc\b'
+		end
+
+		define_platform 'gcc' do
+			make_keywords '\bgcc\b'
 		end
 
     ########################### MOBLIN #################################
@@ -280,10 +284,28 @@ module Ohcount
 			gestalt(:platform, 'hildon')
 		end
 
+		define_platform 'MID_combined' do
+			gestalt(:platform, 'clutter')
+			gestalt(:platform, 'nbtk')
+			gestalt(:platform, 'moblin')
+			gestalt(:platform, 'maemo')
+			gestalt(:platform, 'android')
+			gestalt(:platform, 'iPhone')
+		end
+
+
     ############################ Windows CE ############################
 		define_platform 'windows_ce_incomplete' do
 			csharp_keywords 'Microsoft.WindowsCE', 'Microsoft.WindowsMobile'
 			vb_keywords 'Microsoft.WindowsCE', 'Microsoft.WindowsMobile'
+		end
+
+		######################### Native Code ##############################
+		define_platform 'native_code' do
+			language :c, :min_percent => 5
+			language :cpp, :min_percent => 5
+			language :cncpp, :min_percent => 5
+			language :assembly, :min_percent => 5
 		end
 	end
 end

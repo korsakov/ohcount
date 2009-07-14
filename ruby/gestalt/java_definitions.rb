@@ -86,13 +86,36 @@ module Ohcount
 			end
 		end
 
-		define_platform 'EJB3' do
+		# Caution! The EJB platform definitions are senstive to their order -- do not reorder!
+		# The gestalt engine iterates over definitions in the order they are defined.
+		#
+		# First, look for the subset of new features that definitely indicate EJB 3.1
+		define_platform 'EJB3.1' do
 			_and do
 				gestalt(:platform, 'Java')
 				_or do
-					java_keywords '@Stateless', '@Statefull', '@Entity', '@Remote', '@Local', '@BusinessMethod'
+					java_keywords '@Schedule', '@Singleton', '@Asynchronous'
+					java_keywords /@EJB\(.*\bmappedName\s*=\s*"java:(global|app|module)\/.+".*\)/
+					java_keywords /\blookup\(\s*"java:(global|app|module)\/.+"\s*\)/
+				end
+			end
+		end
+		# Next, look for the basic attributes that can mean either EJB 3.0 or 3.1
+		define_platform 'EJB3+' do
+			_and do
+				gestalt(:platform, 'Java')
+				_or do
+					gestalt(:platform, 'EJB3.1')
+					java_keywords '@EJB', '@Stateless', '@Statefull', '@Entity', '@Remote', '@Local', '@BusinessMethod'
 					java_import /^javax\.persistence\b/
 				end
+			end
+		end
+		# Finally, if we found EJB3+ and not EJB 3.1, then you must be using EJB 3.0 only.
+		define_platform 'EJB3.0' do
+			_and do
+				gestalt(:platform, 'EJB3+')
+				_not { gestalt(:platform, 'EJB3.1') }
 			end
 		end
 
@@ -102,6 +125,17 @@ module Ohcount
 				_or do
 					java_import /^javax\.servlet\b/
 					maven_dependency /^javax\.servlet\b/
+				end
+			end
+		end
+
+		define_platform 'Struts' do
+			_and do
+				gestalt(:platform, 'Java')
+				_or do
+					filenames('\bstruts(\-config)?\.xml$', '\bstruts\.jar$')
+					java_import /^org\.apache\.struts\b/
+					maven_dependency /^org\.apache\.struts\b/
 				end
 			end
 		end

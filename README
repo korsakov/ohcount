@@ -4,7 +4,14 @@ To build docs, do
 
 To read docs, open html/index.html in a browser. First build them, as described above.
 
+Most info is available in docs.
+
 To add support for a new language, you'll need to implement both a detector and a parser. Documentation at
 
 * doc/html/detector_doc.html
 * doc/html/parser_doc.html
+
+
+DEPENDENCIES
+============
+SWIG, pcre, ragel
