@@ -383,7 +383,7 @@ License license_map[] = {
     LIC_MIT,
     "http://www.opensource.org/licenses/mit-license.php",
     "MIT license",
-    "(\\bmit\\s*license\\b)|(\\bMIT\\/X11\\s*license\\b)",
+    "(\\bmit\\s*license\\b)|(\\bMIT\\/X11\\s*licensed?\\b)",
     PCRE_CASELESS,
     NULL,
     0,
