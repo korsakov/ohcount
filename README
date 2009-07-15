@@ -1,6 +1,10 @@
 == Ohcount
 
-Ohloh's  source code line counter.
+NOTE: THE PRIMARY DOCUMENTATION FOR OHCOUNT IS EXTRACTED FROM SOURCE CODE
+BY DOXYGEN. FOR THE MOST UP-TO-DATE DOCS, PLEASE SEE BELOW FOR INFO
+ON BUILDING AND REFERING TO THE DOXYGEN DOCS.
+
+Ohloh/SourceForge's source code line counter.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License Version 2 as
@@ -55,7 +59,7 @@ Ohcount source code is available as a Git repository:
 
 == Doc files ==
 
-To build docs, do
+To build the more extensive Doxygen docs, do
 	> cd doc
 	> Doxygen Doxyfile
 
@@ -77,8 +81,8 @@ Once you've building ohcount, the executable program will be at bin/ohcount. The
 
 == For additional docs, including how to add a new language, see the Doxygen docs ==
 
-* doc/html/detector_doc.html
-* doc/html/parser_doc.html
+Particularly, for instructions on adding a new language, follow the instructions at doc/html/detector_doc.html
+Read http://labs.ohloh.net/ohcount/wiki/HowToSubmitPatches for information about having your patch accepted.
 
 
 DEPENDENCIES
