@@ -234,6 +234,7 @@ module Ohcount
 
 		define_platform 'clutter' do
 			c_keywords "ClutterActor", '\bclutter_actor_', "ClutterStage", "ClutterBehavior", "clutter_main"
+			csharp_keywords "ClutterActor", '\bclutter_actor_', "ClutterStage", "ClutterBehavior", "clutter_main"
 			perl_keywords "Clutter::Behavior", "Clutter::Actor", "Clutter::Stage"
 			java_keywords "ClutterActor", "ClutterStage", "ClutterShader"
 			ruby_keywords "Clutter::Actor", "Clutter::Stage", "Clutter::Shader", "Clutter::Cairo"
@@ -306,6 +307,10 @@ module Ohcount
 			language :cpp, :min_percent => 5
 			language :cncpp, :min_percent => 5
 			language :assembly, :min_percent => 5
+			language :d, :min_percent => 5
+			language :fortran, :min_percent => 5
+			language :haskell, :min_percent => 5
+			language :cobol, :min_percent => 5
 		end
 	end
 end
