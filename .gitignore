@@ -13,3 +13,4 @@ doc/html
 bin/
 ruby/ohcount.so
 ruby/ohcount_wrap.c
+test/unit/run_tests.dSYM/
