@@ -1,0 +1,47 @@
+shell	lcomment	#!/bin/sh
+shell	lcomment	# optimer – Masserer ordlistefilene til eit kjaptsøkt format.
+shell	lcomment	#
+shell	lcomment	# Copyright © 2008, 2009 Karl Ove Hufthammer <karl@huftis.org>.
+shell	lcomment	#
+shell	lcomment	#     This file is part of Ordbanken.
+shell	lcomment	#
+shell	lcomment	#     Ordbanken is free software: you can redistribute it and/or modify
+shell	lcomment	#     it under the terms of the GNU General Public License as published by
+shell	lcomment	#     the Free Software Foundation, either version 3 of the License, or
+shell	lcomment	#     (at your option) any later version.
+shell	lcomment	#
+shell	lcomment	#     This program is distributed in the hope that it will be useful,
+shell	lcomment	#     but WITHOUT ANY WARRANTY; without even the implied warranty of
+shell	lcomment	#     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+shell	lcomment	#     GNU General Public License for more details.
+shell	lcomment	#
+shell	lcomment	#     You should have received a copy of the GNU General Public License
+shell	lcomment	#     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+shell	lblank	
+shell	lcomment	# Utfør kommandoen på fila oppgjeven som førsteargument.
+shell	lcode	fil=$1
+shell	lcode	echo $fil
+shell	lblank	
+shell	lcomment	# Forklaring på filtreringskommandoane.
+shell	lcomment	#  grep: Filtrer vekk kommentarar (linjer som startar med «*»).
+shell	lcomment	#  fgrep: Filtrer unormerte ord.
+shell	lcomment	#  sed: Gjer om mellomrom i siste del av linja (der kodane er) til tabulatorar.
+shell	lcomment	#       (Korfor den kompliserte sed-kommandoen? Fordi kodane i utgangspunktet er
+shell	lcomment	#       skilde med mellomrom i staden for med tabulatorar. Dette ville ikkje vore
+shell	lcomment	#       noko problem om alle oppføringar besto av eitt ord, då «column» som
+shell	lcomment	#       standard handterer mellomrom og tabulatorar likt, men ordbanken har
+shell	lcomment	#       oppføringar som «på kryss og tvers», og då ville alle orda få kvar si
+shell	lcomment	#       kolonne (bruk «på» som oppslagsord for å sjå oppføringa).
+shell	lcomment	#  sed: Fjern kodar (på forma <kode1>) som inneheld tal (interne/uforståelige kodar).
+shell	lcomment	#  sed: Fjern kodar («ord» utan <>) som startar med tal (interne/uforståelige kodar).
+shell	lcomment	#  sed: Fjern talkoden på starten av linja.
+shell	lcomment	#  tr: Slå saman etterfølgjande tabulatorar til éin.
+shell	lcomment	#  sort: Sorter fila (slik at oppslag med «look» går raskare).
+shell	lcode	grep -v '^\*' $fil \
+shell	lcode	| fgrep -v "unormert" \
+shell	lcode	| sed -r 'h;s/^([^	]+	[^	]+	[^	]+	)(.*)/\2/;s/ /	/g;G;s/(.*)\n([^	]+	[^	]+	[^	]+	)(.*)/\2\1/' \
+shell	lcode	| sed -r 's/<[^>]*[0-9][^>]*>+/	/g' \
+shell	lcode	| sed -r 's/	[0-9]+[^	]*/	/g' \
+shell	lcode	| sed -r 's/^[0-9]+\s+//' \
+shell	lcode	| tr -s '\t' \
+shell	lcode	| LC_ALL=C sort > "${fil%.txt}.dat"

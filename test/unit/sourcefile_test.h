@@ -59,6 +59,9 @@ void test_sourcefile_diff() {
   ohcount_loc_delta_list_free(list2);
 }
 
+void test_sourcefile_diff() {
+}
+
 void test_sourcefile_calc_diff2() {
   SourceFile *old = ohcount_sourcefile_new("foo.html");
   ohcount_sourcefile_set_contents(old,
