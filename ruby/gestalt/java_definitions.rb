@@ -275,5 +275,20 @@ module Ohcount
 			end
 		end
 
+		############################ Jasper ################################
+
+    define_platform 'jasper_jr' do
+			maven_dependency /jasperreports/
+      java_keywords '\bnet\.sf\.jasperreports\b'
+    end
+
+    define_platform 'jasper_jsce' do
+      java_keywords '\bcom\.jaspersoft\.jasperserver\b'
+    end
+
+    define_platform 'jasper_ji' do
+      java_keywords '\bcom\.jaspersoft\.ji'
+    end
+
 	end
 end

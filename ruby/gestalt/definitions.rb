@@ -96,7 +96,7 @@ module Ohcount
         gestalt(:platform, 'PHP')
         _or do
           filenames('\bpackage\.xml(\.tpl)?$')
-          xml_keywords('pear.php.net/dtd/package-2.0')
+          xml_keywords('pear\.php\.net/dtd/package\-2\.0')
         end
       end
 		end
@@ -191,8 +191,8 @@ module Ohcount
 		define_platform 'arm' do
 			c_headers "arm4.h", "arm3.h"
 			c_keywords "arm_int32_t", "arm_start_application", "__arm__"
-			make_keywords '\b-mabi\b','\barmcc\b'
-			java_keywords '\barm-eabi'
+			make_keywords '\b\-mabi\b','\barmcc\b'
+			java_keywords '\barm\-eabi'
 			assembler_keywords '\bsmlal\b', '\bsmulw\b', '\borrs\b'
 			gestalt(:platform, 'arm_neon')
 			java_import /org\.opengroup\.arm/
@@ -201,7 +201,7 @@ module Ohcount
     ########################## ARM NEON ################################
 
     define_platform 'arm_neon' do
-      assembler_keywords '\bvld1.\d\d\b', '\bvld1.\d\d\b','\bvmov\b','\bvmov.u8\b'
+      assembler_keywords '\bvld1\.\d\d\b', '\bvld1\.\d\d\b','\bvmov\b','\bvmov\.u8\b'
       make_keywords '\bneon\b','\bNEON\b'
     end
 
@@ -242,7 +242,7 @@ module Ohcount
 
 		define_platform 'moblin' do
 			c_keywords '\"org\.moblin\.', 'MOBLIN_NETBOOK_SYSTEM_TRAY_H', 'org_Moblin_', '\"org\.Moblin\.', "url=\"http://moblin.org\">http://moblin.org</ulink>"
-			make_keywords "org.moblin.", "moblin-netbook"
+			make_keywords "org\.moblin\.", "moblin-netbook"
 			filenames 'moblin-netbook-system-tray.h$'
 		end
 
@@ -297,8 +297,8 @@ module Ohcount
 
     ############################ Windows CE ############################
 		define_platform 'windows_ce_incomplete' do
-			csharp_keywords 'Microsoft.WindowsCE', 'Microsoft.WindowsMobile'
-			vb_keywords 'Microsoft.WindowsCE', 'Microsoft.WindowsMobile'
+			csharp_keywords 'Microsoft\.WindowsCE', 'Microsoft\.WindowsMobile'
+			vb_keywords 'Microsoft\.WindowsCE', 'Microsoft\.WindowsMobile'
 		end
 
 		######################### Native Code ##############################
