@@ -8,10 +8,7 @@ class SourceFileTest < Test::Unit::TestCase
 		old = Ohcount::SourceFile.new("optimer", :contents => "", :filenames => ["optimer"])
 		assert_equal c, new.contents
 		deltas = old.diff(new).loc_deltas
-		assert_equal c, new.contents # seems odd that new.contents are overwritten by the diff
-		STDOUT.puts deltas.inspect
-		assert !deltas.nil?
-		assert !deltas.empty?
-		# last assert should be smarter and actually assert that we see shell language lines of code
+		assert_not_nil deltas
+		assert_equal "shell", deltas.first.language
 	end
 end
