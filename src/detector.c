@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 
 #include "detector.h"
 #include "languages.h"
@@ -92,9 +93,20 @@ const char *ohcount_detect_language(SourceFile *sourcefile) {
   }
 
   // Attempt to detect based on Unix 'file' command.
+  int tmpfile = 0;
   char *path = sourcefile->filepath;
   if (sourcefile->diskpath)
     path = sourcefile->diskpath;
+  if (access(path, F_OK) != 0) { // create temporary file
+    path = malloc(21);
+    strncpy(path, "/tmp/ohcount_XXXXXXX", 20);
+    *(path + 21) = '\0';
+    int fd = mkstemp(path);
+    char *contents = ohcount_sourcefile_get_contents(sourcefile);
+    write(fd, contents, strlen(contents));
+    close(fd);
+    tmpfile = 1;
+  }
   char command[strlen(path) + 10];
   sprintf(command, "file -b '%s'", path);
   FILE *f = popen(command, "r");
@@ -130,6 +142,10 @@ const char *ohcount_detect_language(SourceFile *sourcefile) {
       if (rl) language = rl->name;
     } else if (strstr(line, "xml")) language = LANG_XML;
     fclose(f);
+    if (tmpfile) {
+      remove(path);
+      free(path);
+    }
     if (language) return language;
   }
 
