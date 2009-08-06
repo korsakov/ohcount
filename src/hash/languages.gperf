@@ -38,6 +38,7 @@ haml, LANG_HAML, "Haml", 1
 haskell, LANG_HASKELL, "Haskell", 0
 haxe, LANG_HAXE, "HaXe", 0
 html, LANG_HTML, "HTML", 1
+idl_pvwave, LANG_IDL_PVWAVE, "IDL/PV-WAVE/GDL", 0
 java, LANG_JAVA, "Java", 0
 javascript, LANG_JAVASCRIPT, "JavaScript", 0
 jsp, LANG_JSP, "", 0

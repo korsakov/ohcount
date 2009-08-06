@@ -69,6 +69,7 @@ void test_detector_detect_polyglot() {
   ASSERT_DETECT(LANG_GLSL, "foo.glsl");
   ASSERT_DETECT(LANG_GLSL, "foo_glsl.vert");
   ASSERT_DETECT(LANG_GLSL, "foo_glsl.frag");
+	ASSERT_DETECT(LANG_IDL_PVWAVE, "foo.pro");
   ASSERT_DETECT(LANG_ASSEMBLER, "foo.z80");
   ASSERT_DETECT(LANG_PHP, "php.inc");
 }
