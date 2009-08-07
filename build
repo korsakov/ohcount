@@ -147,6 +147,7 @@ then
   rm src/hash/*.c
   rm src/$SHARED_NAME
   rm ruby/$RB_SHARED_NAME
+  rm -rf ruby/`ruby -rmkmf -e 'print Config::expand(CONFIG["arch"])'`/*
 else
   echo "Usage: build [all|ohcount|shared|tests|ruby|clean]"
 fi
