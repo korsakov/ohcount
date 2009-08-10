@@ -36,6 +36,11 @@ void test_detector_disambiguate_m() {
   ASSERT_DETECT(LANG_OCTAVE, "foo_octave.m");
 }
 
+void test_detector_disambiguate_pro() {
+  ASSERT_DETECT(LANG_IDL_PVWAVE, "foo.pro");
+  ASSERT_DETECT(LANG_MAKE, "qmake.pro");
+}
+
 void test_detector_fortran_fixedfree() {
   ASSERT_DETECT(LANG_FORTRANFIXED, "fortranfixed.f");
   ASSERT_DETECT(LANG_FORTRANFREE, "fortranfree.f");
@@ -112,6 +117,7 @@ void test_detector_xml_with_custom_extension() {
 void all_detector_tests() {
   test_detector_smalltalk();
   test_detector_disambiguate_m();
+  test_detector_disambiguate_pro();
   test_detector_fortran_fixedfree();
   test_detector_detect_polyglot();
   test_detector_upper_case_extensions();
