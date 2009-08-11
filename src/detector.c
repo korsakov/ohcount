@@ -607,12 +607,19 @@ const char *disambiguate_m(SourceFile *sourcefile) {
     return octave_syntax_detected ? LANG_OCTAVE : LANG_MATLAB;
 }
 
+#define QMAKE_SOURCES_SPACE "SOURCES +="
+#define QMAKE_SOURCES "SOURCES+="
+#define QMAKE_CONFIG_SPACE "CONFIG +="
+#define QMAKE_CONFIG "CONFIG+="
+
 const char *disambiguate_pro(SourceFile *sourcefile) {
 	char *p = ohcount_sourcefile_get_contents(sourcefile);
 	char *eof = p + strlen(p);
 	for (; p < eof; p++) {
-		if (strncmp(p, "SOURCES", 7) == 0 ||
-				strncmp(p, "CONFIG", 6) == 0)
+		if (strncmp(p, QMAKE_SOURCES_SPACE, strlen(QMAKE_SOURCES_SPACE)) == 0 ||
+				strncmp(p, QMAKE_SOURCES, strlen(QMAKE_SOURCES)) == 0 ||
+				strncmp(p, QMAKE_CONFIG_SPACE, strlen(QMAKE_CONFIG_SPACE)) == 0 ||
+				strncmp(p, QMAKE_CONFIG, strlen(QMAKE_CONFIG)) == 0)
 			return LANG_MAKE; // really QMAKE
 	}
 	return LANG_IDL_PVWAVE;
