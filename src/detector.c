@@ -141,7 +141,7 @@ const char *ohcount_detect_language(SourceFile *sourcefile) {
       struct LanguageMap *rl = ohcount_hash_language_from_name(buf, length);
       if (rl) language = rl->name;
     } else if (strstr(line, "xml")) language = LANG_XML;
-    fclose(f);
+    pclose(f);
     if (tmpfile) {
       remove(path);
       free(path);
