@@ -161,6 +161,8 @@ const char *disambiguate_aspx(SourceFile *sourcefile) {
   while (p < eof) {
     // /<%@\s*Page[^>]+Language="VB"[^>]+%>/
     p = strstr(p, "<%@");
+    if (!p)
+			break;
     pe = strstr(p, "%>");
     if (p && pe) {
       p += 3;
