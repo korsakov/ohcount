@@ -153,20 +153,17 @@ const char *ohcount_detect_language(SourceFile *sourcefile) {
 }
 
 const char *disambiguate_aspx(SourceFile *sourcefile) {
-  char *p, *pe;
-  int length;
-
-  p = ohcount_sourcefile_get_contents(sourcefile);
+  char *p = ohcount_sourcefile_get_contents(sourcefile);
   char *eof = p + ohcount_sourcefile_get_contents_size(sourcefile);
-  while (p < eof) {
+  for (; p < eof; p++) {
     // /<%@\s*Page[^>]+Language="VB"[^>]+%>/
     p = strstr(p, "<%@");
     if (!p)
 			break;
-    pe = strstr(p, "%>");
+    char *pe = strstr(p, "%>");
     if (p && pe) {
       p += 3;
-      length = pe - p;
+      const int length = pe - p;
       char buf[length];
       strncpy(buf, p, length);
       buf[length] = '\0';
@@ -180,7 +177,6 @@ const char *disambiguate_aspx(SourceFile *sourcefile) {
           return LANG_VB_ASPX;
       }
     }
-    p++;
   }
   return LANG_CS_ASPX;
 }
