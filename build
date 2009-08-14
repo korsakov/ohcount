@@ -10,7 +10,7 @@ then
   INC_DIR=
   LIB_DIR=
   # You shouldn't have to change the following.
-  CFLAGS=
+  CFLAGS=-O3
   WARN="-Wall -Wno-pointer-to-int-cast -Wno-parentheses"
   SHARED=-shared
   SHARED_NAME=libohcount.so
@@ -21,8 +21,8 @@ else
   INC_DIR=/opt/local/include
   LIB_DIR=/opt/local/lib
   # You shouldn't have to change the following.
-  CFLAGS=-fno-common
-  WARN="-Wall -Wno-parentheses -O3 -Oz"
+  CFLAGS="-fno-common -g"
+  WARN="-Wall -Wno-parentheses"
   SHARED="-dynamiclib -L$LIB_DIR -lpcre"
   SHARED_NAME=libohcount.dylib
   RB_SHARED="-dynamic -bundle -lruby"
