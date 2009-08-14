@@ -533,4 +533,20 @@ import com.sun.identity.authentication;
 		]
 		assert_equal expected_gestalts.sort, make.gestalts.sort
   end
+
+	def test_flash
+		as = SourceFile.new("sample.as", :contents => 'greet.text = "Hello, world";')
+		expected_gestalts = [ Base.new(:platform, "flash") ]
+		assert_equal expected_gestalts.sort, as.gestalts.sort
+	end
+
+	def test_flex
+		as = SourceFile.new("sample.mxml", :contents => <<-MXML
+			<?xml version="1.0" encoding="utf-8"?>
+			<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml"></mx:Application>
+		MXML
+		)
+		expected_gestalts = [ Base.new(:platform, 'flex') ]
+		assert_equal expected_gestalts.sort, as.gestalts.sort
+	end
 end

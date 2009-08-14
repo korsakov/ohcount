@@ -57,6 +57,26 @@ module Ohcount
       filenames 'jquery-\d.\d.\d.min.js'
     end
 
+		define_platform 'flash' do
+			_or do
+				language :actionscript, :min_percent => 1
+				_and do
+					gestalt(:platform, 'Java')
+					java_import /^(flash)\..+/
+				end
+			end
+		end
+
+		define_platform 'flex' do
+			_or do
+				language :mxml, :min_percent => 1
+				_and do
+					gestalt(:platform, 'Java')
+					java_import /^(mx)\..+/
+				end
+			end
+		end
+
     define_platform 'XWindows' do
       c_headers 'Xlib.h', 'X11\/xpm.h', 'X11/Xlib.h'
     end
