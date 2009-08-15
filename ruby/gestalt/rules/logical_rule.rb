@@ -44,6 +44,10 @@ module Ohcount
 				new_rule LanguageRule, *args
 			end
 
+			def csproj_import(*args)
+				new_rule CsprojRule, *args
+			end
+
 			def maven_dependency(*args)
 				new_rule MavenRule, *(['dependency'] + args)
 			end

@@ -113,6 +113,18 @@ class DefinitionsTest < Ohcount::Test
 		assert_platform('jquery', :Javascript, :JQuery, :Scripting)
 	end
 
+	def test_dojo
+		h = SourceFile.new("sample.html", :contents => '<SCRIPT TYPE="text/javascript" SRC="http://ajax.googleapis.com/ajax/libs/dojo/1.3/dojo/dojo.xd.js"></SCRIPT>')
+		expected_gestalts = [ Base.new(:platform, "dojo") ]
+		assert_equal expected_gestalts.sort, h.gestalts.sort
+	end
+
+	def test_yui
+		h = SourceFile.new("sample.html", :contents => '<script type="text/javascript" src="http://yui.yahooapis.com/2.7.0/build/yahoo/yahoo-min.js" ></script>')
+		expected_gestalts = [ Base.new(:platform, "yui") ]
+		assert_equal expected_gestalts.sort, h.gestalts.sort
+	end
+
 	def test_python
 		assert_platform('python', :Python, :Scripting)
 	end

@@ -1,6 +1,6 @@
-require File.dirname(__FILE__) + '/../../test_helper'
 include Ohcount
 include Ohcount::Gestalt
+require File.dirname(__FILE__) + '/../../../../ruby/gestalt'
 
 class JavaDefinitionsTest < Ohcount::Test
 

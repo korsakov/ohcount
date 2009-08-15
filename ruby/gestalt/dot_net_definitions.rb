@@ -86,5 +86,22 @@ module Ohcount
 			end
 		end
 
+    define_platform 'WPF' do
+      filenames '\.xaml$'
+    end
+
+		define_platform 'silverlight' do
+			_or do
+				csharp_using /^System.Web.Silverlight\b/
+				html_keywords '\basp:Silverlight\b'
+				csproj_import /\bSilverlight\b/
+				_and do
+					# A combination of ASP.NET with xaml is assumed to mean Silverlight
+					gestalt(:platform, 'ASP_NET')
+					gestalt(:platform, 'WPF')
+				end
+			end
+		end
+
 	end
 end

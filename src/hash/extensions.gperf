@@ -34,6 +34,7 @@ cmake, LANG_CMAKE
 com, LANG_DCL
 cpp, LANG_CPP
 cs, DISAMBIGUATE("cs")
+csproj, LANG_XML
 css, LANG_CSS
 ctp, LANG_PHP
 cxx, LANG_CPP

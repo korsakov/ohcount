@@ -26,10 +26,6 @@ module Ohcount
       c_keywords 'WM_PAINT', 'ReleaseDC', 'WndProc', :min => 2
     end
 
-    define_platform 'WPF' do
-      filenames '\.xaml$'
-    end
-
     define_platform 'VisualBasic' do
       language :visualbasic, :min_percent => 5
     end
@@ -54,8 +50,30 @@ module Ohcount
     end
 
     define_platform 'JQuery' do
-      filenames 'jquery-\d.\d.\d.min.js'
+      filenames 'jquery-\d.\d.\d.min.js$'
     end
+
+		define_platform 'mootools' do
+			filenames '\bmootools-\d(\.\d)*(-core)?(-..)?\.js$'
+		end
+
+		define_platform 'prototype' do
+			filenames '\bprototype(-\d+(\.\d)+)?.js$'
+		end
+
+		define_platform 'yui' do
+			_or do
+				filenames '\byahoo-min\.js$'
+				html_keywords '\byahoo-min\.js\b'
+			end
+		end
+
+		define_platform 'dojo' do
+			_or do
+				filenames '\bdojo\.js$'
+				html_keywords '\bdojo\.xd\.js\b'
+			end
+		end
 
 		define_platform 'flash' do
 			_or do
