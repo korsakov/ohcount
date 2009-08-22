@@ -37,4 +37,3 @@ module Ohcount
 		end
 	end
 end
-

@@ -168,13 +168,6 @@ module Ohcount
 			end
 		end
 
-		define_platform 'Flex' do
-			_and do
-				gestalt(:platform, 'Java')
-				java_import /^(mx|flash)\..+/
-			end
-		end
-
 		# Java Persistence Frameworks
 
 		define_platform 'Hibernate' do

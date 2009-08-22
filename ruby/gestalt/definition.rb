@@ -16,6 +16,8 @@ require 'gestalt/rules/csharp_using_rule'
 require 'gestalt/rules/find_java_imports_rule'
 require 'gestalt/rules/maven_parser'
 require 'gestalt/rules/maven_rule'
+require 'gestalt/rules/csproj_parser'
+require 'gestalt/rules/csproj_rule'
 
 module Ohcount
   module Gestalt

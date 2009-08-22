@@ -1,5 +1,5 @@
-require File.dirname(__FILE__) + '/../../test_helper'
-
+require File.dirname(__FILE__) + '/../test_helper'
+require File.dirname(__FILE__) + '/../../../../ruby/gestalt'
 include Ohcount
 include Ohcount::Gestalt
 
@@ -59,5 +59,31 @@ CONTENTS
 			Gestalt::Base.new(:platform, 'Dot_NET'),
 			Gestalt::Base.new(:platform, 'Dot_NET_Enterprise')
 		], sf.gestalts.sort
+  end
+
+	def test_silverlight_via_asp_keyword
+		sf = SourceFile.new('foo.aspx', :contents => <<-CONTENTS
+<body>
+	<asp:Silverlight runat="server"/>
+</body>
+CONTENTS
+		)
+    assert_equal [
+			Gestalt::Base.new(:platform, 'ASP_NET'),
+			Gestalt::Base.new(:platform, 'silverlight')
+		], sf.gestalts.sort
+  end
+
+	def test_silverlight_via_csproj_import
+		sf = SourceFile.new('Foo.csproj', :contents => <<-CONTENTS
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\\Microsoft\\Silverlight\\v2.0\\Microsoft.Silverlight.CSharp.targets" />
+</Project>
+		CONTENTS
+		)
+    assert_equal([
+			Gestalt::Base.new(:platform, 'silverlight'),
+			Gestalt::Base.new(:tool, 'VisualStudio')
+		], sf.gestalts.sort)
   end
 end
