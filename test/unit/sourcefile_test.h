@@ -126,6 +126,29 @@ void test_sourcefile_diff_longer() {
   ohcount_loc_delta_free(delta1);
 }
 
+void test_sourcefile_diff_very_long() {
+	char a[5500000];
+	memset(a, 'i', sizeof(a));
+	a[sizeof(a)] = '\0';
+	a[sizeof(a)-1] = '\n';
+
+  SourceFile *old = ohcount_sourcefile_new("foo.c");
+  ohcount_sourcefile_set_contents(old, a);
+	strncpy(a, "int = 1;\n", strlen("int = 1;\n"));
+	if (strlen(a) < 100) exit(0) ;
+  SourceFile *new = ohcount_sourcefile_new("foo.c");
+  ohcount_sourcefile_set_contents(new, a);
+  LocDeltaList *list = ohcount_sourcefile_diff(old, new);
+	// 2 lines added, 1 removed... strange but thats the expectation
+  LocDelta *delta1 = ohcount_loc_delta_new("c", 2, 1, 0, 0, 0, 0);
+  LocDelta *delta2 = ohcount_loc_delta_list_get_loc_delta(list, "c");
+  assert(ohcount_loc_delta_is_equal(delta1, delta2));
+  ohcount_sourcefile_free(old);
+  ohcount_sourcefile_free(new);
+  ohcount_loc_delta_list_free(list);
+  ohcount_loc_delta_free(delta1);
+}
+
 void test_sourcefile_calc_diff() {
   int added, removed;
   ohcount_calc_diff("", "", &added, &removed);
@@ -197,6 +220,7 @@ void all_sourcefile_tests() {
   test_sourcefile_diff();
   test_sourcefile_calc_diff2();
   test_sourcefile_diff_longer();
+  test_sourcefile_diff_very_long();
   test_sourcefile_calc_diff();
 
   test_sourcefile_list_language_facts();

@@ -270,45 +270,40 @@ LocDeltaList *ohcount_sourcefile_diff(SourceFile *from, SourceFile *to) {
   return list;
 }
 
-LocDelta *ohcount_sourcefile_calc_loc_delta(SourceFile *from,
+LocDelta *ohcount_sourcefile_calc_loc_delta(SourceFile *from_file,
                                             const char *language,
-                                            SourceFile *to) {
+                                            SourceFile *to_file) {
   LocDelta *delta = ohcount_loc_delta_new(language, 0, 0, 0, 0, 0, 0);
-
-  char *from_code = "", *to_code = "";
-  char *from_comments = "", *to_comments = "";
-  int from_blanks_count = 0, to_blanks_count = 0;
+	ParsedLanguage * const blank = ohcount_parsed_language_new(language, 0);
+	ParsedLanguage *from = blank, *to = blank;
 
   ParsedLanguageList *iter;
-  iter = ohcount_sourcefile_get_parsed_language_list(from)->head;
-  while (iter) {
-    if (strcmp(language, iter->pl->name) == 0) {
-      from_code = iter->pl->code;
-      from_comments = iter->pl->comments;
-      from_blanks_count = iter->pl->blanks_count;
-      break;
-    }
-    iter = iter->next;
-  }
-  iter = ohcount_sourcefile_get_parsed_language_list(to)->head;
-  while (iter) {
-    if (strcmp(language, iter->pl->name) == 0) {
-      to_code = iter->pl->code;
-      to_comments = iter->pl->comments;
-      to_blanks_count = iter->pl->blanks_count;
-      break;
-    }
-    iter = iter->next;
-  }
+	for (iter = ohcount_sourcefile_get_parsed_language_list(from_file)->head;
+			 iter;
+			 iter = iter->next) {
+		if (strcmp(language, iter->pl->name) == 0) {
+			from = iter->pl;
+			break;
+		}
+	}
 
-  ohcount_calc_diff(from_code, to_code, &delta->code_added,
+	for (iter = ohcount_sourcefile_get_parsed_language_list(to_file)->head;
+			 iter;
+			 iter = iter->next) {
+		if (strcmp(language, iter->pl->name) == 0) {
+			to = iter->pl;
+			break;
+		}
+	}
+
+  ohcount_calc_diff(from->code, to->code, &delta->code_added,
                     &delta->code_removed);
-  ohcount_calc_diff(from_comments, to_comments, &delta->comments_added,
+  ohcount_calc_diff(from->comments, to->comments, &delta->comments_added,
                     &delta->comments_removed);
-  if (from_blanks_count > to_blanks_count)
-    delta->blanks_removed = from_blanks_count - to_blanks_count;
+  if (from->blanks_count > to->blanks_count)
+    delta->blanks_removed = from->blanks_count - to->blanks_count;
   else
-    delta->blanks_added = to_blanks_count - from_blanks_count;
+    delta->blanks_added = to->blanks_count - from->blanks_count;
 
   return delta;
 }

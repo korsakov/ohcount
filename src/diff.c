@@ -1,3 +1,6 @@
+#include <stdio.h>
+#include <unistd.h>
+#include <errno.h>
 
 /*
  * The bulk of this software is derived from Plan 9 and is thus distributed
@@ -611,9 +614,58 @@ static void output(int *added, int *removed) {
     change(1, 0, 1, len[1], added, removed);
 }
 
-void ohcount_calc_diff(const char *from, const char *to, int *added,
-                       int *removed) {
+// create and return the path of a tmp_file filled with buf
+// caller must delete file if that's desired
+char *tmp_file_from_buf(const char *buf) {
+	char *template = "/tmp/ohcount_diff_XXXXXXX";
+	char *path = strdup(template);
+	
+	int fd = mkstemp(path);
+	write(fd, buf, strlen(buf));
+	close(fd);
+	return path;
+}
+
+#ifndef errno
+extern int errno;
+#endif
+
+void ohcount_calc_diff_with_disk(
+		const char *from,
+		const char *to,
+		int *added,
+		int *removed) {
+	*added = *removed = 0;
+	char *from_tmp = tmp_file_from_buf(from);
+	char *to_tmp = tmp_file_from_buf(to);
+
+	char command[1000];
+	sprintf(command, "diff -d --normal  --suppress-common-lines --new-file '%s' '%s'", from_tmp, to_tmp);
+	FILE *f = popen(command, "r");
+	if (f) {
+		char line[10000];
+		while(fgets(line, sizeof(line), f)) {
+			if (line[0] == '>')
+			 	(*added)++;
+			if (line[0] == '<')
+				(*removed)++;
+		}
+	}
+	if (unlink(from_tmp)) {
+		printf("error unlinking %s: %d", from_tmp, errno);
+	}
+	if (unlink(to_tmp)) {
+		printf("error unlinking %s: %d", from_tmp, errno);
+	}
+}
+
+#define USE_DISK_IF_LARGER 100000
+void ohcount_calc_diff(const char *from,
+	 	const char *to, int *added, int *removed) {
   int k;
+
+	if (strlen(from) > USE_DISK_IF_LARGER || strlen(to) > USE_DISK_IF_LARGER)
+		return ohcount_calc_diff_with_disk(from, to, added, removed);
 
   prepare(0, from);
   prepare(1, to);
