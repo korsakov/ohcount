@@ -9,6 +9,7 @@
 
 #include "detector.h"
 #include "languages.h"
+#include "log.h"
 
 #include "hash/cppheader_hash.h"
 #include "hash/disambiguatefunc_hash.h"
@@ -37,7 +38,7 @@ const char *ohcount_detect_language(SourceFile *sourcefile) {
     for (p = lowerext; p < lowerext + length; p++) *p = tolower(*p);
     struct ExtensionMap *re = ohcount_hash_language_from_ext(lowerext, length);
     if (re) return re->value;
-  }
+	}
   if (language) {
     if (ISAMBIGUOUS(language)) {
       // Call the appropriate function for disambiguation.
@@ -103,7 +104,10 @@ const char *ohcount_detect_language(SourceFile *sourcefile) {
     *(path + 21) = '\0';
     int fd = mkstemp(path);
     char *contents = ohcount_sourcefile_get_contents(sourcefile);
-    write(fd, contents, strlen(contents));
+		log_it("contents:");
+		log_it(contents);
+		length = contents ? strlen(contents) : 0;
+    write(fd, contents, length);
     close(fd);
     tmpfile = 1;
   }
@@ -275,7 +279,8 @@ const char *disambiguate_basic(SourceFile *sourcefile) {
 
 const char *disambiguate_cs(SourceFile *sourcefile) {
   // Attempt to detect based on file contents.
-  if (strstr(ohcount_sourcefile_get_contents(sourcefile), "<?cs"))
+	char *contents = ohcount_sourcefile_get_contents(sourcefile);
+  if (contents && strstr(contents, "<?cs"))
     return LANG_CLEARSILVER_TEMPLATE;
   else
     return LANG_CSHARP;
@@ -612,7 +617,7 @@ const char *disambiguate_m(SourceFile *sourcefile) {
 
 const char *disambiguate_pro(SourceFile *sourcefile) {
 	char *p = ohcount_sourcefile_get_contents(sourcefile);
-	char *eof = p + strlen(p);
+  char *eof = p + ohcount_sourcefile_get_contents_size(sourcefile);
 	for (; p < eof; p++) {
 		if (strncmp(p, QMAKE_SOURCES_SPACE, strlen(QMAKE_SOURCES_SPACE)) == 0 ||
 				strncmp(p, QMAKE_SOURCES, strlen(QMAKE_SOURCES)) == 0 ||

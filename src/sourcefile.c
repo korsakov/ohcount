@@ -11,6 +11,7 @@
 #include "languages.h"
 #include "licenses.h"
 #include "parser.h"
+#include "log.h"
 
 // SourceFile
 
@@ -243,6 +244,11 @@ LocList *ohcount_sourcefile_get_loc_list(SourceFile *sourcefile) {
 }
 
 LocDeltaList *ohcount_sourcefile_diff(SourceFile *from, SourceFile *to) {
+	log_it("Starting ohcount_sourcefile_diff:");
+	log_it(from->filename);
+	log_it(" vs ");
+	log_it(to->filename);
+	log_it("\n");
   LocDeltaList *list = ohcount_loc_delta_list_new();
 
   ParsedLanguageList *iter;

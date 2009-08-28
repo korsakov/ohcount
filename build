@@ -38,6 +38,7 @@ files="src/sourcefile.c \
        src/licenses.c \
        src/parser.o \
        src/loc.c \
+       src/log.c \
        src/diff.c \
        src/parsed_language.c \
        src/hash/language_hash.c"
