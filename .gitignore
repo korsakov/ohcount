@@ -9,7 +9,6 @@ src/hash/language_hash.c
 src/parsers/*.h
 src/parser.o
 test/unit/run_tests
-doc/html
 bin/
 ruby/ohcount.so
 ruby/ohcount_wrap.c
