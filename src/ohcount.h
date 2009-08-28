@@ -54,7 +54,7 @@
  *
  * Ohcount source code is available as a Git repository:
  *
- *   git clone http://git.ohloh.net/git/ohcount.git
+ *   git clone git://ohcount.git.sourceforge.net/gitroot/ohcount/ohcount
  *
  * @section build Building Ohcount
  *
