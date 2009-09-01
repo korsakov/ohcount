@@ -794,7 +794,7 @@ LicenseList *ohcount_detect_license(SourceFile *sourcefile) {
       char *buffer = malloc(buffer_len+1);
       if (buffer == NULL) {
         fprintf(stderr, "out of memory in ohcount_detect_license");
-        exit -1;
+        exit(-1);
       }
       q = buffer;
       char *q_max = buffer + buffer_len + 1;
