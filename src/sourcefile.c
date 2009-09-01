@@ -86,9 +86,14 @@ char *ohcount_sourcefile_get_contents(SourceFile *sourcefile) {
       int size = ftell(f);
       rewind(f);
       sourcefile->contents = malloc(size + 1);
-      fread(sourcefile->contents, 1, size, f);
-      sourcefile->contents[size] = '\0';
-      sourcefile->size = size;
+      if (fread(sourcefile->contents, size, 1, f) != 1) {
+        free(sourcefile->contents);
+        sourcefile->contents = NULL;
+        sourcefile->size = 0;
+      } else {
+        sourcefile->size = size;
+        sourcefile->contents[size] = '\0';
+      }
       fclose(f);
     } else {
       sourcefile->contents = NULL;
