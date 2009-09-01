@@ -8,7 +8,7 @@
 
 #include "../../src/licenses.h"
 
-void all_license_tests() {
+void src_vs_expected_tests() {
   const char *src_licenses = "../src_licenses/";
   char src[FILENAME_MAX];
   strncpy(src, src_licenses, strlen(src_licenses));
@@ -42,13 +42,12 @@ void all_license_tests() {
           SourceFile *sf = ohcount_sourcefile_new((const char *)src);
           LicenseList *iter = ohcount_sourcefile_get_license_list(sf)->head;
           char line[40]; // max license name size
-          while (fgets(line, sizeof(line), f)) {
+          for (; fgets(line, sizeof(line), f); iter = iter->next) {
             p = strstr(line, "\r");
             if (p == NULL) p = strstr(line, "\n");
             if (p) *p = '\0';
             assert(iter->lic->name);
             assert(strcmp(line, iter->lic->name) == 0);
-            iter = iter->next;
           }
           fclose(f);
           ohcount_sourcefile_free(sf);
@@ -57,4 +56,22 @@ void all_license_tests() {
     }
     closedir(d);
   }
+}
+
+void very_long_file_test() {
+	int len = 5500000;
+	char *a = malloc(len);
+	memset(a, 'i', len);
+	a[len-1] = '\0';
+	a[len-2] = '\n';
+
+  SourceFile *sf = ohcount_sourcefile_new("foo.c");
+  ohcount_sourcefile_set_contents(sf, a);
+	strncpy(a, "int = 1;\n", strlen("int = 1;\n"));
+	ohcount_sourcefile_get_license_list(sf);
+}
+
+void all_license_tests() {
+	src_vs_expected_tests();
+	very_long_file_test();
 }

@@ -3,6 +3,7 @@
 
 #include <ctype.h>
 #include <string.h>
+#include <stdio.h>
 
 #include "licenses.h"
 #include "parser.h"
@@ -778,28 +779,38 @@ LicenseList *ohcount_detect_license(SourceFile *sourcefile) {
   char *p, *q;
   int i, j, k;
   int ovector[30]; // recommended by PCRE
-  ParsedLanguageList *iter;
-  iter = ohcount_sourcefile_get_parsed_language_list(sourcefile)->head;
-  if (iter) {
+  ParsedLanguageList *iter_language;
+  iter_language = ohcount_sourcefile_get_parsed_language_list(sourcefile)->head;
+  if (iter_language) {
     int potential_licenses_s[license_map_length];
     int potential_licenses_e[license_map_length];
 
-    while (iter) {
-      char buffer[ohcount_sourcefile_get_contents_size(sourcefile)];
-      p = iter->pl->comments;
+    while (iter_language) {
+      // Before looking for licenses, strip whitespace and newlines
+      p = iter_language->pl->comments;
+      int buffer_len = p ? strlen(p) : 0;
+      char *p_max = p + buffer_len;
+
+      char *buffer = malloc(buffer_len+1);
+      if (buffer == NULL) {
+        fprintf(stderr, "out of memory in ohcount_detect_license");
+        exit -1;
+      }
       q = buffer;
-      char *eof = p + strlen(p);
-      while (p < eof) {
+      char *q_max = buffer + buffer_len + 1;
+
+      while (p < p_max && q < q_max) {
         // Strip leading whitespace and punctuation.
         while (*p == ' ' || *p == '\t' || ispunct(*p)) p++;
         // Copy line contents.
-        while (p < eof && *p != '\r' && *p != '\n') *q++ = *p++;
+        while (p < p_max && *p != '\r' && *p != '\n' && q < q_max)
+          *q++ = *p++;
         // Strip newline characters.
         while (*p == '\r' || *p == '\n') p++;
         // Add a trailing space.
-        *q++ = ' ';
+        if (q < q_max) *q++ = ' ';
       }
-      *q = '\0';
+      if (q < q_max) *q = '\0';
 
       for (j = 0; j < license_map_length; j++) {
         potential_licenses_s[j] = -1;
@@ -832,7 +843,7 @@ LicenseList *ohcount_detect_license(SourceFile *sourcefile) {
           }
         }
       }
-      iter = iter->next;
+      iter_language = iter_language->next;
     }
 
     // Create the list of licenses from potential licenses.
