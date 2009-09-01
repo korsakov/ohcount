@@ -56,7 +56,7 @@ const char *ohcount_detect_language(SourceFile *sourcefile) {
     ohcount_hash_language_from_filename(sourcefile->filename, length);
   if (rf) return rf->value;
 
-  char line[81], buf[81];
+  char line[81] = { '\0' }, buf[81];
 
   // Attempt to detect using Emacs mode line (/^-\*-\s*mode[\s:]*\w/i).
   p = ohcount_sourcefile_get_contents(sourcefile);
