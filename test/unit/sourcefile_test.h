@@ -127,15 +127,15 @@ void test_sourcefile_diff_longer() {
 }
 
 void test_sourcefile_diff_very_long() {
-	char a[5500000];
-	memset(a, 'i', sizeof(a));
-	a[sizeof(a)] = '\0';
-	a[sizeof(a)-1] = '\n';
+	int len = 5500000;
+	char *a = malloc(len);
+	memset(a, 'i', len);
+	a[len-1] = '\0';
+	a[len-2] = '\n';
 
   SourceFile *old = ohcount_sourcefile_new("foo.c");
   ohcount_sourcefile_set_contents(old, a);
 	strncpy(a, "int = 1;\n", strlen("int = 1;\n"));
-	if (strlen(a) < 100) exit(0) ;
   SourceFile *new = ohcount_sourcefile_new("foo.c");
   ohcount_sourcefile_set_contents(new, a);
   LocDeltaList *list = ohcount_sourcefile_diff(old, new);
