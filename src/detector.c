@@ -111,7 +111,7 @@ const char *ohcount_detect_language(SourceFile *sourcefile) {
     close(fd);
     tmpfile = 1;
   }
-  char command[strlen(path) + 10];
+  char command[strlen(path) + 11];
   sprintf(command, "file -b '%s'", path);
   FILE *f = popen(command, "r");
   if (f) {
