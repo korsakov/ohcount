@@ -32,7 +32,7 @@ const char *ohcount_detect_language(SourceFile *sourcefile) {
   if (re) language = re->value;
   if (language == NULL) {
     // Try the lower-case version of this extension.
-    char lowerext[length];
+    char lowerext[length + 1];
     strncpy(lowerext, sourcefile->ext, length);
     lowerext[length] = '\0';
     for (p = lowerext; p < lowerext + length; p++) *p = tolower(*p);
