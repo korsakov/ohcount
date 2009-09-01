@@ -137,7 +137,7 @@ const char *ohcount_detect_language(SourceFile *sourcefile) {
         pe = p;
         while (*p == ' ') p--;
         while (p != line && isalnum(*(p - 1))) p--;
-        if (*(p - 1) == '-') p--;
+        if (p != line && *(p - 1) == '-') p--;
       } while (*p == '-'); // Skip over any switches.
       length = pe - p;
       strncpy(buf, p, length);
@@ -395,7 +395,7 @@ const char *disambiguate_h(SourceFile *sourcefile) {
     // Look for C++ keywords.
     p = line;
     while (p < eol) {
-      if (islower(*p) && !isalnum(*(p - 1)) && *(p - 1) != '_') {
+      if (islower(*p) && p != line && !isalnum(*(p - 1)) && *(p - 1) != '_') {
         pe = p;
         while (islower(*pe)) pe++;
         if (!isalnum(*pe) && *pe != '_') {
@@ -563,7 +563,7 @@ const char *disambiguate_m(SourceFile *sourcefile) {
     // Look for Octave keywords.
     p = line;
     while (p < eol) {
-      if (islower(*p) && !isalnum(*(p - 1))) {
+      if (islower(*p) && p != line && !isalnum(*(p - 1))) {
         pe = p;
         while (islower(*pe) || *pe == '_') pe++;
         if (!isalnum(*pe)) {
