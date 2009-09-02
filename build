@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash 
 # Build script for Ohcount.
 # Written by Mitchell Foral. mitchell<att>caladbolg.net.
 
@@ -9,6 +9,13 @@ then
   # Linux
   INC_DIR=
   LIB_DIR=
+
+  if [ `uname` == "FreeBSD" ] 
+  then 
+    INC_DIR=/usr/local/include 
+    LIB_DIR=/usr/local/lib 
+  fi 
+
   # You shouldn't have to change the following.
   CFLAGS=-O3
   WARN="-Wall -Wno-pointer-to-int-cast -Wno-parentheses"
@@ -137,17 +144,17 @@ then
 elif [ $1 == "ruby" ]
 then
   build_ruby_bindings
-  echo "Build successful; $RB_SHARED_NAME is in ruby/"
+  echo "Build successful; $RB_SHARED_NAME is in ruby/$arch"
 elif [ $1 == "clean" ]
 then
-  rm bin/ohcount
-  rm test/unit/run_tests
-  rm src/parser.o
-  rm src/parsers/*.h
-  rm src/hash/*.h
-  rm src/hash/*.c
-  rm src/$SHARED_NAME
-  rm ruby/$RB_SHARED_NAME
+  rm -f bin/ohcount
+  rm -f test/unit/run_tests
+  rm -f src/parser.o
+  rm -f src/parsers/*.h
+  rm -f src/hash/*.h
+  rm -f src/hash/*.c
+  rm -f src/$SHARED_NAME
+  rm -f ruby/$RB_SHARED_NAME
   rm -rf ruby/`ruby -rmkmf -e 'print Config::expand(CONFIG["arch"])'`/*
 else
   echo "Usage: build [all|ohcount|shared|tests|ruby|clean]"
