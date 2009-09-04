@@ -438,7 +438,11 @@ void ohcount_sourcefile_list_add_directory(SourceFileList *list,
 
       if (file->d_type == DT_DIR && *file->d_name != '.') // no hidden dirs
         ohcount_sourcefile_list_add_directory(list, filepath);
-      else if (file->d_type == DT_REG)
+      else if (file->d_type == DT_REG
+#ifdef TMP_FILES_ARE_DT_UNKNOWN
+               || file->d_type == DT_UNKNOWN
+#endif
+					)
         ohcount_sourcefile_list_add_file(list, filepath);
     }
     closedir(d);
