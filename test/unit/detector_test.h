@@ -77,6 +77,7 @@ void test_detector_detect_polyglot() {
 	ASSERT_DETECT(LANG_IDL_PVWAVE, "foo.pro");
   ASSERT_DETECT(LANG_ASSEMBLER, "foo.z80");
   ASSERT_DETECT(LANG_PHP, "php.inc");
+  ASSERT_DETECT(LANG_FSHARP, "fs1.fs");
 }
 
 void test_detector_upper_case_extensions() {

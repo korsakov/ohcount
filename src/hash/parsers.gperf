@@ -25,6 +25,7 @@
 #include "../parsers/factor.h"
 #include "../parsers/fortranfixed.h"
 #include "../parsers/fortranfree.h"
+#include "../parsers/fsharp.h"
 #include "../parsers/glsl.h"
 #include "../parsers/groovy.h"
 #include "../parsers/haml.h"
@@ -107,6 +108,7 @@ emacslisp, parse_emacslisp
 factor, parse_factor
 fortranfixed, parse_fortranfixed
 fortranfree, parse_fortranfree
+fsharp, parse_fsharp
 glsl, parse_glsl
 groovy, parse_groovy
 haskell, parse_haskell
