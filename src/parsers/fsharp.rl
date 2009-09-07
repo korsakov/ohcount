@@ -1,4 +1,5 @@
-// fsharp.rl written by Pavel Shiryaev.
+// fsharp.rl written by Pavel Shiryaev. Hill30  http://www.hill30.com
+// based on c.rl
 
 /************************* Required for every parser *************************/
 #ifndef OHCOUNT_FSHARP_PARSER_H
