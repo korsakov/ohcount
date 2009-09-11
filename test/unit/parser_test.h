@@ -99,6 +99,7 @@ void test_parser_verify_entity(SourceFile *sf, const char *entity,
 #include "parsers/test_exheres.h"
 #include "parsers/test_factor.h"
 #include "parsers/test_fortran.h"
+#include "parsers/test_fsharp.h"
 #include "parsers/test_glsl.h"
 #include "parsers/test_groovy.h"
 #include "parsers/test_haml.h"
@@ -270,6 +271,7 @@ void all_parser_tests() {
   all_exheres_tests();
   all_factor_tests();
   all_fortran_tests();
+  all_fsharp_tests();
   all_glsl_tests();
   all_groovy_tests();
   all_haml_tests();

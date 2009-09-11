@@ -30,34 +30,34 @@
 
 %extend SourceFile {
   void set_diskpath(const char *diskpath) {
-    ohcount_sourcefile_set_diskpath($self, diskpath);
+    ohcount_sourcefile_set_diskpath(self, diskpath);
   }
   void set_contents(const char *contents) {
-    ohcount_sourcefile_set_contents($self, contents);
+    ohcount_sourcefile_set_contents(self, contents);
   }
   char *get_contents() {
-    return ohcount_sourcefile_get_contents($self);
+    return ohcount_sourcefile_get_contents(self);
   }
   int contents_size() {
-    return ohcount_sourcefile_get_contents_size($self);
+    return ohcount_sourcefile_get_contents_size(self);
   }
   const char *get_language() {
-    return ohcount_sourcefile_get_language($self);
+    return ohcount_sourcefile_get_language(self);
   }
   void parse() {
-    ohcount_sourcefile_parse($self);
+    ohcount_sourcefile_parse(self);
   }
   ParsedLanguageList *get_parsed_language_list() {
-    return ohcount_sourcefile_get_parsed_language_list($self);
+    return ohcount_sourcefile_get_parsed_language_list(self);
   }
   LicenseList *get_license_list() {
-    return ohcount_sourcefile_get_license_list($self);
+    return ohcount_sourcefile_get_license_list(self);
   }
   LocList *get_loc_list() {
-    return ohcount_sourcefile_get_loc_list($self);
+    return ohcount_sourcefile_get_loc_list(self);
   }
   LocDeltaList *_diff(SourceFile *to) {
-    return ohcount_sourcefile_diff($self, to);
+    return ohcount_sourcefile_diff(self, to);
   }
   void set_filenames(VALUE filenames) {
     int i, length = RARRAY(filenames)->len;
@@ -65,7 +65,7 @@
     VALUE *iter = RARRAY(filenames)->ptr;
     for (i = 0; i < length; i++, iter++)
       fnames[i] = STR2CSTR(*iter);
-    ohcount_sourcefile_set_filenames($self, fnames);
+    ohcount_sourcefile_set_filenames(self, fnames);
     free(fnames);
   }
   SourceFile(const char *filepath, VALUE opt_hash=NULL) {
@@ -85,7 +85,7 @@
     return sourcefile;
   }
   ~SourceFile() {
-    ohcount_sourcefile_free($self);
+    ohcount_sourcefile_free(self);
   }
 };
 
@@ -106,16 +106,16 @@
     return list;
   }
   ~SourceFileList() {
-    ohcount_sourcefile_list_free($self);
+    ohcount_sourcefile_list_free(self);
   }
   void add_file(const char *filepath) {
-    ohcount_sourcefile_list_add_file($self, filepath);
+    ohcount_sourcefile_list_add_file(self, filepath);
   }
   void add_directory(const char *directory) {
-    ohcount_sourcefile_list_add_directory($self, directory);
+    ohcount_sourcefile_list_add_directory(self, directory);
   }
   LocList *analyze_languages() {
-    return ohcount_sourcefile_list_analyze_languages($self);
+    return ohcount_sourcefile_list_analyze_languages(self);
   }
 }
 
