@@ -13,7 +13,7 @@ module Ohcount
     #                                                                   #
     #####################################################################
 
-    define_platform 'POSIX' do
+    define_platform 'posix' do
       # gnu_lib && generic
       c_headers 'pthread.h', 'xstrtol.h', 'xreadlink.h', 'fatal-signal.h', 'diacrit.h', 'syslog.h', 'sys/stat.h'
 
@@ -21,35 +21,35 @@ module Ohcount
       language :autoconf
     end
 
-    define_platform 'Win32' do
+    define_platform 'win32' do
       c_headers 'windows.h'
       c_keywords 'WM_PAINT', 'ReleaseDC', 'WndProc', :min => 2
     end
 
-    define_platform 'VisualBasic' do
+    define_platform 'visualbasic' do
       language :visualbasic, :min_percent => 5
     end
 
-    define_platform 'Ruby' do
+    define_platform 'ruby' do
       language :ruby, :min_percent => 15
     end
 
-    define_platform 'Rails' do
+    define_platform 'rails' do
       _and do
-        gestalt(:platform, 'Ruby')
+        gestalt(:platform, 'ruby')
         ruby_keywords("RAILS_ROOT")
       end
     end
 
-    define_platform 'Java' do
+    define_platform 'java' do
       language :java, :min_percent => 15
     end
 
-    define_platform 'Javascript' do
+    define_platform 'javascript' do
       language :javascript, :min_percent => 20
     end
 
-    define_platform 'JQuery' do
+    define_platform 'jquery' do
       filenames 'jquery-\d.\d.\d.min.js$'
     end
 
@@ -79,7 +79,7 @@ module Ohcount
 			_or do
 				language :actionscript, :min_percent => 1
 				_and do
-					gestalt(:platform, 'Java')
+					gestalt(:platform, 'java')
 					java_import /^(flash)\..+/
 				end
 			end
@@ -89,17 +89,17 @@ module Ohcount
 			_or do
 				language :mxml, :min_percent => 1
 				_and do
-					gestalt(:platform, 'Java')
+					gestalt(:platform, 'java')
 					java_import /^(mx)\..+/
 				end
 			end
 		end
 
-    define_platform 'XWindows' do
+    define_platform 'xwindows' do
       c_headers 'Xlib.h', 'X11\/xpm.h', 'X11/Xlib.h'
     end
 
-    define_platform 'Mac' do
+    define_platform 'mac' do
       # apple events
       c_keywords 'AppleEvent', 'AEBuildAppleEvent'
 
@@ -107,31 +107,31 @@ module Ohcount
       filenames '\.plist'
     end
 
-    define_platform 'PHP' do
+    define_platform 'php' do
       language :php, :min_percent => 15
     end
 
-    define_platform 'WxWidgets' do
+    define_platform 'wxwidgets' do
       c_headers 'wx/window.h'
     end
 
-		define_platform 'ZendFramework' do
+		define_platform 'zendframework' do
       _and do
-        gestalt(:platform, 'PHP')
+        gestalt(:platform, 'php')
         php_keywords('Zend_Controller_Action')
       end
 		end
 
-		define_platform 'Symfony' do
+		define_platform 'symfony' do
 			_and do
-        gestalt(:platform, 'PHP')
+        gestalt(:platform, 'php')
         php_keywords('sfCore', 'sfConfig')
       end
     end
 
-		define_platform 'Pear' do
+		define_platform 'pear' do
       _and do
-        gestalt(:platform, 'PHP')
+        gestalt(:platform, 'php')
         _or do
           filenames('\bpackage\.xml(\.tpl)?$')
           xml_keywords('pear\.php\.net/dtd/package\-2\.0')
@@ -139,59 +139,59 @@ module Ohcount
       end
 		end
 
-		define_platform 'Moodle' do
+		define_platform 'moodle' do
 			_and do
-				gestalt(:platform, 'PHP')
+				gestalt(:platform, 'php')
 				php_keywords("moodle")
       end
 		end
 
-    define_platform 'SQL' do
+    define_platform 'sql' do
       language :sql
     end
 
-    define_platform 'MySQL' do
+    define_platform 'mysql' do
       php_keywords('mysql_connect')
     end
 
-    define_platform 'PostgreSQL' do
+    define_platform 'postgresql' do
       php_keywords('pg_connect')
     end
 
-		define_platform 'Python' do
+		define_platform 'python' do
 			language :python, :min_percent => 15
 		end
 
-		define_platform 'Perl' do
+		define_platform 'perl' do
 			language :perl, :min_percent => 20
 		end
 
-		define_platform 'Scripting' do
-			gestalt(:platform, 'Javascript')
-			gestalt(:platform, 'Perl')
-			gestalt(:platform, 'PHP')
-			gestalt(:platform, 'Python')
-			gestalt(:platform, 'Ruby')
+		define_platform 'scripting' do
+			gestalt(:platform, 'javascript')
+			gestalt(:platform, 'perl')
+			gestalt(:platform, 'php')
+			gestalt(:platform, 'python')
+			gestalt(:platform, 'ruby')
 		end
 
-		define_platform 'CakePHP' do
+		define_platform 'cakephp' do
 			_and do
-        gestalt(:platform, 'PHP')
+        gestalt(:platform, 'php')
 				php_keywords('CAKE_CORE_INCLUDE_PATH')
       end
 		end
 
-		define_platform 'KDE' do
+		define_platform 'kde' do
 			c_headers 'KDEInit.h', 'kdeversion.h'
 		end
 
-		define_platform 'GTK' do
+		define_platform 'gtk' do
 			c_keywords 'gtk_init', 'gtk_main', 'gtk_window_new', 'GtkWidget'
 		end
 
-		define_platform 'Drupal' do
+		define_platform 'drupal' do
 			_and do
-				gestalt(:platform, 'PHP')
+				gestalt(:platform, 'php')
 				_or do
 					php_keywords('drupal_set_message')
 					php_keywords('drupal_render')
@@ -200,26 +200,26 @@ module Ohcount
       end
 		end
 
-		define_platform 'MSDos' do
+		define_platform 'msdos' do
 			c_keywords '__MSDOS__', 'MSDOS', :min => 2
     end
 
-    define_platform 'EclipsePlatform' do
+    define_platform 'eclipseplatform' do
       java_import /org\.eclipse\./
     end
 
 
     ############################### Tools ###############################
 
-    define_tool 'VisualStudio' do
+    define_tool 'visualstudio' do
       filenames '\.(sln|vcproj|vsproj|csproj|vbproj|vbp)$'
     end
 
-    define_tool 'Eclipse' do
+    define_tool 'eclipse' do
       filenames '\.(project|classpath)$'
     end
 
-    define_tool 'NetBeans' do
+    define_tool 'netbeans' do
       filenames '\bnbplatform\b'
       filenames '\.nbm$'
     end
@@ -250,13 +250,13 @@ module Ohcount
 			make_keywords 'SSE3_ATOM'
 		end
 
-		define_platform 'xL_flag' do
+		define_platform 'xl_flag' do
 			make_keywords '\bxL\b', '\/QxL\b'
 		end
 
 		define_platform 'atom' do
 			gestalt(:platform, 'sse3_atom_flag')
-			gestalt(:platform, 'xL_flag')
+			gestalt(:platform, 'xl_flag')
 		end
 
 		########################## COMPILER ################################
@@ -278,7 +278,7 @@ module Ohcount
 			ruby_keywords "Clutter::Actor", "Clutter::Stage", "Clutter::Shader", "Clutter::Cairo"
 		end
 
-		define_platform 'moblin' do
+		define_platform 'moblin_misc' do
 			c_keywords '\"org\.moblin\.', 'MOBLIN_NETBOOK_SYSTEM_TRAY_H', 'org_Moblin_', '\"org\.Moblin\.', "url=\"http://moblin.org\">http://moblin.org</ulink>"
 			make_keywords "org\.moblin\.", "moblin-netbook"
 			filenames 'moblin-netbook-system-tray.h$'
@@ -291,9 +291,9 @@ module Ohcount
 			filenames 'nbtk\/nbtk.h'
 		end
 
-		define_platform 'moblin_all' do
+		define_platform 'moblin' do
 			gestalt(:platform, 'clutter')
-			gestalt(:platform, 'moblin')
+			gestalt(:platform, 'moblin_misc')
 			gestalt(:platform, 'nbtk')
 		end
 
@@ -305,7 +305,7 @@ module Ohcount
 
     ############################ iPhone #################################
 
-		define_platform 'iPhone' do
+		define_platform 'iphone' do
 			objective_c_keywords '\bUIApplicationMain', '\bUIWindow', '\bUIView', '\bUIResponder'
 		end
 
@@ -323,13 +323,13 @@ module Ohcount
 			gestalt(:platform, 'hildon')
 		end
 
-		define_platform 'MID_combined' do
+		define_platform 'mid_combined' do
 			gestalt(:platform, 'clutter')
 			gestalt(:platform, 'nbtk')
 			gestalt(:platform, 'moblin')
 			gestalt(:platform, 'maemo')
 			gestalt(:platform, 'android')
-			gestalt(:platform, 'iPhone')
+			gestalt(:platform, 'iphone')
 		end
 
 

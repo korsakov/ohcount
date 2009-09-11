@@ -11,8 +11,8 @@ using NUnit.Framework;
 CONTENTS
 											 )
     assert_equal [
-			Gestalt::Base.new(:platform, 'Dot_NET'),
-			Gestalt::Base.new(:platform, 'NUnit')
+			Gestalt::Base.new(:platform, 'dot_net'),
+			Gestalt::Base.new(:platform, 'nunit')
 		], sf.gestalts.sort
   end
 
@@ -22,8 +22,8 @@ using NHibernate.Connection.DriverConnectionProvider;
 CONTENTS
 											 )
     assert_equal [
-			Gestalt::Base.new(:platform, 'Dot_NET'),
-			Gestalt::Base.new(:platform, 'NHibernate')
+			Gestalt::Base.new(:platform, 'dot_net'),
+			Gestalt::Base.new(:platform, 'nhibernate')
 		], sf.gestalts.sort
   end
 
@@ -33,8 +33,8 @@ using System.Runtime.Remoting;
 CONTENTS
 											 )
     assert_equal [
-			Gestalt::Base.new(:platform, 'Dot_NET'),
-			Gestalt::Base.new(:platform, 'Dot_NET_Enterprise')
+			Gestalt::Base.new(:platform, 'dot_net'),
+			Gestalt::Base.new(:platform, 'dot_net_enterprise')
 		], sf.gestalts.sort
   end
 
@@ -44,9 +44,9 @@ using Microsoft.BizTalk;
 CONTENTS
 											 )
     assert_equal [
-			Gestalt::Base.new(:platform, 'Dot_NET'),
-			Gestalt::Base.new(:platform, 'Dot_NET_BizTalk'),
-			Gestalt::Base.new(:platform, 'Dot_NET_Enterprise')
+			Gestalt::Base.new(:platform, 'dot_net'),
+			Gestalt::Base.new(:platform, 'dot_net_biztalk'),
+			Gestalt::Base.new(:platform, 'dot_net_enterprise')
 		], sf.gestalts.sort
   end
 
@@ -56,8 +56,8 @@ using System.Data.Linq;
 CONTENTS
 											 )
     assert_equal [
-			Gestalt::Base.new(:platform, 'Dot_NET'),
-			Gestalt::Base.new(:platform, 'Dot_NET_Enterprise')
+			Gestalt::Base.new(:platform, 'dot_net'),
+			Gestalt::Base.new(:platform, 'dot_net_enterprise')
 		], sf.gestalts.sort
   end
 
@@ -69,7 +69,7 @@ CONTENTS
 CONTENTS
 		)
     assert_equal [
-			Gestalt::Base.new(:platform, 'ASP_NET'),
+			Gestalt::Base.new(:platform, 'asp_net'),
 			Gestalt::Base.new(:platform, 'silverlight')
 		], sf.gestalts.sort
   end
@@ -83,7 +83,7 @@ CONTENTS
 		)
     assert_equal([
 			Gestalt::Base.new(:platform, 'silverlight'),
-			Gestalt::Base.new(:tool, 'VisualStudio')
+			Gestalt::Base.new(:tool, 'visualstudio')
 		], sf.gestalts.sort)
   end
 end

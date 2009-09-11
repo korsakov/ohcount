@@ -2,7 +2,7 @@ module Ohcount
 	module Gestalt
 
 		define_java_jar do
-      find_filenames /([^\\^\/]*\.(jar|JAR))/, :name_from_match => 1
+      find_filenames /([^\\^\/]*\.jar)/i, :name_from_match => 1
 		end
 
     define_java_import do
@@ -11,9 +11,9 @@ module Ohcount
 
 		# Java Application Servers
 
-		define_platform 'GlassFish' do
+		define_platform 'glassfish' do
 			_and do
-				gestalt(:platform, 'Java')
+				gestalt(:platform, 'java')
 				_or do
 					find_filenames /\b(sun\-web|sun\-ejb\-jar|sun\-application(\-client))\.xml\b/
 					maven_dependency /^org.glassfish\b/
@@ -21,9 +21,9 @@ module Ohcount
 			end
 		end
 
-		define_platform 'JBoss' do
+		define_platform 'jboss' do
 			_and do
-				gestalt(:platform, 'Java')
+				gestalt(:platform, 'java')
 				_or do
 					find_filenames /\bjboss(\-app|cmp\-jdbc|\-web|\-build|\-client)\.xml\b/
 					maven_dependency /^org.jboss\b/
@@ -31,9 +31,9 @@ module Ohcount
 			end
 		end
 
-		define_platform 'WebLogic' do
+		define_platform 'weblogic' do
 			_and do
-				gestalt(:platform, 'Java')
+				gestalt(:platform, 'java')
 				_or do
 					find_filenames /\bweblogic(\-ejb\-jar|\-ra|\-application|\-cmp\-rdbms\jar)\.xml\b/
 					maven_plugin /^org\.codehaus\.mojo\b/, /^weblogic\-maven\-plugin\b/
@@ -41,23 +41,23 @@ module Ohcount
 			end
 		end
 
-		define_platform 'Jonas' do
+		define_platform 'jonas' do
 			_and do
-				gestalt(:platform, 'Java')
+				gestalt(:platform, 'java')
 				find_filenames /\bjonas\-ejb\-jar\.xml\b/
 			end
 		end
 
-		define_platform 'WebSphere' do
+		define_platform 'websphere' do
 			_and do
-				gestalt(:platform, 'Java')
+				gestalt(:platform, 'java')
 				find_filenames /\bibm\-(application|web|webservices|webservicesclient)\-.+\.xmi$/
 			end
 		end
 
-		define_platform 'Tomcat' do
+		define_platform 'tomcat' do
 			_and do
-				gestalt(:platform, 'Java')
+				gestalt(:platform, 'java')
 				_or do
 					java_import /^org\.apache\.tomcat\b/
 					maven_dependency /^org\.apache\.tomcat\b/
@@ -65,20 +65,20 @@ module Ohcount
 			end
 		end
 
-		define_platform 'AppServer' do
+		define_platform 'appserver' do
 			_or do
-				gestalt(:platform, 'GlassFish')
-				gestalt(:platform, 'JBoss')
-				gestalt(:platform, 'WebLogic')
-				gestalt(:platform, 'Tomcat')
-				gestalt(:platform, 'Jonas')
-				gestalt(:platform, 'WebSphere')
+				gestalt(:platform, 'glassfish')
+				gestalt(:platform, 'jboss')
+				gestalt(:platform, 'weblogic')
+				gestalt(:platform, 'tomcat')
+				gestalt(:platform, 'jonas')
+				gestalt(:platform, 'websphere')
 			end
 		end
 
-		define_platform 'EJB2' do
+		define_platform 'ejb2' do
 			_and do
-				gestalt(:platform, 'Java')
+				gestalt(:platform, 'java')
 				_or do
 					find_filenames /(.+\-)ejb\-jar\.xml\b/
 					java_keywords 'EJBHome', 'EJBRemote', 'SessionBean'
@@ -90,9 +90,9 @@ module Ohcount
 		# The gestalt engine iterates over definitions in the order they are defined.
 		#
 		# First, look for the subset of new features that definitely indicate EJB 3.1
-		define_platform 'EJB3.1' do
+		define_platform 'ejb3.1' do
 			_and do
-				gestalt(:platform, 'Java')
+				gestalt(:platform, 'java')
 				_or do
 					java_keywords '@Schedule', '@Singleton', '@Asynchronous'
 					java_keywords /@EJB\(.*\bmappedName\s*=\s*"java:(global|app|module)\/.+".*\)/
@@ -101,27 +101,27 @@ module Ohcount
 			end
 		end
 		# Next, look for the basic attributes that can mean either EJB 3.0 or 3.1
-		define_platform 'EJB3+' do
+		define_platform 'ejb3+' do
 			_and do
-				gestalt(:platform, 'Java')
+				gestalt(:platform, 'java')
 				_or do
-					gestalt(:platform, 'EJB3.1')
+					gestalt(:platform, 'ejb3.1')
 					java_keywords '@EJB', '@Stateless', '@Statefull', '@Entity', '@Remote', '@Local', '@BusinessMethod'
 					java_import /^javax\.persistence\b/
 				end
 			end
 		end
 		# Finally, if we found EJB3+ and not EJB 3.1, then you must be using EJB 3.0 only.
-		define_platform 'EJB3.0' do
+		define_platform 'ejb3.0' do
 			_and do
-				gestalt(:platform, 'EJB3+')
-				_not { gestalt(:platform, 'EJB3.1') }
+				gestalt(:platform, 'ejb3+')
+				_not { gestalt(:platform, 'ejb3.1') }
 			end
 		end
 
-		define_platform 'Servlet' do
+		define_platform 'servlet' do
 			_and do
-				gestalt(:platform, 'Java')
+				gestalt(:platform, 'java')
 				_or do
 					java_import /^javax\.servlet\b/
 					maven_dependency /^javax\.servlet\b/
@@ -129,9 +129,9 @@ module Ohcount
 			end
 		end
 
-		define_platform 'Struts' do
+		define_platform 'struts' do
 			_and do
-				gestalt(:platform, 'Java')
+				gestalt(:platform, 'java')
 				_or do
 					filenames('\bstruts(\-config)?\.xml$', '\bstruts\.jar$')
 					java_import /^org\.apache\.struts\b/
@@ -140,9 +140,9 @@ module Ohcount
 			end
 		end
 
-    define_platform 'SpringFramework' do
+    define_platform 'springframework' do
       _and do
-        gestalt(:platform,'Java')
+        gestalt(:platform,'java')
 				_or do
 					filenames('spring\.jar$')
 					java_import /^org\.springframework\b/
@@ -151,9 +151,9 @@ module Ohcount
       end
     end
 
-		define_platform 'JSF' do
+		define_platform 'jsf' do
 			_and do
-				gestalt(:platform, 'Java')
+				gestalt(:platform, 'java')
 				_or do
 					java_import /^javax\.faces\b/
 					maven_dependency /^javax\.faces\b/
@@ -161,18 +161,18 @@ module Ohcount
 			end
 		end
 
-		define_platform 'GoogleWebToolkit' do
+		define_platform 'googlewebtoolkit' do
 			_and do
-				gestalt(:platform, 'Java')
+				gestalt(:platform, 'java')
 				java_import /^com\.google\.gwt\b/
 			end
 		end
 
 		# Java Persistence Frameworks
 
-		define_platform 'Hibernate' do
+		define_platform 'hibernate' do
 			_and do
-				gestalt(:platform, 'Java')
+				gestalt(:platform, 'java')
 				_or do
 					filenames '\bhibernate\d\.jar$'
 					java_import /^org\.hibernate\b/
@@ -181,53 +181,53 @@ module Ohcount
 			end
 		end
 
-		define_platform 'JPA' do
+		define_platform 'jpa' do
 			_and do
-				gestalt(:platform, 'Java')
+				gestalt(:platform, 'java')
 				java_import /^javax\.persistence\b/
 			end
 		end
 
-		define_platform 'TopLink' do
+		define_platform 'toplink' do
 			_and do
-				gestalt(:platform, 'Java')
+				gestalt(:platform, 'java')
 				java_import /^oracle\.toplink\b/
 			end
 		end
 
-		define_platform 'Castor' do
+		define_platform 'castor' do
 			_and do
-				gestalt(:platform, 'Java')
+				gestalt(:platform, 'java')
 				java_import /^org\.exolab\.castor\b/
 			end
 		end
 
 		define_platform 'db4o' do
 			_and do
-				gestalt(:platform, 'Java')
+				gestalt(:platform, 'java')
 				java_import /^com\.db4o\b/
 			end
 		end
 
 		# Java Enterprise Service Buses
 
-		define_platform 'OpenESB' do
+		define_platform 'openesb' do
 			_and do
-				gestalt(:platform, 'Java')
+				gestalt(:platform, 'java')
 				java_import /^org\.openesb\b/
 			end
 		end
 
-		define_platform 'MuleESB' do
+		define_platform 'muleesb' do
 			_and do
-				gestalt(:platform, 'Java')
+				gestalt(:platform, 'java')
 				java_import /^org\.mule\b/
 			end
 		end
 
-		define_platform 'ServiceMIX' do
+		define_platform 'servicemix' do
 			_and do
-				gestalt(:platform, 'Java')
+				gestalt(:platform, 'java')
 				_or do
 					java_import /^org\.apache\.servicemix\b/
 					maven_dependency /^org.apache.servicemix\b/
@@ -235,25 +235,25 @@ module Ohcount
 			end
 		end
 
-		define_platform 'JBossESB' do
+		define_platform 'jbossesb' do
 			_and do
-				gestalt(:platform, 'Java')
+				gestalt(:platform, 'java')
 				java_import /^org\.jboss\.soa\.esb\b/
 			end
 		end
 
-		define_platform 'OpenESB' do
+		define_platform 'openesb' do
 			_and do
-				gestalt(:platform, 'Java')
+				gestalt(:platform, 'java')
 				java_import /^org\.openesb\b/
 			end
 		end
 
 		# Other Java Technologies
 
-		define_platform 'OpenSSO' do
+		define_platform 'opensso' do
 			_and do
-				gestalt(:platform, 'Java')
+				gestalt(:platform, 'java')
 				_or do
 					filenames '\bopensso\.war$'
 					java_import /^com\.sun\.identity\.(authentication|agents)\b/
@@ -261,9 +261,9 @@ module Ohcount
 			end
 		end
 
-		define_platform 'Maven' do
+		define_platform 'maven' do
 			_and do
-				gestalt(:platform, 'Java')
+				gestalt(:platform, 'java')
 				find_filenames /\bpom\.xml$/
 			end
 		end

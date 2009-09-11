@@ -63,7 +63,7 @@ class DefinitionsTest < Ohcount::Test
   end
 
 	def test_jasper_server
-		expected = ['Scripting', 'Ruby', 'jaspersoft', 'jasper_server', 'jasper_server_keyword']
+		expected = ['scripting', 'ruby', 'jaspersoft', 'jasper_server', 'jasper_server_keyword']
 
 		rb = SourceFile.new('jasper.rb', :contents => 'def jasper_server; nil ; end')
 		assert_platforms(expected, rb.gestalts)
@@ -79,7 +79,7 @@ class DefinitionsTest < Ohcount::Test
 	end
 
 	def test_jasper_reports
-		expected = ['Scripting', 'Ruby', 'jaspersoft', 'jasper_reports', 'jasper_reports_keyword']
+		expected = ['scripting', 'ruby', 'jaspersoft', 'jasper_reports', 'jasper_reports_keyword']
 
 		rb = SourceFile.new('jasper.rb', :contents => 'def jasper_reports; nil ; end')
 		assert_platforms(expected, rb.gestalts)
