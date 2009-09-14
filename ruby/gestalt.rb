@@ -12,6 +12,7 @@ require "gestalt/base"
 require "gestalt/definitions"
 require "gestalt/dot_net_definitions"
 require "gestalt/java_definitions"
+require "gestalt/jasper_definitions"
 require "gestalt/gestalt_engine"
 require "gestalt/gestalt_facts"
 

@@ -20,10 +20,15 @@ module Ohcount
 			end
 
 			def process_source_file(source_file)
-				return unless source_file.language_breakdown(language)
-
-        code = source_file.language_breakdown(language).code
-				@count += code.scan(regexp).size
+				if language
+					return unless source_file.language_breakdown(language)
+					@count += source_file.language_breakdown(language).code.scan(regexp).size
+				else
+					# All languages
+					source_file.language_breakdowns.each do |lb|
+						@count += lb.code.to_s.scan(regexp).size
+					end
+				end
 			end
 
 			def regexp

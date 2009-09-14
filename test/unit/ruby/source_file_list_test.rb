@@ -9,8 +9,8 @@ class SourceFileListTest < Test::Unit::TestCase
 		assert list.size > 0
 		# assume: the paths variable points to the directory containing this and other simple ruby test files
 
-		ruby = Ohcount::Gestalt::Base.new(:platform, 'Ruby')
-		scripting = Ohcount::Gestalt::Base.new(:platform, 'Scripting')
+		ruby = Ohcount::Gestalt::Base.new(:platform, 'ruby')
+		scripting = Ohcount::Gestalt::Base.new(:platform, 'scripting')
 
 		list.analyze(:gestalt) # this should work
 		assert list.gestalts.include?(ruby)

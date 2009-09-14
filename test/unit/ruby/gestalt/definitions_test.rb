@@ -8,30 +8,30 @@ class DefinitionsTest < Ohcount::Test
 
 	def test_zend_framework
 		assert_gestalts 'zend_framework', [
-      Base.new(:platform,'PHP'),
-      Base.new(:platform,'ZendFramework'),
-			Base.new(:platform,'Scripting')
+      Base.new(:platform,'php'),
+      Base.new(:platform,'zendframework'),
+			Base.new(:platform,'scripting')
     ]
 	end
 
 	def test_php
 		assert_gestalts 'php', [
-      Base.new(:platform,'PHP'),
-			Base.new(:platform,'Scripting')
+      Base.new(:platform,'php'),
+			Base.new(:platform,'scripting')
     ]
 	end
 
 	def test_wx_widgets
 		assert_gestalts 'wx_widgets', [
-      Base.new(:platform,'WxWidgets'),
+      Base.new(:platform,'wxwidgets'),
       Base.new(:platform, 'native_code')
     ]
 	end
 
 	def test_eclipse_platform
 		assert_gestalts 'eclipse_platform', [
-      Base.new(:platform,'Java'),
-      Base.new(:platform,'EclipsePlatform'),
+      Base.new(:platform,'java'),
+      Base.new(:platform,'eclipseplatform'),
       Base.new(:java_import,"java.text.SimpleDateFormat"),
       Base.new(:java_import,"java.util.Map"),
       Base.new(:java_import,"org.eclipse.core")
@@ -46,27 +46,27 @@ class DefinitionsTest < Ohcount::Test
 
 	def test_win32_enough
 		assert_gestalts 'win32_enough', [
-      Base.new(:platform, 'Win32'),
+      Base.new(:platform, 'win32'),
       Base.new(:platform, 'native_code')
     ]
 	end
 
 	def test_wpf
 		assert_gestalts 'wpf', [
-      Base.new(:platform, 'WPF')
+      Base.new(:platform, 'wpf')
     ]
 	end
 
 	def test_asp_net
 		assert_gestalts 'asp_net', [
-      Base.new(:platform, 'ASP_NET')
+      Base.new(:platform, 'asp_net')
     ]
 	end
 
 	def test_ruby_just_enough
 		assert_gestalts 'ruby_just_enough', [
-      Base.new(:platform, 'Ruby'),
-      Base.new(:platform, 'Scripting'),
+      Base.new(:platform, 'ruby'),
+      Base.new(:platform, 'scripting'),
       Base.new(:platform, 'native_code'),
     ]
 	end
@@ -79,38 +79,38 @@ class DefinitionsTest < Ohcount::Test
 
 	def test_cakephp
 		assert_gestalts 'cakephp', [
-      Base.new(:platform, 'PHP'),
-      Base.new(:platform, 'CakePHP'),
-      Base.new(:platform, 'Scripting'),
+      Base.new(:platform, 'php'),
+      Base.new(:platform, 'cakephp'),
+      Base.new(:platform, 'scripting'),
     ]
 	end
 
 	def test_symfony
-		assert_platform('symfony', :PHP, :Symfony, :Scripting)
+		assert_platform('symfony', :php, :symfony, :scripting)
 	end
 
 	def test_pear
-		assert_platform('pear', :PHP, :Pear, :Scripting)
+		assert_platform('pear', :php, :pear, :scripting)
 	end
 
 	def test_moodle
-		assert_platform('moodle', :PHP, :Moodle, :Scripting)
+		assert_platform('moodle', :php, :moodle, :scripting)
 	end
 
 	def test_spring_framework
 		assert_gestalts 'spring_framework', [
-      Base.new(:platform, 'Java'),
-      Base.new(:platform, 'SpringFramework'),
+      Base.new(:platform, 'java'),
+      Base.new(:platform, 'springframework'),
       Base.new(:java_jar, 'spring.jar'),
     ]
 	end
 
 	def test_rails
-		assert_platform('rails', :Ruby, :Rails, :Scripting)
+		assert_platform('rails', :ruby, :rails, :scripting)
 	end
 
 	def test_jquery
-		assert_platform('jquery', :Javascript, :JQuery, :Scripting)
+		assert_platform('jquery', :javascript, :jquery, :scripting)
 	end
 
 	def test_dojo
@@ -126,51 +126,51 @@ class DefinitionsTest < Ohcount::Test
 	end
 
 	def test_python
-		assert_platform('python', :Python, :Scripting)
+		assert_platform('python', :python, :scripting)
 	end
 
 	def test_mac
-		assert_platform('mac', :Mac, :native_code)
+		assert_platform('mac', :mac, :native_code)
 	end
 
 	def test_plist
-		assert_platform('plist', :Mac)
+		assert_platform('plist', :mac)
 	end
 
 	def test_posix
-		assert_platform('posix', :POSIX, :native_code)
+		assert_platform('posix', :posix, :native_code)
 	end
 
 	def test_x_windows
-		assert_platform('xwindows', :XWindows, :native_code)
+		assert_platform('xwindows', :xwindows, :native_code)
 	end
 
 	def test_kde
-		assert_platform('kde', :KDE, :native_code)
+		assert_platform('kde', :kde, :native_code)
 	end
 
 	def test_msdos
-		assert_platform('msdos', :MSDos, :native_code)
+		assert_platform('msdos', :msdos, :native_code)
 	end
 
 	def test_gtk
-		assert_platform('gtk', :GTK, :native_code)
+		assert_platform('gtk', :gtk, :native_code)
 	end
 
 	def test_drupal
-		assert_platform('drupal', :PHP, :Drupal, :Scripting)
+		assert_platform('drupal', :php, :drupal, :scripting)
 	end
 
 	def test_vs_1
-		assert_tool('vs_1', :VisualStudio)
+		assert_tool('vs_1', :visualstudio)
 	end
 
 	def test_eclipse
-		assert_tool('eclipse', :Eclipse)
+		assert_tool('eclipse', :eclipse)
 	end
 
 	def test_netbeans
-		assert_tool('netbeans', :NetBeans)
+		assert_tool('netbeans', :netbeans)
 	end
 
 	def test_java_imports_from_java_file
@@ -185,7 +185,7 @@ class DefinitionsTest < Ohcount::Test
     expected_gestalts = [
       Base.new(:java_import, 'com.foo', 2),
       Base.new(:java_import, 'net.ohloh'),
-      Base.new(:platform,    'Java'),
+      Base.new(:platform,    'java'),
     ]
 
     assert_equal expected_gestalts.sort, java.gestalts.sort
@@ -247,8 +247,8 @@ class DefinitionsTest < Ohcount::Test
 		)
     expected_gestalts = [
       Base.new(:platform, 'clutter'),
-      Base.new(:platform, 'moblin_all'),
-      Base.new(:platform, 'MID_combined'),
+      Base.new(:platform, 'moblin'),
+      Base.new(:platform, 'mid_combined'),
       Base.new(:platform, 'native_code')
     ]
 
@@ -261,9 +261,9 @@ class DefinitionsTest < Ohcount::Test
 			INLINE_PERL
 		)
     expected_gestalts = [
+      Base.new(:platform, 'moblin_misc'),
       Base.new(:platform, 'moblin'),
-      Base.new(:platform, 'moblin_all'),
-      Base.new(:platform, 'MID_combined'),
+      Base.new(:platform, 'mid_combined'),
       Base.new(:platform, 'native_code')
     ]
 
@@ -276,9 +276,9 @@ class DefinitionsTest < Ohcount::Test
 			INLINE_PERL
 		)
     expected_gestalts = [
+      Base.new(:platform, 'moblin_misc'),
       Base.new(:platform, 'moblin'),
-      Base.new(:platform, 'moblin_all'),
-      Base.new(:platform, 'MID_combined'),
+      Base.new(:platform, 'mid_combined'),
       Base.new(:platform, 'native_code')
     ]
 
@@ -292,8 +292,8 @@ class DefinitionsTest < Ohcount::Test
 		)
     expected_gestalts = [
       Base.new(:platform, 'nbtk'),
-			Base.new(:platform, 'MID_combined'),
-      Base.new(:platform, 'moblin_all'),
+			Base.new(:platform, 'mid_combined'),
+      Base.new(:platform, 'moblin'),
       Base.new(:platform, 'native_code')
     ]
 
@@ -310,9 +310,9 @@ class DefinitionsTest < Ohcount::Test
 
     expected_gestalts = [
       Base.new(:java_import, 'android.app.Activity'),
-      Base.new(:platform,    'Java'),
+      Base.new(:platform,    'java'),
       Base.new(:platform,    'android'),
-      Base.new(:platform,    'MID_combined')
+      Base.new(:platform,    'mid_combined')
     ]
 
     assert_equal expected_gestalts.sort, java.gestalts.sort
@@ -334,8 +334,8 @@ class DefinitionsTest < Ohcount::Test
     )
 
     expected_gestalts = [
-      Base.new(:platform, 'iPhone'),
-      Base.new(:platform, 'MID_combined')
+      Base.new(:platform, 'iphone'),
+      Base.new(:platform, 'mid_combined')
     ]
 
     assert_equal expected_gestalts.sort, objective_c.gestalts.sort
@@ -350,7 +350,7 @@ class DefinitionsTest < Ohcount::Test
       Base.new(:platform, 'hildon'),
       Base.new(:platform, 'maemo'),
       Base.new(:platform, 'native_code'),
-      Base.new(:platform, 'MID_combined')
+      Base.new(:platform, 'mid_combined')
     ]
 
     assert_equal expected_gestalts.sort, c.gestalts.sort
@@ -362,7 +362,7 @@ class DefinitionsTest < Ohcount::Test
 		INLINE_MAKEFILE
     )
 		expected_gestalts = [
-      Base.new(:platform, 'xL_flag'),
+      Base.new(:platform, 'xl_flag'),
       Base.new(:platform, 'atom')
 		]
 		assert_equal expected_gestalts.sort, make.gestalts.sort
@@ -374,7 +374,7 @@ class DefinitionsTest < Ohcount::Test
 		INLINE_MAKEFILE
     )
 		expected_gestalts = [
-      Base.new(:platform, 'xL_flag'),
+      Base.new(:platform, 'xl_flag'),
       Base.new(:platform, 'atom')
 		]
 		assert_equal expected_gestalts.sort, make.gestalts.sort
@@ -419,8 +419,8 @@ import com.sun.identity.authentication;
 			INLINE_JAVA
 		)
     expected_gestalts = [
-      Base.new(:platform, 'Java'),
-      Base.new(:platform, 'OpenSSO'),
+      Base.new(:platform, 'java'),
+      Base.new(:platform, 'opensso'),
       Base.new(:java_import, 'com.sun.identity')
     ]
 
@@ -435,7 +435,7 @@ import com.sun.identity.authentication;
 		)
     expected_gestalts = [
       Base.new(:platform, 'windows_ce_incomplete'),
-      Base.new(:platform, 'Dot_NET'),
+      Base.new(:platform, 'dot_net'),
     ]
 
 		assert_equal expected_gestalts.sort, csharp.gestalts.sort
@@ -462,89 +462,6 @@ import com.sun.identity.authentication;
 		]
 		assert_equal expected_gestalts.sort, c.gestalts.sort
 	end
-
-  def test_jasper_jr
-		make = SourceFile.new("foo.java", :contents => <<-INLINE_JAVA
-      public class Employee implements Serializable {
-        private net.sf.jasperreports.report myReport;
-      }
-		INLINE_JAVA
-    )
-		expected_gestalts = [
-      Base.new(:platform, 'jasper_jr'),
-      Base.new(:platform, 'Java'),
-		]
-		assert_equal expected_gestalts.sort, make.gestalts.sort
-  end
-
-  def test_jasper_jr_pom
-		make = SourceFile.new("pom.xml", :contents => <<-INLINE_POM
-        <project>
-          <groupId>dzrealms</groupId>
-          <artifactId>HelloWorld</artifactId>
-          <version>1.0</version>
-          <dependencies>
-            <dependency>
-              <groupId>jgoodies</groupId>
-              <artifactId>plastic</artifactId>
-              <version>1.2.0</version>
-            </dependency>
-            <dependency>
-              <groupId>log4j</groupId>
-              <artifactId>log4j</artifactId>
-              <version>1.2.8</version>
-            </dependency>
-            <dependency>
-              <groupId>jasperreports</groupId>
-              <artifactId>jasperreports</artifactId>
-              <version>2.0.5</version>
-            </dependency>
-          </dependencies>
-          <build>
-            <sourceDirectory>src/main/java</sourceDirectory>
-            <unitTestSourceDirectory>src/test/java</unitTestSourceDirectory>
-            <unitTest>
-              <includes>
-                <include>**/*Test.java</include>
-              </includes>
-            </unitTest>
-          </build>
-        </project>
-    INLINE_POM
-    )
-		expected_gestalts = [
-      Base.new(:platform, 'jasper_jr'),
-		]
-		assert_equal expected_gestalts.sort, make.gestalts.sort
-  end
-
-  def test_jasper_jsce
-		make = SourceFile.new("foo.java", :contents => <<-INLINE_JAVA
-      public class Employee implements Serializable {
-        private com.jaspersoft.jasperserver;
-      }
-		INLINE_JAVA
-    )
-		expected_gestalts = [
-      Base.new(:platform, 'Java'),
-      Base.new(:platform, 'jasper_jsce')
-		]
-		assert_equal expected_gestalts.sort, make.gestalts.sort
-  end
-
-  def test_jasper_ji
-		make = SourceFile.new("foo.java", :contents => <<-INLINE_JAVA
-      public class Employee implements Serializable {
-        private com.jaspersoft.ji;
-      }
-		INLINE_JAVA
-    )
-		expected_gestalts = [
-      Base.new(:platform, 'Java'),
-      Base.new(:platform, 'jasper_ji')
-		]
-		assert_equal expected_gestalts.sort, make.gestalts.sort
-  end
 
 	def test_flash
 		as = SourceFile.new("sample.as", :contents => 'greet.text = "Hello, world";')

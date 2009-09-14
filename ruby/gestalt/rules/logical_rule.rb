@@ -65,6 +65,10 @@ module Ohcount
 				new_rule FilenameRule, *args
 			end
 
+			def keywords(*args)
+				new_rule KeywordRule, *([nil] << args)
+			end
+
 			def c_keywords(*args)
 				new_rule CKeywordRule, *args
 			end

@@ -6,26 +6,26 @@ class JavaDefinitionsTest < Ohcount::Test
 
 	def test_weblogic_via_maven
 		assert_gestalts 'weblogic_maven', [
-			Base.new(:platform, 'AppServer'),
-			Base.new(:platform, 'Java'),
-			Base.new(:platform, 'Maven'),
-			Base.new(:platform, 'WebLogic')
+			Base.new(:platform, 'appserver'),
+			Base.new(:platform, 'java'),
+			Base.new(:platform, 'maven'),
+			Base.new(:platform, 'weblogic')
 		]
   end
 
 	def test_weblogic_via_descriptor
 		assert_gestalts 'weblogic_descriptor', [
-			Base.new(:platform, 'AppServer'),
-			Base.new(:platform, 'Java'),
-			Base.new(:platform, 'WebLogic')
+			Base.new(:platform, 'appserver'),
+			Base.new(:platform, 'java'),
+			Base.new(:platform, 'weblogic')
 		]
   end
 
 	def test_webshpere_via_descriptor
 		assert_gestalts 'websphere', [
-			Base.new(:platform, 'AppServer'),
-			Base.new(:platform, 'Java'),
-			Base.new(:platform, 'WebSphere')
+			Base.new(:platform, 'appserver'),
+			Base.new(:platform, 'java'),
+			Base.new(:platform, 'websphere')
 		]
   end
 
@@ -36,9 +36,9 @@ class JavaDefinitionsTest < Ohcount::Test
 			JAVA
 		)
 		assert_equal [
-			Base.new(:platform, 'Java'),
-			Base.new(:platform, 'EJB3+'),
-			Base.new(:platform, 'EJB3.0')
+			Base.new(:platform, 'java'),
+			Base.new(:platform, 'ejb3+'),
+			Base.new(:platform, 'ejb3.0')
 		].sort, sf.gestalts.sort
 	end
 
@@ -52,9 +52,9 @@ class JavaDefinitionsTest < Ohcount::Test
 			JAVA
 		)
 		assert_equal [
-			Base.new(:platform, 'Java'),
-			Base.new(:platform, 'EJB3+'),
-			Base.new(:platform, 'EJB3.1')
+			Base.new(:platform, 'java'),
+			Base.new(:platform, 'ejb3+'),
+			Base.new(:platform, 'ejb3.1')
 		].sort, sf.gestalts.sort
 	end
 
@@ -66,9 +66,9 @@ class JavaDefinitionsTest < Ohcount::Test
 			JAVA
 		)
 		assert_equal [
-			Base.new(:platform, 'Java'),
-			Base.new(:platform, 'EJB3+'),
-			Base.new(:platform, 'EJB3.1')
+			Base.new(:platform, 'java'),
+			Base.new(:platform, 'ejb3+'),
+			Base.new(:platform, 'ejb3.1')
 		].sort, sf.gestalts.sort
 	end
 
