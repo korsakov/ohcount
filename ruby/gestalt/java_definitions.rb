@@ -1,14 +1,6 @@
 module Ohcount
 	module Gestalt
 
-		define_java_jar do
-      find_filenames /([^\\^\/]*\.jar)/i, :name_from_match => 1
-		end
-
-    define_java_import do
-      find_java_imports
-    end
-
 		# Java Application Servers
 
 		define_platform 'glassfish' do
