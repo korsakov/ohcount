@@ -48,18 +48,6 @@ class DefinitionsTest < Ohcount::Test
     ]
 	end
 
-	def test_wpf
-		assert_gestalts 'wpf', [
-      Base.new(:platform, 'wpf')
-    ]
-	end
-
-	def test_asp_net
-		assert_gestalts 'asp_net', [
-      Base.new(:platform, 'asp_net')
-    ]
-	end
-
 	def test_ruby_just_enough
 		assert_gestalts 'ruby_just_enough', [
       Base.new(:platform, 'ruby'),
