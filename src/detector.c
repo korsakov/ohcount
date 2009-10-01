@@ -452,14 +452,16 @@ const char *disambiguate_in(SourceFile *sourcefile) {
 
 const char *disambiguate_inc(SourceFile *sourcefile) {
   char *p = ohcount_sourcefile_get_contents(sourcefile);
-  char *eof = p + strlen(p);
-  while (p < eof) {
-    if (*p == '\0')
-      return BINARY;
-    else if (*p == '?' && strncmp(p + 1, "php", 3) == 0)
-      return LANG_PHP;
-    p++;
-  }
+	if (p) {
+		char *eof = p + strlen(p);
+		while (p < eof) {
+			if (*p == '\0')
+				return BINARY;
+			else if (*p == '?' && strncmp(p + 1, "php", 3) == 0)
+				return LANG_PHP;
+			p++;
+		}
+	}
   return NULL;
 }
 
