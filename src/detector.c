@@ -437,6 +437,9 @@ const char *disambiguate_in(SourceFile *sourcefile) {
     buf[length] = '\0';
     SourceFile *undecorated = ohcount_sourcefile_new(buf);
     p = ohcount_sourcefile_get_contents(sourcefile);
+		if (!p) {
+			return NULL;
+		}
     // The filepath without the '.in' extension does not exist on disk. The
     // sourcefile->diskpath field must be set incase the detector needs to run
     // 'file -b' on the file.
