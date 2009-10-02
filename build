@@ -114,7 +114,7 @@ run_test_suite()
 
 build_ruby_bindings()
 {
-	arch=`ruby -rmkmf -e 'print Config::expand(CONFIG["arch"])'`
+	arch=`ruby/print_arch`
 	echo "Generating Ruby bindings for $arch"
 	sh -c "swig -ruby -o ruby/ohcount_wrap.c ruby/ohcount.i" || exit 1
 	mkdir -p ruby/$arch
