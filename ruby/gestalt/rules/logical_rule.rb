@@ -85,10 +85,6 @@ module Ohcount
         new_rule FindFilenamesRule, *args
       end
 
-      def find_java_imports(*args)
-        new_rule FindJavaImportsRule, *args
-      end
-
 			def method_missing(m,*args, &block)
 				if m.to_s =~ /^(.*)_keywords$/
 					language = $1

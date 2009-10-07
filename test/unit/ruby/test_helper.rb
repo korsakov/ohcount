@@ -47,11 +47,15 @@ class Ohcount::Test < Test::Unit::TestCase
   end
 
 	def assert_gestalts(path, expected_gestalts)
+    assert_equal expected_gestalts.sort, get_gestalts(path)
+  end
+
+	def get_gestalts(path)
 		sfl = SourceFileList.new(:paths => [test_dir(path)])
 		assert sfl.size > 0
 		sfl.analyze(:gestalt)
-    assert_equal expected_gestalts.sort, sfl.gestalts.sort
-  end
+		sfl.gestalts.sort
+	end
 
 	def test_dir(d)
 		File.expand_path(File.dirname(__FILE__) + "/../../gestalt_files/#{ d }")

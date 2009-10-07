@@ -31,10 +31,7 @@ class DefinitionsTest < Ohcount::Test
 	def test_eclipse_platform
 		assert_gestalts 'eclipse_platform', [
       Base.new(:platform,'java'),
-      Base.new(:platform,'eclipseplatform'),
-      Base.new(:java_import,"java.text.SimpleDateFormat"),
-      Base.new(:java_import,"java.util.Map"),
-      Base.new(:java_import,"org.eclipse.core")
+      Base.new(:platform,'eclipseplatform')
     ]
 	end
 
@@ -48,18 +45,6 @@ class DefinitionsTest < Ohcount::Test
 		assert_gestalts 'win32_enough', [
       Base.new(:platform, 'win32'),
       Base.new(:platform, 'native_code')
-    ]
-	end
-
-	def test_wpf
-		assert_gestalts 'wpf', [
-      Base.new(:platform, 'wpf')
-    ]
-	end
-
-	def test_asp_net
-		assert_gestalts 'asp_net', [
-      Base.new(:platform, 'asp_net')
     ]
 	end
 
@@ -100,8 +85,7 @@ class DefinitionsTest < Ohcount::Test
 	def test_spring_framework
 		assert_gestalts 'spring_framework', [
       Base.new(:platform, 'java'),
-      Base.new(:platform, 'springframework'),
-      Base.new(:java_jar, 'spring.jar'),
+      Base.new(:platform, 'springframework')
     ]
 	end
 
@@ -173,24 +157,6 @@ class DefinitionsTest < Ohcount::Test
 		assert_tool('netbeans', :netbeans)
 	end
 
-	def test_java_imports_from_java_file
-    java = SourceFile.new("foo.java", :contents => <<-INLINE_C
-      import com.foo;
-      import net.ohloh;
-      import com.foo;
-			// import dont.import.this;
-      INLINE_C
-    )
-
-    expected_gestalts = [
-      Base.new(:java_import, 'com.foo', 2),
-      Base.new(:java_import, 'net.ohloh'),
-      Base.new(:platform,    'java'),
-    ]
-
-    assert_equal expected_gestalts.sort, java.gestalts.sort
-	end
-
 	def test_arm
     asm = SourceFile.new("foo.S", :contents => <<-INLINE_ASM
 			orrs 3, eax
@@ -228,16 +194,6 @@ class DefinitionsTest < Ohcount::Test
     ]
 
     assert_equal expected_gestalts.sort, asm.gestalts.sort
-	end
-
-	def test_imports_from_java_file
-    jar = SourceFile.new("foo/foo.jar", :contents => '')
-
-    expected_gestalts = [
-      Base.new(:java_jar, 'foo.jar'),
-    ]
-
-    assert_equal expected_gestalts.sort, jar.gestalts.sort
 	end
 
 	def test_moblin_clutter
@@ -308,14 +264,10 @@ class DefinitionsTest < Ohcount::Test
       INLINE_C
     )
 
-    expected_gestalts = [
-      Base.new(:java_import, 'android.app.Activity'),
-      Base.new(:platform,    'java'),
-      Base.new(:platform,    'android'),
-      Base.new(:platform,    'mid_combined')
-    ]
-
-    assert_equal expected_gestalts.sort, java.gestalts.sort
+		names = java.gestalts.map { |g| g.name if g.type == :platform }.compact
+		assert names.include?('java')
+		assert names.include?('android')
+		assert names.include?('mid_combined')
 	end
 
 	def test_iphone
@@ -418,13 +370,9 @@ class DefinitionsTest < Ohcount::Test
 import com.sun.identity.authentication;
 			INLINE_JAVA
 		)
-    expected_gestalts = [
-      Base.new(:platform, 'java'),
-      Base.new(:platform, 'opensso'),
-      Base.new(:java_import, 'com.sun.identity')
-    ]
-
-    assert_equal expected_gestalts.sort, java.gestalts.sort
+		platforms = java.gestalts.map { |g| g.name if g.type == :platform }.compact
+		assert platforms.include?('java')
+		assert platforms.include?('opensso')
 	end
 
 	def test_windows_ce

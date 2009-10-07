@@ -29,7 +29,7 @@ module Ohcount
     define_platform 'jasper_reports_java' do
 			_or do
 				maven_dependency /jasperreports/
-    	  java_keywords '\bnet\.sf\.jasperreports\b'
+				java_keywords '\bnet\.sf\.jasperreports\b'
 			end
     end
 
