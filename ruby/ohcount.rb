@@ -7,9 +7,8 @@ $: << File.expand_path(File.dirname(__FILE__))
 begin
 	require 'ohcount.so'
 rescue LoadError
-	require 'rbconfig'
-	include Config
-	require "#{Config::CONFIG['arch']}/ohcount.so"
+	print_arch = `#{File.dirname(__FILE__)}/print_arch`.strip
+	require "#{print_arch}/ohcount.so"
 end
 
 module Ohcount

@@ -3,9 +3,9 @@ require 'mkmf'
 
 arch = Config::expand(CONFIG["arch"])
 
-distro = if File.exist?("/etc/issue") 
-	# this is "", "CentOS" or "Ubuntu" 
-	`cat /etc/issue`.split.first.downcase
+distro = if File.exist?("/etc/issue")
+  # this is "", "CentOS" or "Ubuntu"
+  `cat /etc/issue`.split.first.downcase
 end
 
 unless ["centos", nil, "ubuntu"].include? distro

@@ -40,6 +40,9 @@ fi
 # C compiler and flags
 cc="gcc -fPIC -g $CFLAGS $WARN -I$INC_DIR -L$LIB_DIR"
 
+# ARCHITECTURE
+arch=`ruby/print_arch`
+
 # Ohcount source files
 files="src/sourcefile.c \
        src/detector.c \
@@ -114,7 +117,6 @@ run_test_suite()
 
 build_ruby_bindings()
 {
-	arch=`ruby/print_arch`
 	echo "Generating Ruby bindings for $arch"
 	sh -c "swig -ruby -o ruby/ohcount_wrap.c ruby/ohcount.i" || exit 1
 	mkdir -p ruby/$arch
@@ -156,7 +158,7 @@ then
   rm -f src/hash/*.c
   rm -f src/$SHARED_NAME
   rm -f ruby/$RB_SHARED_NAME
-  rm -rf ruby/`ruby -rmkmf -e 'print Config::expand(CONFIG["arch"])'`/*
+  rm -rf ruby/$arch/*
 else
   echo "Usage: build [all|ohcount|shared|tests|ruby|clean]"
 fi
