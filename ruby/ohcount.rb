@@ -3,13 +3,9 @@
 # Ohcount module tweaked for use by Ohloh.
 
 $: << File.expand_path(File.dirname(__FILE__))
+$: << "#{File.expand_path(File.dirname(__FILE__))}/#{`#{File.dirname(__FILE__)}/print_arch`.strip}"
 
-begin
-	require 'ohcount.so'
-rescue LoadError
-	print_arch = `#{File.dirname(__FILE__)}/print_arch`.strip
-	require "#{print_arch}/ohcount.so"
-end
+require 'ohcount.so'
 
 module Ohcount
   class SourceFile
