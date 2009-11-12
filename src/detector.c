@@ -150,7 +150,6 @@ const char *ohcount_detect_language(SourceFile *sourcefile) {
       remove(path);
       free(path);
     }
-    pclose(f);
     if (language)
       return language;
   }
