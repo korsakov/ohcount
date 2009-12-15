@@ -11,7 +11,7 @@ module Ohcount
 			end
 
 			def process_source_file(source_file)
-				@count += 1 if regex.match(source_file.filename)
+				@count += 1 if regex.match(source_file.filepath)
 			end
 
 			def regex

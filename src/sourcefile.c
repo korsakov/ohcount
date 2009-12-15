@@ -388,7 +388,6 @@ void ohcount_sourcefile_list_add_directory(SourceFileList *list,
         ohcount_sourcefile_list_add_file(list, filepath);
     }
     closedir(d);
-    ohcount_sourcefile_list_add_file(list, directory);
   }
 }
 
