@@ -173,7 +173,7 @@ void individual(SourceFileList *list) {
       printf(" %10d", liter->loc->blanks);
       printf(" %10d",
              liter->loc->code + liter->loc->comments + liter->loc->blanks);
-      printf("  %s\n", iter->sf->filename);
+      printf("  %s\n", iter->sf->filepath);
       liter = liter->next;
     }
     iter = iter->next;
