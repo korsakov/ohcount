@@ -347,7 +347,7 @@ const char *disambiguate_fortran(SourceFile *sourcefile) {
 }
 
 const char *disambiguate_h(SourceFile *sourcefile) {
-  char *p, *pe;
+  char *p, *pe, *bof;
   int length;
 
   // If the directory contains a matching *.m file, likely Objective C.
@@ -368,7 +368,8 @@ const char *disambiguate_h(SourceFile *sourcefile) {
 
   // Attempt to detect based on file contents.
   char line[81], buf[81];
-  p = ohcount_sourcefile_get_contents(sourcefile);
+  bof = ohcount_sourcefile_get_contents(sourcefile);
+  p = bof;
   pe = p;
   char *eof = p + ohcount_sourcefile_get_contents_size(sourcefile);
   while (pe < eof) {
@@ -415,7 +416,7 @@ const char *disambiguate_h(SourceFile *sourcefile) {
     // Look for C++ keywords.
     p = line;
     while (p < eol) {
-      if (islower(*p) && p != line && !isalnum(*(p - 1)) && *(p - 1) != '_') {
+      if (islower(*p) && p != bof && !isalnum(*(p - 1)) && *(p - 1) != '_') {
         pe = p;
         while (islower(*pe)) pe++;
         if (!isalnum(*pe) && *pe != '_') {
