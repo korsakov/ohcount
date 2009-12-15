@@ -131,6 +131,7 @@ void test_detector_no_extensions() {
   ASSERT_DETECT(LANG_TCL, "tcl_script");
   ASSERT_DETECT(LANG_PYTHON, "python.data");
   ASSERT_DETECT(LANG_PYTHON, "python2.data");
+  ASSERT_DETECT(LANG_CPP, "uses_cpp_modeline");
 }
 
 void test_detector_csharp_or_clearsilver() {
