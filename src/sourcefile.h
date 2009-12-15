@@ -155,27 +155,6 @@ LocDelta *ohcount_sourcefile_calc_loc_delta(SourceFile *from,
                                             SourceFile *to);
 
 /**
- * Sets the given SourceFile's directory contents to the string array given.
- * The given array is copied and may be 'free'd immediately.
- * @param sourcefile A SourceFile created by ohcount_sourcefile_new().
- * @param filenames String array of filenames. If NULL, the next call to
- *   ohcount_sourcefile_get_filenames will access the SourceFile's directory.
- */
-void ohcount_sourcefile_set_filenames(SourceFile *sourcefile,
-                                      char **filenames);
-
-/**
- * Returns a string array of the given SourceFile's directory contents.
- * If the existing 'filenames' field is NULL, the directory is accessed and its
- * listing is returned.
- * The returned pointer and its contents are used internally and must not be
- * 'free'd.
- * @param sourcefile A SourceFile created by ohcount_sourcefile_new().
- * @return pointer to a list of filenames (NULL-pointer terminated).
- */
-char **ohcount_sourcefile_get_filenames(SourceFile *sourcefile);
-
-/**
  * Frees a SourceFile created by ohcount_sourcefile_new().
  * @param sourcefile A SourceFile created by ohcount_sourcefile_new().
  */

@@ -256,7 +256,7 @@ const char *disambiguate_basic(SourceFile *sourcefile) {
   }
 
   // Attempt to detect from associated VB files in file context.
-  char **filenames = ohcount_sourcefile_get_filenames(sourcefile);
+  char **filenames = sourcefile->filenames;
   if (filenames) {
     int i;
     for (i = 0; filenames[i] != NULL; i++) {
@@ -338,7 +338,7 @@ const char *disambiguate_h(SourceFile *sourcefile) {
     strncpy(path, sourcefile->filename, length);
     path[length] = '\0';
     *(path + length - 1) = 'm';
-    char **filenames = ohcount_sourcefile_get_filenames(sourcefile);
+    char **filenames = sourcefile->filenames;
     if (filenames) {
       int i;
       for (i = 0; filenames[i] != NULL; i++)
@@ -446,8 +446,7 @@ const char *disambiguate_in(SourceFile *sourcefile) {
     // 'file -b' on the file.
     ohcount_sourcefile_set_diskpath(undecorated, sourcefile->filepath);
     ohcount_sourcefile_set_contents(undecorated, p);
-    char **filenames = ohcount_sourcefile_get_filenames(sourcefile);
-    ohcount_sourcefile_set_filenames(undecorated, filenames);
+		undecorated->filenames = sourcefile->filenames;
     language = ohcount_sourcefile_get_language(undecorated);
     ohcount_sourcefile_free(undecorated);
   }
@@ -480,7 +479,7 @@ const char *disambiguate_m(SourceFile *sourcefile) {
   int octave_syntax_detected = 0;
 
   int i, has_h_headers = 0, has_c_files = 0;
-  char **filenames = ohcount_sourcefile_get_filenames(sourcefile);
+  char **filenames = sourcefile->filenames;
   if (filenames) {
     for (i = 0; filenames[i] != NULL; i++) {
       p = filenames[i];

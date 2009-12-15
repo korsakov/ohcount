@@ -303,10 +303,7 @@ typedef struct {
    */
   LocList *loc_list;
 
-  /**
-   * A string array of all filenames in this file's directory.
-   * Do not use this field. Use ohcount_sourcefile_get_filenames() instead.
-   */
+  /** A string array of all filenames in this file's directory. */
   char **filenames;
 
 } SourceFile;

@@ -319,61 +319,9 @@ LocDelta *ohcount_sourcefile_calc_loc_delta(SourceFile *from_file,
   return delta;
 }
 
-void ohcount_sourcefile_set_filenames(SourceFile *sourcefile,
-                                      char **filenames) {
-  if (sourcefile->filenames) {
-    int i = 0;
-    while (sourcefile->filenames[i])
-      free(sourcefile->filenames[i++]);
-    free(sourcefile->filenames);
-  }
-
-  if (filenames != NULL) {
-    int length = 0;
-    while (filenames[length] != NULL) length++;
-    char **fnames = calloc(length + 1, sizeof(char *));
-
-    int i;
-    for (i = 0; i < length; i++) {
-      int len = strlen(filenames[i]);
-      char *fname = malloc(len + 1);
-      strncpy(fname, filenames[i], len);
-      fname[len] = '\0';
-      fnames[i] = fname;
-    }
-    sourcefile->filenames = fnames;
-  } else sourcefile->filenames = NULL;
-}
-
-char **ohcount_sourcefile_get_filenames(SourceFile *sourcefile) {
-  if (sourcefile->filenames == NULL) {
-    char dirpath[FILENAME_MAX];
-    strncpy(dirpath, sourcefile->filepath, sourcefile->dirpath);
-    dirpath[sourcefile->dirpath] = '\0';
-    struct dirent *file;
-    DIR *d = opendir((const char *)dirpath);
-    if (d) {
-      int length = 0;
-      while ((file = readdir(d))) length++;
-      closedir(d);
-
-      char **filenames = calloc(length + 1, sizeof(char *));
-      int i = 0;
-      d = opendir((const char *)dirpath);
-      while ((file = readdir(d))) {
-        int len = strlen(file->d_name);
-        char *filename = malloc(len + 1);
-        strncpy(filename, file->d_name, len);
-        filename[len] = '\0';
-        filenames[i++] = filename;
-      }
-      closedir(d);
-      sourcefile->filenames = filenames;
-    }
-  }
-  return sourcefile->filenames;
-}
-
+/* NOTE! Does not free sourcefile->filenames.
+ * Calling code is responsible for alloc+free of filenames.
+ */
 void ohcount_sourcefile_free(SourceFile *sourcefile) {
   free(sourcefile->filepath);
   if (sourcefile->diskpath)
@@ -386,12 +334,6 @@ void ohcount_sourcefile_free(SourceFile *sourcefile) {
     ohcount_license_list_free(sourcefile->license_list);
   if (sourcefile->loc_list)
     ohcount_loc_list_free(sourcefile->loc_list);
-  if (sourcefile->filenames) {
-    int i = 0;
-    while (sourcefile->filenames[i])
-      free(sourcefile->filenames[i++]);
-    free(sourcefile->filenames);
-  }
   free(sourcefile);
 }
 

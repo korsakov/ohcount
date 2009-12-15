@@ -64,9 +64,8 @@
     char **fnames = calloc(length + 1, sizeof(char *));
     VALUE *iter = RARRAY(filenames)->ptr;
     for (i = 0; i < length; i++, iter++)
-      fnames[i] = STR2CSTR(*iter);
-    ohcount_sourcefile_set_filenames(self, fnames);
-    free(fnames);
+      fnames[i] = StringValuePtr(*iter);
+    self->filenames = fnames;
   }
   SourceFile(const char *filepath, VALUE opt_hash=NULL) {
     SourceFile *sourcefile = ohcount_sourcefile_new(filepath);
@@ -85,6 +84,8 @@
     return sourcefile;
   }
   ~SourceFile() {
+    if (self->filenames)
+      free(self->filenames);
     ohcount_sourcefile_free(self);
   }
 };

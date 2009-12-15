@@ -2,6 +2,7 @@
 // See COPYING for license information.
 
 #include <assert.h>
+#include <dirent.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -9,8 +10,38 @@
 #include "../../src/languages.h"
 #include "../../src/sourcefile.h"
 
+char **get_filenames(SourceFile *sourcefile) {
+	if (sourcefile->filenames == NULL) {
+		char dirpath[FILENAME_MAX];
+		strncpy(dirpath, sourcefile->filepath, sourcefile->dirpath);
+		dirpath[sourcefile->dirpath] = '\0';
+		struct dirent *file;
+		DIR *d = opendir((const char *)dirpath);
+		if (d) {
+			int length = 0;
+			while ((file = readdir(d))) length++;
+			closedir(d);
+
+			char **filenames = calloc(length + 1, sizeof(char *));
+			int i = 0;
+			d = opendir((const char *)dirpath);
+			while ((file = readdir(d))) {
+				int len = strlen(file->d_name);
+				char *filename = malloc(len + 1);
+				strncpy(filename, file->d_name, len);
+				filename[len] = '\0';
+				filenames[i++] = filename;
+			}
+			closedir(d);
+			sourcefile->filenames = filenames;
+		}
+	}
+	return sourcefile->filenames;
+}
+
 #define ASSERT_DETECT(x, y) { \
   SourceFile *sf = ohcount_sourcefile_new("../detect_files/" y); \
+	get_filenames(sf); \
   const char *lang = ohcount_detect_language(sf); \
   assert(lang); \
   assert(strcmp(x, lang) == 0); \
@@ -18,6 +49,7 @@
 }
 #define ASSERT_NODETECT(x) { \
   SourceFile *sf = ohcount_sourcefile_new("../detect_files/" x); \
+	get_filenames(sf); \
   assert(ohcount_detect_language(sf) == NULL); \
   ohcount_sourcefile_free(sf); \
 }

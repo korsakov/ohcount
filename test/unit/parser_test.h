@@ -213,9 +213,9 @@ void test_parser_verify_parses() {
           if (strcmp(s_p, "visual_basic.bas") == 0)
             // This file needs frx1.frx in the directory contents to be
             // detected as Visual Basic.
-            ohcount_sourcefile_set_filenames(sf, test_basic_vb_filenames);
+						sf->filenames = test_basic_vb_filenames;
           else
-            ohcount_sourcefile_set_filenames(sf, test_parser_filenames);
+						sf->filenames = test_parser_filenames;
 
           TestParserUData *udata = malloc(sizeof(TestParserUData));
           udata->sf = sf;

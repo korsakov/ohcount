@@ -7,10 +7,10 @@ ON BUILDING AND REFERING TO THE DOXYGEN DOCS.
 Ohloh/SourceForge's source code line counter.
 
 This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License Version 3 as
+it under the terms of the GNU General Public License Version 2 as
 published by the Free Software Foundation.
 
-Ohcount is licensed under the GNU General Public License Version 3.
+Ohcount is specifically licensed under GPL v2.0, and no later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
