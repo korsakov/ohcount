@@ -87,4 +87,4 @@ Read http://labs.ohloh.net/ohcount/wiki/HowToSubmitPatches for information about
 
 DEPENDENCIES
 ============
-SWIG, pcre, ragel, bash
+SWIG, pcre, ragel, gperf, bash
