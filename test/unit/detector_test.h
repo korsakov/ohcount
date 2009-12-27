@@ -109,7 +109,7 @@ void test_detector_detect_polyglot() {
   ASSERT_DETECT(LANG_GLSL, "foo.glsl");
   ASSERT_DETECT(LANG_GLSL, "foo_glsl.vert");
   ASSERT_DETECT(LANG_GLSL, "foo_glsl.frag");
-	ASSERT_DETECT(LANG_IDL_PVWAVE, "foo.pro");
+  ASSERT_DETECT(LANG_IDL_PVWAVE, "foo.pro");
   ASSERT_DETECT(LANG_ASSEMBLER, "foo.z80");
   ASSERT_DETECT(LANG_PHP, "php.inc");
   ASSERT_NODETECT("empty.inc");
@@ -152,6 +152,11 @@ void test_detector_xml_with_custom_extension() {
   ASSERT_DETECT(LANG_XML, "xml.custom_ext");
 }
 
+void test_detector_brainfuck() {
+  ASSERT_DETECT(LANG_BRAINFUCK, "foo.bf");
+  ASSERT_DETECT(LANG_BFPP, "foo.bfpp");
+}
+
 void all_detector_tests() {
   test_detector_smalltalk();
   test_detector_disambiguate_m();
@@ -164,4 +169,5 @@ void all_detector_tests() {
   test_detector_csharp_or_clearsilver();
   test_detector_basic();
   test_detector_xml_with_custom_extension();
+  test_detector_brainfuck();
 }

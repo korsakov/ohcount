@@ -22,6 +22,8 @@ awk, LANG_AWK
 b, DISAMBIGUATE("b")
 bas, DISAMBIGUATE("basic")
 bat, LANG_BAT
+bf, LANG_BRAINFUCK
+bfpp, LANG_BFPP
 bi, DISAMBIGUATE("basic")
 bmp, BINARY
 bmx, LANG_BLITZMAX
