@@ -6,6 +6,10 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
+
 #include "detector.h"
 #include "diff.h"
 #include "languages.h"
@@ -374,17 +378,15 @@ void ohcount_sourcefile_list_add_directory(SourceFileList *list,
   DIR *d = opendir(directory);
   if (d) {
     while ((file = readdir(d))) {
+      struct stat st;
       int length = strlen(file->d_name);
       strncpy(f_p, (const char *)file->d_name, length);
       *(f_p + length) = '\0';
 
-      if (file->d_type == DT_DIR && *file->d_name != '.') // no hidden dirs
+      stat(filepath, &st);
+      if (S_ISDIR(st.st_mode) && *file->d_name != '.') // no hidden dirs
         ohcount_sourcefile_list_add_directory(list, filepath);
-      else if (file->d_type == DT_REG
-#ifdef TMP_FILES_ARE_DT_UNKNOWN
-               || file->d_type == DT_UNKNOWN
-#endif
-					)
+      else if (S_ISREG(st.st_mode))
         ohcount_sourcefile_list_add_file(list, filepath);
     }
     closedir(d);
