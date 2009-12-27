@@ -2,6 +2,11 @@
 #include <unistd.h>
 #include <errno.h>
 
+#ifdef _WIN32
+# include <fcntl.h>
+# define mkstemp(p) _open(_mktemp(p), _O_CREAT | _O_SHORT_LIVED | _O_EXCL)
+#endif
+
 /*
  * The bulk of this software is derived from Plan 9 and is thus distributed
  * under the Lucent Public License, Version 1.02, reproduced below.

@@ -20,6 +20,11 @@
 #define ISAMBIGUOUS(x) (x[0] == '\2')
 #define DISAMBIGUATEWHAT(x) &x[1]
 
+#ifdef _WIN32
+# include <fcntl.h>
+# define mkstemp(p) _open(_mktemp(p), _O_CREAT | _O_SHORT_LIVED | _O_EXCL)
+#endif
+
 const char *ohcount_detect_language(SourceFile *sourcefile) {
   const char *language = NULL;
   char *p, *pe;
