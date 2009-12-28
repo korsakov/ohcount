@@ -83,6 +83,7 @@ void test_parser_verify_entity(SourceFile *sf, const char *entity,
 #include "parsers/test_bat.h"
 #include "parsers/test_blitzmax.h"
 #include "parsers/test_boo.h"
+#include "parsers/test_brainfuck.h"
 #include "parsers/test_c.h"
 #include "parsers/test_clearsilvertemplate.h"
 #include "parsers/test_clearsilver.h"
@@ -255,6 +256,7 @@ void all_parser_tests() {
   all_bat_tests();
   all_blitzmax_tests();
   all_boo_tests();
+  all_brainfuck_tests();
   all_c_tests();
   all_clearsilver_template_tests();
   all_clearsilver_tests();
