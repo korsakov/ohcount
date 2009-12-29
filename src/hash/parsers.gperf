@@ -9,6 +9,7 @@
 #include "../parsers/blitzmax.h"
 #include "../parsers/boo.h"
 #include "../parsers/brainfuck.h"
+#include "../parsers/bfpp.h"
 #include "../parsers/c.h"
 #include "../parsers/classic_basic.h"
 #include "../parsers/clearsilver.h"
@@ -90,6 +91,7 @@ bat, parse_bat
 blitzmax, parse_blitzmax
 boo, parse_boo
 brainfuck, parse_brainfuck
+bfpp, parse_bfpp
 c, parse_c
 cmake, parse_cmake
 classic_basic, parse_classic_basic
