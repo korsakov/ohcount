@@ -720,6 +720,16 @@ License license_map[] = {
     PCRE_MULTILINE,
     NULL, NULL
   },
+  {
+    LIC_WTFPL2,
+    "",
+    "WTF Public License",
+    "(\\bwtfpl\\b)|(\\bwtf\\s*public\\s*license\\b)|(\\b(do\\s*)?what\\s*the\\s*\\fuck\\s*public\\s*license\\b)",
+    PCRE_CASELESS,
+    NULL,
+    0,
+    NULL, NULL
+  },
   { NULL, NULL, NULL, NULL, 0, NULL, 0, NULL, NULL },
 };
 int license_map_length = 0; // will be set dynamically
