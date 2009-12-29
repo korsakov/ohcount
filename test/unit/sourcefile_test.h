@@ -214,6 +214,29 @@ void test_sourcefile_list_language_facts() {
   ohcount_loc_list_free(list);
 }
 
+#define FALSE 0
+#define TRUE 1
+char *tmp_file_from_buf(const char *buf);
+
+void test_tmp_dir() {
+	char buf[] = "This is just some bogus text.";
+	char *tmp_path = tmp_file_from_buf(buf);
+
+	SourceFileList *list = ohcount_sourcefile_list_new();
+	ohcount_sourcefile_list_add_directory(list, "/tmp");
+	int has_tmp = FALSE;
+	SourceFileList *iter = list->head;
+
+	for (; iter != NULL; iter = iter->next) {
+		if (strcmp(iter->sf->filepath, tmp_path) == 0) {
+			has_tmp = TRUE;
+			break;
+		}
+	}
+	assert(has_tmp);
+}
+
+
 void all_sourcefile_tests() {
   test_sourcefile_initialize();
   test_sourcefile_language_breakdowns();
@@ -224,4 +247,5 @@ void all_sourcefile_tests() {
   test_sourcefile_calc_diff();
 
   test_sourcefile_list_language_facts();
+	test_tmp_dir();
 }
