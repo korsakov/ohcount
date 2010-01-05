@@ -202,7 +202,7 @@ void test_parser_verify_parses() {
         strncpy(e_p, (const char *)file->d_name, length);
         *(e_p + length) = '\0';
 
-        FILE *f = fopen((const char *)expected, "r");
+        FILE *f = fopen((const char *)expected, "rb");
         if (f) {
           SourceFile *sf = ohcount_sourcefile_new((const char *)src);
 
