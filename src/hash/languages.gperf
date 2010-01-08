@@ -12,6 +12,8 @@ awk, LANG_AWK, "AWK", 0
 bat, LANG_BAT, "DOS batch script", 0
 blitzmax, LANG_BLITZMAX, "BlitzMax", 0
 boo, LANG_BOO, "Boo", 0
+brainfuck, LANG_BRAINFUCK, "Brainfuck", 0
+bfpp, LANG_BFPP, "Brainfuck++", 0
 c, LANG_C, "C", 0
 classic_basic, LANG_CLASSIC_BASIC, "Classic Basic", 0
 clearsilver, LANG_CLEARSILVER, "ClearSilver", 0

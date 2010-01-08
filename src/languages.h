@@ -12,6 +12,8 @@
 #define LANG_AUTOCONF "autoconf"
 #define LANG_AUTOMAKE "automake"
 #define LANG_AWK "awk"
+#define LANG_BRAINFUCK "brainfuck"
+#define LANG_BFPP "bfpp"
 #define LANG_BAT "bat"
 #define LANG_BLITZMAX "blitzmax"
 #define LANG_BOO "boo"

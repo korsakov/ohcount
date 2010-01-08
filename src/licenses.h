@@ -95,6 +95,7 @@
 #define LIC_APACHE_ISH "apache_ish"
 #define LIC_BSD_ISH "bsd_ish"
 #define LIC_BSD_2CLAUSE_ISH "bsd_2clause_ish"
+#define LIC_WTFPL2 "wtfpl_2"
 
 /**
  * Attempts to detect the source code licenses for a given file.

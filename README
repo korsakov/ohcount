@@ -92,4 +92,4 @@ To build the python wrapper, run "python python/setup.py build; python python/se
 
 DEPENDENCIES
 ============
-SWIG, pcre, ragel, bash
+SWIG, pcre, ragel, gperf, bash
