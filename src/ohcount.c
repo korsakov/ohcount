@@ -272,7 +272,7 @@ int main(int argc, char *argv[]) {
       ohcount_sourcefile_list_add_directory(list, argv[i]);
       closedir(dir);
     } else {
-      FILE *f = fopen(argv[i], "r");
+      FILE *f = fopen(argv[i], "rb");
       if (f) {
         ohcount_sourcefile_list_add_file(list, argv[i]);
         fclose(f);

@@ -84,7 +84,7 @@ char *ohcount_sourcefile_get_contents(SourceFile *sourcefile) {
     char *path = sourcefile->filepath;
     if (sourcefile->diskpath)
       path = sourcefile->diskpath;
-    FILE *f = fopen(path, "r");
+    FILE *f = fopen(path, "rb");
     if (f) {
       fseek(f, 0, SEEK_END);
       int size = ftell(f);
