@@ -18,7 +18,6 @@ then
 
   # You shouldn't have to change the following.
   CFLAGS=-O3
-  CFLAGS="$CFLAGS -DTMP_FILES_ARE_DT_UNKNOWN" # workaround bug on centos/SF servers
   WARN="-Wall -Wno-pointer-to-int-cast -Wno-parentheses"
   SHARED=-shared
   SHARED_NAME=libohcount.so
