@@ -86,6 +86,15 @@
  * You may then link or copy 'ruby/ohcount.{rb,so}' and 'ruby/gestalt{/,.rb}'
  * to the appropriate places in your Ruby installation.
  *
+ * Building the Doxygen docs requires:
+ *
+ * @li Doxygen - http://www.doxygen.org/
+ *
+ * @code
+ * $ cd doc
+ * $ Doxygen Doxyfile
+ * @endcode
+ *
  * @section start First Steps
  *
  * To measure lines of code, simply pass file or directory names to the
