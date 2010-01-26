@@ -64,6 +64,7 @@
  * @li Ragel 6.3 or later - http://research.cs.queensu.ca/~thurston/ragel/
  * @li GNU gperf - http://www.gnu.org/software/gperf/
  * @li PCRE - http://pcre.sourceforge.net/
+ * @li Bash - http://www.gnu.org/software/bash/
  *
  * Run the 'build' script to build Ohcount.
  *
