@@ -124,7 +124,7 @@
  *
  * @section contact Contact Ohloh
  *
- * For more information visit the Ohloh website: http://labs.ohloh.net
+ * For more information visit the Ohloh website: https://sourceforge.net/projects/ohcount
  *
  * You can reach Ohloh via email at: info@ohloh.net
  */
