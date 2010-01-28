@@ -64,6 +64,7 @@
  * @li Ragel 6.3 or later - http://research.cs.queensu.ca/~thurston/ragel/
  * @li GNU gperf - http://www.gnu.org/software/gperf/
  * @li PCRE - http://pcre.sourceforge.net/
+ * @li Bash - http://www.gnu.org/software/bash/
  *
  * Run the 'build' script to build Ohcount.
  *
@@ -84,6 +85,15 @@
  *
  * You may then link or copy 'ruby/ohcount.{rb,so}' and 'ruby/gestalt{/,.rb}'
  * to the appropriate places in your Ruby installation.
+ *
+ * Building the Doxygen docs requires:
+ *
+ * @li Doxygen - http://www.doxygen.org/
+ *
+ * @code
+ * $ cd doc
+ * $ Doxygen Doxyfile
+ * @endcode
  *
  * @section start First Steps
  *
@@ -124,7 +134,7 @@
  *
  * @section contact Contact Ohloh
  *
- * For more information visit the Ohloh website: http://labs.ohloh.net
+ * For more information visit the Ohloh website: https://sourceforge.net/projects/ohcount
  *
  * You can reach Ohloh via email at: info@ohloh.net
  */
