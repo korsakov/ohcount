@@ -671,7 +671,7 @@ const char *disambiguate_st(SourceFile *sourcefile) {
   char *eof = p + ohcount_sourcefile_get_contents_size(sourcefile);
   while (pe < eof) {
     // Get a line at a time.
-    while (p < eof && *pe != '\r' && *pe != '\n') pe++;
+    while (pe < eof && *pe != '\r' && *pe != '\n') pe++;
     length = (pe - p <= sizeof(line)) ? pe - p : sizeof(line);
     strncpy(line, p, length);
     line[length] = '\0';
