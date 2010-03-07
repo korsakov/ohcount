@@ -7,6 +7,8 @@
 #include "log.h"
 #include "hash/parser_hash.h"
 
+struct ParserMap * ohcount_hash_parser_from_language (register const char *str, register unsigned int len);
+
 int ohcount_parse(SourceFile *sourcefile, int count,
                   void (*callback) (const char *, const char *, int, int,
                                     void *),
