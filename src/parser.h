@@ -275,7 +275,7 @@
  * input source file that goes in the 'test/src_dir/' and an expected output
  * file that goes in the 'test/expected_dir/' directory.
  *
- * The header file will need to be "#include"ed in 'test/unit/test_parsers.h'.
+ * The header file will need to be "#include"ed in 'test/unit/parser_test.h'.
  * Then add the "all_[lang]_tests()" function to the "all_parser_tests()"
  * function.
  *

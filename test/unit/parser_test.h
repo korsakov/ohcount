@@ -88,6 +88,7 @@ void test_parser_verify_entity(SourceFile *sf, const char *entity,
 #include "parsers/test_c.h"
 #include "parsers/test_clearsilvertemplate.h"
 #include "parsers/test_clearsilver.h"
+#include "parsers/test_clojure.h"
 #include "parsers/test_cs_aspx.h"
 #include "parsers/test_csharp.h"
 #include "parsers/test_css.h"
@@ -262,6 +263,7 @@ void all_parser_tests() {
   all_c_tests();
   all_clearsilver_template_tests();
   all_clearsilver_tests();
+  all_clojure_tests();
   all_cs_aspx_tests();
   all_csharp_tests();
   all_css_tests();

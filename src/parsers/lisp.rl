@@ -148,4 +148,15 @@ void parse_scheme(char *buffer, int length, int count,
   LISP_LANG = ORIG_LISP_LANG;
 }
 
+const char *CLOJURE_LANG = LANG_CLOJURE;
+void parse_clojure(char *buffer, int length, int count,
+                   void (*callback) (const char *lang, const char *entity, int s,
+                                     int e, void *udata),
+                   void *userdata
+  ) {
+  LISP_LANG = CLOJURE_LANG;
+  parse_lisp(buffer, length, count, callback, userdata);
+  LISP_LANG = ORIG_LISP_LANG;
+}
+
 #endif
