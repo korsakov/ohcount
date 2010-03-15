@@ -21,6 +21,7 @@
 #define LANG_CLASSIC_BASIC "classic_basic"
 #define LANG_CLEARSILVER "clearsilver"
 #define LANG_CLEARSILVER_TEMPLATE "clearsilver_template"
+#define LANG_CLOJURE "clojure"
 #define LANG_CMAKE "cmake"
 #define LANG_CPP "cpp"
 #define LANG_CS_ASPX "cs_aspx"

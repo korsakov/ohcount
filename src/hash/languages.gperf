@@ -18,6 +18,7 @@ c, LANG_C, "C", 0
 classic_basic, LANG_CLASSIC_BASIC, "Classic Basic", 0
 clearsilver, LANG_CLEARSILVER, "ClearSilver", 0
 clearsilver_template, LANG_CLEARSILVER_TEMPLATE, "ClearSilver", 0
+clojure, LANG_CLOJURE, "Clojure", 0
 cmake, LANG_CMAKE, "Cmake script", 2
 cpp, LANG_CPP, "C++", 0
 cs_aspx, LANG_CS_ASPX, "", 0
