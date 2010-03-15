@@ -130,6 +130,7 @@ then
   build_ohcount
   build_test_suite
   run_test_suite
+  build_ruby_bindings
   echo $success
 elif [ $1 == "shared" ]
 then
