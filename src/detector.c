@@ -61,6 +61,12 @@ const char *ohcount_detect_language(SourceFile *sourcefile) {
     length = pe - p;
     strncpy(buf, p, length);
     buf[length] = '\0';
+
+		// Special case for "c" or "C" emacs mode header: always means C, not C++
+		if (strcasecmp(buf, "c") == 0) {
+				return LANG_C;
+		}
+
     // First try it with the language name.
     struct LanguageMap *rl = ohcount_hash_language_from_name(buf, length);
     if (rl) language = rl->name;

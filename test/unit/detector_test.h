@@ -158,6 +158,10 @@ void test_detector_brainfuck() {
   ASSERT_DETECT(LANG_BFPP, "foo.bfpp");
 }
 
+void test_detector_emacs_mode() {
+	ASSERT_DETECT(LANG_C, "emacs_mode.c");
+}
+
 void all_detector_tests() {
   test_detector_smalltalk();
   test_detector_disambiguate_m();
@@ -171,4 +175,5 @@ void all_detector_tests() {
   test_detector_basic();
   test_detector_xml_with_custom_extension();
   test_detector_brainfuck();
+  test_detector_emacs_mode();
 }
