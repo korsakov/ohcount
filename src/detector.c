@@ -58,7 +58,7 @@ const char *ohcount_detect_language(SourceFile *sourcefile) {
     }
     pe = p;
     while (!isspace(*pe) && *pe != ';' && pe != strstr(pe, "-*-")) pe++;
-    length = pe - p;
+    length = (pe - p <= sizeof(buf)) ? pe - p : sizeof(buf);
     strncpy(buf, p, length);
     buf[length] = '\0';
 
