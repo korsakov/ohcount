@@ -54,8 +54,11 @@ matlab, LANG_MATLAB, "Matlab", 0
 metafont, LANG_METAFONT, "MetaFont", 1
 metapost, LANG_METAPOST, "MetaPost", 1
 metapost_with_tex, LANG_METAPOST_WITH_TEX, "", 0
+modula2, LANG_MODULA2, "Modula-2", 0
+modula3, LANG_MODULA3, "Modula-3", 0
 mxml, LANG_MXML, "MXML", 1
 nix, LANG_NIX, "Nix", 0
+oberon, LANG_OBERON, "Oberon", 0
 objective_c, LANG_OBJECTIVE_C, "Objective-C", 0
 objective_j, LANG_OBJECTIVE_J, "Objective-J", 0
 ocaml, LANG_OCAML, "Objective Caml", 0

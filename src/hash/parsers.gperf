@@ -46,8 +46,11 @@
 #include "../parsers/metafont.h"
 #include "../parsers/metapost.h"
 #include "../parsers/metapost_with_tex.h"
+#include "../parsers/modula2.h"
+#include "../parsers/modula3.h"
 #include "../parsers/mxml.h"
 #include "../parsers/nix.h"
+#include "../parsers/oberon.h"
 #include "../parsers/objective_c.h"
 #include "../parsers/objective_j.h"
 #include "../parsers/ocaml.h"
@@ -132,8 +135,11 @@ matlab, parse_matlab
 metafont, parse_metafont
 metapost, parse_metapost
 metapost_with_tex, parse_mptex
+modula2, parse_modula2
+modula3, parse_modula3
 mxml, parse_mxml
 nix, parse_nix
+oberon, parse_oberon
 objective_c, parse_objective_c
 objective_j, parse_objective_j
 ocaml, parse_ocaml
