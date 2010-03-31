@@ -18,6 +18,7 @@
 #define LANG_BLITZMAX "blitzmax"
 #define LANG_BOO "boo"
 #define LANG_C "c"
+#define LANG_CHAISCRIPT "chaiscript"
 #define LANG_CLASSIC_BASIC "classic_basic"
 #define LANG_CLEARSILVER "clearsilver"
 #define LANG_CLEARSILVER_TEMPLATE "clearsilver_template"

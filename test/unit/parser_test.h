@@ -86,6 +86,7 @@ void test_parser_verify_entity(SourceFile *sf, const char *entity,
 #include "parsers/test_brainfuck.h"
 #include "parsers/test_bfpp.h"
 #include "parsers/test_c.h"
+#include "parsers/test_chaiscript.h"
 #include "parsers/test_clearsilvertemplate.h"
 #include "parsers/test_clearsilver.h"
 #include "parsers/test_clojure.h"
@@ -258,6 +259,7 @@ void all_parser_tests() {
   all_brainfuck_tests();
   all_bfpp_tests();
   all_c_tests();
+  all_chaiscript_tests();
   all_clearsilver_template_tests();
   all_clearsilver_tests();
   all_clojure_tests();

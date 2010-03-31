@@ -15,6 +15,7 @@ boo, LANG_BOO, "Boo", 0
 brainfuck, LANG_BRAINFUCK, "Brainfuck", 0
 bfpp, LANG_BFPP, "Brainfuck++", 0
 c, LANG_C, "C", 0
+chaiscript, LANG_CHAISCRIPT, "ChaiScript", 0
 classic_basic, LANG_CLASSIC_BASIC, "Classic Basic", 0
 clearsilver, LANG_CLEARSILVER, "ClearSilver", 0
 clearsilver_template, LANG_CLEARSILVER_TEMPLATE, "ClearSilver", 0

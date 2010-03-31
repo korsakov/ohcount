@@ -32,6 +32,7 @@ c, LANG_C
 c++, LANG_CPP
 cache, BINARY
 cc, LANG_CPP
+chai, LANG_CHAISCRIPT
 clj, LANG_CLOJURE
 cmake, LANG_CMAKE
 com, LANG_DCL

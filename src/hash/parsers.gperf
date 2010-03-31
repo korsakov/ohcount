@@ -11,6 +11,7 @@
 #include "../parsers/brainfuck.h"
 #include "../parsers/bfpp.h"
 #include "../parsers/c.h"
+#include "../parsers/chaiscript.h"
 #include "../parsers/classic_basic.h"
 #include "../parsers/clearsilver.h"
 #include "../parsers/clearsilverhtml.h"
@@ -96,6 +97,7 @@ boo, parse_boo
 brainfuck, parse_brainfuck
 bfpp, parse_bfpp
 c, parse_c
+chaiscript, parse_chaiscript
 cmake, parse_cmake
 classic_basic, parse_classic_basic
 clearsilver, parse_clearsilver
