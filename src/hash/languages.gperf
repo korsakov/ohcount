@@ -25,6 +25,7 @@ cpp, LANG_CPP, "C++", 0
 cs_aspx, LANG_CS_ASPX, "", 0
 csharp, LANG_CSHARP, "C#", 0
 css, LANG_CSS, "CSS", 1
+cuda, LANG_CUDA, "CUDA", 0
 dcl, LANG_DCL, "DCL", 0
 dmd, LANG_DMD, "D", 0
 dylan, LANG_DYLAN, "Dylan", 0

@@ -28,6 +28,7 @@
 #define LANG_CS_ASPX "cs_aspx"
 #define LANG_CSHARP "csharp"
 #define LANG_CSS "css"
+#define LANG_CUDA "cuda"
 #define LANG_DCL "dcl"
 #define LANG_DMD "dmd"
 #define LANG_DYLAN "dylan"

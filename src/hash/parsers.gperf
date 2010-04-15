@@ -107,6 +107,7 @@ cpp, parse_cpp
 cs_aspx, parse_cs_aspx
 csharp, parse_csharp
 css, parse_css
+cuda, parse_cuda
 dcl, parse_dcl
 dmd, parse_d
 dylan, parse_dylan

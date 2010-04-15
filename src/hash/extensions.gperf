@@ -41,6 +41,7 @@ cs, DISAMBIGUATE("cs")
 csproj, LANG_XML
 css, LANG_CSS
 ctp, LANG_PHP
+cu, LANG_CUDA
 cxx, LANG_CPP
 d, LANG_DMD
 dat, BINARY
