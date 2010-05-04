@@ -10,4 +10,5 @@ Makefile.am, LANG_AUTOMAKE
 configure, LANG_AUTOCONF
 configure.ac, LANG_AUTOCONF
 configure.in, LANG_AUTOCONF
+init.pp, LANG_PUPPET
 makefile, LANG_MAKE

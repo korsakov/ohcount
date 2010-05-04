@@ -646,6 +646,43 @@ const char *disambiguate_m(SourceFile *sourcefile) {
     return octave_syntax_detected ? LANG_OCTAVE : LANG_MATLAB;
 }
 
+#include <pcre.h>
+
+const char *disambiguate_pp(SourceFile *sourcefile) {
+	char *p = ohcount_sourcefile_get_contents(sourcefile);
+  char *eof = p + ohcount_sourcefile_get_contents_size(sourcefile);
+
+	/* prepare regular expressions */
+	pcre *re;
+	const char *error;
+	int erroffset;
+	re = pcre_compile("(define\\s+\\w+\\s*\\(|class \\s+\\w+\\s*{)", 0, &error, &erroffset, NULL);
+
+	for (; p < eof; p++) {
+		if (strncmp(p, "$include", 8) == 0 ||
+				strncmp(p, "$INCLUDE", 8) == 0 ||
+				strncmp(p, "end.", 4) == 0)
+			return LANG_PASCAL;
+		if (strncmp(p, "enable =>", 9) == 0 ||
+				strncmp(p, "ensure =>", 9) == 0 ||
+				strncmp(p, "content =>", 10) == 0 ||
+				strncmp(p, "source =>", 9) == 0 ||
+				strncmp(p, "include ", 8) == 0) 
+			return LANG_PUPPET;
+
+		/* regexp for checking for define and class declarations */
+		
+		int rc;
+		int ovector[30];
+		rc = pcre_exec(re, NULL, p, strlen(p), 0, 0, ovector, 30);
+		if(rc > 0) {
+			return LANG_PUPPET;
+		}
+
+	}
+	return LANG_PASCAL;
+}
+
 #define QMAKE_SOURCES_SPACE "SOURCES +="
 #define QMAKE_SOURCES "SOURCES+="
 #define QMAKE_CONFIG_SPACE "CONFIG +="

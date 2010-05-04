@@ -69,6 +69,7 @@ pascal, LANG_PASCAL, "Pascal", 0
 perl, LANG_PERL, "Perl", 0
 php, LANG_PHP, "PHP", 0
 pike, LANG_PIKE, "Pike", 0
+puppet, LANG_PUPPET, "Puppet", 0
 python, LANG_PYTHON, "Python", 0
 r, LANG_R, "R", 0
 rexx, LANG_REXX, "rexx", 0

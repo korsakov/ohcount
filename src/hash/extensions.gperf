@@ -137,7 +137,7 @@ pmod, LANG_PIKE
 png, BINARY
 pnt, BINARY
 pod, LANG_PERL
-pp, LANG_PASCAL
+pp, DISAMBIGUATE("pp")
 ppt, BINARY
 pro, DISAMBIGUATE("pro")
 py, LANG_PYTHON

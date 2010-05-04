@@ -72,6 +72,7 @@
 #define LANG_PERL "perl"
 #define LANG_PHP "php"
 #define LANG_PIKE "pike"
+#define LANG_PUPPET "puppet"
 #define LANG_PYTHON "python"
 #define LANG_R "r"
 #define LANG_REXX "rexx"
