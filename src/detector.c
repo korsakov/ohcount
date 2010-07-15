@@ -221,6 +221,31 @@ const char *disambiguate_aspx(SourceFile *sourcefile) {
   return LANG_CS_ASPX;
 }
 
+// 6502 assembly or XML-based Advanced Stream Redirector ?
+const char *disambiguate_asx(SourceFile *sourcefile) {
+  char *p = ohcount_sourcefile_get_contents(sourcefile);
+  char *eof = p + ohcount_sourcefile_get_contents_size(sourcefile);
+  for (; p < eof; p++) {
+    switch (*p) {
+    case ' ':
+    case '\t':
+    case '\n':
+    case '\r':
+      break;
+    case '<':
+    case '\0':
+    // byte-order marks:
+    case (char) 0xef:
+    case (char) 0xfe:
+    case (char) 0xff:
+      return NULL; // XML
+    default:
+      return LANG_ASSEMBLER;
+    }
+  }
+  return LANG_ASSEMBLER; // only blanks - not valid XML, may be valid asm
+}
+
 const char *disambiguate_b(SourceFile *sourcefile) {
   char *p = ohcount_sourcefile_get_contents(sourcefile);
   char *eof = p + ohcount_sourcefile_get_contents_size(sourcefile);

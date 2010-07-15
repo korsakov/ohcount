@@ -59,6 +59,11 @@ void test_detector_smalltalk() {
   ASSERT_NODETECT("english.st");
 }
 
+void test_detector_disambiguate_asx() {
+  ASSERT_DETECT(LANG_ASSEMBLER, "assembler6502.asx");
+  ASSERT_NODETECT("AdvancedStreamRedirector.asx");
+}
+
 void test_detector_disambiguate_m() {
   ASSERT_DETECT(LANG_OBJECTIVE_C, "t1.m");
   ASSERT_DETECT(LANG_OBJECTIVE_C, "t2.m");
@@ -172,6 +177,7 @@ void test_detector_emacs_mode() {
 
 void all_detector_tests() {
   test_detector_smalltalk();
+  test_detector_disambiguate_asx();
   test_detector_disambiguate_m();
   test_detector_disambiguate_in();
   test_detector_disambiguate_pro();
