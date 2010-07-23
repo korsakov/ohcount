@@ -42,6 +42,7 @@
 #define LANG_FORTRANFREE "fortranfree"
 #define LANG_FSHARP "fsharp"
 #define LANG_GLSL "glsl"
+#define LANG_GOLANG "golang"
 #define LANG_GROOVY "groovy"
 #define LANG_HASKELL "haskell"
 #define LANG_HAML "haml"
