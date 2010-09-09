@@ -122,6 +122,7 @@ void test_parser_verify_entity(SourceFile *sf, const char *entity,
 #include "parsers/test_metapost.h"
 #include "parsers/test_mxml.h"
 #include "parsers/test_nix.h"
+#include "parsers/test_nsis.h"
 #include "parsers/test_objective_j.h"
 #include "parsers/test_ocaml.h"
 #include "parsers/test_octave.h"
@@ -296,6 +297,7 @@ void all_parser_tests() {
   all_metapost_tests();
   all_mxml_tests();
   all_nix_tests();
+  all_nsis_tests();
   all_objective_j_tests();
   all_ocaml_tests();
   all_octave_tests();

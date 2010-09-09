@@ -63,6 +63,7 @@
 #define LANG_MODULA3 "modula3"
 #define LANG_MXML "mxml"
 #define LANG_NIX "nix"
+#define LANG_NSIS "nsis"
 #define LANG_OBERON "oberon"
 #define LANG_OBJECTIVE_C "objective_c"
 #define LANG_OBJECTIVE_J "objective_j"

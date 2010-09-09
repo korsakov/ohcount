@@ -117,6 +117,8 @@ mpg, BINARY
 mxml, LANG_MXML
 nix, LANG_NIX
 nse, LANG_LUA
+nsi, LANG_NSIS
+nsh, LANG_NSIS
 ob2, LANG_OBERON
 obn, LANG_OBERON
 ogg, BINARY
