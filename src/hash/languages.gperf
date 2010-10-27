@@ -10,6 +10,7 @@ autoconf, LANG_AUTOCONF, "Autoconf", 2
 automake, LANG_AUTOMAKE, "Automake", 2
 awk, LANG_AWK, "AWK", 0
 bat, LANG_BAT, "DOS batch script", 0
+bash, LANG_SHELL, "shell script", 0
 blitzmax, LANG_BLITZMAX, "BlitzMax", 0
 boo, LANG_BOO, "Boo", 0
 brainfuck, LANG_BRAINFUCK, "Brainfuck", 0
