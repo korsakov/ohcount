@@ -624,9 +624,12 @@ static void output(int *added, int *removed) {
 char *tmp_file_from_buf(const char *buf) {
 	char *template = "/tmp/ohcount_diff_XXXXXXX";
 	char *path = strdup(template);
-	
+
 	int fd = mkstemp(path);
-	write(fd, buf, strlen(buf));
+  if (write(fd, buf, strlen(buf)) != strlen(buf)) {
+    fprintf(stderr, "src/diff.c: Could not write temporary file %s.\n", path);
+    exit(1);
+  }
 	close(fd);
 	return path;
 }

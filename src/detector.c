@@ -129,7 +129,10 @@ const char *ohcount_detect_language(SourceFile *sourcefile) {
       log_it("contents:");
       log_it(contents);
       length = contents ? strlen(contents) : 0;
-      write(fd, contents, length);
+      if (write(fd, contents, length) != length) {
+        fprintf(stderr, "src/detector.c: Could not write temporary file %s.\n", path);
+        exit(1);
+      }
       close(fd);
       tmpfile = 1;
     }
@@ -137,7 +140,10 @@ const char *ohcount_detect_language(SourceFile *sourcefile) {
     sprintf(command, "file -b '%s'", path);
     FILE *f = popen(command, "r");
     if (f) {
-      fgets(line, sizeof(line), f);
+      if (fgets(line, sizeof(line), f) == NULL) {
+        fprintf(stderr, "src/detector.c: fgets() failed\n");
+        exit(1);
+      }
       char *eol = line + strlen(line);
       for (p = line; p < eol; p++) *p = tolower(*p);
       p = strstr(line, "script text");

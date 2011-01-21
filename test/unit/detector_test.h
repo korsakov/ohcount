@@ -143,10 +143,10 @@ void test_detector_csharp_or_clearsilver() {
 void test_detector_basic() {
   ASSERT_DETECT(LANG_VISUALBASIC, "visual_basic.bas");
   ASSERT_DETECT(LANG_CLASSIC_BASIC, "classic_basic.b");
-  system("mv ../detect_files/frx1.frx ../detect_files/frx1.frx2");
+  assert(system("mv ../detect_files/frx1.frx ../detect_files/frx1.frx2") == 0);
   ASSERT_DETECT(LANG_STRUCTURED_BASIC, "visual_basic.bas");
   ASSERT_DETECT(LANG_STRUCTURED_BASIC, "structured_basic.b");
-  system("mv ../detect_files/frx1.frx2 ../detect_files/frx1.frx");
+  assert(system("mv ../detect_files/frx1.frx2 ../detect_files/frx1.frx") == 0);
 }
 
 void test_detector_xml_with_custom_extension() {
