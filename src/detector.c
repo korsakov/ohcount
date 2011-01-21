@@ -122,8 +122,7 @@ const char *ohcount_detect_language(SourceFile *sourcefile) {
       path = sourcefile->diskpath;
     if (access(path, F_OK) != 0) { // create temporary file
       path = malloc(21);
-      strncpy(path, "/tmp/ohcount_XXXXXXX", 20);
-      *(path + 21) = '\0';
+      strncpy(path, "/tmp/ohcount_XXXXXXX\0", 21);
       int fd = mkstemp(path);
       char *contents = ohcount_sourcefile_get_contents(sourcefile);
       log_it("contents:");
