@@ -159,6 +159,7 @@ then
   rm -f src/$SHARED_NAME
   rm -f ruby/$RB_SHARED_NAME
   rm -rf ruby/$arch/*
+  rm -f ruby/ohcount_wrap.c
 else
   echo "Usage: build [all|ohcount|shared|tests|ruby|clean]"
 fi
