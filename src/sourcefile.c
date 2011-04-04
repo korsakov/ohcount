@@ -383,7 +383,10 @@ void ohcount_sourcefile_list_add_directory(SourceFileList *list,
       strncpy(f_p, (const char *)file->d_name, length);
       *(f_p + length) = '\0';
 
-      stat(filepath, &st);
+      lstat(filepath, &st);
+      if(S_ISLNK(st.st_mode))
+        continue;
+
       if (S_ISDIR(st.st_mode) && *file->d_name != '.') // no hidden dirs
         ohcount_sourcefile_list_add_directory(list, filepath);
       else if (S_ISREG(st.st_mode))

@@ -214,6 +214,15 @@ void test_sourcefile_list_language_facts() {
   ohcount_loc_list_free(list);
 }
 
+void test_sourcefile_list_no_symlink_dir() {
+  SourceFileList *sfl = ohcount_sourcefile_list_new();
+  ohcount_sourcefile_list_add_directory(sfl, "../symlink_test_dir");
+  LocList *list = ohcount_sourcefile_list_analyze_languages(sfl);
+  assert(ohcount_loc_list_filecount(list) == 0);
+  ohcount_sourcefile_list_free(sfl);
+  ohcount_loc_list_free(list);
+}
+
 #define FALSE 0
 #define TRUE 1
 char *tmp_file_from_buf(const char *buf);
@@ -247,5 +256,6 @@ void all_sourcefile_tests() {
   test_sourcefile_calc_diff();
 
   test_sourcefile_list_language_facts();
+  test_sourcefile_list_no_symlink_dir();
 	test_tmp_dir();
 }
