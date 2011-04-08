@@ -105,6 +105,7 @@ void test_parser_verify_entity(SourceFile *sf, const char *entity,
 #include "parsers/test_fortran.h"
 #include "parsers/test_fsharp.h"
 #include "parsers/test_glsl.h"
+#include "parsers/test_golang.h"
 #include "parsers/test_groovy.h"
 #include "parsers/test_haml.h"
 #include "parsers/test_haskell.h"

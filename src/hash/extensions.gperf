@@ -69,6 +69,7 @@ fs, LANG_FSHARP
 ftn, DISAMBIGUATE("fortran")
 gif, BINARY
 glsl, LANG_GLSL
+go, LANG_GOLANG
 groovy, LANG_GROOVY
 gz, BINARY
 h, DISAMBIGUATE("h")

@@ -30,6 +30,7 @@
 #include "../parsers/fortranfree.h"
 #include "../parsers/fsharp.h"
 #include "../parsers/glsl.h"
+#include "../parsers/golang.h"
 #include "../parsers/groovy.h"
 #include "../parsers/haml.h"
 #include "../parsers/haskell.h"
@@ -123,6 +124,7 @@ fortranfixed, parse_fortranfixed
 fortranfree, parse_fortranfree
 fsharp, parse_fsharp
 glsl, parse_glsl
+golang, parse_golang
 groovy, parse_groovy
 haskell, parse_haskell
 haml, parse_haml

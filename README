@@ -1,4 +1,4 @@
-== Ohcount
+== Ohcount ==
 
 NOTE: THE PRIMARY DOCUMENTATION FOR OHCOUNT IS EXTRACTED FROM SOURCE CODE
 BY DOXYGEN. FOR THE MOST UP-TO-DATE DOCS, PLEASE SEE BELOW FOR INFO
@@ -20,7 +20,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-== Overview
+== Overview ==
 
 Ohcount is a library for counting lines of source code.
 It was originally developed at Ohloh, and is used to generate
@@ -41,7 +41,7 @@ individual source file.
 Ohcount includes a Ruby binding which allows you to directly access its
 language detection features from a Ruby application.
 
-== System Requirements
+== System Requirements ==
 
 Ohcount is supported on Mac OS X 10.4 and 10.5 and Ubuntu 8.04 LTS. Other Linux
 environments should also work, but your mileage may vary.
@@ -90,6 +90,6 @@ To build the ruby wrapper, run "bash build ruby".
 To build the python wrapper, run "python python/setup.py build; python python/setup.py install". The python wrapper is new and has only been tested on Gentoo and CentOS. Feedback on it is particularly welcome.
 
 
-DEPENDENCIES
-============
-SWIG, pcre, ragel, gperf, bash
+== Dependencies ==
+
+To build ohcount, your system will need: SWIG, pcre, ragel, gperf, bash
