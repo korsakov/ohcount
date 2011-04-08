@@ -51,6 +51,7 @@
 #include "../parsers/modula3.h"
 #include "../parsers/mxml.h"
 #include "../parsers/nix.h"
+#include "../parsers/nsis.h"
 #include "../parsers/oberon.h"
 #include "../parsers/objective_c.h"
 #include "../parsers/objective_j.h"
@@ -143,6 +144,7 @@ modula2, parse_modula2
 modula3, parse_modula3
 mxml, parse_mxml
 nix, parse_nix
+nsis, parse_nsis
 oberon, parse_oberon
 objective_c, parse_objective_c
 objective_j, parse_objective_j
