@@ -112,6 +112,7 @@ void test_parser_verify_entity(SourceFile *sf, const char *entity,
 #include "parsers/test_haxe.h"
 #include "parsers/test_html.h"
 #include "parsers/test_idl_pvwave.h"
+#include "parsers/test_jam.h"
 #include "parsers/test_java.h"
 #include "parsers/test_javascript.h"
 #include "parsers/test_jsp.h"
@@ -287,6 +288,7 @@ void all_parser_tests() {
   all_haxe_tests();
   all_html_tests();
   all_idl_pvwave_tests();
+  all_jam_tests();
   all_java_tests();
   all_javascript_tests();
   all_jsp_tests();
