@@ -37,6 +37,7 @@
 #include "../parsers/haxe.h"
 #include "../parsers/html.h"
 #include "../parsers/idl_pvwave.h"
+#include "../parsers/jam.h"
 #include "../parsers/java.h"
 #include "../parsers/javascript.h"
 #include "../parsers/jsp.h"
@@ -131,6 +132,7 @@ haml, parse_haml
 haxe, parse_haxe
 html, parse_html
 idl_pvwave, parse_idl_pvwave
+jam, parse_jam
 java, parse_java
 javascript, parse_javascript
 jsp, parse_jsp

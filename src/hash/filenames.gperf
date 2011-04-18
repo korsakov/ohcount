@@ -4,6 +4,8 @@
 struct FilenameMap { const char *key; const char *value; };
 %%
 CMakeLists.txt, LANG_CMAKE
+Jamfile, LANG_JAM
+Jamrules, LANG_JAM
 GNUmakefile, LANG_MAKE
 Makefile, LANG_MAKE
 Makefile.am, LANG_AUTOMAKE
