@@ -26,6 +26,13 @@ enum {
   write data;
   include common "common.rl";
 
+  action rebol_inc_string { ++rebol_string_level; }
+  action rebol_dec_string { --rebol_string_level; }
+  action rebol_is_nested { rebol_string_level > 0 }
+
+  rebol_cb_str_nest = '{'                       %rebol_inc_string
+                    | '}' when rebol_is_nested  %rebol_dec_string;
+
   # Line counting machine
 
   action rebol_ccallback {
@@ -48,7 +55,11 @@ enum {
   rebol_comment = rebol_line_comment;
 
   rebol_dq_str = '"' @code ([^\r\n\f"] | '^"')* [\r\n\f"];
-  rebol_string = rebol_dq_str;
+  rebol_cb_str_inner = [^{}] | '^{' | '^}'
+                     | newline %{ entity = INTERNAL_NL; } %rebol_ccallback
+                     | rebol_cb_str_nest;
+  rebol_cb_str = '{' @code rebol_cb_str_inner* @code '}' @code;
+  rebol_string = rebol_dq_str | rebol_cb_str;
 
   rebol_line := |*
     spaces                  ${ entity = REBOL_SPACE; }      => rebol_ccallback;
@@ -68,7 +79,8 @@ enum {
   rebol_comment_entity = rebol_line_comment_entity;
 
   rebol_dq_str_entity = '"' ([^\r\n\f"] | '^"')* [\r\n\f"];
-  rebol_string_entiy = rebol_dq_str_entity;
+  rebol_cb_str_entity = '{' ([^{}] | '^{' | '^}' | rebol_cb_str_nest)* '}';
+  rebol_string_entiy = rebol_dq_str_entity | rebol_cb_str_entity;
 
   rebol_entity := |*
     space+                  ${ entity = REBOL_SPACE; }      => rebol_ecallback;
@@ -97,6 +109,8 @@ void parse_rebol(char *buffer, int length, int count,
                                    int e, void *udata),
                  void *userdata
   ) {
+  // For {..} multi-line strings which require proper balancing of {}'s.
+  int rebol_string_level = 0;
   init
 
   %% write init;
