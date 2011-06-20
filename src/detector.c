@@ -672,14 +672,14 @@ const char *disambiguate_pp(SourceFile *sourcefile) {
 				strncmp(p, "ensure =>", 9) == 0 ||
 				strncmp(p, "content =>", 10) == 0 ||
 				strncmp(p, "source =>", 9) == 0 ||
-				strncmp(p, "include ", 8) == 0) 
+				strncmp(p, "include ", 8) == 0)
 			return LANG_PUPPET;
 
 		/* regexp for checking for define and class declarations */
-		
+
 		int rc;
 		int ovector[30];
-		rc = pcre_exec(re, NULL, p, strlen(p), 0, 0, ovector, 30);
+		rc = pcre_exec(re, NULL, p, strnlen(p, 100), 0, 0, ovector, 30);
 		if(rc > 0) {
 			return LANG_PUPPET;
 		}
