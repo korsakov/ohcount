@@ -45,7 +45,14 @@ enum {
   }
 
   prolog_line_comment = '%' @comment nonnewline*;
-  prolog_block_comment = '/*' any* :>> '*/';
+  prolog_block_comment =
+    '/*' @comment (
+      newline %{ entity = INTERNAL_NL; } %prolog_ccallback
+      |
+      ws
+      |
+      (nonnewline - ws) @comment
+    )* :>> '*/';
   prolog_comment = prolog_line_comment | prolog_block_comment;
 
   prolog_sq_str = '\'' @code ([^\r\n\f'\\] | '\\' nonnewline)* '\'';

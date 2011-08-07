@@ -71,6 +71,13 @@ void test_detector_disambiguate_m() {
 void test_detector_disambiguate_in() {
   ASSERT_NODETECT("empty.in");
 }
+
+void test_detector_disambiguate_pl() {
+  ASSERT_DETECT(LANG_PERL, "foo_perl1.pl");
+  ASSERT_DETECT(LANG_PERL, "foo_perl2.pl");
+  ASSERT_DETECT(LANG_PROLOG, "foo_prolog1.pl");
+}
+
 void test_detector_disambiguate_pro() {
   ASSERT_DETECT(LANG_IDL_PVWAVE, "foo.pro");
   ASSERT_DETECT(LANG_MAKE, "qmake.pro");
@@ -169,6 +176,7 @@ void all_detector_tests() {
   test_detector_smalltalk();
   test_detector_disambiguate_m();
   test_detector_disambiguate_in();
+  test_detector_disambiguate_pl();
   test_detector_disambiguate_pro();
   test_detector_fortran_fixedfree();
   test_detector_detect_polyglot();
