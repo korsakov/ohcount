@@ -45,7 +45,14 @@ enum {
   }
 
   logtalk_line_comment = '%' @comment nonnewline*;
-  logtalk_block_comment = '/*' any* :>> '*/';
+  logtalk_block_comment =
+    '/*' @comment (
+      newline %{ entity = INTERNAL_NL; } %logtalk_ccallback
+      |
+      ws
+      |
+      (nonnewline - ws) @comment
+    )* :>> '*/';
   logtalk_comment = logtalk_line_comment | logtalk_block_comment;
 
   logtalk_sq_str = '\'' @code ([^\r\n\f'\\] | '\\' nonnewline)* '\'';
