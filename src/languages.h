@@ -49,6 +49,7 @@
 #define LANG_HAXE "haxe"
 #define LANG_HTML "html"
 #define LANG_IDL_PVWAVE "idl_pvwave"
+#define LANG_JAM "jam"
 #define LANG_JAVA "java"
 #define LANG_JAVASCRIPT "javascript"
 #define LANG_JSP "jsp"
