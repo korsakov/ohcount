@@ -160,6 +160,7 @@ pike, parse_pike
 puppet, parse_puppet
 python, parse_python
 r, parse_r
+racket, parse_racket
 rebol, parse_rebol
 rexx, parse_rexx
 rhtml, parse_rhtml

@@ -159,4 +159,16 @@ void parse_clojure(char *buffer, int length, int count,
   LISP_LANG = ORIG_LISP_LANG;
 }
 
+const char *RACKET_LANG = LANG_RACKET;
+void parse_racket(char *buffer, int length, int count,
+                   void (*callback) (const char *lang, const char *entity, int s,
+                                     int e, void *udata),
+                   void *userdata
+  ) {
+  LISP_LANG = RACKET_LANG;
+  parse_lisp(buffer, length, count, callback, userdata);
+  LISP_LANG = ORIG_LISP_LANG;
+}
+
+
 #endif
