@@ -24,6 +24,7 @@
 #define LANG_CLEARSILVER_TEMPLATE "clearsilver_template"
 #define LANG_CLOJURE "clojure"
 #define LANG_CMAKE "cmake"
+#define LANG_COFFEESCRIPT "coffeescript"
 #define LANG_CPP "cpp"
 #define LANG_CS_ASPX "cs_aspx"
 #define LANG_CSHARP "csharp"

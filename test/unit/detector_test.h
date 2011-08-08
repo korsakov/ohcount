@@ -121,6 +121,7 @@ void test_detector_detect_polyglot() {
   ASSERT_DETECT(LANG_AUTOCONF, "m4.m4");
   ASSERT_DETECT(LANG_NSIS, "foo.nsi");
   ASSERT_DETECT(LANG_NSIS, "foo.nsh");
+  ASSERT_DETECT(LANG_COFFEESCRIPT, "foo.coffee");
   ASSERT_NODETECT("empty.inc");
 }
 
