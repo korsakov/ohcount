@@ -693,6 +693,8 @@ const char *disambiguate_pl(SourceFile *sourcefile) {
 	char *contents = ohcount_sourcefile_get_contents(sourcefile);
   if (contents && strstr(contents, "#!/usr/bin/perl"))
     return LANG_PERL;
+  else if (contents && strstr(contents, "#!/usr/local/bin/perl"))
+    return LANG_PERL;
   else if (contents && strstr(contents, ":-"))
     return LANG_PROLOG;
   else
