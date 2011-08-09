@@ -34,6 +34,7 @@
 #define LANG_DMD "dmd"
 #define LANG_DYLAN "dylan"
 #define LANG_EBUILD "ebuild"
+#define LANG_EC "ec"
 #define LANG_EIFFEL "eiffel"
 #define LANG_ERLANG "erlang"
 #define LANG_EXHERES "exheres"

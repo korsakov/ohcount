@@ -119,6 +119,7 @@ dcl, parse_dcl
 dmd, parse_d
 dylan, parse_dylan
 ebuild, parse_ebuild
+ec, parse_ec
 eiffel, parse_eiffel
 erlang, parse_erlang
 exheres, parse_exheres
