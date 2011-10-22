@@ -164,6 +164,7 @@ php, parse_phtml
 pike, parse_pike
 puppet, parse_puppet
 python, parse_python
+qml, parse_qml
 r, parse_r
 racket, parse_racket
 rebol, parse_rebol
