@@ -79,6 +79,7 @@
 #define LANG_PIKE "pike"
 #define LANG_PUPPET "puppet"
 #define LANG_PYTHON "python"
+#define LANG_QML "qml"
 #define LANG_R "r"
 #define LANG_RACKET "racket"
 #define LANG_REBOL "rebol"

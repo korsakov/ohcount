@@ -133,6 +133,7 @@ void test_parser_verify_entity(SourceFile *sf, const char *entity,
 #include "parsers/test_pike.h"
 #include "parsers/test_puppet.h"
 #include "parsers/test_python.h"
+#include "parsers/test_qml.h"
 #include "parsers/test_r.h"
 #include "parsers/test_racket.h"
 #include "parsers/test_rebol.h"

@@ -77,6 +77,7 @@ php, LANG_PHP, "PHP", 0
 pike, LANG_PIKE, "Pike", 0
 puppet, LANG_PUPPET, "Puppet", 0
 python, LANG_PYTHON, "Python", 0
+qml, LANG_QML, "QML", 1
 r, LANG_R, "R", 0
 racket, LANG_RACKET, "Racket", 0
 rebol, LANG_REBOL, "REBOL", 0
