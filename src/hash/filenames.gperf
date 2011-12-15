@@ -14,3 +14,7 @@ configure.ac, LANG_AUTOCONF
 configure.in, LANG_AUTOCONF
 init.pp, LANG_PUPPET
 makefile, LANG_MAKE
+Rakefile, LANG_RUBY
+rakefile, LANG_RUBY
+Gemfile, LANG_RUBY
+Vagrantfile, LANG_RUBY
