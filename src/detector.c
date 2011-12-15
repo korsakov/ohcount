@@ -719,6 +719,19 @@ const char *disambiguate_pp(SourceFile *sourcefile) {
 	return LANG_PASCAL;
 }
 
+const char *disambiguate_pl(SourceFile *sourcefile) {
+  // Attempt to detect based on file contents.
+	char *contents = ohcount_sourcefile_get_contents(sourcefile);
+  if (contents && strstr(contents, "#!/usr/bin/perl"))
+    return LANG_PERL;
+  else if (contents && strstr(contents, "#!/usr/local/bin/perl"))
+    return LANG_PERL;
+  else if (contents && strstr(contents, ":-"))
+    return LANG_PROLOG;
+  else
+    return LANG_PERL;
+}
+
 #define QMAKE_SOURCES_SPACE "SOURCES +="
 #define QMAKE_SOURCES "SOURCES+="
 #define QMAKE_CONFIG_SPACE "CONFIG +="

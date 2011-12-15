@@ -55,6 +55,7 @@ javascript, LANG_JAVASCRIPT, "JavaScript", 0
 jsp, LANG_JSP, "", 0
 limbo, LANG_LIMBO, "Limbo", 0
 lisp, LANG_LISP, "Lisp", 0
+logtalk, LANG_LOGTALK, "Logtalk", 0
 lua, LANG_LUA, "Lua", 0
 make, LANG_MAKE, "Make", 2
 matlab, LANG_MATLAB, "Matlab", 0
@@ -75,6 +76,7 @@ pascal, LANG_PASCAL, "Pascal", 0
 perl, LANG_PERL, "Perl", 0
 php, LANG_PHP, "PHP", 0
 pike, LANG_PIKE, "Pike", 0
+prolog, LANG_PROLOG, "Prolog", 0
 puppet, LANG_PUPPET, "Puppet", 0
 python, LANG_PYTHON, "Python", 0
 qml, LANG_QML, "QML", 1

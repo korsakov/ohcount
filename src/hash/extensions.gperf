@@ -105,6 +105,7 @@ latex, LANG_TEX
 lisp, LANG_LISP
 lsp, LANG_LISP
 ltx, LANG_TEX
+lgt, LANG_LOGTALK
 lua, LANG_LUA
 m, DISAMBIGUATE("m")
 m3, LANG_MODULA3
@@ -140,7 +141,7 @@ php3, LANG_PHP
 php4, LANG_PHP
 php5, LANG_PHP
 pike, LANG_PIKE
-pl, LANG_PERL
+pl, DISAMBIGUATE("pl")
 pm, LANG_PERL
 pmc, LANG_C
 pmod, LANG_PIKE

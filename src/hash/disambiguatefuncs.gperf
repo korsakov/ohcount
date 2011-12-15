@@ -12,6 +12,7 @@ const char *disambiguate_h(SourceFile *sourcefile);
 const char *disambiguate_in(SourceFile *sourcefile);
 const char *disambiguate_inc(SourceFile *sourcefile);
 const char *disambiguate_m(SourceFile *sourcefile);
+const char *disambiguate_pl(SourceFile *sourcefile);
 const char *disambiguate_pp(SourceFile *sourcefile);
 const char *disambiguate_pro(SourceFile *sourcefile);
 const char *disambiguate_r(SourceFile *sourcefile);
@@ -29,6 +30,7 @@ h, disambiguate_h
 in, disambiguate_in
 inc, disambiguate_inc
 m, disambiguate_m
+pl, disambiguate_pl
 pp, disambiguate_pp
 pro, disambiguate_pro
 r, disambiguate_r

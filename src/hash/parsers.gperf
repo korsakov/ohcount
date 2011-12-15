@@ -44,6 +44,7 @@
 #include "../parsers/jsp.h"
 #include "../parsers/lisp.h"
 #include "../parsers/limbo.h"
+#include "../parsers/logtalk.h"
 #include "../parsers/lua.h"
 #include "../parsers/makefile.h"
 #include "../parsers/matlab.h"
@@ -64,6 +65,7 @@
 #include "../parsers/perl.h"
 #include "../parsers/phphtml.h"
 #include "../parsers/pike.h"
+#include "../parsers/prolog.h"
 #include "../parsers/puppet.h"
 #include "../parsers/python.h"
 #include "../parsers/r.h"
@@ -142,6 +144,7 @@ javascript, parse_javascript
 jsp, parse_jsp
 lisp, parse_lisp
 limbo, parse_limbo
+logtalk, parse_logtalk
 lua, parse_lua
 make, parse_makefile
 matlab, parse_matlab
@@ -162,6 +165,7 @@ pascal, parse_pascal
 perl, parse_perl
 php, parse_phtml
 pike, parse_pike
+prolog, parse_prolog
 puppet, parse_puppet
 python, parse_python
 qml, parse_qml

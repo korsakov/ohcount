@@ -76,6 +76,13 @@ void test_detector_disambiguate_m() {
 void test_detector_disambiguate_in() {
   ASSERT_NODETECT("empty.in");
 }
+
+void test_detector_disambiguate_pl() {
+  ASSERT_DETECT(LANG_PERL, "foo_perl1.pl");
+  ASSERT_DETECT(LANG_PERL, "foo_perl2.pl");
+  ASSERT_DETECT(LANG_PROLOG, "foo_prolog1.pl");
+}
+
 void test_detector_disambiguate_pro() {
   ASSERT_DETECT(LANG_IDL_PVWAVE, "foo.pro");
   ASSERT_DETECT(LANG_MAKE, "qmake.pro");
@@ -106,6 +113,7 @@ void test_detector_detect_polyglot() {
   ASSERT_DETECT(LANG_VALA, "foo.vala");
   ASSERT_DETECT(LANG_TEX, "foo.tex");
   ASSERT_DETECT(LANG_XSLT, "example.xsl");
+  ASSERT_DETECT(LANG_LOGTALK, "foo.lgt");
   ASSERT_DETECT(LANG_LISP, "core.lisp");
   ASSERT_DETECT(LANG_DMD, "foo.d");
   ASSERT_DETECT(LANG_VIM, "foo.vim");
@@ -183,6 +191,7 @@ void all_detector_tests() {
   test_detector_disambiguate_asx();
   test_detector_disambiguate_m();
   test_detector_disambiguate_in();
+  test_detector_disambiguate_pl();
   test_detector_disambiguate_pro();
   test_detector_disambiguate_r();
   test_detector_fortran_fixedfree();
