@@ -120,6 +120,7 @@ mov, BINARY
 mp, LANG_METAPOST_WITH_TEX
 mp3, BINARY
 mpg, BINARY
+mustache, LANG_HTML
 mxml, LANG_MXML
 nix, LANG_NIX
 nse, LANG_LUA
