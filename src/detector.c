@@ -739,6 +739,9 @@ const char *disambiguate_pro(SourceFile *sourcefile) {
 
 const char *disambiguate_r(SourceFile *sourcefile) {
   char *contents = ohcount_sourcefile_get_contents(sourcefile);
+  if (!contents)
+    return LANG_R;
+
   char *eof = contents + ohcount_sourcefile_get_contents_size(sourcefile);
 
   // Detect REBOL by looking for the occurence of "rebol" in the contents
