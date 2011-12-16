@@ -44,7 +44,7 @@ enum {
     }
   }
 
-  bat_comment = /rem/i @comment nonnewline*;
+  bat_comment = ( /rem/i | /@rem/i | '::' ) @comment nonnewline*;
 
   bat_line := |*
     spaces       ${ entity = BAT_SPACE; } => bat_ccallback;
@@ -59,7 +59,7 @@ enum {
     callback(BAT_LANG, bat_entities[entity], cint(ts), cint(te), userdata);
   }
 
-  bat_comment_entity = /rem/i nonnewline*;
+  bat_comment_entity = ( /rem/i | /@rem/i | '::' ) nonnewline*;
 
   bat_entity := |*
     space+             ${ entity = BAT_SPACE;   } => bat_ecallback;
