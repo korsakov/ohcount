@@ -25,6 +25,25 @@
 # define mkstemp(p) _open(_mktemp(p), _O_CREAT | _O_SHORT_LIVED | _O_EXCL)
 #endif
 
+/* Replaces single quotes (') with an escape sequence ('\'')
+ * suitable for use on the command line.
+ */
+void escape_path(char *safe, const char *unsafe) {
+  do {
+    switch (*unsafe) {
+    case  '\'':
+      *safe++ = '\'';
+      *safe++ = '\\';
+      *safe++ = '\'';
+      *safe++ = '\'';
+      break;
+    default:
+      *safe++ = *unsafe;
+      break;
+    }
+  } while (*unsafe++);
+}
+
 const char *ohcount_detect_language(SourceFile *sourcefile) {
   const char *language = NULL;
   char *p, *pe;
@@ -135,8 +154,13 @@ const char *ohcount_detect_language(SourceFile *sourcefile) {
       close(fd);
       tmpfile = 1;
     }
-    char command[strlen(path) + 11];
-    sprintf(command, "file -b '%s'", path);
+
+    /* Filenames may include single quotes, which must be escaped */
+    char escaped_path[strlen(path) * 4 + 1];
+    escape_path(escaped_path, path);
+
+    char command[strlen(escaped_path) + 11];
+    sprintf(command, "file -b '%s'", escaped_path);
     FILE *f = popen(command, "r");
     if (f) {
       if (fgets(line, sizeof(line), f) == NULL) {
