@@ -406,7 +406,7 @@ const char *disambiguate_fortran(SourceFile *sourcefile) {
       int i;
       for (i = 1; i <= 5; i++)
         if (!isdigit(*(p + i)) && *(p + i) != ' ')
-          return LANG_FORTRANFIXED; // definately not f77
+          return LANG_FORTRANFREE; // definately not fixed
       // Possibly fixed (doesn't match /^\s*\d+\s*$/).
       pe = p;
       while (*pe == ' ' || *pe == '\t') pe++;
