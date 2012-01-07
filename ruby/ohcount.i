@@ -12,8 +12,8 @@
 
 %typemap(in) (register const char *str, register unsigned int len) {
   Check_Type($input, T_STRING);
-  $1 = STR2CSTR($input);
-  $2 = RSTRING($input)->len;
+  $1 = StringValuePtr($input);
+  $2 = RSTRING_LEN($input);
 };
 
 %typemap(out) char ** {
@@ -111,9 +111,9 @@
   }
 #if defined(SWIGRUBY)
   void set_filenames(VALUE filenames) {
-    int i, length = RARRAY(filenames)->len;
+    int i, length = RARRAY_LEN(filenames);
     char **fnames = calloc(length + 1, sizeof(char *));
-    VALUE *iter = RARRAY(filenames)->ptr;
+    VALUE *iter = RARRAY_PTR(filenames);
     for (i = 0; i < length; i++, iter++)
       fnames[i] = StringValuePtr(*iter);
     self->filenames = fnames;
@@ -124,10 +124,10 @@
       VALUE val;
       val = rb_hash_aref(opt_hash, ID2SYM(rb_intern("contents")));
       if (val && rb_type(val) == T_STRING)
-        ohcount_sourcefile_set_contents(sourcefile, STR2CSTR(val));
+        ohcount_sourcefile_set_contents(sourcefile, StringValuePtr(val));
       val = rb_hash_aref(opt_hash, ID2SYM(rb_intern("file_location")));
       if (val && rb_type(val) == T_STRING)
-        ohcount_sourcefile_set_diskpath(sourcefile, STR2CSTR(val));
+        ohcount_sourcefile_set_diskpath(sourcefile, StringValuePtr(val));
       val = rb_hash_aref(opt_hash, ID2SYM(rb_intern("filenames")));
       if (val && rb_type(val) == T_ARRAY)
         SourceFile_set_filenames(sourcefile, val);
@@ -214,12 +214,12 @@
 
   static VALUE rb_add_directory(VALUE directory, SourceFileList *list) {
     if (directory && rb_type(directory) == T_STRING)
-      ohcount_sourcefile_list_add_directory(list, STR2CSTR(directory));
+      ohcount_sourcefile_list_add_directory(list, StringValuePtr(directory));
     return Qnil;
   }
   static VALUE rb_add_file(VALUE file, SourceFileList *list) {
     if (file && rb_type(file) == T_STRING)
-      ohcount_sourcefile_list_add_file(list, STR2CSTR(file));
+      ohcount_sourcefile_list_add_file(list, StringValuePtr(file));
     return Qnil;
   }
   SourceFileList(VALUE opt_hash=NULL) {
