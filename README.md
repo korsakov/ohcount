@@ -1,10 +1,6 @@
 == Ohcount ==
 
-NOTE: THE PRIMARY DOCUMENTATION FOR OHCOUNT IS EXTRACTED FROM SOURCE CODE
-BY DOXYGEN. FOR THE MOST UP-TO-DATE DOCS, PLEASE SEE BELOW FOR INFO
-ON BUILDING AND REFERING TO THE DOXYGEN DOCS.
-
-Ohloh/SourceForge's source code line counter.
+Ohloh's source code line counter.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License Version 2 as
@@ -43,53 +39,51 @@ language detection features from a Ruby application.
 
 == System Requirements ==
 
-Ohcount is supported on Mac OS X 10.4 and 10.5 and Ubuntu 8.04 LTS. Other Linux
+Ohcount is supported on Mac OS X 10.4 and 10.5 and Ubuntu 10.04 LTS. Other Linux
 environments should also work, but your mileage may vary.
 
 Ohcount does not support Windows.
 
-Ohcount targets Ruby 1.8.6. The build script requires a bash shell. You
+Ohcount targets Ruby 1.8.7. The build script requires a bash shell. You
 also need a C compiler to build the native extensions.
 
 == Source Code ==
 
 Ohcount source code is available as a Git repository:
 
-  git clone git://github.com/andyverprauskus/ohcount.git
-
-== Doc files ==
-
-To build the more extensive Doxygen docs, do
-	> cd doc
-	> Doxygen Doxyfile
-
-After building the docs, view them with a browser by opening doc/html/index.html.
-On a mac, you can install Doxygen with "sudo port install Doxygen".
-On Debian/Ubuntu, install with "sudo apt-get instal doxygen".
+  git clone git://github.com/blackducksw/ohcount.git
 
 == Building Ohcount ==
 
-You will need ragel 6.3 or higher, bash, pcre, gcc (version 4.1.2 or greater) and SWIG to build ohcount. Once you have them, go to the top directory of ohcount and type:
+You will need ragel 6.3 or higher, bash, pcre, gcc (version 4.1.2 or greater) and SWIG to build ohcount. Once you have them, go to the top directory of ohcount and run
 
-	> bash build
-or > ./build
+```
+./build
+```
 
 == Using Ohcount ==
 
-Once you've building ohcount, the executable program will be at bin/ohcount. The most basic use is to count lines of code in a directory tree, run:
-	"ohcount" to count the current directory and source code in any child directories
+Once you've built ohcount, the executable program will be at bin/ohcount. The most basic use is to count lines of code in a directory tree. run:
 
-== For additional docs, including how to add a new language, see the Doxygen docs ==
+```
+bin/ohcount
+```
 
-Particularly, for instructions on adding a new language, follow the instructions at doc/html/detector_doc.html
-Read http://labs.ohloh.net/ohcount/wiki/HowToSubmitPatches for information about having your patch accepted.
+Ohcount support several options. Run `ohcount --help` for more information.
 
 == Building language wrappers to use ohcount from Ruby or Python == 
 
-To build the ruby wrapper, run "bash build ruby".
-To build the python wrapper, run "python python/setup.py build; python python/setup.py install". The python wrapper is new and has only been tested on Gentoo and CentOS. Feedback on it is particularly welcome.
+To build the ruby wrapper:
 
+```
+./build ruby
+```
 
-== Dependencies ==
+To build the python wrapper, run
 
-To build ohcount, your system will need: SWIG, pcre, ragel, gperf, bash
+```
+python python/setup.py build
+python python/setup.py install
+```
+
+The python wrapper is currently unsupported.
