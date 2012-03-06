@@ -1,10 +1,14 @@
-== Ohcount ==
+Ohcount
+=======
 
 Ohloh's source code line counter.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License Version 2 as
 published by the Free Software Foundation.
+
+License
+-------
 
 Ohcount is specifically licensed under GPL v2.0, and no later version.
 
@@ -16,7 +20,8 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-== Overview ==
+Overview
+--------
 
 Ohcount is a library for counting lines of source code.
 It was originally developed at Ohloh, and is used to generate
@@ -37,7 +42,8 @@ individual source file.
 Ohcount includes a Ruby binding which allows you to directly access its
 language detection features from a Ruby application.
 
-== System Requirements ==
+System Requirements
+-------------------
 
 Ohcount is supported on Mac OS X 10.4 and 10.5 and Ubuntu 10.04 LTS. Other Linux
 environments should also work, but your mileage may vary.
@@ -47,13 +53,15 @@ Ohcount does not support Windows.
 Ohcount targets Ruby 1.8.7. The build script requires a bash shell. You
 also need a C compiler to build the native extensions.
 
-== Source Code ==
+Source Code
+-----------
 
 Ohcount source code is available as a Git repository:
 
   git clone git://github.com/blackducksw/ohcount.git
 
-== Building Ohcount ==
+Building Ohcount
+----------------
 
 You will need ragel 6.3 or higher, bash, pcre, gcc (version 4.1.2 or greater) and SWIG to build ohcount. Once you have them, go to the top directory of ohcount and run
 
@@ -61,7 +69,8 @@ You will need ragel 6.3 or higher, bash, pcre, gcc (version 4.1.2 or greater) an
 ./build
 ```
 
-== Using Ohcount ==
+Using Ohcount
+-------------
 
 Once you've built ohcount, the executable program will be at bin/ohcount. The most basic use is to count lines of code in a directory tree. run:
 
@@ -71,7 +80,8 @@ bin/ohcount
 
 Ohcount support several options. Run `ohcount --help` for more information.
 
-== Building language wrappers to use ohcount from Ruby or Python == 
+Building Ruby and Python Libraries
+----------------------------------
 
 To build the ruby wrapper:
 
