@@ -26,25 +26,6 @@
 # define mkstemp(p) _open(_mktemp(p), _O_CREAT | _O_SHORT_LIVED | _O_EXCL)
 #endif
 
-/* Replaces single quotes (') with an escape sequence ('\'')
- * suitable for use on the command line.
- */
-void escape_path(char *safe, const char *unsafe) {
-  do {
-    switch (*unsafe) {
-    case  '\'':
-      *safe++ = '\'';
-      *safe++ = '\\';
-      *safe++ = '\'';
-      *safe++ = '\'';
-      break;
-    default:
-      *safe++ = *unsafe;
-      break;
-    }
-  } while (*unsafe++);
-}
-
 /* Parse the output of libmagic and return a language, if any.
  * The contents of string `line` will be destroyed.
  */
