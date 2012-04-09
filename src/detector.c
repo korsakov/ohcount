@@ -584,15 +584,19 @@ const char *disambiguate_in(SourceFile *sourcefile) {
     char buf[length];
     strncpy(buf, p, length);
     buf[length] = '\0';
-    SourceFile *undecorated = ohcount_sourcefile_new(buf);
     p = ohcount_sourcefile_get_contents(sourcefile);
 		if (!p) {
 			return NULL;
 		}
-    // The filepath without the '.in' extension does not exist on disk. The
-    // sourcefile->diskpath field must be set incase the detector needs to run
-    // 'file -b' on the file.
-    ohcount_sourcefile_set_diskpath(undecorated, sourcefile->filepath);
+
+    // A SourceFile's filepath and diskpath need not be the same.
+    // Here, we'll take advantage of this to set up a new SourceFile
+    // whose filepath does not have the *.in extension, but whose
+    // diskpath still points back to the original file on disk (if any).
+    SourceFile *undecorated = ohcount_sourcefile_new(buf);
+    if (sourcefile->diskpath) {
+      ohcount_sourcefile_set_diskpath(undecorated, sourcefile->diskpath);
+    }
     ohcount_sourcefile_set_contents(undecorated, p);
 		undecorated->filenames = sourcefile->filenames;
     language = ohcount_sourcefile_get_language(undecorated);

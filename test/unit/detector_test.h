@@ -80,6 +80,7 @@ void test_detector_disambiguate_m() {
 
 void test_detector_disambiguate_in() {
   ASSERT_NODETECT("empty.in");
+  ASSERT_NODETECT("foo.in.in");
 }
 
 void test_detector_disambiguate_pl() {
