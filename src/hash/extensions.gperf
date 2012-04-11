@@ -20,6 +20,7 @@ asm, LANG_ASSEMBLER
 aspx, DISAMBIGUATE("aspx")
 asx, DISAMBIGUATE("asx")
 au, BINARY
+aug, LANG_AUGEAS
 avi, BINARY
 awk, LANG_AWK
 b, DISAMBIGUATE("b")
