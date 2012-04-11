@@ -52,7 +52,7 @@ dat, BINARY
 def, DISAMBIGUATE("def")
 di, LANG_DMD
 doc, BINARY
-dtx, LANG_TEX
+dtx, LANG_TEX_DTX
 dylan, LANG_DYLAN
 e, LANG_EIFFEL
 ebuild, LANG_EBUILD

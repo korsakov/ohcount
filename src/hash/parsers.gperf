@@ -83,6 +83,7 @@
 #include "../parsers/sql.h"
 #include "../parsers/tcl.h"
 #include "../parsers/tex.h"
+#include "../parsers/tex_dtx.h"
 #include "../parsers/vb_aspx.h"
 #include "../parsers/vhdl.h"
 #include "../parsers/vim.h"
@@ -187,6 +188,7 @@ structured_basic, parse_structured_basic
 sql, parse_sql
 tcl, parse_tcl
 tex, parse_tex
+tex_dtx, parse_tex_dtx
 vala, parse_vala
 vb_aspx, parse_vb_aspx
 vhdl, parse_vhdl
