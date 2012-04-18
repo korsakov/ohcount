@@ -37,6 +37,7 @@ cache, BINARY
 cc, LANG_CPP
 chai, LANG_CHAISCRIPT
 clj, LANG_CLOJURE
+cls, LANG_TEX
 cmake, LANG_CMAKE
 coffee, LANG_COFFEESCRIPT
 com, LANG_DCL
@@ -52,6 +53,7 @@ dat, BINARY
 def, DISAMBIGUATE("def")
 di, LANG_DMD
 doc, BINARY
+dtx, LANG_TEX_DTX
 dylan, LANG_DYLAN
 e, LANG_EIFFEL
 ebuild, LANG_EBUILD
@@ -186,6 +188,7 @@ sql, LANG_SQL
 ss, LANG_SCHEME
 st, DISAMBIGUATE("st")
 str, LANG_STRATEGO
+sty, LANG_TEX
 svg, BINARY
 svgz, BINARY
 svn, BINARY

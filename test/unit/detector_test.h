@@ -118,6 +118,7 @@ void test_detector_detect_polyglot() {
   ASSERT_DETECT(LANG_PHP, "upper_case_php");
   ASSERT_DETECT(LANG_SMALLTALK, "example.st");
   ASSERT_DETECT(LANG_VALA, "foo.vala");
+  ASSERT_DETECT(LANG_TEX_DTX, "foo.dtx");
   ASSERT_DETECT(LANG_TEX, "foo.tex");
   ASSERT_DETECT(LANG_XSLT, "example.xsl");
   ASSERT_DETECT(LANG_LOGTALK, "foo.lgt");

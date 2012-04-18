@@ -30,6 +30,7 @@ css, LANG_CSS, "CSS", 1
 cuda, LANG_CUDA, "CUDA", 0
 dcl, LANG_DCL, "DCL", 0
 dmd, LANG_DMD, "D", 0
+dtx, LANG_TEX_DTX, "DTX for TeX/LaTeX", 1
 dylan, LANG_DYLAN, "Dylan", 0
 ebuild, LANG_EBUILD, "Ebuild", 0
 ec, LANG_EC, "eC", 0
