@@ -2,6 +2,7 @@
 #include "../parsers/actionscript.h"
 #include "../parsers/ada.h"
 #include "../parsers/assembler.h"
+#include "../parsers/augeas.h"
 #include "../parsers/autoconf.h"
 #include "../parsers/automake.h"
 #include "../parsers/awk.h"
@@ -98,6 +99,7 @@ struct ParserMap { const char *key; void (*parser)(char *, int, int, void(*) (co
 actionscript, parse_actionscript
 ada, parse_ada
 assembler, parse_assembler
+augeas, parse_augeas
 autoconf, parse_autoconf
 automake, parse_automake
 awk, parse_awk

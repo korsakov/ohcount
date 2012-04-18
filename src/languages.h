@@ -9,6 +9,7 @@
 #define LANG_ACTIONSCRIPT "actionscript"
 #define LANG_ADA "ada"
 #define LANG_ASSEMBLER "assembler"
+#define LANG_AUGEAS "augeas"
 #define LANG_AUTOCONF "autoconf"
 #define LANG_AUTOMAKE "automake"
 #define LANG_AWK "awk"
