@@ -6,6 +6,7 @@ struct LanguageMap;
 actionscript, LANG_ACTIONSCRIPT, "ActionScript", 0
 ada, LANG_ADA, "Ada", 0
 assembler, LANG_ASSEMBLER, "Assembler", 0
+augeas, LANG_AUGEAS, "Augeas", 0
 autoconf, LANG_AUTOCONF, "Autoconf", 2
 automake, LANG_AUTOMAKE, "Automake", 2
 awk, LANG_AWK, "AWK", 0
@@ -30,6 +31,7 @@ css, LANG_CSS, "CSS", 1
 cuda, LANG_CUDA, "CUDA", 0
 dcl, LANG_DCL, "DCL", 0
 dmd, LANG_DMD, "D", 0
+dtx, LANG_TEX_DTX, "DTX for TeX/LaTeX", 1
 dylan, LANG_DYLAN, "Dylan", 0
 ebuild, LANG_EBUILD, "Ebuild", 0
 ec, LANG_EC, "eC", 0

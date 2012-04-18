@@ -119,6 +119,7 @@ void test_detector_detect_polyglot() {
   ASSERT_DETECT(LANG_PHP, "upper_case_php");
   ASSERT_DETECT(LANG_SMALLTALK, "example.st");
   ASSERT_DETECT(LANG_VALA, "foo.vala");
+  ASSERT_DETECT(LANG_TEX_DTX, "foo.dtx");
   ASSERT_DETECT(LANG_TEX, "foo.tex");
   ASSERT_DETECT(LANG_XSLT, "example.xsl");
   ASSERT_DETECT(LANG_LOGTALK, "foo.lgt");
@@ -133,6 +134,7 @@ void test_detector_detect_polyglot() {
   ASSERT_DETECT(LANG_EXHERES, "foo.exlib");
   ASSERT_DETECT(LANG_EIFFEL, "eiffel.e");
   ASSERT_DETECT(LANG_OCAML, "ocaml.ml");
+  ASSERT_DETECT(LANG_AUGEAS, "augeas.aug");
   ASSERT_DETECT(LANG_STRATEGO, "stratego.str");
   ASSERT_DETECT(LANG_GLSL, "foo.glsl");
   ASSERT_DETECT(LANG_GLSL, "foo_glsl.vert");

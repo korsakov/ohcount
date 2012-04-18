@@ -2,6 +2,7 @@
 #include "../parsers/actionscript.h"
 #include "../parsers/ada.h"
 #include "../parsers/assembler.h"
+#include "../parsers/augeas.h"
 #include "../parsers/autoconf.h"
 #include "../parsers/automake.h"
 #include "../parsers/awk.h"
@@ -83,6 +84,7 @@
 #include "../parsers/sql.h"
 #include "../parsers/tcl.h"
 #include "../parsers/tex.h"
+#include "../parsers/tex_dtx.h"
 #include "../parsers/vb_aspx.h"
 #include "../parsers/vhdl.h"
 #include "../parsers/vim.h"
@@ -97,6 +99,7 @@ struct ParserMap { const char *key; void (*parser)(char *, int, int, void(*) (co
 actionscript, parse_actionscript
 ada, parse_ada
 assembler, parse_assembler
+augeas, parse_augeas
 autoconf, parse_autoconf
 automake, parse_automake
 awk, parse_awk
@@ -187,6 +190,7 @@ structured_basic, parse_structured_basic
 sql, parse_sql
 tcl, parse_tcl
 tex, parse_tex
+tex_dtx, parse_tex_dtx
 vala, parse_vala
 vb_aspx, parse_vb_aspx
 vhdl, parse_vhdl

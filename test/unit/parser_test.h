@@ -76,6 +76,7 @@ void test_parser_verify_entity(SourceFile *sf, const char *entity,
 #include "parsers/test_actionscript.h"
 #include "parsers/test_ada.h"
 #include "parsers/test_assembler.h"
+#include "parsers/test_augeas.h"
 #include "parsers/test_autoconf.h"
 #include "parsers/test_automake.h"
 #include "parsers/test_awk.h"
@@ -258,6 +259,7 @@ void all_parser_tests() {
   all_actionscript_tests();
   all_ada_tests();
   all_assembler_tests();
+  all_augeas_tests();
   all_autoconf_tests();
   all_automake_tests();
   all_awk_tests();
