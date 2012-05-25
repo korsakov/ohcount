@@ -783,7 +783,7 @@ const char *disambiguate_pp(SourceFile *sourcefile) {
 	pcre *re;
 	const char *error;
 	int erroffset;
-	re = pcre_compile("^\\s*(define\\s+[\\w:]+\\s*\\(|class \\s+[\\w:]+\\s*{)",
+	re = pcre_compile("^\\s*(define\\s+[\\w:-]+\\s*\\(|class\\s+[\\w:-]+(\\s+inherits\\s+[\\w:-]+)?\\s*{|node\\s+\\'[\\w:\\.-]+\\'\\s*{)",
                           PCRE_MULTILINE, &error, &erroffset, NULL);
 
 	for (; p < eof; p++) {
