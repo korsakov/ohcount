@@ -783,7 +783,7 @@ const char *disambiguate_pp(SourceFile *sourcefile) {
 	pcre *re;
 	const char *error;
 	int erroffset;
-	re = pcre_compile("(define\\s+\\w+\\s*\\(|class \\s+\\w+\\s*{)", 0, &error, &erroffset, NULL);
+	re = pcre_compile("(define\\s+[\\w:]+\\s*\\(|class \\s+[\\w:]+\\s*{)", 0, &error, &erroffset, NULL);
 
 	for (; p < eof; p++) {
 		if (strncmp(p, "$include", 8) == 0 ||

@@ -1,6 +1,6 @@
-class bob_openldap {
+class bob::open_ldap {
 
-	define server (
+	define foo::server (
 		$argsfile = undef,
 		$bdb_cachesize = '',
 		$bdb_checkpoint = '',
