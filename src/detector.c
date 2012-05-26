@@ -778,6 +778,7 @@ size_t mystrnlen(const char *begin, size_t maxlen) {
 const char *disambiguate_pp(SourceFile *sourcefile) {
 	char *p = ohcount_sourcefile_get_contents(sourcefile);
   char *eof = p + ohcount_sourcefile_get_contents_size(sourcefile);
+  char *q;
 
 	/* prepare regular expressions */
 	pcre *re;
@@ -786,23 +787,23 @@ const char *disambiguate_pp(SourceFile *sourcefile) {
 	re = pcre_compile("^\\s*(define\\s+[\\w:-]+\\s*\\(|class\\s+[\\w:-]+(\\s+inherits\\s+[\\w:-]+)?\\s*{|node\\s+\\'[\\w:\\.-]+\\'\\s*{)",
                           PCRE_MULTILINE, &error, &erroffset, NULL);
 
-	for (; p < eof; p++) {
-		if (strncmp(p, "$include", 8) == 0 ||
-				strncmp(p, "$INCLUDE", 8) == 0 ||
-				strncmp(p, "end.", 4) == 0)
+	for (q = p; q < eof; q++) {
+		if (strncmp(q, "$include", 8) == 0 ||
+				strncmp(q, "$INCLUDE", 8) == 0 ||
+				strncmp(q, "end.", 4) == 0)
 			return LANG_PASCAL;
-		if (strncmp(p, "enable =>", 9) == 0 ||
-				strncmp(p, "ensure =>", 9) == 0 ||
-				strncmp(p, "content =>", 10) == 0 ||
-				strncmp(p, "source =>", 9) == 0) {
+		if (strncmp(q, "enable =>", 9) == 0 ||
+				strncmp(q, "ensure =>", 9) == 0 ||
+				strncmp(q, "content =>", 10) == 0 ||
+				strncmp(q, "source =>", 9) == 0) {
 			return LANG_PUPPET;
                 }
+        }
 
-		/* regexp for checking for define and class declarations */
-		if (pcre_exec(re, NULL, p, mystrnlen(p, 100), 0, 0, NULL, 0) > -1)
-			return LANG_PUPPET;
+	/* regexp for checking for define and class declarations */
+	if (pcre_exec(re, NULL, p, mystrnlen(p, 10000), 0, 0, NULL, 0) > -1)
+		return LANG_PUPPET;
 
-	}
 	return LANG_PASCAL;
 }
 
