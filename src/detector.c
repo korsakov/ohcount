@@ -777,22 +777,6 @@ size_t mystrnlen(const char *begin, size_t maxlen) {
 
 const char *disambiguate_pp(SourceFile *sourcefile) {
 	char *p = ohcount_sourcefile_get_contents(sourcefile);
-  char *eof = p + ohcount_sourcefile_get_contents_size(sourcefile);
-  char *q;
-
-	for (q = p; q < eof; q++) {
-		if (strncmp(q, "$include", 8) == 0 ||
-				strncmp(q, "$INCLUDE", 8) == 0)
-			return LANG_PASCAL;
-		if (strncmp(q, "enable =>", 9) == 0 ||
-				strncmp(q, "ensure =>", 9) == 0 ||
-				strncmp(q, "content =>", 10) == 0 ||
-				strncmp(q, "notify =>", 9) == 0 ||
-				strncmp(q, "require =>", 10) == 0 ||
-				strncmp(q, "source =>", 9) == 0) {
-			return LANG_PUPPET;
-                }
-        }
 
 	/* prepare regular expressions */
 	const char *error;
