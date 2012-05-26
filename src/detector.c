@@ -780,28 +780,38 @@ const char *disambiguate_pp(SourceFile *sourcefile) {
   char *eof = p + ohcount_sourcefile_get_contents_size(sourcefile);
   char *q;
 
-	/* prepare regular expressions */
-	pcre *re;
-	const char *error;
-	int erroffset;
-	re = pcre_compile("^\\s*(define\\s+[\\w:-]+\\s*\\(|class\\s+[\\w:-]+(\\s+inherits\\s+[\\w:-]+)?\\s*{|node\\s+\\'[\\w:\\.-]+\\'\\s*{)",
-                          PCRE_MULTILINE, &error, &erroffset, NULL);
-
 	for (q = p; q < eof; q++) {
 		if (strncmp(q, "$include", 8) == 0 ||
-				strncmp(q, "$INCLUDE", 8) == 0 ||
-				strncmp(q, "end.", 4) == 0)
+				strncmp(q, "$INCLUDE", 8) == 0)
 			return LANG_PASCAL;
 		if (strncmp(q, "enable =>", 9) == 0 ||
 				strncmp(q, "ensure =>", 9) == 0 ||
 				strncmp(q, "content =>", 10) == 0 ||
+				strncmp(q, "notify =>", 9) == 0 ||
+				strncmp(q, "require =>", 10) == 0 ||
 				strncmp(q, "source =>", 9) == 0) {
 			return LANG_PUPPET;
                 }
         }
 
-	/* regexp for checking for define and class declarations */
-	if (pcre_exec(re, NULL, p, mystrnlen(p, 10000), 0, 0, NULL, 0) > -1)
+	/* prepare regular expressions */
+	const char *error;
+	int erroffset;
+
+	/* try harder with optional spaces */
+	pcre *keyword;
+	keyword = pcre_compile("^\\s*(ensure|content|notify|require|source)\\s+=>",
+			PCRE_MULTILINE, &error, &erroffset, NULL);
+
+	if (pcre_exec(keyword, NULL, p, mystrnlen(p, 10000), 0, 0, NULL, 0) > -1)
+		return LANG_PUPPET;
+
+	/* check for standard puppet constructs */
+	pcre *construct;
+	construct = pcre_compile("^\\s*(define\\s+[\\w:-]+\\s*\\(|class\\s+[\\w:-]+(\\s+inherits\\s+[\\w:-]+)?\\s*{|node\\s+\\'?[\\w:\\.-]+\\'?\\s*{)",
+			PCRE_MULTILINE, &error, &erroffset, NULL);
+
+	if (pcre_exec(construct, NULL, p, mystrnlen(p, 10000), 0, 0, NULL, 0) > -1)
 		return LANG_PUPPET;
 
 	return LANG_PASCAL;
