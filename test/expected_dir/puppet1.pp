@@ -1,6 +1,6 @@
-puppet	code	class bob_openldap {
+puppet	code	class bob::open_ldap {
 puppet	blank	
-puppet	code		define server (
+puppet	code		define foo::server (
 puppet	code			$argsfile = undef,
 puppet	code			$bdb_cachesize = '',
 puppet	code			$bdb_checkpoint = '',

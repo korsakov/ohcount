@@ -777,36 +777,27 @@ size_t mystrnlen(const char *begin, size_t maxlen) {
 
 const char *disambiguate_pp(SourceFile *sourcefile) {
 	char *p = ohcount_sourcefile_get_contents(sourcefile);
-  char *eof = p + ohcount_sourcefile_get_contents_size(sourcefile);
 
 	/* prepare regular expressions */
-	pcre *re;
 	const char *error;
 	int erroffset;
-	re = pcre_compile("(define\\s+\\w+\\s*\\(|class \\s+\\w+\\s*{)", 0, &error, &erroffset, NULL);
 
-	for (; p < eof; p++) {
-		if (strncmp(p, "$include", 8) == 0 ||
-				strncmp(p, "$INCLUDE", 8) == 0 ||
-				strncmp(p, "end.", 4) == 0)
-			return LANG_PASCAL;
-		if (strncmp(p, "enable =>", 9) == 0 ||
-				strncmp(p, "ensure =>", 9) == 0 ||
-				strncmp(p, "content =>", 10) == 0 ||
-				strncmp(p, "source =>", 9) == 0 ||
-				strncmp(p, "include ", 8) == 0)
-			return LANG_PUPPET;
+	/* try harder with optional spaces */
+	pcre *keyword;
+	keyword = pcre_compile("^\\s*(ensure|content|notify|require|source)\\s+=>",
+			PCRE_MULTILINE, &error, &erroffset, NULL);
 
-		/* regexp for checking for define and class declarations */
+	if (pcre_exec(keyword, NULL, p, mystrnlen(p, 10000), 0, 0, NULL, 0) > -1)
+		return LANG_PUPPET;
 
-		int rc;
-		int ovector[30];
-		rc = pcre_exec(re, NULL, p, mystrnlen(p, 100), 0, 0, ovector, 30);
-		if(rc > 0) {
-			return LANG_PUPPET;
-		}
+	/* check for standard puppet constructs */
+	pcre *construct;
+	construct = pcre_compile("^\\s*(define\\s+[\\w:-]+\\s*\\(|class\\s+[\\w:-]+(\\s+inherits\\s+[\\w:-]+)?\\s*{|node\\s+\\'?[\\w:\\.-]+\\'?\\s*{)",
+			PCRE_MULTILINE, &error, &erroffset, NULL);
 
-	}
+	if (pcre_exec(construct, NULL, p, mystrnlen(p, 10000), 0, 0, NULL, 0) > -1)
+		return LANG_PUPPET;
+
 	return LANG_PASCAL;
 }
 
