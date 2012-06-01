@@ -771,6 +771,8 @@ const char *disambiguate_m(SourceFile *sourcefile) {
 
 // strnlen is not available on OS X, so we roll our own
 size_t mystrnlen(const char *begin, size_t maxlen) {
+  if (begin == NULL)
+    return 0;
   const char *end = memchr(begin, '\0', maxlen);
   return end ? (end - begin) : maxlen;
 }
