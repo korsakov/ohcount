@@ -780,6 +780,9 @@ size_t mystrnlen(const char *begin, size_t maxlen) {
 const char *disambiguate_pp(SourceFile *sourcefile) {
 	char *p = ohcount_sourcefile_get_contents(sourcefile);
 
+	if (!p)
+	  return NULL;
+
 	/* prepare regular expressions */
 	const char *error;
 	int erroffset;
