@@ -198,6 +198,10 @@ void test_detector_emacs_mode() {
 	ASSERT_DETECT(LANG_C, "emacs_mode.c");
 }
 
+void test_non_existent_file(){
+  ASSERT_NODETECT("xxx_non_exists_xxxi.pp");  
+}
+
 void all_detector_tests() {
   test_detector_smalltalk();
   test_detector_disambiguate_asx();
@@ -216,4 +220,5 @@ void all_detector_tests() {
   test_detector_xml_with_custom_extension();
   test_detector_brainfuck();
   test_detector_emacs_mode();
+  test_non_existent_file();
 }
