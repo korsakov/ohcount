@@ -150,6 +150,7 @@ void test_detector_detect_polyglot() {
   ASSERT_DETECT(LANG_NSIS, "foo.nsh");
   ASSERT_DETECT(LANG_COFFEESCRIPT, "foo.coffee");
   ASSERT_DETECT(LANG_QML, "foo.qml");
+  ASSERT_DETECT(LANG_COQ, "coq.v");
   ASSERT_NODETECT("empty.inc");
 }
 
@@ -198,6 +199,10 @@ void test_detector_emacs_mode() {
 	ASSERT_DETECT(LANG_C, "emacs_mode.c");
 }
 
+void test_non_existent_file(){
+  ASSERT_NODETECT("xxx_non_exists_xxxi.pp");  
+}
+
 void all_detector_tests() {
   test_detector_smalltalk();
   test_detector_disambiguate_asx();
@@ -216,4 +221,5 @@ void all_detector_tests() {
   test_detector_xml_with_custom_extension();
   test_detector_brainfuck();
   test_detector_emacs_mode();
+  test_non_existent_file();
 }
