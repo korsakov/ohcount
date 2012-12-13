@@ -199,6 +199,13 @@ void test_detector_emacs_mode() {
 	ASSERT_DETECT(LANG_C, "emacs_mode.c");
 }
 
+void test_assert_puppet(){
+  ASSERT_DETECT(LANG_PUPPET, "puppet_import.pp")
+  ASSERT_DETECT(LANG_PUPPET, "puppet_import_annotated.pp")
+  ASSERT_DETECT(LANG_PUPPET, "puppet_test.pp")
+  ASSERT_DETECT(LANG_PUPPET, "puppet_test_annotated.pp")
+}
+
 void test_non_existent_file(){
   ASSERT_NODETECT("xxx_non_exists_xxxi.pp");  
 }
