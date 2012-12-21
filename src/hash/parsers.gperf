@@ -137,6 +137,7 @@ forth, parse_forth
 fortranfixed, parse_fortranfixed
 fortranfree, parse_fortranfree
 fsharp, parse_fsharp
+genie, parse_genie
 glsl, parse_glsl
 golang, parse_golang
 groovy, parse_groovy

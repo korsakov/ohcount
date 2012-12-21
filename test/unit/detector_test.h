@@ -204,6 +204,10 @@ void test_detector_puppet(){
   ASSERT_DETECT(LANG_PUPPET, "puppet_test.pp");
 }
 
+void test_detector_genie(){
+  ASSERT_DETECT(LANG_GENIE, "client-osx.gs");
+}
+
 void test_non_existent_file(){
   ASSERT_NODETECT("xxx_non_exists_xxxi.pp");  
 }
@@ -227,5 +231,6 @@ void all_detector_tests() {
   test_detector_brainfuck();
   test_detector_emacs_mode();
   test_detector_puppet();
+  test_detector_genie();
   test_non_existent_file();
 }
