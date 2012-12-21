@@ -199,11 +199,9 @@ void test_detector_emacs_mode() {
 	ASSERT_DETECT(LANG_C, "emacs_mode.c");
 }
 
-void test_assert_puppet(){
-  ASSERT_DETECT(LANG_PUPPET, "puppet_import.pp")
-  ASSERT_DETECT(LANG_PUPPET, "puppet_import_annotated.pp")
-  ASSERT_DETECT(LANG_PUPPET, "puppet_test.pp")
-  ASSERT_DETECT(LANG_PUPPET, "puppet_test_annotated.pp")
+void test_detector_puppet(){
+  ASSERT_DETECT(LANG_PUPPET, "puppet_import.pp");
+  ASSERT_DETECT(LANG_PUPPET, "puppet_test.pp");
 }
 
 void test_non_existent_file(){
@@ -228,5 +226,6 @@ void all_detector_tests() {
   test_detector_xml_with_custom_extension();
   test_detector_brainfuck();
   test_detector_emacs_mode();
+  test_detector_puppet();
   test_non_existent_file();
 }
