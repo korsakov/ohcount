@@ -50,6 +50,7 @@
 #include "../parsers/logtalk.h"
 #include "../parsers/lua.h"
 #include "../parsers/makefile.h"
+#include "../parsers/mathematica.h"
 #include "../parsers/matlab.h"
 #include "../parsers/metafont.h"
 #include "../parsers/metapost.h"
@@ -155,6 +156,7 @@ limbo, parse_limbo
 logtalk, parse_logtalk
 lua, parse_lua
 make, parse_makefile
+mathematica, parse_mathematica
 matlab, parse_matlab
 metafont, parse_metafont
 metapost, parse_metapost

@@ -74,6 +74,7 @@ void test_detector_disambiguate_m() {
   ASSERT_DETECT(LANG_OBJECTIVE_C, "t2.m");
   ASSERT_DETECT(LANG_OBJECTIVE_C, "TCPSocket.m");
   ASSERT_DETECT(LANG_OBJECTIVE_C, "foo_objective_c.m");
+  ASSERT_DETECT(LANG_MATHEMATICA, "foo_mathematica.m");
   ASSERT_DETECT(LANG_MATLAB, "foo_matlab.m");
   ASSERT_DETECT(LANG_OCTAVE, "foo_octave.m");
 }

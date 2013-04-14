@@ -64,6 +64,7 @@
 #define LANG_LOGTALK "logtalk"
 #define LANG_LUA "lua"
 #define LANG_MAKE "make"
+#define LANG_MATHEMATICA "mathematica"
 #define LANG_MATLAB "matlab"
 #define LANG_METAFONT "metafont"
 #define LANG_METAPOST "metapost"

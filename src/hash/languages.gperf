@@ -63,6 +63,7 @@ lisp, LANG_LISP, "Lisp", 0
 logtalk, LANG_LOGTALK, "Logtalk", 0
 lua, LANG_LUA, "Lua", 0
 make, LANG_MAKE, "Make", 2
+mathematica, LANG_MATHEMATICA, "Mathematica", 0
 matlab, LANG_MATLAB, "Matlab", 0
 metafont, LANG_METAFONT, "MetaFont", 1
 metapost, LANG_METAPOST, "MetaPost", 1
