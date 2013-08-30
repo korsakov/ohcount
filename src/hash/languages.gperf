@@ -48,6 +48,7 @@ fsharp, LANG_FSHARP, "F#", 0
 genie, LANG_GENIE, "Genie", 0
 glsl, LANG_GLSL, "OpenGL Shading Language", 0
 golang, LANG_GOLANG, "Golang", 0
+grace, LANG_GRACE, "Grace", 0
 groovy, LANG_GROOVY, "Groovy", 0
 haml, LANG_HAML, "Haml", 1
 haskell, LANG_HASKELL, "Haskell", 0

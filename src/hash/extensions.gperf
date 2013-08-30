@@ -85,6 +85,8 @@ gif, BINARY
 glsl, LANG_GLSL
 go, LANG_GOLANG
 groovy, LANG_GROOVY
+grace, LANG_GRACE
+grc, LANG_GRACE
 gs, LANG_GENIE
 gz, BINARY
 h, DISAMBIGUATE("h")

@@ -35,6 +35,7 @@
 #include "../parsers/fsharp.h"
 #include "../parsers/glsl.h"
 #include "../parsers/golang.h"
+#include "../parsers/grace.h"
 #include "../parsers/groovy.h"
 #include "../parsers/haml.h"
 #include "../parsers/haskell.h"
@@ -140,6 +141,7 @@ fsharp, parse_fsharp
 genie, parse_genie
 glsl, parse_glsl
 golang, parse_golang
+grace, parse_grace
 groovy, parse_groovy
 haskell, parse_haskell
 haml, parse_haml
