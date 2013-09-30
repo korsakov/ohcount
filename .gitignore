@@ -15,3 +15,5 @@ ruby/ohcount_wrap.c
 test/unit/run_tests.dSYM/
 build-python/
 python/ohcount.py
+.rvmrc
+.ruby-version
