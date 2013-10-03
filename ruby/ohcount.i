@@ -60,7 +60,7 @@
   }
 }
 
-%extend LocList {
+%extend LocListItem {
   int code() {
     return ohcount_loc_list_code(self);
   }
@@ -209,7 +209,7 @@
   }
 };
 
-%extend SourceFileList {
+%extend SourceFileListItem {
 #if defined(SWIGRUBY)
 
   static VALUE rb_add_directory(VALUE directory, SourceFileList *list) {
@@ -222,23 +222,23 @@
       ohcount_sourcefile_list_add_file(list, StringValuePtr(file));
     return Qnil;
   }
-  SourceFileList(VALUE opt_hash=NULL) {
+  SourceFileListItem(VALUE opt_hash=NULL) {
     SourceFileList *list = ohcount_sourcefile_list_new();
     if (opt_hash) {
       VALUE val;
       val = rb_hash_aref(opt_hash, ID2SYM(rb_intern("paths")));
       if (val && rb_type(val) == T_ARRAY)
-        rb_iterate(rb_each, val, SourceFileList_rb_add_directory, (VALUE)list);
+        rb_iterate(rb_each, val, SourceFileListItem_rb_add_directory, (VALUE)list);
       val = rb_hash_aref(opt_hash, ID2SYM(rb_intern("files")));
       if (val && rb_type(val) == T_ARRAY)
-        rb_iterate(rb_each, val, SourceFileList_rb_add_file, (VALUE)list);
+        rb_iterate(rb_each, val, SourceFileListItem_rb_add_file, (VALUE)list);
     }
     return list;
   }
 
 #elif defined(SWIGPYTHON)
 
-  SourceFileList(PyObject *args) {
+  SourceFileListItem(PyObject *args) {
     SourceFileList *list = ohcount_sourcefile_list_new();
     if (args) {
       PyObject *val;
@@ -279,7 +279,7 @@
 
 #endif
 
-  ~SourceFileList() {
+  ~SourceFileListItem() {
     ohcount_sourcefile_list_free(self);
   }
   void add_file(const char *filepath) {
