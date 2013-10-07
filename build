@@ -114,19 +114,9 @@ run_test_suite()
   sh -c "cd test/unit/ && ./run_tests"
 }
 
-# ruby header file and config file location has changed in ruby 1.9.x
-ruby_version=`ruby -rmkmf -e 'print RbConfig::expand(CONFIG["ruby_version"])'`
-
-if [ $ruby_version == "1.8" ]
-then
-  RUBY_HEADER_DIR=`ruby -rmkmf -e 'print Config::expand(CONFIG["archdir"])'`
-  RUBY_CONFIG_DIR=
-elif [ $ruby_version == "1.9.1" ]
-then
-  RUBY_HEADER_DIR=`ruby -rmkmf -e 'print RbConfig::expand(CONFIG["rubyhdrdir"])'`
-  rbconfig_arch=`ruby -rmkmf -e 'print RbConfig::expand(CONFIG["arch"])'`
-  RUBY_CONFIG_DIR="$RUBY_HEADER_DIR/$rbconfig_arch"
-fi
+RUBY_HEADER_DIR=`ruby -rmkmf -e 'print RbConfig::expand(CONFIG["rubyhdrdir"])'`
+rbconfig_arch=`ruby -rmkmf -e 'print RbConfig::expand(CONFIG["arch"])'`
+RUBY_CONFIG_DIR="$RUBY_HEADER_DIR/$rbconfig_arch"
 
 build_ruby_bindings()
 {

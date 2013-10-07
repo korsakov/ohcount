@@ -16,7 +16,6 @@ module Ohcount
 
     def contents
       data = get_contents()
-      return data unless data.respond_to?(:force_encoding)
       data.force_encoding(Encoding.default_external)
     end
 
