@@ -97,17 +97,33 @@ enum {
 
   rust_string_entity = dq_str_with_escapes;
 
-  rust_number_entity =
-      float | f32 | f64 | uint | int | u8 | u16 | u32 | u64 | i8 | i16 | i32 |
-      i64;
+  # Up to and including "the number entity" these are almost verbatim from the
+  # "number literals" section of the Rust reference manual
+  rust_int_suffix = [iu] ('8' | '16' | '32' | '64')?;
+
+  rust_float_suffix_ty = 'f' ('32' | '64');
+  rust_dec_lit = [0-9_]+;
+  rust_exponent = [Ee] [\-+]? rust_dec_lit;
+  rust_float_suffix = (rust_exponent | '.' rust_dec_lit rust_exponent?)?
+                      rust_float_suffix_ty?;
+
+  rust_num_suffix = rust_int_suffix | rust_float_suffix;
+
+  rust_number_entity = [1-9]     [0-9_]*       rust_num_suffix?
+                     | '0' (     [0-9_]*       rust_num_suffix?
+                           | 'b' [01_]+        rust_int_suffix?
+                           | 'o' [0-7_]+       rust_int_suffix?
+                           | 'x' [0-9A-Fa-f_]+ rust_int_suffix?);
 
   rust_identifier_entity = (alpha | '_') (alnum | '_')*;
 
   rust_keyword_entity =
-    'as' | 'break' | 'do' | 'else' | 'enum' | 'extern' | 'false' |
-    'fn' | 'for' | 'if' | 'impl' | 'in' | 'let' | 'loop' | 'match' | 'mod' |
-    'mut' | 'priv' | 'pub' | 'ref' | 'return' | 'self' | 'static' | 'struct' |
-    'super' | 'true' | 'trait' | 'type' | 'unsafe' | 'use' | 'while';
+    'alignof' | 'as' | 'be' | 'break' | 'const' | 'continue' | 'do' | 'else' |
+    'enum' | 'extern' | 'false' | 'fn' | 'for' | 'if' | 'impl' | 'impl' |
+    'in' | 'let' | 'let' | 'log' | 'log' | 'loop' | 'match' | 'mod' | 'mod' |
+    'mut' | 'offsetof' | 'once' | 'priv' | 'pub' | 'pure' | 'ref' | 'return' |
+    'self' | 'sizeof' | 'static' | 'struct' | 'super' | 'trait' | 'true' |
+    'type' | 'typeof' | 'unsafe' | 'use' | 'while' | 'yield';
 
   rust_operator_entity = [+\-/*%<>!=^&|?~:;.,()\[\]{}@];
 
