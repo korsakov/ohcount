@@ -864,6 +864,35 @@ const char *disambiguate_r(SourceFile *sourcefile) {
   return LANG_R;
 }
 
+const char *disambiguate_rs(SourceFile *sourcefile) {
+  // .rs is normally Rust, but it might be RenderScript. RenderScript is
+  // expected to have a "#pragma version(1)" line at the very start, possibly
+  // after comments. To help with supporting future versions of RenderScript,
+  // we'll skip the number part.
+  // As RenderScript is not implemented in ohcount yet, it's returned as NULL.
+  char *contents = ohcount_sourcefile_get_contents(sourcefile);
+  if (!contents) {
+    return LANG_RUST;
+  }
+
+  char *needle = "\n#pragma version";
+  int len = strlen(needle);
+  if (strncasecmp(contents, needle + 1, len - 1) == 0) {
+    // "#pragma version" at the very start of the file is RenderScript.
+    return NULL;
+  }
+
+  char *eof = contents + ohcount_sourcefile_get_contents_size(sourcefile);
+
+  for (; contents < eof - len; ++contents) {
+    if (!strncmp(contents, needle, len)) {
+      return NULL;
+    }
+  }
+
+  return LANG_RUST;
+}
+
 const char *disambiguate_st(SourceFile *sourcefile) {
   char *p, *pe;
   int length;

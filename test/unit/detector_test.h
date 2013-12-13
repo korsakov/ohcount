@@ -210,6 +210,8 @@ void test_detector_genie(){
 
 void test_detector_rust(){
   ASSERT_DETECT(LANG_RUST, "rust.rs");
+  // When RenderScript is implemented, this will, of course, need to be removed.
+  ASSERT_NODETECT("renderscript.rs");
 }
 
 void test_non_existent_file(){
