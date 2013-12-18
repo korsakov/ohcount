@@ -201,6 +201,7 @@ void test_detector_emacs_mode() {
 
 void test_detector_emacs_with_extension() {
   ASSERT_DETECT(LANG_RUBY, "java_emac.rb");
+  ASSERT_DETECT(LANG_JAVASCRIPT, "javascript_emac.js");
 }
 
 void test_detector_puppet(){
