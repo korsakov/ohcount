@@ -1,0 +1,13 @@
+# Comment
+-- Comment
+// Comment
+
+/*
+
+Block Comment
+
+*/
+
+on mouseUp
+	doSomething
+end mouseUp

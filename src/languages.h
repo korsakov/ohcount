@@ -61,6 +61,7 @@
 #define LANG_JSP "jsp"
 #define LANG_LIMBO "limbo"
 #define LANG_LISP "lisp"
+#define LANG_LIVECODE "livecode"
 #define LANG_LOGTALK "logtalk"
 #define LANG_LUA "lua"
 #define LANG_MAKE "make"
