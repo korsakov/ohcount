@@ -87,6 +87,7 @@
 #include "../parsers/tcl.h"
 #include "../parsers/tex.h"
 #include "../parsers/tex_dtx.h"
+#include "../parsers/unrealscript.h"
 #include "../parsers/vb_aspx.h"
 #include "../parsers/vhdl.h"
 #include "../parsers/vim.h"
@@ -196,6 +197,7 @@ sql, parse_sql
 tcl, parse_tcl
 tex, parse_tex
 tex_dtx, parse_tex_dtx
+unrealscript, parse_unrealscript
 vala, parse_vala
 vb_aspx, parse_vb_aspx
 vhdl, parse_vhdl

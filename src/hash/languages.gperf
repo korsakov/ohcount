@@ -102,6 +102,7 @@ structured_basic, LANG_STRUCTURED_BASIC, "Structured Basic", 0
 sql, LANG_SQL, "SQL", 0
 tcl, LANG_TCL, "TCL", 0
 tex, LANG_TEX, "TeX/LaTeX", 1
+unrealscript, LANG_UNREALSCRIPT, "UnrealScript", 0
 vala, LANG_VALA, "Vala", 0
 vb_aspx, LANG_VB_ASPX, "", 0
 vhdl, LANG_VHDL, "VHDL", 0

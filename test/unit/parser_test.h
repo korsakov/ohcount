@@ -153,6 +153,7 @@ void test_parser_verify_entity(SourceFile *sf, const char *entity,
 #include "parsers/test_stratego.h"
 #include "parsers/test_tcl.h"
 #include "parsers/test_tex.h"
+#include "parsers/test_unrealscript.h"
 #include "parsers/test_vala.h"
 #include "parsers/test_vb_aspx.h"
 #include "parsers/test_vhdl.h"
@@ -334,6 +335,7 @@ void all_parser_tests() {
   all_stratego_tests();
   all_tcl_tests();
   all_tex_tests();
+  all_unrealscript_tests();
   all_vala_tests();
   all_vb_aspx_tests();
   all_vhdl_tests();

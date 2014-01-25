@@ -151,6 +151,7 @@ void test_detector_detect_polyglot() {
   ASSERT_DETECT(LANG_COFFEESCRIPT, "foo.coffee");
   ASSERT_DETECT(LANG_QML, "foo.qml");
   ASSERT_DETECT(LANG_COQ, "coq.v");
+  ASSERT_DETECT(LANG_UNREALSCRIPT, "foo.uc");
   ASSERT_NODETECT("empty.inc");
 }
 
