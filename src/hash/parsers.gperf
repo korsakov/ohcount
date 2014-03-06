@@ -54,6 +54,7 @@
 #include "../parsers/metafont.h"
 #include "../parsers/metapost.h"
 #include "../parsers/metapost_with_tex.h"
+#include "../parsers/modelica.h"
 #include "../parsers/modula2.h"
 #include "../parsers/modula3.h"
 #include "../parsers/mxml.h"
@@ -160,6 +161,7 @@ matlab, parse_matlab
 metafont, parse_metafont
 metapost, parse_metapost
 metapost_with_tex, parse_mptex
+modelica, parse_modelica
 modula2, parse_modula2
 modula3, parse_modula3
 mxml, parse_mxml

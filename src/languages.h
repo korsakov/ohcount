@@ -68,6 +68,7 @@
 #define LANG_METAFONT "metafont"
 #define LANG_METAPOST "metapost"
 #define LANG_METAPOST_WITH_TEX "metapost_with_tex"
+#define LANG_MODELICA "modelica"
 #define LANG_MODULA2 "modula2"
 #define LANG_MODULA3 "modula3"
 #define LANG_MXML "mxml"
