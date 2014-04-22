@@ -50,7 +50,7 @@ environments should also work, but your mileage may vary.
 
 Ohcount does not support Windows.
 
-Ohcount targets Ruby 1.8.7. The build script requires a bash shell. You
+Ohcount targets Ruby 1.9.3. The build script requires a bash shell. You
 also need a C compiler to build the native extensions.
 
 Source Code
@@ -64,7 +64,7 @@ Building Ohcount
 ----------------
 
 You will need ragel 6.3 or higher, bash, pcre, magic, gcc (version 4.1.2 or greater)
-and SWIG. Once you have them, go to the top directory of ohcount and run
+and SWIG (2.0.11). Once you have them, go to the top directory of ohcount and run
 
 ```
 ./build
