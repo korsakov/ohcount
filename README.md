@@ -64,7 +64,11 @@ Building Ohcount
 ----------------
 
 You will need ragel 6.3 or higher, bash, pcre, magic, gcc (version 4.1.2 or greater)
-and SWIG (2.0.11). Once you have them, go to the top directory of ohcount and run
+and SWIG (2.0.11). To get these dependencies on Unbuntu/Debian you can run this command:
+
+    sudo apt-get install libpcre3 libpcre3-dev libmagic-dev gperf gcc ragel swig
+
+Once you have them, go to the top directory of ohcount and run
 
 ```
 ./build
