@@ -375,7 +375,8 @@ void ohcount_sourcefile_list_add_directory(SourceFileList *list,
   char *f_p = filepath + strlen(directory) + 1;
 
   struct dirent *file;
-  DIR *d = opendir(directory);
+  DIR *d = NULL;
+  d = opendir(directory);
   if (d) {
     while ((file = readdir(d))) {
       struct stat st;
