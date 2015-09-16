@@ -1,0 +1,20 @@
+exheres	comment	# This is an exheres.
+exheres	blank	
+exheres	code	require subversion bash-completion eutils flag-o-matic
+exheres	blank	
+exheres	code	DESCRIPTION="An exheres"
+exheres	code	HOMEPAGE="http://example.org/"
+exheres	code	SRC_URI=""
+exheres	blank	
+exheres	code	MYOPTIONS="monkey"
+exheres	code	LICENSE="GPL-2"
+exheres	code	SLOT="0"
+exheres	code	PLATFORMS="~amd64 ~ia64 ~x86"
+exheres	blank	
+exheres	code	DEPENDENCIES=""
+exheres	blank	
+exheres	code	src_prepare() {
+exheres	code	    default
+exheres	code	    ./autogen.bash || die "autogen.bash failed"
+exheres	code	}
+exheres	blank	

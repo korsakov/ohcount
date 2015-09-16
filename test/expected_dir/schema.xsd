@@ -1,0 +1,68 @@
+xmlschema	code	<?xml version="1.0"?>
+xmlschema	comment	<!-- $Header: /home/cvsroot/w3c-xml-schema/user/examples/first.xml,v
+xmlschema	comment	1.22001/11/01 22:03:06 vdv Exp $ -->
+xmlschema	code	<library>
+xmlschema	code	  <book id="b0836217462" available="true">
+xmlschema	code	    <isbn>
+xmlschema	code	      0836217462
+xmlschema	code	    </isbn>
+xmlschema	code	    <title lang="en">
+xmlschema	code	      Being a Dog Is a Full-Time Job
+xmlschema	code	    </title>
+xmlschema	code	    <author id="CMS">
+xmlschema	code	      <name>
+xmlschema	code	        Charles M Schulz
+xmlschema	code	      </name>
+xmlschema	code	      <born>
+xmlschema	code	        1922-11-26
+xmlschema	code	      </born>
+xmlschema	code	      <dead>
+xmlschema	code	        2000-02-12
+xmlschema	code	      </dead>
+xmlschema	code	    </author>
+xmlschema	code	    <character id="PP">
+xmlschema	code	      <name>
+xmlschema	code	        Peppermint Patty
+xmlschema	code	      </name>
+xmlschema	code	      <born>
+xmlschema	code	        1966-08-22
+xmlschema	code	      </born>
+xmlschema	code	      <qualification>
+xmlschema	code	        bold, brash and tomboyish
+xmlschema	code	      </qualification>
+xmlschema	code	    </character>
+xmlschema	code	    <character id="Snoopy">
+xmlschema	code	      <name>
+xmlschema	code	        Snoopy
+xmlschema	code	      </name>
+xmlschema	code	      <born>
+xmlschema	code	        1950-10-04
+xmlschema	code	      </born>
+xmlschema	code	      <qualification>
+xmlschema	code	        extroverted beagle
+xmlschema	code	      </qualification>
+xmlschema	code	    </character>
+xmlschema	code	    <character id="Schroeder">
+xmlschema	code	      <name>
+xmlschema	code	        Schroeder
+xmlschema	code	      </name>
+xmlschema	code	      <born>
+xmlschema	code	        1951-05-30
+xmlschema	code	      </born>
+xmlschema	code	      <qualification>
+xmlschema	code	        brought classical music to the Peanuts strip
+xmlschema	code	      </qualification>
+xmlschema	code	    </character>
+xmlschema	code	    <character id="Lucy">
+xmlschema	code	      <name>
+xmlschema	code	        Lucy
+xmlschema	code	      </name>
+xmlschema	code	      <born>
+xmlschema	code	        1952-03-03
+xmlschema	code	      </born>
+xmlschema	code	      <qualification>
+xmlschema	code	        bossy, crabby and selfish
+xmlschema	code	      </qualification>
+xmlschema	code	    </character>
+xmlschema	code	  </book>
+xmlschema	code	</library>

@@ -1,2 +1,0 @@
-#define FOO 43  // they even use whack-whack comments
-mov eax, ecx

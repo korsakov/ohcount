@@ -1,7 +1,0 @@
-(** documentation *)
-(**/**)
-(* extra comment *)
-(* multiline
-comment*)
-(* recursion in (* a
-comment *) to complicate things *)

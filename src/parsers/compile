@@ -1,0 +1,59 @@
+#!/bin/sh
+# Compiles all .rl files for Ohcount.
+# Written by Mitchell Foral. mitchell<att>caladbolg<dott>net.
+
+# check to make sure we have ragel
+if `type ragel > /dev/null 2> /dev/null`
+then
+  echo "Found ragel, compiling..."
+else
+  echo "ragel not found, aborting" >&2
+  exit 1
+fi
+
+for file in *.rl
+do
+  echo "Compiling $file"
+  if [ -z "`grep '#EMBED' $file`" ]
+  then
+    # no embedded language
+    ragel $file -o "`cut -d '.' -f1 <<< "$file"`.h"
+  else
+    # embedded language(s)
+    elangs=`grep -o "#EMBED([a-z_][a-z_]*)" $file | 
+      sed -e 's/#EMBED(\([a-z_][a-z_]*\))/\1/'`
+
+    # embed all languages into this temporary file to be compiled
+    parser=${file}.tmp
+
+    # grab all lines before #EMBED statements
+    e_line=`grep -n -m 1 "#EMBED([a-z_][a-z_]*)" $file | cut -d ':' -f1`
+
+    sed -n -e "1,$e_line p" $file > $parser
+
+    # embed each language in the temporary file
+    for lang in $elangs
+    do
+      echo -e "}%%\n%%{\n" >> $parser
+
+      e_parser=${lang}.rl
+      # extract the embedded language contents for embedding
+      s_line=`grep -n "^%%{" $e_parser | cut -d ':' -f1`
+      e_line=`grep -n "^}%%" $e_parser | cut -d ':' -f1`
+      s_line=`expr $s_line + 1`
+      e_line=`expr $e_line - 1`
+      sed -n "$s_line,$e_line p;" $e_parser |
+        sed -e "s/^[ \t]*machine[^;][^;]*;//;
+                s/^[ \t]*write[^;][^;]*;//;
+                s/^[ \t]*include[^;][^;]*;//;" >> $parser
+    done
+
+    # grab all lines after #EMBED statements
+    s_line=`grep -n "#EMBED([a-z_][a-z_]*)" $file | cut -d ':' -f1 | sort -r |
+      grep -m 1 "^[0-9][0-9]*"`
+    sed -n -e "$s_line,$ p" $file >> $parser
+
+    ragel $parser -o "`cut -d '.' -f1 <<< "$file"`.h"
+    rm $parser
+  fi
+done

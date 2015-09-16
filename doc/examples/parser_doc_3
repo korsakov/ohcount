@@ -1,0 +1,7 @@
+%%{
+  machine c;
+  write data;
+  include common "common.rl";
+
+  ...
+}%%

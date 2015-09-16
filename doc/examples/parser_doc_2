@@ -1,0 +1,31 @@
+/************************* Required for every parser *************************/
+
+/* Parses a string buffer with C/C++ code.
+ *
+ * @param *buffer The string to parse.
+ * @param length The length of the string to parse.
+ * @param count Integer flag specifying whether or not to count lines. If yes,
+ *   uses the Ragel machine optimized for counting. Otherwise uses the Ragel
+ *   machine optimized for returning entity positions.
+ * @param *callback Callback function. If count is set, callback is called for
+ *   every line of code, comment, or blank with 'lcode', 'lcomment', and
+ *   'lblank' respectively. Otherwise callback is called for each entity found.
+ */
+void parse_c(char *buffer, int length, int count,
+             void (*callback) (const char *lang, const char *entity, int s,
+                               int e, void *udata),
+             void *userdata
+  ) {
+  init
+
+  %% write init;
+  cs = (count) ? c_en_c_line : c_en_c_entity;
+  %% write exec;
+
+  // if no newline at EOF; callback contents of last line
+  if (count) { process_last_line(C_LANG) }
+}
+
+#endif
+
+/*****************************************************************************/

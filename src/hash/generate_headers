@@ -1,0 +1,18 @@
+#!/bin/sh
+
+# Check for gperf
+if `type gperf > /dev/null 2> /dev/null`
+then
+  echo "Found gperf, making headers..."
+else
+  echo "gperf not found, aborting" >&2
+  exit 1
+fi
+
+gperf -L ANSI-C -E -D -K key -H ohcount_hash_language -N ohcount_hash_language_from_name -t languages.gperf > language_hash.c
+gperf -L ANSI-C -E -D -K key -H ohcount_hash_extension -N ohcount_hash_language_from_ext -t extensions.gperf > extension_hash.h
+gperf -L ANSI-C -E -D -K key -H ohcount_hash_filename -N ohcount_hash_language_from_filename -t filenames.gperf > filename_hash.h
+gperf -L ANSI-C -E -D -K key -H ohcount_hash_disambiguatefunc -N ohcount_hash_disambiguate_func_from_id -t disambiguatefuncs.gperf > disambiguatefunc_hash.h
+gperf -L ANSI-C -E -D -K key -H ohcount_hash_cppheader -N ohcount_hash_is_cppheader -t cppheaders.gperf > cppheader_hash.h
+gperf -L ANSI-C -E -D -K key -H ohcount_hash_parser -N ohcount_hash_parser_from_language -t parsers.gperf > parser_hash.h
+gperf -L ANSI-C -E -D -K key -H ohcount_hash_options -N ohcount_hash_command_from_flag -t options.gperf > option_hash.h

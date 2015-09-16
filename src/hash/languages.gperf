@@ -1,0 +1,113 @@
+%{
+#include "../languages.h"
+%}
+struct LanguageMap;
+%%
+actionscript, LANG_ACTIONSCRIPT, "ActionScript", 0
+ada, LANG_ADA, "Ada", 0
+assembler, LANG_ASSEMBLER, "Assembler", 0
+augeas, LANG_AUGEAS, "Augeas", 0
+autoconf, LANG_AUTOCONF, "Autoconf", 2
+automake, LANG_AUTOMAKE, "Automake", 2
+awk, LANG_AWK, "AWK", 0
+bat, LANG_BAT, "DOS batch script", 0
+bash, LANG_SHELL, "shell script", 0
+blitzmax, LANG_BLITZMAX, "BlitzMax", 0
+boo, LANG_BOO, "Boo", 0
+brainfuck, LANG_BRAINFUCK, "Brainfuck", 0
+bfpp, LANG_BFPP, "Brainfuck++", 0
+c, LANG_C, "C", 0
+chaiscript, LANG_CHAISCRIPT, "ChaiScript", 0
+classic_basic, LANG_CLASSIC_BASIC, "Classic Basic", 0
+clearsilver, LANG_CLEARSILVER, "ClearSilver", 0
+clearsilver_template, LANG_CLEARSILVER_TEMPLATE, "ClearSilver", 0
+clojure, LANG_CLOJURE, "Clojure", 0
+cmake, LANG_CMAKE, "Cmake script", 2
+coffescript, LANG_COFFEESCRIPT, "CoffeeScript", 0
+coq, LANG_COQ, "Coq", 0
+cpp, LANG_CPP, "C++", 0
+cs_aspx, LANG_CS_ASPX, "", 0
+csharp, LANG_CSHARP, "C#", 0
+css, LANG_CSS, "CSS", 1
+cuda, LANG_CUDA, "CUDA", 0
+dcl, LANG_DCL, "DCL", 0
+dmd, LANG_DMD, "D", 0
+dtx, LANG_TEX_DTX, "DTX for TeX/LaTeX", 1
+dylan, LANG_DYLAN, "Dylan", 0
+ebuild, LANG_EBUILD, "Ebuild", 0
+ec, LANG_EC, "eC", 0
+eiffel, LANG_EIFFEL, "Eiffel", 0
+emacslisp, LANG_EMACSLISP, "Emacs lisp", 0
+erlang, LANG_ERLANG, "Erlang", 0
+exheres, LANG_EXHERES, "Exheres", 0
+factor, LANG_FACTOR, "Factor", 0
+forth, LANG_FORTH, "Forth", 0
+fortranfixed, LANG_FORTRANFIXED, "Fortan (Fixed-format)", 0
+fortranfree, LANG_FORTRANFREE, "Fortan (Free-format)", 0
+fsharp, LANG_FSHARP, "F#", 0
+genie, LANG_GENIE, "Genie", 0
+glsl, LANG_GLSL, "OpenGL Shading Language", 0
+golang, LANG_GOLANG, "Golang", 0
+groovy, LANG_GROOVY, "Groovy", 0
+haml, LANG_HAML, "Haml", 1
+haskell, LANG_HASKELL, "Haskell", 0
+haxe, LANG_HAXE, "HaXe", 0
+html, LANG_HTML, "HTML", 1
+idl_pvwave, LANG_IDL_PVWAVE, "IDL/PV-WAVE/GDL", 0
+jam, LANG_JAM, "Jam", 2
+java, LANG_JAVA, "Java", 0
+javascript, LANG_JAVASCRIPT, "JavaScript", 0
+jsp, LANG_JSP, "", 0
+limbo, LANG_LIMBO, "Limbo", 0
+lisp, LANG_LISP, "Lisp", 0
+logtalk, LANG_LOGTALK, "Logtalk", 0
+lua, LANG_LUA, "Lua", 0
+make, LANG_MAKE, "Make", 2
+matlab, LANG_MATLAB, "Matlab", 0
+metafont, LANG_METAFONT, "MetaFont", 1
+metapost, LANG_METAPOST, "MetaPost", 1
+metapost_with_tex, LANG_METAPOST_WITH_TEX, "", 0
+modula2, LANG_MODULA2, "Modula-2", 0
+modula3, LANG_MODULA3, "Modula-3", 0
+mxml, LANG_MXML, "MXML", 1
+nix, LANG_NIX, "Nix", 0
+nsis, LANG_NSIS, "NSIS", 0
+oberon, LANG_OBERON, "Oberon", 0
+objective_c, LANG_OBJECTIVE_C, "Objective-C", 0
+objective_j, LANG_OBJECTIVE_J, "Objective-J", 0
+ocaml, LANG_OCAML, "Objective Caml", 0
+octave, LANG_OCTAVE, "", 0
+pascal, LANG_PASCAL, "Pascal", 0
+perl, LANG_PERL, "Perl", 0
+php, LANG_PHP, "PHP", 0
+pike, LANG_PIKE, "Pike", 0
+prolog, LANG_PROLOG, "Prolog", 0
+puppet, LANG_PUPPET, "Puppet", 0
+python, LANG_PYTHON, "Python", 0
+qml, LANG_QML, "QML", 1
+r, LANG_R, "R", 0
+racket, LANG_RACKET, "Racket", 0
+rebol, LANG_REBOL, "REBOL", 0
+rexx, LANG_REXX, "rexx", 0
+rhtml, LANG_RHTML, "", 0
+ruby, LANG_RUBY, "Ruby", 0
+rust, LANG_RUST, "Rust", 0
+scala, LANG_SCALA, "Scala", 0
+scheme, LANG_SCHEME, "Scheme", 0
+scilab, LANG_SCILAB, "Scilab", 0
+shell, LANG_SHELL, "shell script", 0
+smalltalk, LANG_SMALLTALK, "Smalltalk", 0
+stratego, LANG_STRATEGO, "Stratego", 0
+structured_basic, LANG_STRUCTURED_BASIC, "Structured Basic", 0
+sql, LANG_SQL, "SQL", 0
+tcl, LANG_TCL, "TCL", 0
+tex, LANG_TEX, "TeX/LaTeX", 1
+vala, LANG_VALA, "Vala", 0
+vb_aspx, LANG_VB_ASPX, "", 0
+vhdl, LANG_VHDL, "VHDL", 0
+vim, LANG_VIM, "Vim script", 0
+visualbasic, LANG_VISUALBASIC, "Visual Basic", 0
+xaml, LANG_XAML, "XAML", 1
+xml, LANG_XML, "XML", 1
+xslt, LANG_XSLT, "XSL Transformation", 0
+xmlschema, LANG_XMLSCHEMA, "XML Schema", 1

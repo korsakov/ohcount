@@ -1,0 +1,47 @@
+#!/bin/sh
+# optimer – Masserer ordlistefilene til eit kjaptsøkt format.
+#
+# Copyright © 2008, 2009 Karl Ove Hufthammer <karl@huftis.org>.
+#
+#     This file is part of Ordbanken.
+#
+#     Ordbanken is free software: you can redistribute it and/or modify
+#     it under the terms of the GNU General Public License as published by
+#     the Free Software Foundation, either version 3 of the License, or
+#     (at your option) any later version.
+#
+#     This program is distributed in the hope that it will be useful,
+#     but WITHOUT ANY WARRANTY; without even the implied warranty of
+#     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#     GNU General Public License for more details.
+#
+#     You should have received a copy of the GNU General Public License
+#     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+# Utfør kommandoen på fila oppgjeven som førsteargument.
+fil=$1
+echo $fil
+
+# Forklaring på filtreringskommandoane.
+#  grep: Filtrer vekk kommentarar (linjer som startar med «*»).
+#  fgrep: Filtrer unormerte ord.
+#  sed: Gjer om mellomrom i siste del av linja (der kodane er) til tabulatorar.
+#       (Korfor den kompliserte sed-kommandoen? Fordi kodane i utgangspunktet er
+#       skilde med mellomrom i staden for med tabulatorar. Dette ville ikkje vore
+#       noko problem om alle oppføringar besto av eitt ord, då «column» som
+#       standard handterer mellomrom og tabulatorar likt, men ordbanken har
+#       oppføringar som «på kryss og tvers», og då ville alle orda få kvar si
+#       kolonne (bruk «på» som oppslagsord for å sjå oppføringa).
+#  sed: Fjern kodar (på forma <kode1>) som inneheld tal (interne/uforståelige kodar).
+#  sed: Fjern kodar («ord» utan <>) som startar med tal (interne/uforståelige kodar).
+#  sed: Fjern talkoden på starten av linja.
+#  tr: Slå saman etterfølgjande tabulatorar til éin.
+#  sort: Sorter fila (slik at oppslag med «look» går raskare).
+grep -v '^\*' $fil \
+| fgrep -v "unormert" \
+| sed -r 'h;s/^([^	]+	[^	]+	[^	]+	)(.*)/\2/;s/ /	/g;G;s/(.*)\n([^	]+	[^	]+	[^	]+	)(.*)/\2\1/' \
+| sed -r 's/<[^>]*[0-9][^>]*>+/	/g' \
+| sed -r 's/	[0-9]+[^	]*/	/g' \
+| sed -r 's/^[0-9]+\s+//' \
+| tr -s '\t' \
+| LC_ALL=C sort > "${fil%.txt}.dat"

@@ -1,7 +1,0 @@
-<xml>
-<![CDATA[	
-<!-- not a comment! -->
-]]>
-<e attr="<![CDATA[ not in cdata!">
-</e>
-</xml>
