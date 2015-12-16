@@ -81,6 +81,7 @@ pascal, LANG_PASCAL, "Pascal", 0
 perl, LANG_PERL, "Perl", 0
 php, LANG_PHP, "PHP", 0
 pike, LANG_PIKE, "Pike", 0
+postscript, LANG_POSTSCRIPT, "PostScript", 1
 prolog, LANG_PROLOG, "Prolog", 0
 puppet, LANG_PUPPET, "Puppet", 0
 python, LANG_PYTHON, "Python", 0
