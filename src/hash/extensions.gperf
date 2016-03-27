@@ -74,11 +74,13 @@ f95, DISAMBIGUATE("fortran")
 factor, LANG_FACTOR
 fr, LANG_FORTH
 frag, LANG_GLSL
+frt, LANG_FORTH
 for, DISAMBIGUATE("fortran")
 fpp, DISAMBIGUATE("fortran")
 frm, LANG_VISUALBASIC
 frx, LANG_VISUALBASIC
 fs, LANG_FSHARP
+fth, LANG_FORTH
 ftn, DISAMBIGUATE("fortran")
 gemspec, LANG_RUBY
 gif, BINARY
