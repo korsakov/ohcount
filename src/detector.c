@@ -694,7 +694,7 @@ const char *disambiguate_m(SourceFile *sourcefile) {
         matlab_score++;
         octave_syntax_detected = 1;
       }
-    } else if (*p == '/' && *(p + 1) == '/' || *(p + 1) == '*') {
+    } else if (*p == '/' && *(p + 1) == '/' || *p == '/' && *(p + 1) == '*') {
       objective_c_score++; // Objective C comment
     } else if (*p == '+' || *p == '-') { // Objective C method signature
       objective_c_score++;
