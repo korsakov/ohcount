@@ -145,7 +145,8 @@ void test_detector_detect_polyglot() {
   ASSERT_DETECT(LANG_FORTH, "forth.4th");
   ASSERT_DETECT(LANG_FORTH, "forth.fr");
   ASSERT_DETECT(LANG_FSHARP, "fs1.fs");
-  ASSERT_DETECT(LANG_GRACE, "grace.grace");
+  ASSERT_DETECT(LANG_GRACE, "grace1.grace");
+  ASSERT_DETECT(LANG_GRACE, "grace2.grc");
   ASSERT_DETECT(LANG_AUTOCONF, "m4.m4");
   ASSERT_DETECT(LANG_NSIS, "foo.nsi");
   ASSERT_DETECT(LANG_NSIS, "foo.nsh");
