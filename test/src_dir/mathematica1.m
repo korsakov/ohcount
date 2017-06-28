@@ -1466,9 +1466,9 @@ CreateKrancThornTT [groups, ".", thorn,
    - use vectorisation: False or True
    - use OpenCL: False or True
    - timelevels: 2 or 3
-     (keep this at 3; this is better chosen with a run-time parameter)
+     ## (keep this at 3; this is better chosen with a run-time parameter)
    - matter: 0 or 1
-     (matter seems cheap; it should be always enabled)
+     ## (matter seems cheap; it should be always enabled)
    - thorn base name
 *)
 	

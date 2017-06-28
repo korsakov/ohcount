@@ -788,12 +788,10 @@ const char *disambiguate_m(SourceFile *sourcefile) {
   else if (objective_c_score > matlab_score &&
            objective_c_score > mathematica_score)
     return LANG_OBJECTIVE_C;
-  else if (octave_syntax_detected)
-    return LANG_OCTAVE;
-  else if (matlab_score > mathematica_score)
-    return LANG_MATLAB;
-  else
+  else if (mathematica_score > matlab_score)
     return LANG_MATHEMATICA;
+  else
+    return octave_syntax_detected ? LANG_OCTAVE : LANG_MATLAB;
 }
 
 #include <pcre.h>

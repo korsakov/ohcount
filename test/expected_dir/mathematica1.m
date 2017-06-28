@@ -1466,9 +1466,9 @@ mathematica	comment	   - split upwind derivatives: False or True
 mathematica	comment	   - use vectorisation: False or True
 mathematica	comment	   - use OpenCL: False or True
 mathematica	comment	   - timelevels: 2 or 3
-mathematica	comment	     (keep this at 3; this is better chosen with a run-time parameter)
+mathematica	comment	     ## (keep this at 3; this is better chosen with a run-time parameter)
 mathematica	comment	   - matter: 0 or 1
-mathematica	comment	     (matter seems cheap; it should be always enabled)
+mathematica	comment	     ## (matter seems cheap; it should be always enabled)
 mathematica	comment	   - thorn base name
 mathematica	comment	*)
 mathematica	blank	
