@@ -628,6 +628,7 @@ const char *disambiguate_m(SourceFile *sourcefile) {
   int length;
 
   // Attempt to detect based on a weighted heuristic of file contents.
+  int mathematica_score = 0;
   int matlab_score = 0;
   int objective_c_score = 0;
   int limbo_score = 0;
@@ -685,8 +686,8 @@ const char *disambiguate_m(SourceFile *sourcefile) {
     while (*p == ' ' || *p == '\t') p++;
     if (*p == '%') { // Matlab comment
       matlab_score++;
-		} else if (*p == '#' && strncmp(p, "#import", 7) == 0) { // Objective C
-			objective_c_score++;
+    } else if (*p == '#' && strncmp(p, "#import", 7) == 0) { // Objective C
+      objective_c_score++;
     } else if (*p == '#') { // Limbo or Octave comment
       while (*p == '#') p++;
       if (*p == ' ' || *p == '\t') {
@@ -756,18 +757,43 @@ const char *disambiguate_m(SourceFile *sourcefile) {
       } else p++;
     }
 
+    // Look for Mathematica pattern definitions
+    p = line;
+    while (p < eol) {
+      // & as postfix operator
+      if (*p == '&') {
+        p++;
+        while (*p == ' ' || *p == '\t') p++;
+        if (*p == ',' || *p == ')' || *p == ']') mathematica_score++;
+      }
+      // Mathematica comment
+      if (*p == '(' && *(p + 1) == '*') mathematica_score++;
+      // some Mathematica operators
+      if (*p == '/' && *(p + 1) == '.') mathematica_score++;
+      if (*p == '_' && *(p + 1) == '_') mathematica_score++;
+      if (*p == '@' && *(p + 1) == '@') mathematica_score++;
+      p++;
+    }
+
     // Next line.
     pe = line_end;
     while (*pe == '\r' || *pe == '\n') pe++;
     p = pe;
   }
 
-  if (limbo_score > objective_c_score && limbo_score > matlab_score)
+  if (limbo_score > objective_c_score &&
+      limbo_score > matlab_score &&
+      limbo_score > mathematica_score)
     return LANG_LIMBO;
-  else if (objective_c_score > matlab_score)
+  else if (objective_c_score > matlab_score &&
+           objective_c_score > mathematica_score)
     return LANG_OBJECTIVE_C;
+  else if (octave_syntax_detected)
+    return LANG_OCTAVE;
+  else if (matlab_score > mathematica_score)
+    return LANG_MATLAB;
   else
-    return octave_syntax_detected ? LANG_OCTAVE : LANG_MATLAB;
+    return LANG_MATHEMATICA;
 }
 
 #include <pcre.h>

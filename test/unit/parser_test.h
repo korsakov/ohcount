@@ -123,6 +123,7 @@ void test_parser_verify_entity(SourceFile *sf, const char *entity,
 #include "parsers/test_logtalk.h"
 #include "parsers/test_lua.h"
 #include "parsers/test_make.h"
+#include "parsers/test_mathematica.h"
 #include "parsers/test_matlab.h"
 #include "parsers/test_metafont.h"
 #include "parsers/test_metapost.h"
@@ -306,6 +307,7 @@ void all_parser_tests() {
   all_logtalk_tests();
   all_lua_tests();
   all_make_tests();
+  all_mathematica_tests();
   all_matlab_tests();
   all_metafont_tests();
   all_metapost_tests();
