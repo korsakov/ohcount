@@ -44,14 +44,24 @@ enum {
     }
   }
 
-  mathematica_comment =
-    '(*' @comment (
-      newline %{ entity = INTERNAL_NL; } %mathematica_ccallback
-      |
-      ws
-      |
-      (nonnewline - ws) @code
-    )* :>> '*)';
+  action mathematica_comment_nc_res { nest_count = 0; }
+  action mathematica_comment_nc_inc { nest_count++; }
+  action mathematica_comment_nc_dec { nest_count--; }
+
+  mathematica_nested_block_comment =
+		'(*' >mathematica_comment_nc_res @comment (
+			newline %{ entity = INTERNAL_NL; } %mathematica_ccallback
+			|
+			ws
+			|
+			'(*' @mathematica_comment_nc_inc @comment
+			|
+			'*)' @mathematica_comment_nc_dec @comment
+			|
+			(nonnewline - ws) @comment
+		)* :>> ('*)' when { nest_count == 0 }) @comment;
+
+  mathematica_comment = mathematica_nested_block_comment;
 
   mathematica_string = '"' @code ([^"]) '"';
 
@@ -70,7 +80,13 @@ enum {
              userdata);
   }
 
-  mathematica_comment_entity = '(*' any* :>> '*)';
+  mathematica_comment_entity = '(*' >mathematica_comment_nc_res (
+    '(*' @mathematica_comment_nc_inc
+    |
+    '*)' @mathematica_comment_nc_dec
+    |
+    any
+  )* :>> ('*)' when { nest_count == 0 });
 
   mathematica_entity := |*
     space+                     ${ entity = MATHEMATICA_SPACE;   } => mathematica_ecallback;
@@ -99,6 +115,8 @@ void parse_mathematica(char *buffer, int length, int count,
                        void *userdata
   ) {
   init
+
+  int nest_count = 0;
 
   %% write init;
   cs = (count) ? mathematica_en_mathematica_line : mathematica_en_mathematica_entity;
