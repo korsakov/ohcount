@@ -4,7 +4,7 @@ octave	comment	## This program is free software distributed under the "modified"
 octave	comment	## 3-clause BSD license appended to this file.
 octave	blank	
 octave	code	function varargout = toledolu(LU)
-octave	comment	  ## -*- texinfo -*-
+octave	comment	  ## (*- texinfo -*)
 octave	comment	  ## @deftypefn{Function File} {[@var{L}, @var{U}, @var{P}]} = toledolu(@var{A})
 octave	comment	  ## @deftypefnx{Function File} {[@var{L}, @var{U}]} = toledolu(@var{A})
 octave	comment	  ## @deftypefnx{Function File} {@var{LUP}} = toledolu(@var{A})
@@ -20,8 +20,8 @@ octave	comment	  ##
 octave	comment	  ## See the help for lu for details about the other calling forms.
 octave	comment	  ##
 octave	comment	  ## For the algorithm, see
-octave	comment	  ## @itemize
-octave	comment	  ## @item
+octave	comment	  ## (* @itemize *)
+octave	comment	  ## (* @item *)
 octave	comment	  ## Toledo, Sivan. "Locality of reference in LU decomposition with
 octave	comment	  ## partial pivoting," SIAM J. of Matrix Analysis and Applications,
 octave	comment	  ## v18, n4, 1997. DOI: 10.1137/S0895479896297744
