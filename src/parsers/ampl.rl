@@ -44,7 +44,16 @@ enum {
     }
   }
 
-  ampl_comment = '#' @comment nonnewline*;
+  ampl_line_comment = '#' @comment nonnewline*;
+  ampl_block_comment =
+    '/*' @comment (
+      newline %{ entity = INTERNAL_NL; } %ampl_ccallback
+      |
+      ws
+      |
+      (nonnewline - ws) @comment
+    )* :>> '*/';
+  ampl_comment = ampl_line_comment | ampl_block_comment;
 
   ampl_line := |*
     spaces       ${ entity = AMPL_SPACE; } => ampl_ccallback;
@@ -59,7 +68,10 @@ enum {
     callback(AMPL_LANG, ampl_entities[entity], cint(ts), cint(te), userdata);
   }
 
-  ampl_comment_entity = '#' nonnewline*;
+  ampl_line_comment_entity = '#' nonnewline*;
+  ampl_block_comment_entity = '/*' any* :>> '*/';
+  ampl_comment_entity =
+    ampl_line_comment_entity | ampl_block_comment_entity;
 
   ampl_entity := |*
     space+              ${ entity = AMPL_SPACE;   } => ampl_ecallback;
