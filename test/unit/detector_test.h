@@ -103,6 +103,16 @@ void test_detector_disambiguate_r() {
   ASSERT_DETECT(LANG_REBOL, "foo_rebol_upper.r");
 }
 
+void test_detector_disambiguate_mod() {
+  ASSERT_DETECT(LANG_AMPL, "ampl.mod");
+  ASSERT_DETECT(LANG_MODULA2, "modula2.mod");
+}
+
+void test_detector_disambiguate_dat() {
+  ASSERT_DETECT(LANG_AMPL, "ampl.dat");
+  ASSERT_DETECT("\1", "binary.dat");
+}
+
 void test_detector_fortran_fixedfree() {
   ASSERT_DETECT(LANG_FORTRANFIXED, "fortranfixed.f");
   ASSERT_DETECT(LANG_FORTRANFREE, "fortranfree.f");
@@ -157,6 +167,7 @@ void test_detector_detect_polyglot() {
   ASSERT_DETECT(LANG_COFFEESCRIPT, "foo.coffee");
   ASSERT_DETECT(LANG_QML, "foo.qml");
   ASSERT_DETECT(LANG_COQ, "coq.v");
+  ASSERT_DETECT(LANG_AMPL, "foo.run");
   ASSERT_NODETECT("empty.inc");
 }
 
@@ -225,6 +236,10 @@ void test_detector_rust(){
   ASSERT_NODETECT("renderscript.rs");
 }
 
+void test_detector_ampl(){
+  ASSERT_DETECT(LANG_AMPL, "foo.run");
+}
+
 void test_non_existent_file(){
   ASSERT_NODETECT("xxx_non_exists_xxxi.pp");  
 }
@@ -238,6 +253,8 @@ void all_detector_tests() {
   test_detector_disambiguate_pl();
   test_detector_disambiguate_pro();
   test_detector_disambiguate_r();
+  test_detector_disambiguate_mod();
+  test_detector_disambiguate_dat();
   test_detector_fortran_fixedfree();
   test_detector_detect_polyglot();
   test_detector_upper_case_extensions();
@@ -251,5 +268,6 @@ void all_detector_tests() {
   test_detector_puppet();
   test_detector_genie();
   test_detector_rust();
+  test_detector_ampl();
   test_non_existent_file();
 }
