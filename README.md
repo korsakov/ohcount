@@ -45,7 +45,7 @@ language detection features from a Ruby application.
 System Requirements
 -------------------
 
-Ohcount is supported on  Ubuntu 12.04 LTS. Other Linux
+Ohcount is supported on  Ubuntu 14.04 LTS. Other Linux
 environments should also work, but your mileage may vary.
 
 Ohcount does not support Windows.
@@ -63,7 +63,7 @@ Ohcount source code is available as a Git repository:
 Building Ohcount
 ----------------
 
-You will need ragel 6.8 or higher, bash, pcre, magic, gcc (version 4.8.2 or greater)
+You will need ragel 6.8 or higher, bash, gperf, libpcre3-dev, libmagic-dev, gcc (version 4.8.2 or greater)
 and SWIG (2.0.11). Once you have them, go to the top directory of ohcount and run
 
 ```
