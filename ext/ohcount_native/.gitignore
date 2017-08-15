@@ -1,8 +1,0 @@
-*.o
-Makefile
-*.log
-*.so
-*.bundle
-polyglots.c
-*_parser.h
-!ragel_parser.h

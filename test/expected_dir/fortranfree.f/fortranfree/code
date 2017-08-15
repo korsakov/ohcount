@@ -1,8 +1,0 @@
-program foofree
-integer:: c
-write (*,*) 1 &
-& + 1
-C = 1 ! Not a comment.
-write (*,*) 'But we might as well test for it in&
-& free format.'
-end

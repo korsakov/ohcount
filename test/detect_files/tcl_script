@@ -1,0 +1,8 @@
+#!/bin/sh
+# -*-Mode: TCL;-*-
+# the next line restarts using wish \
+exec wish "$0" "$@"
+
+button .hello -text Hello \
+	-command {puts stdout "Hello, World!"}
+pack .hello -padx 20 -pady 10

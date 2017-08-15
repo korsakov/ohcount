@@ -1,0 +1,20 @@
+%{
+#include "../languages.h"
+%}
+struct FilenameMap { const char *key; const char *value; };
+%%
+CMakeLists.txt, LANG_CMAKE
+Jamfile, LANG_JAM
+Jamrules, LANG_JAM
+GNUmakefile, LANG_MAKE
+Makefile, LANG_MAKE
+Makefile.am, LANG_AUTOMAKE
+configure, LANG_AUTOCONF
+configure.ac, LANG_AUTOCONF
+configure.in, LANG_AUTOCONF
+init.pp, LANG_PUPPET
+makefile, LANG_MAKE
+Rakefile, LANG_RUBY
+rakefile, LANG_RUBY
+Gemfile, LANG_RUBY
+Vagrantfile, LANG_RUBY

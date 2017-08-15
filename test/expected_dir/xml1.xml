@@ -1,0 +1,14 @@
+xml	code	<xml>
+xml	comment	<!-- comment 
+xml	comment	  comment line 2
+xml	comment		-> almost done with comment
+xml	comment		-->
+xml	code		<![CDATA[	
+xml	code		<!-- not a comment! -->
+xml	code		]]>
+xml	blank	
+xml	code		<e attr="<![CDATA[ not in cdata!">
+xml	comment			<!-- comment again -->
+xml	code		</e>
+xml	code	</xml>
+xml	blank	

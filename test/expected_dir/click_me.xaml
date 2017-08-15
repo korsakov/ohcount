@@ -1,0 +1,7 @@
+xaml	comment	<!-- Click me -->
+xaml	code	<Page
+xaml	code	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+xaml	code	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+xaml	code	  x:Class="MyNamespace.MyPageCode">
+xaml	code	  <Button Click="ClickHandler" >Click Me!</Button>
+xaml	code	</Page>

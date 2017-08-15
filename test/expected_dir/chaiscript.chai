@@ -1,0 +1,17 @@
+chaiscript	comment	/*
+chaiscript	comment	Random Comments
+chaiscript	comment	Foo Foo Foo
+chaiscript	comment	*/
+chaiscript	code	var submenu=1;
+chaiscript	comment	// comment
+chaiscript	comment	// another comment
+chaiscript	code	submenu += 10
+chaiscript	code	var f = fun() { 5 };
+chaiscript	code	def myFun(i) : i > 0 {
+chaiscript	code	  return i + 10;
+chaiscript	code	}
+chaiscript	blank	
+chaiscript	blank	
+chaiscript	comment	// some comment
+chaiscript	code	var delay_hide=500
+chaiscript	code	b=0

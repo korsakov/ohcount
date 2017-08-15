@@ -1,0 +1,22 @@
+metafont	comment	% The (not really) first 20 or so lines from the plain METAFONT base
+metafont	blank	
+metafont	comment	% Unlimited copying and redistribution of this file are permitted as long
+metafont	comment	% as this file is not modified. Modifications are permitted, but only if
+metafont	comment	% the resulting file is not named plain.mf.
+metafont	blank	
+metafont	code	string base_name, base_version; base_name="plain"; base_version="2.71";
+metafont	blank	
+metafont	code	message "Preloading the plain base, version "&base_version&": preliminaries,";
+metafont	blank	
+metafont	code	delimiters ();  % this makes parentheses behave like parentheses
+metafont	code	def upto = step 1 until enddef; % syntactic sugar
+metafont	code	def downto = step -1 until enddef;
+metafont	code	def exitunless expr c = exitif not c enddef;
+metafont	code	let relax = \;  % ignore the word `relax', as in TeX
+metafont	code	let \\ = \; % double relaxation is like single
+metafont	code	def ]] = ] ] enddef; % right brackets should be loners
+metafont	code	def -- = {curl 1}..{curl 1} enddef;
+metafont	code	def --- = .. tension infinity .. enddef;
+metafont	code	def ... = .. tension atleast 1 .. enddef;
+metafont	blank	
+metafont	code	def gobble primary g = enddef; def killtext text t = enddef;

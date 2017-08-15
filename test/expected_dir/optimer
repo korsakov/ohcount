@@ -1,0 +1,47 @@
+shell	comment	#!/bin/sh
+shell	comment	# optimer – Masserer ordlistefilene til eit kjaptsøkt format.
+shell	comment	#
+shell	comment	# Copyright © 2008, 2009 Karl Ove Hufthammer <karl@huftis.org>.
+shell	comment	#
+shell	comment	#     This file is part of Ordbanken.
+shell	comment	#
+shell	comment	#     Ordbanken is free software: you can redistribute it and/or modify
+shell	comment	#     it under the terms of the GNU General Public License as published by
+shell	comment	#     the Free Software Foundation, either version 3 of the License, or
+shell	comment	#     (at your option) any later version.
+shell	comment	#
+shell	comment	#     This program is distributed in the hope that it will be useful,
+shell	comment	#     but WITHOUT ANY WARRANTY; without even the implied warranty of
+shell	comment	#     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+shell	comment	#     GNU General Public License for more details.
+shell	comment	#
+shell	comment	#     You should have received a copy of the GNU General Public License
+shell	comment	#     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+shell	blank	
+shell	comment	# Utfør kommandoen på fila oppgjeven som førsteargument.
+shell	code	fil=$1
+shell	code	echo $fil
+shell	blank	
+shell	comment	# Forklaring på filtreringskommandoane.
+shell	comment	#  grep: Filtrer vekk kommentarar (linjer som startar med «*»).
+shell	comment	#  fgrep: Filtrer unormerte ord.
+shell	comment	#  sed: Gjer om mellomrom i siste del av linja (der kodane er) til tabulatorar.
+shell	comment	#       (Korfor den kompliserte sed-kommandoen? Fordi kodane i utgangspunktet er
+shell	comment	#       skilde med mellomrom i staden for med tabulatorar. Dette ville ikkje vore
+shell	comment	#       noko problem om alle oppføringar besto av eitt ord, då «column» som
+shell	comment	#       standard handterer mellomrom og tabulatorar likt, men ordbanken har
+shell	comment	#       oppføringar som «på kryss og tvers», og då ville alle orda få kvar si
+shell	comment	#       kolonne (bruk «på» som oppslagsord for å sjå oppføringa).
+shell	comment	#  sed: Fjern kodar (på forma <kode1>) som inneheld tal (interne/uforståelige kodar).
+shell	comment	#  sed: Fjern kodar («ord» utan <>) som startar med tal (interne/uforståelige kodar).
+shell	comment	#  sed: Fjern talkoden på starten av linja.
+shell	comment	#  tr: Slå saman etterfølgjande tabulatorar til éin.
+shell	comment	#  sort: Sorter fila (slik at oppslag med «look» går raskare).
+shell	code	grep -v '^\*' $fil \
+shell	code	| fgrep -v "unormert" \
+shell	code	| sed -r 'h;s/^([^	]+	[^	]+	[^	]+	)(.*)/\2/;s/ /	/g;G;s/(.*)\n([^	]+	[^	]+	[^	]+	)(.*)/\2\1/' \
+shell	code	| sed -r 's/<[^>]*[0-9][^>]*>+/	/g' \
+shell	code	| sed -r 's/	[0-9]+[^	]*/	/g' \
+shell	code	| sed -r 's/^[0-9]+\s+//' \
+shell	code	| tr -s '\t' \
+shell	code	| LC_ALL=C sort > "${fil%.txt}.dat"

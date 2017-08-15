@@ -1,0 +1,6 @@
+[lang]_entity := |*
+  entity1 ${ entity = ENTITY1; } => [lang]_ecallback;
+  entity2 ${ entity = ENTITY2; } => [lang]_ecallback;
+  ...
+  entityn ${ entity = ENTITYN; } => [lang]_ecallback;
+*|;

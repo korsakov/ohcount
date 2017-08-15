@@ -1,0 +1,6 @@
+[lang]_line := |*
+  entity1 ${ entity = ENTITY1; } => [lang]_ccallback;
+  entity2 ${ entity = ENTITY2; } => [lang]_ccallback;
+  ...
+  entityn ${ entity = ENTITYN; } => [lang]_ccallback;
+*|;

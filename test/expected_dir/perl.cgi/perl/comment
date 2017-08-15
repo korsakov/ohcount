@@ -1,5 +1,0 @@
-#!/usr/bin/perl -w
-# ajaxCheckbox.pl - a script to test Ajax functionality
-# --- database authenication
-# you can append stuff to the HTML this way 
-# if onClick the change the style

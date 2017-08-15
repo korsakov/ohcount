@@ -1,0 +1,11 @@
+<asx version="3.0">
+  <title>Example.com Live Stream</title>
+  <entry>
+    <title>Short Announcement to Play Before Main Stream</title>
+    <ref href="http://example.com/announcement.wma" />
+  </entry>
+  <entry>
+    <title>Example radio</title>
+    <ref href="http://example.com:8080" />
+  </entry>
+</asx>

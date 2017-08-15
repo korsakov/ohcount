@@ -1,0 +1,2 @@
+[lang]_[elang]_entry @{ entity = CHECK_BLANK_ENTRY; } @[lang]_callback
+  @{ saw([elang]_LANG)} => { fcall [lang]_[elang]_line; };
