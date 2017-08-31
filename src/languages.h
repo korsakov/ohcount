@@ -29,6 +29,7 @@
 #define LANG_COFFEESCRIPT "coffeescript"
 #define LANG_COQ "coq"
 #define LANG_CPP "cpp"
+#define LANG_CRYSTAL "crystal"
 #define LANG_CS_ASPX "cs_aspx"
 #define LANG_CSHARP "csharp"
 #define LANG_CSS "css"
