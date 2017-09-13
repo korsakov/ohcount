@@ -110,3 +110,7 @@ pascal	code	   CloseFile(t);
 pascal	code	end;
 pascal	blank	
 pascal	code	end.
+pascal	blank	
+pascal	code	class function Test.Run: Boolean;
+pascal	blank	
+pascal	code	#include <test.rh>
