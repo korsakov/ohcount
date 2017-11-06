@@ -202,6 +202,7 @@ sql, parse_sql
 tcl, parse_tcl
 tex, parse_tex
 tex_dtx, parse_tex_dtx
+typescript, parse_typescript
 vala, parse_vala
 vb_aspx, parse_vb_aspx
 vhdl, parse_vhdl

@@ -107,6 +107,7 @@
 #define LANG_TCL "tcl"
 #define LANG_TEX "tex"
 #define LANG_TEX_DTX "tex_dtx"
+#define LANG_TYPESCRIPT "typescript"
 #define LANG_VALA "vala"
 #define LANG_VB_ASPX "vb_aspx"
 #define LANG_VHDL "vhdl"

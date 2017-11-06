@@ -155,6 +155,7 @@ void test_parser_verify_entity(SourceFile *sf, const char *entity,
 #include "parsers/test_stratego.h"
 #include "parsers/test_tcl.h"
 #include "parsers/test_tex.h"
+#include "parsers/test_typescript.h"
 #include "parsers/test_vala.h"
 #include "parsers/test_vb_aspx.h"
 #include "parsers/test_vhdl.h"

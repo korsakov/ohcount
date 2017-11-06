@@ -135,6 +135,8 @@ void test_detector_detect_polyglot() {
   ASSERT_DETECT(LANG_VALA, "foo.vala");
   ASSERT_DETECT(LANG_TEX_DTX, "foo.dtx");
   ASSERT_DETECT(LANG_TEX, "foo.tex");
+  ASSERT_DETECT(LANG_TYPESCRIPT, "foo.ts");
+  ASSERT_DETECT(LANG_TYPESCRIPT, "foo.tsx");
   ASSERT_DETECT(LANG_XSLT, "example.xsl");
   ASSERT_DETECT(LANG_LOGTALK, "foo.lgt");
   ASSERT_DETECT(LANG_LISP, "core.lisp");
