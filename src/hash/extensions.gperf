@@ -112,6 +112,7 @@ jpg, BINARY
 js, LANG_JAVASCRIPT
 jsp, LANG_JSP
 kdebuild-1, LANG_EBUILD
+kt, LANG_KOTLIN
 latex, LANG_TEX
 lisp, LANG_LISP
 lsp, LANG_LISP
