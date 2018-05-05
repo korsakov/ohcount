@@ -10,6 +10,7 @@ const char *disambiguate_cs(SourceFile *sourcefile);
 const char *disambiguate_dat(SourceFile *sourcefile);
 const char *disambiguate_def(SourceFile *sourcefile);
 const char *disambiguate_fortran(SourceFile *sourcefile);
+const char *disambiguate_fs(SourceFile *sourcefile);
 const char *disambiguate_h(SourceFile *sourcefile);
 const char *disambiguate_in(SourceFile *sourcefile);
 const char *disambiguate_inc(SourceFile *sourcefile);
@@ -32,6 +33,7 @@ cs, disambiguate_cs
 dat, disambiguate_dat
 def, disambiguate_def
 fortran, disambiguate_fortran
+fs, disambiguate_fs
 h, disambiguate_h
 in, disambiguate_in
 inc, disambiguate_inc

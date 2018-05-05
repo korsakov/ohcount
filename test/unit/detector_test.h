@@ -163,6 +163,7 @@ void test_detector_detect_polyglot() {
   ASSERT_DETECT(LANG_FSHARP, "fs1.fs");
   ASSERT_DETECT(LANG_GRACE, "grace1.grace");
   ASSERT_DETECT(LANG_GRACE, "grace2.grc");
+  ASSERT_DETECT(LANG_FORTH, "forth.fs");
   ASSERT_DETECT(LANG_AUTOCONF, "m4.m4");
   ASSERT_DETECT(LANG_NSIS, "foo.nsi");
   ASSERT_DETECT(LANG_NSIS, "foo.nsh");
@@ -243,7 +244,7 @@ void test_detector_ampl(){
 }
 
 void test_non_existent_file(){
-  ASSERT_NODETECT("xxx_non_exists_xxxi.pp");  
+  ASSERT_NODETECT("xxx_non_exists_xxxi.pp");
 }
 
 void all_detector_tests() {

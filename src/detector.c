@@ -439,6 +439,37 @@ const char *disambiguate_def(SourceFile *sourcefile) {
   return NULL; // only blanks
 }
 
+const char *disambiguate_fs(SourceFile *sourcefile) {
+  /* .fs could be Forth or F# */
+  char *contents = ohcount_sourcefile_get_contents(sourcefile);
+  if (contents == NULL)
+    return NULL;
+  char *p = contents;
+  char c = *p;
+  long forthcount=0;
+  long fsharpcount=0;
+  while (c != '\0') {
+    while (c == ' ' || c == '\t')
+      c = *++p;
+    if (strncmp(p,"\\ ",2)==0) forthcount++;
+    else if (strncmp(p,": ",2)==0) forthcount++;
+    else if (strncmp(p,"|",1)==0) fsharpcount++;
+    else if (strncmp(p,"let ",4)==0) fsharpcount++;
+    else if (strncmp(p,"type ",5)==0) fsharpcount++;
+    else if (strncmp(p,"//",2)==0) fsharpcount++;
+    while (c != '\0' && c != '\n' && c != '\r')
+      c = *++p;
+    while (c == '\n' || c == '\r')
+      c = *++p;
+  }
+  if (forthcount > fsharpcount)
+    return LANG_FORTH;
+  else if (forthcount < fsharpcount)
+    return LANG_FSHARP;
+  else
+    return NULL;
+}    
+
 const char *disambiguate_fortran(SourceFile *sourcefile) {
   char *p;
 
