@@ -76,6 +76,7 @@ fr, LANG_FORTH
 frag, LANG_GLSL
 frt, LANG_FORTH
 for, DISAMBIGUATE("fortran")
+forth, LANG_FORTH
 fpp, DISAMBIGUATE("fortran")
 frm, LANG_VISUALBASIC
 frx, LANG_VISUALBASIC
