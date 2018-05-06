@@ -74,6 +74,7 @@ void test_detector_disambiguate_m() {
   ASSERT_DETECT(LANG_OBJECTIVE_C, "t2.m");
   ASSERT_DETECT(LANG_OBJECTIVE_C, "TCPSocket.m");
   ASSERT_DETECT(LANG_OBJECTIVE_C, "foo_objective_c.m");
+  ASSERT_DETECT(LANG_MATHEMATICA, "foo_mathematica.m");
   ASSERT_DETECT(LANG_MATLAB, "foo_matlab.m");
   ASSERT_DETECT(LANG_OCTAVE, "foo_octave.m");
 }
@@ -102,6 +103,16 @@ void test_detector_disambiguate_r() {
   ASSERT_DETECT(LANG_REBOL, "foo_rebol_upper.r");
 }
 
+void test_detector_disambiguate_mod() {
+  ASSERT_DETECT(LANG_AMPL, "ampl.mod");
+  ASSERT_DETECT(LANG_MODULA2, "modula2.mod");
+}
+
+void test_detector_disambiguate_dat() {
+  ASSERT_DETECT(LANG_AMPL, "ampl.dat");
+  ASSERT_DETECT("\1", "binary.dat");
+}
+
 void test_detector_fortran_fixedfree() {
   ASSERT_DETECT(LANG_FORTRANFIXED, "fortranfixed.f");
   ASSERT_DETECT(LANG_FORTRANFREE, "fortranfree.f");
@@ -115,12 +126,18 @@ void test_detector_detect_polyglot() {
   ASSERT_DETECT(LANG_CPP, "uses_cpp_keywords.h");
   ASSERT_DETECT(LANG_RUBY, "foo.rb");
   ASSERT_DETECT(LANG_MAKE, "foo.mk");
+  ASSERT_DETECT(LANG_MATHEMATICA, "foo.mt");
+  ASSERT_DETECT(LANG_MATHEMATICA, "foo.wl");
+  ASSERT_DETECT(LANG_MATHEMATICA, "foo.wlt");
+  ASSERT_DETECT(LANG_MODELICA, "foo.mo");
   ASSERT_DETECT(LANG_OBJECTIVE_C, "foo_objective_c.h");
   ASSERT_DETECT(LANG_PHP, "upper_case_php");
   ASSERT_DETECT(LANG_SMALLTALK, "example.st");
   ASSERT_DETECT(LANG_VALA, "foo.vala");
   ASSERT_DETECT(LANG_TEX_DTX, "foo.dtx");
   ASSERT_DETECT(LANG_TEX, "foo.tex");
+  ASSERT_DETECT(LANG_TYPESCRIPT, "foo.ts");
+  ASSERT_DETECT(LANG_TYPESCRIPT, "foo.tsx");
   ASSERT_DETECT(LANG_XSLT, "example.xsl");
   ASSERT_DETECT(LANG_LOGTALK, "foo.lgt");
   ASSERT_DETECT(LANG_LISP, "core.lisp");
@@ -145,12 +162,17 @@ void test_detector_detect_polyglot() {
   ASSERT_DETECT(LANG_FORTH, "forth.4th");
   ASSERT_DETECT(LANG_FORTH, "forth.fr");
   ASSERT_DETECT(LANG_FSHARP, "fs1.fs");
+  ASSERT_DETECT(LANG_GRACE, "grace1.grace");
+  ASSERT_DETECT(LANG_GRACE, "grace2.grc");
+  ASSERT_DETECT(LANG_FORTH, "forth.fs");
   ASSERT_DETECT(LANG_AUTOCONF, "m4.m4");
   ASSERT_DETECT(LANG_NSIS, "foo.nsi");
   ASSERT_DETECT(LANG_NSIS, "foo.nsh");
   ASSERT_DETECT(LANG_COFFEESCRIPT, "foo.coffee");
   ASSERT_DETECT(LANG_QML, "foo.qml");
   ASSERT_DETECT(LANG_COQ, "coq.v");
+  ASSERT_DETECT(LANG_UNREALSCRIPT, "foo.uc");
+  ASSERT_DETECT(LANG_AMPL, "foo.run");
   ASSERT_NODETECT("empty.inc");
 }
 
@@ -219,8 +241,12 @@ void test_detector_rust(){
   ASSERT_NODETECT("renderscript.rs");
 }
 
+void test_detector_ampl(){
+  ASSERT_DETECT(LANG_AMPL, "foo.run");
+}
+
 void test_non_existent_file(){
-  ASSERT_NODETECT("xxx_non_exists_xxxi.pp");  
+  ASSERT_NODETECT("xxx_non_exists_xxxi.pp");
 }
 
 void all_detector_tests() {
@@ -232,6 +258,8 @@ void all_detector_tests() {
   test_detector_disambiguate_pl();
   test_detector_disambiguate_pro();
   test_detector_disambiguate_r();
+  test_detector_disambiguate_mod();
+  test_detector_disambiguate_dat();
   test_detector_fortran_fixedfree();
   test_detector_detect_polyglot();
   test_detector_upper_case_extensions();
@@ -245,5 +273,6 @@ void all_detector_tests() {
   test_detector_puppet();
   test_detector_genie();
   test_detector_rust();
+  test_detector_ampl();
   test_non_existent_file();
 }

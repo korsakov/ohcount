@@ -75,6 +75,7 @@ void test_parser_verify_entity(SourceFile *sf, const char *entity,
 
 #include "parsers/test_actionscript.h"
 #include "parsers/test_ada.h"
+#include "parsers/test_ampl.h"
 #include "parsers/test_assembler.h"
 #include "parsers/test_augeas.h"
 #include "parsers/test_autoconf.h"
@@ -123,6 +124,7 @@ void test_parser_verify_entity(SourceFile *sf, const char *entity,
 #include "parsers/test_logtalk.h"
 #include "parsers/test_lua.h"
 #include "parsers/test_make.h"
+#include "parsers/test_mathematica.h"
 #include "parsers/test_matlab.h"
 #include "parsers/test_metafont.h"
 #include "parsers/test_metapost.h"
@@ -153,6 +155,8 @@ void test_parser_verify_entity(SourceFile *sf, const char *entity,
 #include "parsers/test_stratego.h"
 #include "parsers/test_tcl.h"
 #include "parsers/test_tex.h"
+#include "parsers/test_unrealscript.h"
+#include "parsers/test_typescript.h"
 #include "parsers/test_vala.h"
 #include "parsers/test_vb_aspx.h"
 #include "parsers/test_vhdl.h"
@@ -259,6 +263,7 @@ void all_parser_tests() {
   test_parser_verify_parses();
   all_actionscript_tests();
   all_ada_tests();
+  all_ampl_tests();
   all_assembler_tests();
   all_augeas_tests();
   all_autoconf_tests();
@@ -306,6 +311,7 @@ void all_parser_tests() {
   all_logtalk_tests();
   all_lua_tests();
   all_make_tests();
+  all_mathematica_tests();
   all_matlab_tests();
   all_metafont_tests();
   all_metapost_tests();
@@ -334,6 +340,7 @@ void all_parser_tests() {
   all_stratego_tests();
   all_tcl_tests();
   all_tex_tests();
+  all_unrealscript_tests();
   all_vala_tests();
   all_vb_aspx_tests();
   all_vhdl_tests();

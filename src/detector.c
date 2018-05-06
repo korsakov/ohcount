@@ -37,8 +37,8 @@ const char *magic_parse(char *line) {
   size_t length;
 
   for (p = line; p < eol; p++) *p = tolower(*p);
-  p = strstr(line, "script text");
-  if (p && p == line) { // /^script text(?: executable)? for \w/
+  p = strstr(line, "script text"); // Example: "script text executable for perl -w,"
+  if (p && p == line) {
     p = strstr(line, "for ");
     if (p) {
       p += 4;
@@ -50,7 +50,10 @@ const char *magic_parse(char *line) {
       struct LanguageMap *rl = ohcount_hash_language_from_name(buf, length);
       if (rl) return(rl->name);
     }
-  } else if (p) { // /(\w+)(?: -\w+)* script text/
+  }
+
+  p = strstr(line, "script"); // Example: "PHP script, ASCII text"
+  if (p) {
     do {
       p--;
       pe = p;
@@ -376,6 +379,41 @@ const char *disambiguate_cs(SourceFile *sourcefile) {
     return LANG_CSHARP;
 }
 
+const char *disambiguate_dat(SourceFile *sourcefile) {
+  char *p = ohcount_sourcefile_get_contents(sourcefile);
+  char *eof = p + ohcount_sourcefile_get_contents_size(sourcefile);
+  for (; p < eof; p++) {
+    switch (*p) {
+    case ' ':
+    case '\t':
+    case '\n':
+    case '\r':
+      break;
+    case '/':
+      if (p[1] == '*') // AMPL comment
+        return LANG_AMPL;
+      return NULL;
+    case '#':
+      return LANG_AMPL; // AMPL comment
+    case 'd':
+      if (strncmp(p, "data", 4) == 0) // AMPL data statement
+        return LANG_AMPL;
+      return BINARY;
+    case 'p':
+      if (strncmp(p, "param", 5) == 0) // AMPL param statement
+        return LANG_AMPL;
+      return BINARY;
+    case 's':
+      if (strncmp(p, "set", 3) == 0) // AMPL set statement
+        return LANG_AMPL;
+      return BINARY;
+    default:
+      return BINARY;
+    }
+  }
+  return NULL; // only blanks
+}
+
 const char *disambiguate_def(SourceFile *sourcefile) {
   char *p = ohcount_sourcefile_get_contents(sourcefile);
   char *eof = p + ohcount_sourcefile_get_contents_size(sourcefile);
@@ -400,6 +438,37 @@ const char *disambiguate_def(SourceFile *sourcefile) {
   }
   return NULL; // only blanks
 }
+
+const char *disambiguate_fs(SourceFile *sourcefile) {
+  /* .fs could be Forth or F# */
+  char *contents = ohcount_sourcefile_get_contents(sourcefile);
+  if (contents == NULL)
+    return NULL;
+  char *p = contents;
+  char c = *p;
+  long forthcount=0;
+  long fsharpcount=0;
+  while (c != '\0') {
+    while (c == ' ' || c == '\t')
+      c = *++p;
+    if (strncmp(p,"\\ ",2)==0) forthcount++;
+    else if (strncmp(p,": ",2)==0) forthcount++;
+    else if (strncmp(p,"|",1)==0) fsharpcount++;
+    else if (strncmp(p,"let ",4)==0) fsharpcount++;
+    else if (strncmp(p,"type ",5)==0) fsharpcount++;
+    else if (strncmp(p,"//",2)==0) fsharpcount++;
+    while (c != '\0' && c != '\n' && c != '\r')
+      c = *++p;
+    while (c == '\n' || c == '\r')
+      c = *++p;
+  }
+  if (forthcount > fsharpcount)
+    return LANG_FORTH;
+  else if (forthcount < fsharpcount)
+    return LANG_FSHARP;
+  else
+    return NULL;
+}    
 
 const char *disambiguate_fortran(SourceFile *sourcefile) {
   char *p;
@@ -625,6 +694,7 @@ const char *disambiguate_m(SourceFile *sourcefile) {
   int length;
 
   // Attempt to detect based on a weighted heuristic of file contents.
+  int mathematica_score = 0;
   int matlab_score = 0;
   int objective_c_score = 0;
   int limbo_score = 0;
@@ -682,8 +752,8 @@ const char *disambiguate_m(SourceFile *sourcefile) {
     while (*p == ' ' || *p == '\t') p++;
     if (*p == '%') { // Matlab comment
       matlab_score++;
-		} else if (*p == '#' && strncmp(p, "#import", 7) == 0) { // Objective C
-			objective_c_score++;
+    } else if (*p == '#' && strncmp(p, "#import", 7) == 0) { // Objective C
+      objective_c_score++;
     } else if (*p == '#') { // Limbo or Octave comment
       while (*p == '#') p++;
       if (*p == ' ' || *p == '\t') {
@@ -691,7 +761,7 @@ const char *disambiguate_m(SourceFile *sourcefile) {
         matlab_score++;
         octave_syntax_detected = 1;
       }
-    } else if (*p == '/' && *(p + 1) == '/' || *(p + 1) == '*') {
+    } else if (*p == '/' && *(p + 1) == '/' || *p == '/' && *(p + 1) == '*') {
       objective_c_score++; // Objective C comment
     } else if (*p == '+' || *p == '-') { // Objective C method signature
       objective_c_score++;
@@ -753,18 +823,70 @@ const char *disambiguate_m(SourceFile *sourcefile) {
       } else p++;
     }
 
+    // Look for Mathematica pattern definitions
+    p = line;
+    while (p < eol) {
+      // & as postfix operator
+      if (*p == '&') {
+        p++;
+        while (*p == ' ' || *p == '\t') p++;
+        if (*p == ',' || *p == ')' || *p == ']') mathematica_score++;
+      }
+      // Mathematica comment
+      if (*p == '(' && *(p + 1) == '*') mathematica_score++;
+      // some Mathematica operators
+      if (*p == '/' && *(p + 1) == '.') mathematica_score++;
+      if (*p == '_' && *(p + 1) == '_') mathematica_score++;
+      if (*p == '@' && *(p + 1) == '@') mathematica_score++;
+      p++;
+    }
+
     // Next line.
     pe = line_end;
     while (*pe == '\r' || *pe == '\n') pe++;
     p = pe;
   }
 
-  if (limbo_score > objective_c_score && limbo_score > matlab_score)
+  if (limbo_score > objective_c_score &&
+      limbo_score > matlab_score &&
+      limbo_score > mathematica_score)
     return LANG_LIMBO;
-  else if (objective_c_score > matlab_score)
+  else if (objective_c_score > matlab_score &&
+           objective_c_score > mathematica_score)
     return LANG_OBJECTIVE_C;
+  else if (mathematica_score > matlab_score)
+    return LANG_MATHEMATICA;
   else
     return octave_syntax_detected ? LANG_OCTAVE : LANG_MATLAB;
+}
+
+const char *disambiguate_mod(SourceFile *sourcefile) {
+  char *p = ohcount_sourcefile_get_contents(sourcefile);
+  char *eof = p + ohcount_sourcefile_get_contents_size(sourcefile);
+  for (; p < eof; p++) {
+    switch (*p) {
+    case ' ':
+    case '\t':
+    case '\n':
+    case '\r':
+      break;
+    case '(':
+      if (p[1] == '*') // Modula-2 comment
+        return LANG_MODULA2;
+      return NULL;
+    case 'I':
+      if (strncmp(p, "IMPLEMENTATION", 14) == 0) // Modula-2 "IMPLEMENTATION MODULE"
+        return LANG_MODULA2;
+      return NULL;
+    case 'M':
+      if (strncmp(p, "MODULE", 6) == 0) // Modula-2 "MODULE"
+        return LANG_MODULA2;
+      return NULL;
+    default:
+      return LANG_AMPL;
+    }
+  }
+  return NULL; // only blanks
 }
 
 #include <pcre.h>
@@ -797,7 +919,7 @@ const char *disambiguate_pp(SourceFile *sourcefile) {
 
 	/* check for standard puppet constructs */
 	pcre *construct;
-	construct = pcre_compile("^\\s*(define\\s+[\\w:-]+\\s*\\(|class\\s+[\\w:-]+(\\s+inherits\\s+[\\w:-]+)?\\s*{|node\\s+\\'?[\\w:\\.-]+\\'?\\s*{|import\\s+\")",
+	construct = pcre_compile("^\\s*(define\\s+[\\w:-]+\\s*\\(|class\\s+[\\w:-]+(\\s+inherits\\s+[\\w:-]+)?\\s*[\\({]|node\\s+\\'?[\\w:\\.-]+\\'?\\s*{|import\\s+\"|include\\s+[\"']?[\\w:-][\"']?)",
 			PCRE_MULTILINE, &error, &erroffset, NULL);
 
 	if (pcre_exec(construct, NULL, p, mystrnlen(p, 10000), 0, 0, NULL, 0) > -1)
