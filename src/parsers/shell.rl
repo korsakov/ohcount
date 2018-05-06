@@ -50,6 +50,8 @@ enum {
     '\'' @enqueue @code (
       newline %{ entity = INTERNAL_NL; } %shell_ccallback
       |
+      '\\' newline %{ entity = INTERNAL_NL; } %shell_ccallback
+      |
       ws
       |
       [^\r\n\f\t '\\] @code
@@ -59,6 +61,8 @@ enum {
   shell_dq_str =
     '"' @enqueue @code (
       newline %{ entity = INTERNAL_NL; } %shell_ccallback
+      |
+      '\\' newline %{ entity = INTERNAL_NL; } %shell_ccallback
       |
       ws
       |

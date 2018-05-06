@@ -135,13 +135,25 @@ void parse_javascript(char *buffer, int length, int count,
 }
 
 const char *QML_LANG = LANG_QML;
+const char *TS_LANG = LANG_TYPESCRIPT;
 const char *ORIG_JS_LANG = LANG_JAVASCRIPT;
+
 void parse_qml(char *buffer, int length, int count,
                void (*callback) (const char *lang, const char *entity,
                                  int s, int e, void *udata),
                void *userdata
   ) {
   JS_LANG = QML_LANG;
+  parse_javascript(buffer, length, count, callback, userdata);
+  JS_LANG = ORIG_JS_LANG;
+}
+
+void parse_typescript(char *buffer, int length, int count,
+                      void (*callback) (const char *lang, const char *entity,
+                                        int s, int e, void *udata),
+                      void *userdata
+  ) {
+  JS_LANG = TS_LANG;
   parse_javascript(buffer, length, count, callback, userdata);
   JS_LANG = ORIG_JS_LANG;
 }

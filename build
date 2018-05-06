@@ -114,13 +114,17 @@ run_test_suite()
   sh -c "cd test/unit/ && ./run_tests"
 }
 
+RUBY_HEADER_DIR=`ruby -rmkmf -e 'print RbConfig::expand(CONFIG["rubyhdrdir"])'`
+rbconfig_arch=`ruby -rmkmf -e 'print RbConfig::expand(CONFIG["arch"])'`
+RUBY_CONFIG_DIR="$RUBY_HEADER_DIR/$rbconfig_arch"
+
 build_ruby_bindings()
 {
 	echo "Generating Ruby bindings for $arch"
 	sh -c "swig -ruby -o ruby/ohcount_wrap.c ruby/ohcount.i" || exit 1
 	mkdir -p ruby/$arch
   sh -c "$cc $RB_SHARED ruby/ohcount_wrap.c $files -o ruby/$arch/$RB_SHARED_NAME \
-    -I`ruby -rmkmf -e 'print Config::expand(CONFIG["archdir"])'` \
+    -I$RUBY_HEADER_DIR -I$RUBY_CONFIG_DIR \
     -lpcre -lmagic" || exit 1
   sh -c "cd test/unit/ruby && ruby ruby_test.rb" || exit 1
 }

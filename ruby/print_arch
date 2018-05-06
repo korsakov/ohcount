@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 require 'mkmf'
 
-arch = Config::expand(CONFIG["arch"])
+arch = RbConfig::expand(CONFIG["arch"])
 
 distro = if File.exist?("/etc/issue")
   # this is "", "CentOS" or "Ubuntu"
