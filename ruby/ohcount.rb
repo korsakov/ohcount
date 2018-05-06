@@ -12,8 +12,12 @@ module Ohcount
     def file_location=(value) set_diskpath(value) end
     def file_location() diskpath() end
     def filenames=(value) set_filenames(value) end
-    def contents() get_contents() end
     def polyglot() get_language() end
+
+    def contents
+      data = get_contents()
+      data.force_encoding(Encoding.default_external)
+    end
 
     def language_breakdowns
       list = get_parsed_language_list()

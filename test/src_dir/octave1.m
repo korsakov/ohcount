@@ -4,7 +4,7 @@
 ## 3-clause BSD license appended to this file.
 
 function varargout = toledolu(LU)
-  ## -*- texinfo -*-
+  ## (*- texinfo -*)
   ## @deftypefn{Function File} {[@var{L}, @var{U}, @var{P}]} = toledolu(@var{A})
   ## @deftypefnx{Function File} {[@var{L}, @var{U}]} = toledolu(@var{A})
   ## @deftypefnx{Function File} {@var{LUP}} = toledolu(@var{A})
@@ -20,8 +20,8 @@ function varargout = toledolu(LU)
   ## See the help for lu for details about the other calling forms.
   ##
   ## For the algorithm, see
-  ## @itemize
-  ## @item
+  ## (* @itemize *)
+  ## (* @item *)
   ## Toledo, Sivan. "Locality of reference in LU decomposition with
   ## partial pivoting," SIAM J. of Matrix Analysis and Applications,
   ## v18, n4, 1997. DOI: 10.1137/S0895479896297744

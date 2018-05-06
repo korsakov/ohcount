@@ -5,6 +5,7 @@ struct LanguageMap;
 %%
 actionscript, LANG_ACTIONSCRIPT, "ActionScript", 0
 ada, LANG_ADA, "Ada", 0
+ampl, LANG_AMPL, "AMPL", 0
 assembler, LANG_ASSEMBLER, "Assembler", 0
 augeas, LANG_AUGEAS, "Augeas", 0
 autoconf, LANG_AUTOCONF, "Autoconf", 2
@@ -48,6 +49,7 @@ fsharp, LANG_FSHARP, "F#", 0
 genie, LANG_GENIE, "Genie", 0
 glsl, LANG_GLSL, "OpenGL Shading Language", 0
 golang, LANG_GOLANG, "Golang", 0
+grace, LANG_GRACE, "Grace", 0
 groovy, LANG_GROOVY, "Groovy", 0
 haml, LANG_HAML, "Haml", 1
 haskell, LANG_HASKELL, "Haskell", 0
@@ -58,11 +60,13 @@ jam, LANG_JAM, "Jam", 2
 java, LANG_JAVA, "Java", 0
 javascript, LANG_JAVASCRIPT, "JavaScript", 0
 jsp, LANG_JSP, "", 0
+kotlin, LANG_KOTLIN, "Kotlin", 0
 limbo, LANG_LIMBO, "Limbo", 0
 lisp, LANG_LISP, "Lisp", 0
 logtalk, LANG_LOGTALK, "Logtalk", 0
 lua, LANG_LUA, "Lua", 0
 make, LANG_MAKE, "Make", 2
+mathematica, LANG_MATHEMATICA, "Mathematica", 0
 matlab, LANG_MATLAB, "Matlab", 0
 metafont, LANG_METAFONT, "MetaFont", 1
 metapost, LANG_METAPOST, "MetaPost", 1
@@ -103,6 +107,7 @@ sql, LANG_SQL, "SQL", 0
 tcl, LANG_TCL, "TCL", 0
 tex, LANG_TEX, "TeX/LaTeX", 1
 unrealscript, LANG_UNREALSCRIPT, "UnrealScript", 0
+typescript, LANG_TYPESCRIPT, "TypeScript", 0
 vala, LANG_VALA, "Vala", 0
 vb_aspx, LANG_VB_ASPX, "", 0
 vhdl, LANG_VHDL, "VHDL", 0

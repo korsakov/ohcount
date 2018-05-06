@@ -25,7 +25,7 @@ Overview
 
 Ohcount is a library for counting lines of source code.
 It was originally developed at Ohloh, and is used to generate
-the reports at www.ohloh.net.
+the reports at www.openhub.net.
 
 Ohcount supports multiple languages within a single file: for example,
 a complex HTML document might include regions of both CSS and JavaScript.
@@ -45,12 +45,12 @@ language detection features from a Ruby application.
 System Requirements
 -------------------
 
-Ohcount is supported on Mac OS X 10.4 and 10.5 and Ubuntu 10.04 LTS. Other Linux
+Ohcount is supported on  Ubuntu 14.04 LTS. Other Linux
 environments should also work, but your mileage may vary.
 
 Ohcount does not support Windows.
 
-Ohcount targets Ruby 1.8.7. The build script requires a bash shell. You
+Ohcount targets Ruby 1.9.3. The build script requires a bash shell. You
 also need a C compiler to build the native extensions.
 
 Source Code
@@ -63,8 +63,8 @@ Ohcount source code is available as a Git repository:
 Building Ohcount
 ----------------
 
-You will need ragel 6.3 or higher, bash, pcre, magic, gcc (version 4.1.2 or greater)
-and SWIG. Once you have them, go to the top directory of ohcount and run
+You will need ragel 6.8 or higher, bash, gperf, libpcre3-dev, libmagic-dev, gcc (version 4.8.2 or greater)
+and SWIG (2.0.11). Once you have them, go to the top directory of ohcount and run
 
 ```
 ./build

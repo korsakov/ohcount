@@ -110,3 +110,7 @@ begin
 end;
 
 end.
+
+class function Test.Run: Boolean;
+
+#include <test.rh>
