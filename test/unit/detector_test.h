@@ -129,6 +129,7 @@ void test_detector_detect_polyglot() {
   ASSERT_DETECT(LANG_MATHEMATICA, "foo.mt");
   ASSERT_DETECT(LANG_MATHEMATICA, "foo.wl");
   ASSERT_DETECT(LANG_MATHEMATICA, "foo.wlt");
+  ASSERT_DETECT(LANG_MODELICA, "foo.mo");
   ASSERT_DETECT(LANG_OBJECTIVE_C, "foo_objective_c.h");
   ASSERT_DETECT(LANG_PHP, "upper_case_php");
   ASSERT_DETECT(LANG_SMALLTALK, "example.st");
