@@ -176,6 +176,7 @@ void test_detector_detect_polyglot() {
   ASSERT_DETECT(LANG_AMPL, "foo.run");
   ASSERT_DETECT(LANG_LIVECODE, "foo.lc");
   ASSERT_DETECT(LANG_LIVECODE, "script.utf8");
+  ASSERT_DETECT(LANG_POSTSCRIPT, "foo.ps");
   ASSERT_NODETECT("empty.inc");
 }
 
