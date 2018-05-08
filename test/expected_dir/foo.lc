@@ -1,0 +1,13 @@
+livecode	comment	# Comment
+livecode	comment	-- Comment
+livecode	comment	// Comment
+livecode	blank	
+livecode	comment	/*
+livecode	blank	
+livecode	comment	Block Comment
+livecode	blank	
+livecode	comment	*/
+livecode	blank	
+livecode	code	on mouseUp
+livecode	code		doSomething
+livecode	code	end mouseUp
