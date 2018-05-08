@@ -51,6 +51,7 @@
 #include "../parsers/kotlin.h"
 #include "../parsers/lisp.h"
 #include "../parsers/limbo.h"
+#include "../parsers/livecode.h"
 #include "../parsers/logtalk.h"
 #include "../parsers/lua.h"
 #include "../parsers/makefile.h"
@@ -164,6 +165,8 @@ jsp, parse_jsp
 kotlin, parse_kotlin
 lisp, parse_lisp
 limbo, parse_limbo
+lisp, parse_lisp
+livecode, parse_livecode
 logtalk, parse_logtalk
 lua, parse_lua
 make, parse_makefile

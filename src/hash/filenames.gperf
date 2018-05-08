@@ -19,3 +19,4 @@ rakefile, LANG_RUBY
 Gemfile, LANG_RUBY
 Vagrantfile, LANG_RUBY
 PKGBUILD, LANG_SHELL
+script.utf8, LANG_LIVECODE

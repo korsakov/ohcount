@@ -64,6 +64,7 @@ jsp, LANG_JSP, "", 0
 kotlin, LANG_KOTLIN, "Kotlin", 0
 limbo, LANG_LIMBO, "Limbo", 0
 lisp, LANG_LISP, "Lisp", 0
+livecode, LANG_LIVECODE, "LiveCode", 0
 logtalk, LANG_LOGTALK, "Logtalk", 0
 lua, LANG_LUA, "Lua", 0
 make, LANG_MAKE, "Make", 2
