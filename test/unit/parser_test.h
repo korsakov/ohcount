@@ -139,6 +139,7 @@ void test_parser_verify_entity(SourceFile *sf, const char *entity,
 #include "parsers/test_pascal.h"
 #include "parsers/test_perl.h"
 #include "parsers/test_pike.h"
+#include "parsers/test_postscript.h"
 #include "parsers/test_puppet.h"
 #include "parsers/test_python.h"
 #include "parsers/test_qml.h"
@@ -328,6 +329,7 @@ void all_parser_tests() {
   all_pascal_tests();
   all_perl_tests();
   all_pike_tests();
+  all_postscript_tests();
   all_python_tests();
   all_r_tests();
   all_racket_tests();
