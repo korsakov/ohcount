@@ -43,6 +43,7 @@ cmake, LANG_CMAKE
 coffee, LANG_COFFEESCRIPT
 com, LANG_DCL
 cpp, LANG_CPP
+cr, LANG_CRYSTAL
 cs, DISAMBIGUATE("cs")
 csproj, LANG_XML
 css, LANG_CSS
