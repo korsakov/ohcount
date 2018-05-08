@@ -124,6 +124,7 @@ clearsilver_template, parse_cshtml
 clojure, parse_clojure
 coffeescript, parse_coffeescript
 coq, parse_coq
+crystal, parse_crystal
 cpp, parse_cpp
 cs_aspx, parse_cs_aspx
 csharp, parse_csharp
