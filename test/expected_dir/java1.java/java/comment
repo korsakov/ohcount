@@ -1,6 +1,0 @@
-// Program 11.6: A nicer sine wave
-// Given the  xpoint we're given calculate the Cartesian equivalent
-// Take the sine of that x 
-// Scale y into window coordinates
-/* Switch jvalue from Cartesian coordinates 
-to computer graphics coordinates */   

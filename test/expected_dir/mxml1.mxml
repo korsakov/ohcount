@@ -1,0 +1,26 @@
+mxml	code	<?xml version="1.0" encoding="utf-8"?>
+mxml	blank	
+mxml	code	<mx:Application xmlns:mx="http://www.macromedia.com/2003/mxml">
+mxml	blank	
+mxml	code		<mx:Style>
+css	blank	
+css	code	        TextArea {
+css	code				backgroundColor: #EEF5EE;
+css	code			}
+css	blank	
+mxml	code	    </mx:Style>
+mxml	blank	
+mxml	code	    <mx:Script>
+actionscript	blank	
+actionscript	code	        function copy() {
+actionscript	code	            destination.text=source.text
+actionscript	code	        }
+actionscript	blank	
+mxml	code	    </mx:Script>
+mxml	blank	
+mxml	blank	
+mxml	code	    <mx:TextInput id="source" width="100"/>
+mxml	code	    <mx:Button label="Copy" click="copy()"/>
+mxml	code	    <mx:TextInput id="destination" width="100"/>
+mxml	blank	
+mxml	code	</mx:Application>

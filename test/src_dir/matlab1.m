@@ -52,3 +52,5 @@ axis([0 tmax 0 1]);
 % [T,true] = ode45(@logistic,[0,20],Nc,Options,r,K,theta);
 % subplot(1,2,2)
 % plot([1:tmax],P,'r.-',T,true,'g.-')
+
+ ... This is a seriously old-school comment.

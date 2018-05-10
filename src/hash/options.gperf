@@ -1,0 +1,18 @@
+%{
+#include "../ohcount.h"
+%}
+struct OhcountOption { const char *key; int value; };
+%%
+-a, COMMAND_ANNOTATE
+--annotate, COMMAND_ANNOTATE
+-d, COMMAND_DETECT
+--detect, COMMAND_DETECT
+-h, COMMAND_HELP
+--help, COMMAND_HELP
+-i, COMMAND_INDIVIDUAL
+--individual, COMMAND_INDIVIDUAL
+-l, COMMAND_LICENSES
+--license, COMMAND_LICENSES
+-re, COMMAND_RAWENTITIES
+-s, COMMAND_SUMMARY
+--summary, COMMAND_SUMMARY

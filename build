@@ -1,0 +1,169 @@
+#!/usr/bin/env bash 
+# Build script for Ohcount.
+# Written by Mitchell Foral. mitchell<att>caladbolg.net.
+
+# Options
+# Change these for your system configuration.
+if [ `uname` != "Darwin" ]
+then
+  # Linux
+  INC_DIR=
+  LIB_DIR=
+
+  if [ `uname` == "FreeBSD" ] 
+  then 
+    INC_DIR=/usr/local/include 
+    LIB_DIR=/usr/local/lib 
+  fi 
+
+  # You shouldn't have to change the following.
+  CFLAGS=-O3
+  WARN="-Wall -Wno-pointer-to-int-cast -Wno-parentheses"
+  SHARED=-shared
+  SHARED_NAME=libohcount.so
+  RB_SHARED=-shared
+  RB_SHARED_NAME=ohcount.so
+else
+  # Mac OSX
+  INC_DIR=/opt/local/include
+  LIB_DIR=/opt/local/lib
+  # You shouldn't have to change the following.
+  CFLAGS="-fno-common -g"
+  WARN="-Wall -Wno-parentheses"
+  SHARED="-dynamiclib -L$LIB_DIR -lpcre"
+  SHARED_NAME=libohcount.dylib
+  RB_SHARED="-dynamic -bundle -lruby"
+  RB_SHARED_NAME=ohcount.bundle
+fi
+
+# C compiler and flags
+cc="gcc -fPIC -g $CFLAGS $WARN -I$INC_DIR -L$LIB_DIR"
+
+# ARCHITECTURE
+arch=`ruby/print_arch`
+
+# Ohcount source files
+files="src/sourcefile.c \
+       src/detector.c \
+       src/licenses.c \
+       src/parser.o \
+       src/loc.c \
+       src/log.c \
+       src/diff.c \
+       src/parsed_language.c \
+       src/hash/language_hash.c"
+
+# If any src/hash/*.gperf file is newer than the header files (which were
+# presumably generated together), regenerate the headers.
+build_hash_headers()
+{
+  if [[ -z `ls src/hash/ | grep "_hash.h$"` ||
+        ! -z `find src/hash/*.gperf -newer src/hash/parser_hash.h` ]]
+  then
+    echo "Generating hash headers"
+    sh -c "cd src/hash/ && ./generate_headers" || exit 1
+  fi
+}
+
+# If src/parser.o does not exist, or if there are Ragel parsers or parser
+# header files newer than the existing parser.o, recompile parser.o.
+build_parser_o()
+{
+  if [[ ! -f src/parser.o ||
+        ! -z `find src/parsers/*.{h,rl} -newer src/parser.o` ]]
+  then
+    bash -c "cd src/parsers/ && bash ./compile" || exit 1
+    echo "Building src/parser.c (will take a while)"
+    bash -c "$cc -c src/parser.c -o src/parser.o" || exit 1
+  fi
+}
+
+build_shared()
+{
+  build_hash_headers
+  build_parser_o
+  if [[ ! -f src/$SHARED_NAME ||
+        ! -z `find src/*.{h,c} -newer src/$SHARED_NAME` ]]
+  then
+    echo "Building shared library"
+    sh -c "$cc $SHARED $files -o src/$SHARED_NAME" || exit 1
+  fi
+}
+
+build_ohcount()
+{
+  build_hash_headers
+  build_parser_o
+  echo "Building Ohcount"
+  mkdir -p bin/
+  sh -c "$cc src/ohcount.c $files -o bin/ohcount -lpcre -lmagic" || exit 1
+}
+
+build_test_suite()
+{
+  build_hash_headers
+  build_parser_o
+  echo "Building test suite"
+  sh -c "$cc test/unit/all_tests.c $files -o test/unit/run_tests -lpcre -lmagic" \
+    || exit 1
+}
+
+run_test_suite()
+{
+  echo "Running test suite"
+  sh -c "cd test/unit/ && ./run_tests"
+}
+
+RUBY_HEADER_DIR=`ruby -rmkmf -e 'print RbConfig::expand(CONFIG["rubyhdrdir"])'`
+rbconfig_arch=`ruby -rmkmf -e 'print RbConfig::expand(CONFIG["arch"])'`
+RUBY_CONFIG_DIR="$RUBY_HEADER_DIR/$rbconfig_arch"
+
+build_ruby_bindings()
+{
+	echo "Generating Ruby bindings for $arch"
+	sh -c "swig -ruby -o ruby/ohcount_wrap.c ruby/ohcount.i" || exit 1
+	mkdir -p ruby/$arch
+  sh -c "$cc $RB_SHARED ruby/ohcount_wrap.c $files -o ruby/$arch/$RB_SHARED_NAME \
+    -I$RUBY_HEADER_DIR -I$RUBY_CONFIG_DIR \
+    -lpcre -lmagic" || exit 1
+  sh -c "cd test/unit/ruby && ruby ruby_test.rb" || exit 1
+}
+
+if [ $# -eq 0 ] || [ $1 == "all" ]
+then
+  build_ohcount
+  build_test_suite
+  run_test_suite
+  build_ruby_bindings
+  echo $success
+elif [ $1 == "shared" ]
+then
+  build_shared
+  echo "Build successful; $SHARED_NAME is in src/"
+elif [ $1 == "ohcount" ]
+then
+  build_ohcount
+  echo "Build successful; ohcount is in bin/"
+elif [ $1 == "tests" ]
+then
+  build_test_suite
+  run_test_suite
+elif [ $1 == "ruby" ]
+then
+  build_ruby_bindings
+  echo "Build successful; $RB_SHARED_NAME is in ruby/$arch"
+elif [ $1 == "clean" ]
+then
+  rm -f bin/ohcount
+  rm -f test/unit/run_tests
+  rm -f src/parser.o
+  rm -f src/parsers/*.h
+  rm -f src/hash/*.h
+  rm -f src/hash/*.c
+  rm -f src/$SHARED_NAME
+  rm -f ruby/$RB_SHARED_NAME
+  rm -rf ruby/$arch/*
+  rm -f ruby/ohcount_wrap.c
+else
+  echo "Usage: build [all|ohcount|shared|tests|ruby|clean]"
+fi

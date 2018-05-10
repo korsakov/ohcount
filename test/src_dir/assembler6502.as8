@@ -1,0 +1,21 @@
+; "Hello world" in 6502 assembly language for 8-bit Atari.
+; Assembler: http://xasm.atari.org/ or http://mads.atari8.info/
+
+	org	$3000
+main	lda	#$21
+	sta	$22f
+	lda	#<dl
+	sta	$230
+	lda	#>dl
+	sta	$231
+	jmp	*
+
+text	dta	d' HELLO, ',d'WORLD!  '*
+
+; Display List
+dl	dta	b($70),b($70),b($70),b($47),a(text),b($41),a(dl)
+
+	org	$2e0
+	dta	a(main)
+
+	end

@@ -1,0 +1,54 @@
+bfpp	blank	
+bfpp	comment	= comment
+bfpp	code	>++++++[>+++[<<++++>>-]<-]<.
+bfpp	code	>+++++[<++++++>-]<-.
+bfpp	code	+++++++.
+bfpp	code	.
+bfpp	code	+++.
+bfpp	code	>>++++[<++++++>-]<++[<--->-]<-.
+bfpp	code	>>++[<+++++>-]<+[<+++++>-]<.
+bfpp	code	>++++[<++++++>-]<.
+bfpp	code	+++.
+bfpp	code	------.
+bfpp	code	>++[<---->-]<.
+bfpp	code	>>++++[<++++>-]<+[<---->-]<.
+bfpp	code	>+++++++[<++++++>-]<-.
+bfpp	code	>++++++[<++++++>-]<+.
+bfpp	code	>>++++[<++++++>-]<++[<--->-]<.
+bfpp	code	>+++++[<+++++++>-]<-.
+bfpp	code	>++++[>++++[<<+++>>-]<-]<.
+bfpp	code	>++++[<---->-]<-.
+bfpp	code	>++[<++++>-]<.
+bfpp	code	+++++.
+bfpp	code	>++[<---->-]<.
+bfpp	code	>+++[<+++++>-]<.
+bfpp	code	>+++[<------>-]<.
+bfpp	code	>++[<++++>-]<.
+bfpp	code	>++++[>++++[<<---->>-]<-]<.
+bfpp	code	.
+bfpp	code	>++[<----->-]<.
+bfpp	code	.
+bfpp	code	.
+bfpp	code	.
+bfpp	code	.
+bfpp	code	[-]
+bfpp	comment	  = [-] is used to clear a cell
+bfpp	blank	
+bfpp	comment	= Try to open b file
+bfpp	code	>+++++++[>+++++++[<<++>>-]<-]<.
+bfpp	code	#[
+bfpp	code	  >>++++[<++++>-]<+[<++++++>-]<.
+bfpp	code	  +++.
+bfpp	code	  +++.
+bfpp	code	  -------.
+bfpp	code	  >>++++[<++++++>-]<-[<--->-]<.
+bfpp	code	  >>++[<+++++>-]<+[<++++++>-]<.
+bfpp	code	  >>++[<+++++>-]<+[<------>-]<.
+bfpp	code	  >>++++[<++++++>-]<++[<+++>-]<+.
+bfpp	code	  +.
+bfpp	code	  >++[<----->-]<-.
+bfpp	code	  >+++[<+++>-]<.
+bfpp	code	  >+++[<--->-]<.
+bfpp	code	  -.
+bfpp	code	#]
+bfpp	code	@include(nothing.bfpp)

@@ -1,0 +1,4 @@
+class tester (
+) {
+  "Some Content"
+}

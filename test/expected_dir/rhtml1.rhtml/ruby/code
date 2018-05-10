@@ -1,9 +1,0 @@
-<%= stylesheet_link_tag "style" %>
-<%= javascript_include_tag :defaults %>
-<%= @content_for_layout %>
-<%= ruby code %> <br/>
-<% tricky code %>
-<%- multi
-lines of code
-"damn" # that's sweet
-<div> <%= ruby_code %> </div>

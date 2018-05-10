@@ -1,4 +1,0 @@
-$ SET VERIFY
-$ WRITE SYS$SYSTEM
-This is some text
-$ EXIT
